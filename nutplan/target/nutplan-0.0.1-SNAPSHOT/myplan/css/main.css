@@ -1,0 +1,330 @@
+/* 标准规范 */
+* {
+  box-sizing: border-box;
+}
+
+*:before, *:after {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  border: 0 none;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; 
+  max-height: 100000px;
+
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+em, strong {
+  font-style: normal;
+}
+ul, ol, li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+    font-style: none;
+    text-decoration: none;
+}
+input{
+    outline:none;
+    border:none;
+}
+body {
+    font-family:"微软雅黑";
+    color: #000;
+    display: flex;
+    flex-direction: column;
+}
+/* 整体样式 */
+.page {
+  overflow: scroll;
+  -webkit-overflow-scrolling:touch;
+  position: relative;
+  flex:1;
+}
+.page.blue {
+  background: #046fdb;
+}
+
+/* 导航栏 */
+nav {
+  width: 100%;
+  height: 1.2rem;
+  background:#046fdb;
+  font-size: .48rem;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+nav span {
+  line-height: 1.1rem;
+}
+nav .left {
+  color: #fff;
+  display: block;
+  position: absolute;
+  padding: 0 .3rem;
+  height: .7rem;
+  line-height: .7rem;
+  border-radius: .1rem;
+  left: .35rem;
+  top: .2rem;
+  font-size: .34rem;
+  background-image: url(../frame/nav-1.png);
+  background-position: center;
+  background-size: 40%;
+  background-repeat: no-repeat;
+}
+nav .right {
+  color: #fff;
+  display: block;
+  position: absolute;
+  height: .48rem;
+  width: .48rem;
+  right: .35rem;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  font-size: .34rem;
+  background-position: center;
+  background-size:100%;
+}
+nav .right.add {
+  background-image: url(../frame/nav-1.png);
+}
+
+h4.title {
+  font-size: .48rem;
+  position: relative;
+  margin-left: .35rem;
+  color: #fff;
+  padding-left: .6rem;
+}
+h4.title img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  width: .46rem;
+  height: .46rem;
+}
+
+
+/* 标签栏 */
+footer {
+  display: flex;
+  justify-content: space-between;
+  height: 1.30rem;
+  align-items: center;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0px -2px 10px #eee;
+}
+footer a {
+  width: 33.33%;
+  text-align: center;
+  color:#666;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
+footer a i {
+  width: .60rem;
+  height: .60rem;
+  display: inline-block;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+footer a:nth-child(1) i{
+  background-image: :url(../frame/footer-1.png);
+}
+footer a:nth-child(2) i{
+  background-image:  url(../frame/footer-2.png);
+}
+footer a:nth-child(3) i{
+  background-image:  url(../frame/footer-3.png);
+}
+footer a:nth-child(1).active i{
+  background-image:  url(../frame/footer-11.png);
+}
+footer a:nth-child(2).active i{
+  background: url(../frame/footer-22.png) center no-repeat;
+}
+footer a:nth-child(3).active i{
+  background: url(../frame/footer-33.png) center no-repeat;
+}
+footer a span {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  font-size: .3rem;
+}
+footer a.active span {
+  color: #046fdb;
+}
+
+/* 计划 */
+.todayPlan {
+  padding: .3rem 0 .5rem 0;
+}
+.todayPlan .item {
+  margin: 0 .35rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: .4rem 0;
+  border-radius: .14rem;
+  margin-bottom: .25rem;
+  box-shadow: 0 .15rem .15rem #035dd2;
+}
+.todayPlan .item:last-child {
+  margin-bottom: 0;
+}
+.todayPlan .item .left {
+  flex:1;
+  padding:0 .25rem;
+}
+.todayPlan .item .left >div {
+  display: flex;
+  align-items: center;
+  padding-bottom: .2rem;
+}
+.todayPlan .item .left h4 {
+  font-size: .53rem;
+  color: #000;
+  font-weight: bold;
+  margin-right: .2rem;
+}
+.todayPlan .item .left i {
+  font-style: normal;
+  font-size: .30rem;
+  background:#eee;
+  margin: 0 .07rem;
+  padding: .03rem .1rem;
+}
+.todayPlan .item .left i.time {
+  color: #1098e6;
+  background: #d6f0ff;
+}
+.todayPlan .item .left i.day {
+  color: #ff7901;
+  background: #fff0d5;
+}
+.todayPlan .item .left i.new {
+  color: #74b319;
+  background: #e1f2d6;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.todayPlan .item .left i.new:before {
+  content: "";
+  display: inline-block;
+  background-image: url(../frame/tag-1.png);
+  width: .28rem;
+  height: .28rem;
+  margin-right: .1rem;
+  background-size: 100%;
+}
+.todayPlan .item .left span {
+  font-size: .37rem;
+  color: #666;
+}
+
+.todayPlan .item .right {
+  width: 1.33rem;
+  height: 1.33rem;
+  margin-right: .25rem;
+  display: block;
+  background-image: url(../frame/todayPlan-2.png);
+  background-size: 0;
+}
+.todayPlan .item .right .btn {
+  display: block;
+  width: 1.33rem;
+  height: 1.33rem;
+  background-size: 100%;
+  background-image: url(../frame/todayPlan-1.png);
+}
+.todayPlan .item .right .btn.active {
+  background-image: url(../frame/todayPlan-2.png);
+}
+
+.todayFinished {
+  padding: .3rem 0 .5rem 0;
+}
+.todayFinished .item {
+  margin: 0 .35rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: .4rem 0;
+  border-radius: .14rem;
+  margin-bottom: .25rem;
+  box-shadow: 0 .15rem .15rem #035dd2;
+}
+.todayFinished .item:last-child {
+  margin-bottom: 0;
+}
+.todayFinished .item .left {
+  flex:1;
+  padding:0 .25rem;
+}
+.todayFinished .item .left >div {
+  display: flex;
+  align-items: center;
+  padding-bottom: .2rem;
+}
+.todayFinished .item .left h4 {
+  font-size: .53rem;
+  color: #666;
+  font-weight: bold;
+  margin-right: .2rem;
+}
+.todayFinished .item .left i {
+  font-style: normal;
+  font-size: .30rem;
+  background:#eee;
+  margin: 0 .07rem;
+  padding: .03rem .1rem;
+}
+.todayFinished .item .left i.day {
+  color: #fff;
+  background: #53bf8b;
+}
+.todayFinished .item .left span {
+  font-size: .37rem;
+  color: #666;
+}
+
+.todayFinished .item .right {
+  width: 1.33rem;
+  height: 1.33rem;
+  margin-right: .25rem;
+  position: relative;
+}
+.todayFinished .item .right .btn {
+  width: .4rem;
+  height: .4rem;
+  position: absolute;
+  top: 0;
+  margin: auto;
+  bottom: 0;
+  right: 0;
+  background-size: 100%;
+  display: block;
+  background-image: url(../frame/todayFinished-1.png);
+}

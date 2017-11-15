@@ -1,0 +1,84 @@
+body{
+	background-color: #FFF;
+}
+a{text-decoration:none}
+.rili{
+	background-color: #FFF;
+    border-radius: 6px;
+    display: block;
+    float: left;
+    width: 90%;
+    padding: 10px;
+    margin-bottom:10px;
+}
+.rili ul li{
+	width:14%;
+	float:left;
+	text-align:center;
+	border-radius: 50%;
+    line-height: 45px;
+}
+
+.rili ul{
+	list-style-type: none;
+    /* display: block; */
+    width: 100%;
+    /* margin: 0; */
+    padding: 10px;
+}
+.notthismonth{
+	color:grey;
+}
+.titlespan{
+	display: block;
+    margin: 10px;
+    font-size: 1em;
+    color: grey;
+}
+
+.rilidate{
+	padding:0 5px;
+}
+.rilititle{
+	text-align: center;
+    font-size: 20px;
+    margin: 10px;
+    border-bottom: 1px solid #e4d4d4;
+}
+.pagehead {
+	background-color: #33afde;
+    border-color: #97c3e2;
+    color: #fff;
+    /* text-shadow: 0 1px 0 #eee; */
+    /* font-weight: 100; */
+    border-width: 1px 0;
+    border-style: solid;
+    position: relative;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 1.2em;
+    text-align: center;
+}
+.plusimg{
+	width: 25px;
+    float: right
+   }
+h3{
+	color: #f9f9f9;
+    /* display: block; */
+    text-align: left;
+    font-size: 1em;
+    /* display: inline-block; */
+    width: 100%;
+    text-align: center;
+    background-color: #7fe07f;
+    padding: 10px 0px;
+    border-radius: 100px;
+    font-weight: inherit;
+}
+.dangri0{
+	background-color: rgb(9, 243, 38);
+}
+.dangri1{
+	background-color: rgb(219, 255, 214);
+}
