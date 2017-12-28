@@ -1,8 +1,6 @@
 package com.nuthabit.websocket;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.servlet.http.HttpSession;
@@ -32,6 +30,15 @@ public class MessageWebsocketServer {
 	private static int onlinecount = 0;
 	private static CopyOnWriteArraySet<MessageWebsocketServer> webSocketSet = new CopyOnWriteArraySet<MessageWebsocketServer>();
 
+	public static MessageWebsocketServer getSession(String uid) {
+		for (MessageWebsocketServer server : webSocketSet) {
+			if (uid.equals(server.uid)) {
+				return server;
+			}
+		}
+		return null;
+	}
+
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig config) {
 		HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
@@ -47,7 +54,10 @@ public class MessageWebsocketServer {
 		}
 		this.config = config;
 		this.session = session;
-		String kehuId = ((Kehu) httpSession.getAttribute("kehu")).getKehuId();
+		String kehuId = httpSession.getAttribute("kehu") != null ? ((Kehu) httpSession.getAttribute("kehu")).getKehuId()
+				: null;
+		if (kehuId == null)
+			return;
 		this.uid = kehuId;
 		webSocketSet.add(this);
 		addOnlinecount();
@@ -83,7 +93,7 @@ public class MessageWebsocketServer {
 				}
 			}
 		}
-		
+
 	}
 
 	public static synchronized void addOnlinecount() {
@@ -103,4 +113,21 @@ public class MessageWebsocketServer {
 			return null;
 		return (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 }

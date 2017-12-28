@@ -17,15 +17,69 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
     <script src="js/reconnecting-websocket.js"></script>
     <script src="js/sockjs.js"></script>
     <script type="text/javascript">
-    		var websocket = initWebsocket();
+	    var host = window.location.host;
+		var websocket;
+		const msgDivId = "#newMessageDiv";
+		
+		if ('WebSocket' in window) {
+			websocket = new WebSocket("ws://" + host
+					+ "/socket");
+		} else if ('MozWebSocket' in window) {
+			websocket = new MozWebSocket("ws://" + host + "/socket");
+		} else {
+			websocket = new SockJS("http://" + host + "/socket/sockjs");
+		}
+	
+		websocket.onopen = function(evnt) {
+		    $(msgDivId).on("click",function(){
+				alert(messages.join("\n"));
+				hideMessageDiv();
+			});
+			console.log("websocket connected");
+		}
+	
+		websocket.onerror = function(evnt) {
+			console.log("websocket error");
+		}
+	
+		websocket.onclose = function(evnt) {
+			console.log("websocket close");
+		}
+		
 	    function editPlan(planId){
 	        window.location.href='index.html?edit=t&planId='+planId;
 	        return;
 	    }
+	    
 	    function deletePlan(planId){
 	        window.location.href='index.html?delete=t&planId='+planId;
 	        return;
 	    }
+	    
+	    var messages = new Array();
+	    function setMessage(msg) {
+	    		messages.push(msg);
+	    }
+	    
+	    function renderMessageNotification() {
+	    		if (messages.length > 0) {
+	    			$(msgDivId).css('display','flex');
+	    			$(msgDivId + " > span:first").text(messages.length + "条新消息");
+	    		} else {
+	    			hideMessageDiv();
+	    		}
+	    }
+	    
+	    function hideMessageDiv() {
+	    		$(msgDivId).css('display','none');
+			$(msgDivId + " > span:first").text("");
+	    }
+		websocket.onmessage = function(evnt) {
+			setMessage(evnt.data);
+			renderMessageNotification();
+			console.log("received a message " + evnt.data);
+		}
+		
 	    window.onbeforeunload = function() {
 	    		websocket.close();
 	    }
@@ -39,11 +93,11 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
         <a class="right add" href="pubPlan.jsp?rand=<%=System.currentTimeMillis() %>"></a>
     </nav>
     <div>
-    	<div class="newMess">
+    	<div id="newMessageDiv" class="newMess">
             <div class="img">
                 <img src="frame/hd-1.png">
             </div>
-            <span>3条新信息</span>
+            <span></span>
         </div>
         <h4 class="title"><img src="frame/h4-1.png">今日目标</h4>
         <div class="todayPlan">

@@ -14,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.ContainerProvider;
+import javax.websocket.WebSocketContainer;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -21,15 +23,22 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+import com.alibaba.fastjson.JSON;
 import com.nuthabit.dao.Kehu;
 import com.nuthabit.dao.Myplan;
 import com.nuthabit.dao.MyplanDAO;
 import com.nuthabit.dao.MyplanExperience;
 import com.nuthabit.dao.MyplanHistory;
+import com.nuthabit.model.Message;
+import com.nuthabit.websocket.MessageWebsocketServer;
 
 @WebServlet("/myplan/experience.html")
 public class ExperienceServlet extends HttpServlet {
+	Log log = LogFactory.getLog(this.getClass().getName());
 	private static final long serialVersionUID = 1L;
 	final long MAX_SIZE = 10 * 1024 * 1024;// 设置上传文件最大为 10M
 
@@ -66,6 +75,17 @@ public class ExperienceServlet extends HttpServlet {
 			h.setNickname(k.getNickname());
 			h.setHeadimgurl(k.getHeadimgurl());
 			dao.experience(h);
+			
+			MessageWebsocketServer websocketSession = MessageWebsocketServer.getSession(m.getKehuId());
+			if (websocketSession != null && m.getKehuId() != null && h.getKehuId() != null
+					&& !StringUtils.equals(m.getKehuId(), h.getKehuId())) {
+				Message msg = new Message();
+				msg.setFrom(k.getKehuId());
+				msg.setTo(m.getKehuId());
+				msg.setData(h.getReview());
+				websocketSession.getSession().getAsyncRemote().sendText(JSON.toJSONString(msg));
+				log.debug("A message has sent to " + m.getKehuId());
+			}
 			response.sendRedirect("detail.html?planId="+m.getPlanId());
 			return;
 		}

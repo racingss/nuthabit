@@ -1,6 +1,8 @@
 *.class
 */target/
 */Users/
+/target
+/Users
 .DS_Store
 */.DS_Store
 Thumbs.db
