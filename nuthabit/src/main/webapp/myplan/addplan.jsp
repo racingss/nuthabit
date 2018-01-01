@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 Collection plancoll = (Collection)request.getAttribute("plancoll");
+
 %>
 <!DOCTYPE html>
 
