@@ -71,7 +71,7 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
             <a class="right setting">
             </a>
             <ul class="setBox">
-                <li><a href="index.html?edit=t&planId=<%=m.getId()%>">修改计划</a></li>
+                <li><a href="index.html?edit=t&planId=<%=m.getPlanId()%>">修改计划</a></li>
                 <li><a href="index.html?delete=t&planId=<%=m.getPlanId()%>">删除计划</a></li>
                 <li><a href="secretary.html">私人计划</a></li>
                 <li><a href="supervision.html">全民监督</a></li>
