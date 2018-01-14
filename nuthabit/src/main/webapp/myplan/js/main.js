@@ -5,12 +5,9 @@ $(function(){
     checkBox();
     switchBox();
     navSet();
-    //daka();
+    daka();
 
 })
-function goBack(){
-    window.history.back()
-}
 
 function frame(){
     //$("body").height($(window).height());
@@ -40,7 +37,7 @@ function switchBox(){
     })
 
 }
-/*
+
 function daka() {
     $(".daka").click(function(){
         $(".popup1").show();
@@ -48,18 +45,17 @@ function daka() {
     $(".popup1 .close").click(function(){
         $(".popup1").hide();
     })
-}*/
+}
 
 function checkBox(){
     $(".checkBox li").click(function(){
         var i = $(this).children("a").text();
-        var idx = $(this).index();
         if($(this).hasClass("active")){
 
         }else {
             $(this).parent().children("li").removeClass("active");
             $(this).addClass("active");
-            $(this).parent().children("input").attr("value",idx);
+            $(this).parent().children("input").attr("value",i);
         }
     })
 }
@@ -101,7 +97,7 @@ function getPhoto(node) {
             };  
             reader.readAsDataURL(node.files[0]);  
         }  
-    }
+    }  
     $(".jlImg").text(imgRUL);
     return imgURL;  
 }  

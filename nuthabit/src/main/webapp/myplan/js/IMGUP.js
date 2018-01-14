@@ -5,17 +5,12 @@
 //*******************************************
 
 
-var IMG_LENGTH = 10;//图片最大1MB
+var IMG_LENGTH = 1;//图片最大1MB
 var IMG_MAXCOUNT = 3;//最多选中图片张数
-var IMG_AJAXPATH = "experience.html";//异步传输服务端位置
+var IMG_AJAXPATH = "ajax/ImgUpLoad.ashx";//异步传输服务端位置
 
 
 var UP_IMGCOUNT = 0;//上传图片张数记录
-function winload(){ 
-    ld.style.display="none"; 
-    f8=true; 
-} 
-
 //打开文件选择对话框
 $("#div_imgfile").click(function () {
     if ($(".lookimg").length >= IMG_MAXCOUNT) {
@@ -27,7 +22,7 @@ $("#div_imgfile").click(function () {
     if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
         _CRE_FILE.setAttribute("type", "file");
         _CRE_FILE.setAttribute("class", "imgfile");
-        //_CRE_FILE.setAttribute("accept", ".png,.jpg,.jpeg");
+        _CRE_FILE.setAttribute("accept", ".png,.jpg,.jpeg");
         _CRE_FILE.setAttribute("num", UP_IMGCOUNT);//记录此对象对应的编号
         $("#div_imgfile").after(_CRE_FILE);
     }
@@ -36,14 +31,14 @@ $("#div_imgfile").click(function () {
     }
     return $(_CRE_FILE).click();//打开对象选择框
 });
+
 //创建预览图，在动态创建的file元素onchange事件中处理
-//$(".imgfile").on("change",null, function () {
 $(".imgfile").live("change", function () {
     if ($(this).val().length > 0) {//判断是否有选中图片
 
         //判断图片格式是否正确
         var FORMAT = $(this).val().substr($(this).val().length - 3, 3);
-        if (FORMAT != "png" && FORMAT != "jpg" && FORMAT != "peg"  && FORMAT != "JPG" && FORMAT != "PNG" && FORMAT != "PEG" && FORMAT != "JPEG" && FORMAT != "jpeg" && FORMAT != "gif" && FORMAT != "GIF") {
+        if (FORMAT != "png" && FORMAT != "jpg" && FORMAT != "peg"  && FORMAT != "JPG" && FORMAT != "PNG" && FORMAT != "PEG" && FORMAT != "JPEG" && FORMAT != "jpeg") {
             alert("文件格式不正确！！！");
             return;
         }
@@ -107,100 +102,66 @@ $(".lookimg").live("mouseout", function () {
 });
 
 //确定上传按钮
-$("#signin").click(function () {
+$("#btn_ImgUpStart").click(function () {
 
-    //if ($(".lookimg").length <= 0) {
-        //alert("还未选择需要上传的图片");
-        //return;
-    //}
+    if ($(".lookimg").length <= 0) {
+        alert("还未选择需要上传的图片");
+        return;
+    }
 
     //全部图片上传完毕限制
-    //if ($(".lookimg[ISUP=1]").length == $(".lookimg").length) {
-        //alert("图片已全部上传完毕！");
-        //return;
-    //}
-    
-    var data = new FormData();
-    data.append("processadd","t");
-    data.append("id",$("#planId").attr("value"));
-    data.append("review",$("#review").val());
-    if($(".imgfile").get(0)!=null){
-    var files = $(".imgfile").get(0).files;
-	    for(i=0;i<=2;i++){
-	    	if($(".imgfile").get(i)!=null){
-	    		data.append(i.toString(), $(".imgfile").get(i).files[0]);
-	    	}
-	    }
+    if ($(".lookimg[ISUP=1]").length == $(".lookimg").length) {
+        alert("图片已全部上传完毕！");
+        return;
     }
-    
-    try {rval.remove(); rval='';}catch(e) {rval=getBusyOverlay(this,{color:'white', opacity:0.5},{color:'#00f', size:32, type:'c', iradius:10, weight:6});}
-    
-    $.ajax({
-        type: "POST",
-        url: IMG_AJAXPATH,
-        contentType: false,  
-        cache: false,  
-        currentType: false,  
-        processData: false,  
-        data: data, 
-        success: function (data) {
-            //alert("发布成功");
-            window.location.href='detail.html?planId='+$("#planId").attr("value");
-            return;
-        },
-        error: function (err) {
-            //服务器连接失败报错处理
-            alert("error");
-            //alert(err.responseText);
-        },
-        beforeSend: function () {
-            //图片上传之前执行的操作，当前为进度条显示
-            //NOWLOOK.children(".lookimg_progress").eq(0).css("display", "block");//进度条显示
-        }
-    });
 
-});
+    //循环所有已存在的图片对象，准备上传
+    for (var i = 0; i < $(".lookimg").length; i++) {
+        var NOWLOOK = $(".lookimg").eq(i);//当前操作的图片预览对象
+        NOWLOOK.index = i;
+        //如果当前图片已经上传，则不再重复上传
+        if (NOWLOOK.attr("ISUP") == "1")
+            continue;
 
+        //上传图片准备
+        var IMG_BASE = NOWLOOK.children("img").eq(0).attr("src"); //要上传的图片的base64编码
+        var IMG_IND = NOWLOOK.attr("num");
+        var IMG_ROUTE = $(".imgfile[num=" + IMG_IND + "]").eq(0).val();//获取上传图片路径，为获取图片类型使用
+        var IMG_ENDFOUR = IMG_ROUTE.substr(IMG_ROUTE.length - 4, 4);//截取路径后四位，判断图片类型
+        var IMG_FOMATE = "jpeg"; //图片类型***
+        if (IMG_ENDFOUR.trim() == ".jpg")
+            IMG_FOMATE = "jpg";
+        else if (IMG_ENDFOUR.trim() == ".png")
+            IMG_FOMATE = "png";
 
-//确定上传按钮
-$("#pubPlan").click(function () {
-
-    var data = new FormData();
-    var files = $("#pic").get(0).files;
-    data.append("processadd","t");
-    data.append("title",$("#title").attr("value"));
-    data.append("times",$("#times").attr("value"));
-    data.append("discription",$("#discription").val());
-    for(i=0;i<=2;i++){
-    	if($("#pic").get(i)!=null){
-    		data.append(i.toString(), $("#pic").get(i).files[0]);
-    	}
+        //图片正式开始上传
+        $.ajax({
+            type: "POST",
+            url: IMG_AJAXPATH,
+            data: { 'imgBase': IMG_BASE, 'imgFormat': IMG_FOMATE, 'lookIndex': NOWLOOK.index },//图片base64编码，图片格式（当前仅支持jpg,png,jpeg三种），图片对象索引
+            dataType: "json",
+            success: function (data) {
+                if (data.isok == "1") {
+                    //图片上传成功回调
+                    var UPTIME = Math.ceil(Math.random() * 400) + 400;//生成一个400-800的随机数，假设进图条加载时间不一致
+                    $(".lookimg").eq([data.ind]).attr("ISUP", "1");//记录此图片已经上传
+                    $(".lookimg").eq([data.ind]).children(".lookimg_progress").eq(0).children("div").eq(0).animate({ width: "100%" }, UPTIME, function () {
+                        $(this).css("background-color", "#00FF00").text('上传成功');
+                    });
+                }
+                else {//图片未上传成功回调
+                    $(".lookimg")[data.ind].children(".lookimg_progress").eq(0).children("div").eq(0).css("width", "100%").css("background-color", "red").text("上传失败");
+                }
+            },
+            error: function (err) {
+                //服务器连接失败报错处理
+                alert("error");
+                //alert(err.responseText);
+            },
+            beforeSend: function () {
+                //图片上传之前执行的操作，当前为进度条显示
+                NOWLOOK.children(".lookimg_progress").eq(0).css("display", "block");//进度条显示
+            }
+        });
     }
-    
-    try {rval.remove(); rval='';}catch(e) {rval=getBusyOverlay(this,{color:'white', opacity:0.5},{color:'#00f', size:32, type:'c', iradius:10, weight:6});}
-    
-    $.ajax({
-        type: "POST",
-        url: "addplan.html",
-        contentType: false,  
-        cache: false,  
-        currentType: false,  
-        processData: false,  
-        data: data, 
-        success: function (data) {
-            //alert("发布成功");
-            window.location.href='index.html';
-            return;
-        },
-        error: function (err) {
-            //服务器连接失败报错处理
-            alert("error");
-            //alert(err.responseText);
-        },
-        beforeSend: function () {
-            //图片上传之前执行的操作，当前为进度条显示
-            //NOWLOOK.children(".lookimg_progress").eq(0).css("display", "block");//进度条显示
-        }
-    });
-    
 });

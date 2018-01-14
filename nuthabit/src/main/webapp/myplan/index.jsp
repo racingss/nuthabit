@@ -17,6 +17,26 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
     <script src="js/reconnecting-websocket.js"></script>
     <script src="js/sockjs.js"></script>
     <script type="text/javascript">
+	    $(function(){
+	        $("body").height($(window).height());
+	
+	        $("nav .switch").click(function(){
+	            $(".coursePopup").show();
+	        })
+	        $(".coursePopup .close").click(function(){
+	            $(".coursePopup").hide();
+	        })
+	    })
+        $(function(){
+            $(".todayPlan .item .left h4").each(function(e){
+                    var i = $(this).text();
+                    if(i.length>5){
+                        i = i.substring(0,5) + "...";
+                        $(this).text(i)
+                    }
+            })
+        })
+
 	    var host = window.location.host;
 		var websocket;
 		const msgDivId = "#newMessageDiv";
@@ -88,7 +108,7 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
 <body>
 <div class="page blue">
     <nav class="blue">
-    	<a class="left message active"></a>
+    	<a class="left switch"></a>
         <span>计划</span>
         <a class="right add" href="pubPlan.jsp?rand=<%=System.currentTimeMillis() %>"></a>
     </nav>
@@ -97,7 +117,7 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
             <div class="img">
                 <img src="frame/hd-1.png">
             </div>
-            <span></span>
+            <span>1条新信息</span>
         </div>
         <h4 class="title"><img src="frame/h4-1.png">今日目标</h4>
         <div class="todayPlan">
@@ -183,6 +203,26 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
         <span>我的</span>
     </a>
 </footer>
+<div class="coursePopup">
+    <div class="coursePopupBox">
+    	<a href="index.html">
+        <div class="item">
+                    
+            	<i class="i1"></i>
+            	<p>我要养成好习惯</p>
+            
+        </div>
+        </a>
+        <a href="course.html">
+        <div class="item">
+        	
+            	<i class="i2"></i>
+            	<p>我来教人养成好习惯</p>
+        </div>
+        </a>
+        <div class="close"></div>
+    </div>
+</div>
 </body>
 <%@ include file="ground.jsp" %>
 </html>

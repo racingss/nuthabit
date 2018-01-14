@@ -257,7 +257,6 @@
         loop(0, _this.ulCount, function (i) {
           realIdx       = _this.idxArr[i];
           var min       = 0;
-
           var max       = 0;
           var tempDomUl = $id('date-selector-' + _this.container + '-' + _this.idxArr[i]);
           var tempArray = _this['array' + _this.idxArr[i]] = [];
