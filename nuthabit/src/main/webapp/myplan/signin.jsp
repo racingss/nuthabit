@@ -8,7 +8,7 @@ Myplan m = (Myplan)request.getAttribute("plan");
 <html>
 <head>
     <meta charset="utf-8">
-    <title>习惯养成</title>
+    <title>坚果习惯——发布心得</title>
     <link rel="stylesheet" href="css/IMGUP.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>

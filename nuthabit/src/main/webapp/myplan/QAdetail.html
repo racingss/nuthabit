@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>问答详情</title>
+    <link rel="stylesheet" type="text/css" href="css/jiaolian.css">
+    <style type="text/css">
+        .page {
+
+        }
+        .QAdetailBg{
+            background: url(frame2/QAdetail-1.png);
+            height: 2.5rem;
+            position: relative;
+        }
+        .QAdetailBg h4 {
+            overflow: auto;
+            padding:0 .35rem;
+            position: absolute;
+            bottom:.26rem;
+        }
+        .QAdetailBg h4 span{
+            font-weight: bold;
+            font-size: .45rem;
+            color: #ff6c0c;
+            background: #fff;
+            height: .8rem;
+            display: inline-block;
+            line-height: .8rem;
+            padding: 0 .18rem;
+            border-radius: .13rem;
+            float: left;
+            display: inline-block;
+            margin-right: .38rem;
+            position: relative;
+
+        }
+        .QAdetailBg h4 span:before{
+            content: '';
+            width: .2rem;
+            height: .2rem;
+            background: url(frame2/QAdetail-2.png) no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            right: -.2rem;
+        }
+        .QAdetailBg h4 p {
+            font-size: .58rem;
+            color:#fff;
+            float: left;
+            display: inline-block;
+            line-height: .8rem;
+            font-weight: bold;
+        }
+
+        .QAbox{
+            margin-bottom: .25rem;
+        }
+        .QAbox >div:last-child{
+            border-bottom: none;
+        }
+        .Qitem{
+            background: #fff;
+            padding:.3rem .26rem;
+            display: flex;
+            border-radius: .13rem;
+            border-bottom: .02rem solid #e5e5e5;
+        }
+        .Qitem .hd{
+            width: .9rem;
+            height: .9rem;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .Qitem .hd img{
+            width: 100%;
+            height: 100%;
+        }
+        .Qitem .bd{
+            flex: 1;
+            padding-left: .26rem;
+        }
+        .Qitem .bd .info {
+            height: .6rem;
+
+        }
+        .Qitem .bd .info span{
+            font-size: .42rem;
+            float: left;
+            height: .5rem;
+            line-height: .6rem;
+        }
+        .Qitem .bd .info i{
+            font-style: normal;
+            color: #666666;
+            font-size: .32rem;
+            float: right;
+            height: .5rem;
+            line-height: .6rem;
+        }
+        .Qitem .bd p {
+            font-size: .38rem;
+            line-height: .53rem;
+            padding: .25rem 0;
+        }
+        .Qitem .bd .imgBox {
+            display: flex;
+        }
+        .Qitem .bd .imgBox .img{
+            width: 2.2rem;
+            height: 2.2rem;
+            background: #eee;
+            position: relative;
+            overflow: hidden;
+            margin-right: .2rem;
+        }
+        .Qitem .bd .imgBox .img img{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            margin: auto;
+        }
+
+
+
+        .Aitem{
+            background: #fff;
+            padding:.3rem .26rem;
+            display: flex;
+            border-radius: .13rem;
+            border-bottom: .02rem solid #e5e5e5;
+        }
+        .Aitem .hd{
+            width: .9rem;
+            height: .9rem;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .Aitem .hd img{
+            width: 100%;
+            height: 100%;
+        }
+        .Aitem .bd{
+            flex: 1;
+            padding-left: .26rem;
+        }
+        .Aitem .bd .info {
+            height: .6rem;
+        }
+        .Aitem .bd .info span{
+            font-size: .42rem;
+            float: left;
+            height: .5rem;
+            line-height: .6rem;
+        }
+        .Aitem .bd .info i{
+            font-style: normal;
+            color: #666666;
+            font-size: .32rem;
+            float: right;
+            height: .5rem;
+            line-height: .6rem;
+        }
+        .Aitem .bd a{
+            float: right;
+            height: .6rem;
+            line-height: .6rem;
+            padding: 0 .4rem;
+            padding-right: 0;
+            color: #4a79ac;
+        }
+        .Aitem .bd p {
+            font-size: .38rem;
+            line-height: .53rem;
+            padding: .25rem 0;
+        }
+        .Abox {
+            width: 100%;
+            background: #fff;
+            padding:0 .35rem;
+            padding-top: .4rem;
+            border-bottom: .02rem solid #e5e5e5;
+            padding-bottom: 1rem;
+        }
+        .Abox textarea{
+            width: 100%;
+            height: 4rem;
+            font-size: .42rem;
+            border: none;
+            outline: none;
+            border-bottom: .02rem solid #e5e5e5;
+        }
+        .Abox .inputBox1 {
+          height: 1.3rem;
+          background: #fff;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding-left: .35rem;
+          position: relative;
+          justify-content: space-between;
+        }
+        .Abox .inputBox1 >span {
+          font-size: .48rem;
+        }
+        .Abox .checkBox {
+            width: 3.8rem;
+            align-items: center;
+            padding-bottom: 0;
+            padding: 0;
+        }
+
+        .Abox button{
+            width: calc(100% - 2rem);
+            background: #ff7a0f;
+            height: 1.25rem;
+            text-align: center;
+            line-height: 1.25rem;
+            color: #fff;
+            font-size: .48rem;
+            border-radius: .066rem;
+            margin-top: .3rem;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            box-shadow: 5px 9px 10px 0px rgba(255, 122, 15, 0.3);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="paleGray">
+    <div class="QAdetailBg">
+        <nav>
+            <a class="left back"></a>
+        </nav>
+        <h4>
+            <span>第 3 天</span>
+            <p>99天减肥计划</p>
+        </h4>
+    </div>
+    <div>
+        <div class="QAbox">
+            <div class="Qitem">
+                <div class="hd">
+                    <img src="frame2/hd-1.png">
+                </div>
+                <div class="bd">
+                    <div class="info">
+                        <span>李晓伟</span>
+                        <i>2018-01-12</i>
+                    </div>
+                    <p>老师请帮我看下我的这个动作对不对？我按照你说的方式，每组锻炼了4次，但总觉得做的不到位，尤其是膝盖这里，看看是...</p>
+                    <div class="imgBox">
+                        <div class="img">
+                            <img src="frame2/img-1.png">
+                        </div>
+                        <div class="img">
+                            <img src="frame2/img-1.png">
+                        </div>
+                        <div class="img">
+                            <img src="frame2/img-1.png">
+                        </div>
+                    </div>
+                </div>
+            </div>        
+            <div class="Aitem">
+                <div class="hd">
+                    <img src="frame2/hd-1.png">
+                </div>
+                <div class="bd">
+                    <div class="info">
+                        <span>李晓伟</span>
+                        <i>45分钟前</i>
+                    </div>
+                    <p>基本动作都不错不过注意膝盖不要弯过脚尖哦否则会损伤膝盖的，加油！</p>
+                    <a>删除</a>
+                </div>
+            </div>
+            <div class="Aitem">
+                <div class="hd">
+                    <img src="frame2/hd-1.png">
+                </div>
+                <div class="bd">
+                    <div class="info">
+                        <span>李晓伟</span>
+                        <i>45分钟前</i>
+                    </div>
+                    <p>那手臂的位置呢？</p>
+                </div>
+            </div>            
+        </div>
+        <div class="Abox">
+            <textarea placeholder="在此处输入回答内容..."></textarea>
+            <div class="inputBox1">
+                <span>关闭开启课程</span>
+                <ul class="checkBox">
+                    <li class="active">
+                        <i></i>
+                        <a>公开</a>
+                    </li>
+                    <li>
+                        <i></i>
+                        <a>私密</a>
+                    </li>
+                    <input type="text" name="" value="">
+                </ul>
+            </div>
+            <button>回答</button>
+
+        </div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jiaonian.js"></script>
+<script type="text/javascript">
+    $(function(){
+        checkBox();
+
+
+        /* 只有一张照片时变大 */
+        if($(".Qitem .bd .imgBox").children(".img").length==1){
+            $(".Qitem .bd .imgBox").children(".img").css({"width":"4rem","height":"auto","overflow":"auto","max-height":"5rem"})
+                $(".Qitem .bd .imgBox").children(".img").children("img").css({"width":"100%","height":"auto","position":"relative"})
+        }else {
+           
+        }
+    })
+</script>
+</body>
+</html>
+<!--

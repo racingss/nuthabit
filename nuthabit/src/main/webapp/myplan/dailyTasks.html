@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>每日任务</title>
+    <link rel="stylesheet" type="text/css" href="css/jiaolian.css">
+    <style type="text/css">
+        body{
+            background: #f4f4f4;
+        }
+        .dailyTasksBox {
+            width: 100%;
+            background: #fff;
+            padding:0 .35rem;
+            padding-top: .4rem;
+            border-bottom: .02rem solid #e5e5e5;
+        }
+        .dailyTasksBox textarea {
+            width: 100%;
+            height: 4rem;
+            font-size: .42rem;
+            border: none;
+            outline: none;
+            border-bottom: .02rem solid #e5e5e5;
+        }
+        .dailyTasksBox .tool {
+            display: flex;
+            justify-content: space-around;
+            padding: .2rem 0 .3rem 0;
+        }
+        .dailyTasksBox .tool a {
+            font-size: 0;
+            width: .8rem;
+            height: .8rem;
+            display: inline-block;
+            background-position: center;
+            background-size: cover;
+
+        }
+        .dailyTasksBox .tool a.i1{
+            background-image: url(frame2/dailyTasks-1.png);
+        }
+        .dailyTasksBox .tool a.i2{
+            background-image: url(frame2/dailyTasks-2.png);
+        }
+        .dailyTasksBox .tool a.i3{
+            background-image: url(frame2/dailyTasks-3.png);
+        }
+        .dailyTasksBox .tool a.i4{
+            background-image: url(frame2/dailyTasks-4.png);
+        }
+        .dailyTasksBox .tool a.i5{
+            background-image: url(frame2/dailyTasks-5.png);
+        }
+
+        .dailyTasksPicker{
+            height: 1.3rem;
+            background: #fff;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: .35rem;
+            position: relative;
+            justify-content: space-between;
+            margin-top: .4rem;
+        }
+        .dailyTasksPicker >span {
+            font-size: .48rem;
+        }
+        .dailyTasksPicker .pickerBox{
+            margin-right: .35rem;
+            display: flex;
+            align-items: center;
+            height: 1.3rem;
+            width: 3rem;
+            justify-content: flex-end;
+        }
+        .dailyTasksPicker .pickerBox span{
+            float: right;
+            color: #666;
+            font-size: .4rem;
+            margin-right: .2rem;
+        }
+        .dailyTasksPicker .pickerBox i{
+            display: inline-block;
+            width: .4rem;
+            height: .4rem;
+            background: url(frame2/picker-1.png);
+            background-size: cover;
+            background-position: center;
+            float: right;
+        }
+        .picker .picker-panel{
+            height: 7rem!important;
+        }
+        .picker .picker-panel .picker-choose{
+            font-size: .45rem!important;
+            height: 1.2rem!important;
+            line-height: 1.2rem!important;
+        }
+        .picker .picker-panel .picker-choose .cancel{
+            padding: 0!important;
+            top: 0!important;
+            left: .35rem!important;
+        }
+        .picker .picker-panel .picker-choose .confirm{
+            padding: 0!important;
+            top: 0!important;
+            right: .35rem!important;
+        }
+        .picker .picker-panel .picker-choose .picker-title{
+            font-size: .45rem!important;
+            height: 1.2rem!important;
+            line-height: 1.2rem!important;
+        }
+        .picker .picker-panel .wheel-wrapper .wheel {
+            height: 100%!important;
+            font-size: .53rem!important;
+        }
+        .wheel-item {
+            height: 1rem!important;
+            line-height: 1rem!important;
+        }
+        .wheel-scroll {
+            margin-top: 1.5rem!important;
+        }
+        .mask-top {
+            top: 0rem!important;
+            height: 1.5rem!important;
+        }
+        .mask-bottom {
+            top: 2.5rem!important;
+            bottom: 0rem!important;
+            height: 2.9rem!important;
+        }
+
+        button.submit{
+            width: calc(100% - 2rem);
+            background: #ff7a0f;
+            height: 1.25rem;
+            text-align: center;
+            line-height: 1.25rem;
+            color: #fff;
+            font-size: .48rem;
+            border-radius: .066rem;
+            margin-top: .8rem;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            box-shadow: 5px 9px 10px 0px rgba(255, 122, 15, 0.3);
+            border: none;
+        }
+
+
+        .popup1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.7);
+            display: none;
+        }
+        .popup1 >div {
+            width: 7rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            height: 100px;
+            height: 7.3rem;
+
+        }
+        .popup1 .hd {
+            height: 1.2rem;
+            line-height: 1.2rem;
+            text-align: center;
+            width: 100%;
+            color: #fff;
+            background: #ff7a0f;
+            border-radius: .2rem .2rem 0 0;
+            font-size: .45rem;
+        }
+
+        .popup1 .bd {
+            height: 6rem;
+            background-color: #f4f4f4;
+            width: 100%;
+            border-radius: 0 0 .2rem .2rem;
+            position: relative;
+            overflow: hidden;
+            padding-top: .3rem;
+        }
+        .popup1 .bd .item {
+            padding: 0 .4rem;
+            margin-bottom: .4rem;
+        }
+        .popup1 .bd .item >span {
+            font-size: .4rem;
+            display: block;
+            margin-bottom: .2rem;
+        }
+        .popup1 .bd .item input {
+            width: 100%;
+            height: 1.1rem;
+            line-height: 1.1rem;
+            font-size: .4rem;
+            padding-left: .3rem;
+            border-radius: .15rem;
+
+        }
+        .popup1 .bd .item >a {
+            width: 100%;
+            height: 1.1rem;
+            line-height: 1.1rem;
+            font-size: .4rem;
+            padding-left: .3rem;
+            border-radius: .15rem;
+            background: #fff;
+            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .popup1 .bd .item >a i {
+            display: inline-block;
+            width: .4rem;
+            height: .4rem;
+            background: url(frame2/dailyTasks-7.png) no-repeat;
+            background-size: cover;
+            background-position: center;
+            margin-right: .15rem;
+        }
+        .popup1 .bd .item >a span {
+            font-size: .4rem;
+        }
+        .popup1 .bd >a {
+            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            height: 1.2rem;
+            width: 100%;
+            background: #fff;
+            text-align: center;
+            line-height: 1.2rem;
+            color: #ff7a0f;
+            font-size: .45rem;
+        }
+        .popup1 .close {
+          width: .9rem;
+          height: .9rem;
+          position: absolute;
+          bottom: -1.2rem;
+          left: 0;
+          right: 0;
+          margin: auto;
+          background-image: url(frame2/dailyTasks-6.png);
+          background-size: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .popup1 .close span {
+
+        }
+
+        .popup2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.7);
+            display: none;
+        }
+        .popup2 >div {
+            width: 7rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            height: 100px;
+            height: 7.3rem;
+
+        }
+        .popup2 .hd {
+            height: 1.2rem;
+            line-height: 1.2rem;
+            text-align: center;
+            width: 100%;
+            color: #fff;
+            background: #ff7a0f;
+            border-radius: .2rem .2rem 0 0;
+            font-size: .45rem;
+        }
+
+        .popup2 .bd {
+            height: 6rem;
+            background-color: #f4f4f4;
+            width: 100%;
+            border-radius: 0 0 .2rem .2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .popup2 .bd textarea {
+            width: 100%;
+            height: 4.8rem;
+            background: #fff;
+            border: none;
+            font-size: .45rem;
+            padding: .35rem;
+        }
+        .popup2 .bd >a {
+            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1.2rem;
+            width: 100%;
+            background: #fff;
+            text-align: center;
+            line-height: 1.2rem;
+            color: #ff7a0f;
+            font-size: .45rem;
+            border-top: .02rem solid #e5e5e5;
+        }
+        .popup2 .close {
+          width: .9rem;
+          height: .9rem;
+          position: absolute;
+          bottom: -1.2rem;
+          left: 0;
+          right: 0;
+          margin: auto;
+          background-image: url(frame2/dailyTasks-6.png);
+          background-size: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .popup2 .close span {
+
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="paleGray">
+    <nav class="orange">
+        <a class="left back"></a>
+        <span>每日任务</span>  
+    </nav>
+    <div>
+        <div class="dailyTasksBox">
+            <textarea placeholder="在此处输入文字内容..."></textarea>
+            <div class="tool">
+                <a class="i1">任务</a>
+                <a class="i2">提醒</a>
+                <a class="i3">照片</a>
+                <a class="i4">语音</a>
+                <a class="i5">录像</a>
+            </div>
+        </div>
+        <div class="dailyTasksPicker">
+            <span>插入到</span>
+            <a class="pickerBox">
+                <span id="picker">第1天</span>
+                <i></i>
+            </a>
+        </div>
+
+        <button class="submit">提交</button>
+    </div>
+</div>
+<div class="popup1">
+    <div>
+        <div class="hd">
+            插入图片/音频/视频
+        </div>
+        <div class="bd">
+            <div class="item">
+                <span>图片地址:</span>
+                <input type="text" name="" placeholder="在此输入网址">   
+            </div>
+            <div class="item">
+                <span>本地图片:</span>
+                <a>
+                    <i></i>
+                    <span>添加图片</span>
+                </a>   
+            </div>
+            <a>插入</a>
+        </div>
+        <div class="close">
+            <span></span>
+        </div>
+    </div>
+</div>
+<div class="popup2">
+    <div>
+        <div class="hd">
+            插入任务/提示
+        </div>
+        <div class="bd">
+            <textarea placeholder="在此输入内容"></textarea>
+            <a>插入</a>
+        </div>
+        <div class="close">
+            <span></span>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/picker.min.js"></script>
+<script type="text/javascript" src="js/jiaonian.js"></script>
+<script type="text/javascript">
+    $(function(){
+
+        var nameEl = document.getElementById('picker');
+        var data1 = [
+            {
+                text: '第1天',
+                value: 1
+            }, {
+                text: '第2天',
+                value: 2
+            }, {
+                text: '第3天',
+                value: 3
+            }, {
+                text: '第4天',
+                value: 4
+            }, {
+                text: '第5天',
+                value: 5
+            }, {
+                text: '第6天',
+                value: 6
+            }, {
+                text: '第7天',
+                value: 7
+            }, {
+                text: '第8天',
+                value: 8
+            }
+        ];
+
+        var picker = new Picker({
+            data: [data1],
+            selectedIndex: [0],
+            title: '选择天数'
+        });
+        picker.on('picker.select', function (selectedVal, selectedIndex) {
+            nameEl.innerText = data1[selectedIndex[0]].text;
+        })
+
+        picker.on('picker.change', function (index, selectedIndex) {
+            console.log(index);
+            console.log(selectedIndex);
+        });
+
+        picker.on('picker.valuechange', function (selectedVal, selectedIndex) {
+            console.log(selectedVal);
+            console.log(selectedIndex);
+        });
+
+        nameEl.addEventListener('click', function () {
+            picker.show();
+        });
+
+        $(".close").click(function(){
+            $(this).parents(".popup1").hide();
+            $(this).parents(".popup2").hide();
+        })
+
+         $(".dailyTasksBox .tool .i3,.dailyTasksBox .tool .i4,.dailyTasksBox .tool .i5").click(function(){
+            $(".popup1").show()
+         })   
+         $(".dailyTasksBox .tool .i1,.dailyTasksBox .tool .i2").click(function(){
+            $(".popup2").show()
+         })   
+    })
+</script>
+</body>
+</html>
+<!--

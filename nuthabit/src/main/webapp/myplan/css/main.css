@@ -614,7 +614,7 @@ footer a.active span {
 .othLogin a {
   width: 1.3rem;
   height: 1.3rem;
-  background: url(../frame/login-1.png);
+  //background: url(../frame/login-1.png);
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center;

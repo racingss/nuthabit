@@ -9,7 +9,7 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta charset="utf-8">
-    <title>计划</title>
+    <title>坚果习惯</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/main.js"></script>
@@ -109,7 +109,7 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
 <div class="page blue">
     <nav class="blue">
     	<a class="left switch"></a>
-        <span>计划</span>
+        <span>坚果习惯</span>
         <a class="right add" href="pubPlan.jsp?rand=<%=System.currentTimeMillis() %>"></a>
     </nav>
     <div>
@@ -188,7 +188,7 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
 <footer>
     <a class="active" href="index.html">
         <i></i>
-        <span>计划</span>
+        <span>习惯</span>
     </a>
     <a href="discovery.html">
         <i>

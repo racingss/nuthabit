@@ -8,7 +8,7 @@ Collection exColl = (Collection)request.getAttribute("experienceColl");
 <html>
 <head>
     <meta charset="utf-8">
-    <title>习惯养成</title>
+    <title>坚果习惯</title>
     <link rel="stylesheet" href="css/swiper.min.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
@@ -244,7 +244,7 @@ Collection exColl = (Collection)request.getAttribute("experienceColl");
         <i>
             <span class="spot"></span>
         </i>
-        <span>计划</span>
+        <span>习惯</span>
     </a>
     <a class="active" href="">
         <i>

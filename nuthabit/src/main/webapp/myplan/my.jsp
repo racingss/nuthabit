@@ -8,7 +8,7 @@ Kehu k = (Kehu)request.getSession().getAttribute("kehu");
 <html>
 <head>
     <meta charset="utf-8">
-    <title>习惯养成</title>
+    <title>坚果习惯</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/main.js"></script>
@@ -100,7 +100,7 @@ Kehu k = (Kehu)request.getSession().getAttribute("kehu");
         <i>
             <span class="spot"></span>
         </i>
-        <span>计划</span>
+        <span>习惯</span>
     </a>
     <a href="discovery.html">
         <i>

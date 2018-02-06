@@ -19,7 +19,7 @@ if(request.getParameter("fanhui")!=null){
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta charset="utf-8">
-    <title>习惯养成</title>
+    <title>坚果习惯——登录</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/main.js"></script>

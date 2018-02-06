@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>编辑计划</title>
+    <link rel="stylesheet" type="text/css" href="css/jiaolian.css">
+    <style type="text/css">
+        .editPlanBg{
+            padding:0 .35rem ;
+            position: relative;
+            background: #fff;
+        }
+        .editPlanBg:before{
+            content: '';
+            width: 100%;
+            height: 2rem;
+            background: #ff6600;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .editPlanBg img{
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            border-radius: .13rem;
+            box-shadow: 0 0.15rem 0.15rem rgba(8, 3, 4, 0.05);
+        }
+        .editPlanContent{
+            background: #fff;
+            padding:0 .35rem ;
+        }
+        .editPlanContent h4 {
+            font-size: .53rem;
+            padding: .6rem 0 .4rem 0;
+            font-weight: bold;
+        }
+        .editPlanContent .info{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            border-bottom: .02rem solid #e5e5e5;
+            padding-bottom: .26rem;
+        }
+        .editPlanContent .info span{
+            color:#666666;
+            font-size: .32rem;
+        }
+        .editPlanContent ul{
+            padding: .4rem 0;
+        }
+        .editPlanContent ul li{
+            font-size: .38rem;
+            line-height: .48rem;
+            margin-bottom: .2rem;
+            position: relative;
+            padding-left: .25rem;
+        }
+        .editPlanContent ul li:last-child{
+            margin-bottom: 0rem;
+        }
+        .editPlanContent ul li:before{
+            content: '';
+            position: absolute;
+            top: .19rem;
+            left: 0;
+            width: .1rem;
+            height: .1rem;
+            border-radius: 50%;
+            background: red;
+        }
+        .editPlanContent .btn{
+            overflow: auto;
+            padding: .2rem 0 .5rem 0;
+            border-bottom: .02rem solid #e5e5e5;
+        }
+        .editPlanContent a {
+            float: left;
+        }
+        .editPlanContent a.edit{
+            width: 2.9rem;
+            background: #ff7a0f;
+            text-align: center;
+            padding:.25rem .25rem;
+            color: #fff;
+            font-size: .38rem;
+            border-radius: .066rem;
+            display: inline-block;
+            margin-right: .33rem;
+        }
+        .editPlanContent a.preview{
+            width: 2.9rem;
+            background: #fff;
+            border: .02rem solid #ff7a0f;
+            text-align: center;
+            padding:.25rem .25rem;
+            color: #ff7a0f;
+            font-size: .38rem;
+            border-radius: .066rem;
+            display: inline-block;
+        }
+        .editPlanContent .inputBox1 {
+          height: 1.3rem;
+          background: #fff;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding-left: .35rem;
+          position: relative;
+        }
+        .editPlanContent .inputBox1 >span {
+          font-size: .48rem;
+        }
+
+        .editPlanBox{
+            padding: 0 .35rem;
+            padding-top: .3rem;
+        }
+        .editPlanBox .item{
+            width: 100%;
+            background: #fff;
+            height: 1.33rem;
+            margin-bottom: .3rem;
+            position: relative;
+            border-radius: .15rem;
+        }
+        .editPlanBox .item span{
+            font-size: .48rem;
+            position: absolute;
+            line-height: 1.33rem;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            left: .3rem;
+        }
+        .editPlanBox .item a{
+            font-size: 0;
+            width: .66rem;
+            height: .66rem;
+            display: inline-block;
+            background-position: center;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        .editPlanBox .item a.i1{
+            background-image: url(frame2/editPlan-2.png);
+            right:calc(.4rem + .66rem + .4rem + .66rem + .4rem);
+        }
+        .editPlanBox .item a.i2{
+            background-image: url(frame2/editPlan-3.png);
+            right:calc(.4rem + .66rem + .4rem);
+        }
+        .editPlanBox .item a.i3{
+            background-image: url(frame2/editPlan-4.png);
+            right: .4rem;
+        }
+    </style>
+</head>
+<body>
+<div class="paleGray">
+    <nav class="orange">
+        <a class="left back"></a>
+        <span>编辑计划</span>  
+    </nav>
+    <div>
+        <div class="editPlanBg">
+            <img src="frame2/editPlan-1.png">
+        </div>
+        <div class="editPlanContent">
+            <h4>99天体能恢复计划</h4>
+            <div class="info">
+                <span>课程天数: 99天</span>
+                <span>课程价格: 15元</span>
+                <span>参加人数: 200人</span>
+            </div>
+            <ul>
+                <li>本课程用来帮助希望身体健康的人士，整个课程分为3个阶段，每个阶段33天。</li>
+                <li>课程采用循序渐进的方式，让大家很方便的学习。</li>
+                <li>课程内容包括了饮食、锻炼、睡眠以及心态调整等4个方面，全方面的为学习者提供更好的教学。</li>
+            </ul>
+            <div class="btn">
+                <a class="edit">修改课程描述</a>
+                <a class="preview" href="supeDetail.html">预览课程</a>
+            </div>
+            <div class="inputBox1">
+                <span>关闭开启课程</span>
+                <div class="switchBox active">
+                    <i></i>
+                    <a></a>
+                    <input type="text" name="" value="1">
+                </div>
+            </div>
+
+
+        </div>
+        <div class="editPlanBox">
+            <div class="item">
+                <span>第一天</span>
+                <a class="i1" href="dailyTasks.html">添加</a>
+                <a class="i2">删除</a>
+                <a class="i3">复制</a>
+            </div>
+            <div class="item">
+                <span>第二天</span>
+                <a class="i1" href="dailyTasks.html">添加</a>
+                <a class="i2">删除</a>
+                <a class="i3">复制</a>
+            </div>
+            <div class="item">
+                <span>第三天</span>
+                <a class="i1" href="dailyTasks.html">添加</a>
+                <a class="i2">删除</a>
+                <a class="i3">复制</a>
+            </div>
+            <div class="item">
+                <span>第四天</span>
+                <a class="i1" href="dailyTasks.html">添加</a>
+                <a class="i2">删除</a>
+                <a class="i3">复制</a>
+            </div>
+            <div class="item">
+                <span>第五天</span>
+                <a class="i1" href="dailyTasks.html">添加</a>
+                <a class="i2">删除</a>
+                <a class="i3">复制</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jiaonian.js"></script>
+<script type="text/javascript">
+    $(function(){
+        switchBox();
+        epItem();
+        function epItem(){
+            $(".editPlanBox .item .i2").bind('click',function(){
+                $(this).parent(".item").remove();
+            })
+            $(".editPlanBox .item .i3").bind('click',function(){
+               $(".editPlanBox .item .i2").unbind();
+               $(".editPlanBox .item .i3").unbind();
+                i = $(this).parent(".item").prop('outerHTML');
+                $(this).parent(".item").after(i);
+                epItem();
+            })
+        }
+
+    })
+</script>
+</body>
+</html>
+<!--
