@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class MyplanDAO extends SampleDAO {
 
@@ -83,6 +84,38 @@ public class MyplanDAO extends SampleDAO {
 		}
 	}
 
+	public List<String> getDakaHistory(Long planId, String from, String to) {
+		List<String> dakaDateHistory = null;
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(
+					"select planDate from myplan_history where planId=? and planDate between ? and ? order by planDate");
+			ps.setLong(1,planId);
+			ps.setString(2, from);
+			ps.setString(3, to);
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				if (dakaDateHistory == null) {
+					dakaDateHistory = new ArrayList<String>();
+				}
+				dakaDateHistory.add(rs.getString("planDate"));
+			}
+		} catch (Exception e) {
+			System.out.println("MyplanDAO:" + e.toString());
+		} finally {
+			close(conn, ps, rs);
+		}
+		
+		return dakaDateHistory;
+	}
+	
 	public void experience(MyplanExperience h) {
 		Connection conn;
 		PreparedStatement ps;

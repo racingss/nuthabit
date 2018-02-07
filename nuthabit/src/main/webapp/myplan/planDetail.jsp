@@ -114,7 +114,7 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
                 $(".daka").click(function(){
                 	$.ajax({
             			url: 'signin.html?ajax=t&id=<%=m.getId()%>',
-            			dateType:'json',
+            			dataType:'json',
             		    success: function(data){
             		    	if(data=='-1')
             		    		$("#result").text("错误");
@@ -161,44 +161,47 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
                 <span>本月连续打卡18天</span>
             </div>
         </div>
-        <script> 
-        new Calendar({
-            // 用户传入实际的数据
-            container: 'container',
-            angle: 14,
-            isMask: false, // 是否需要弹层
-            beginTime: [],//如空数组默认设置成1970年1月1日开始,数组的每一位分别是年月日。
-            endTime: [],//如空数组默认设置成次年12月31日,数组的每一位分别是年月日。
-            recentTime: [],//如空数组默认设置成当月1日,数组的每一位分别是年月日。
-            isSundayFirst: true, // 周日是否要放在第一列
-            isShowNeighbor: true, // 是否展示相邻月份的月尾和月头
-            isToggleBtn: true, // 是否展示左右切换按钮
-            isChinese: true, // 是否是中文
-            monthType: 0, // 0:1月, 1:一月, 2:Jan, 3: April
-            canViewDisabled: true, // 是否可以阅读不在范围内的月份
-            beforeRenderArr: [{
-                stamp: 1514822400000,
-                className: 'able2',
-            }],
-            success: function (item, arr) {
-                console.log(item, arr);
-
-
-            },
-            switchRender: function (year, month, cal) {
-                console.log('计算机识别的 - 年份: ' + year + ' 月份: ' + month);
-                var data = [{
-                    'stamp': 1507737600000,
-                    'className': 'able2',
-                }];
-                console.log(cal)
-                
-                $(".calendar-item-body li:eq(2)").css("background","red");
-
-
-
-            }
-        });
+        <script>
+        var dakaDaysArray = [];
+        $.ajax({
+			url: 'dakahistory.html?planId=<%=m.getId()%>',
+			dataType:'json',
+		    success: function(data){
+		    	if(data!='')
+		    		dakaDaysArray = data;
+		    	new Calendar({
+		            // 用户传入实际的数据
+		            container: 'container',
+		            angle: 14,
+		            isMask: false, // 是否需要弹层
+		            beginTime: [2017,1,1],//如空数组默认设置成1970年1月1日开始,数组的每一位分别是年月日。
+		            endTime: [],//如空数组默认设置成次年12月31日,数组的每一位分别是年月日。
+		            recentTime: [],//如空数组默认设置成当月1日,数组的每一位分别是年月日。
+		            isSundayFirst: true, // 周日是否要放在第一列
+		            isShowNeighbor: true, // 是否展示相邻月份的月尾和月头
+		            isToggleBtn: true, // 是否展示左右切换按钮
+		            isChinese: true, // 是否是中文
+		            monthType: 0, // 0:1月, 1:一月, 2:Jan, 3: April
+		            canViewDisabled: true, // 是否可以阅读不在范围内的月份
+		            beforeRenderArr: dakaDaysArray,
+		            success: function (item, arr) {
+		                console.log(item, arr);
+		            },
+		            switchRender: function (year, month, cal) {
+		                console.log('计算机识别的 - 年份: ' + year + ' 月份: ' + month);
+		                $.ajax({
+		            			url: 'dakahistory.html?planId=<%=m.getId()%>&from=' + year + ',' + month,
+		            			dataType:'json',
+		            		    success: function(data){
+		            		    	if(data!='')
+		            		    		cal.renderCallbackArr(data);
+		            		    }
+		            	  	});
+		            }
+		        });
+		    }
+	  	});
+        
         </script>
         <div class="pdRecord">
             <h4>心得感悟<a class="pdRecordAdd" href="signin.html?id=<%=m.getId()%>"></a></h4>

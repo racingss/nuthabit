@@ -2,6 +2,7 @@ package com.nuthabit.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class DataFormatUtil {
@@ -32,6 +33,51 @@ public class DataFormatUtil {
 		return r;
 	}
 
+	/**
+	 * 获得下个月最后一天
+	 * 
+	 * @return
+	 */
+	public static String getLastDayOfNextMonth() {
+		SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		return dft.format(calendar.getTime());
+	}
+
+	/**
+	 * 获得上个月第一天
+	 * 
+	 * @return
+	 */
+	public static String getFirstDayOfLastMonth() {
+		SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -1);
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+		return dft.format(calendar.getTime());
+	}
+
+	/**
+	 * 获得所在年月的第一天和最后一天
+	 * 
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	public static String[] getMonthDayRange(int year, int month) {
+		SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+		String[] range = new String[2];
+		range[0] = dft.format(calendar.getTime());
+		calendar.set(year, month, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		range[1] = dft.format(calendar.getTime());
+
+		return range;
+	}
+
 	public static void main(String arg[]) {
 		for (int i = 1; i <= 5; i++) {
 			for (int j = 1; j <= 7; j++) {
@@ -43,5 +89,8 @@ public class DataFormatUtil {
 			}
 			System.out.println();
 		}
+		
+		String[] range = DataFormatUtil.getMonthDayRange(2018, 1);
+		System.out.println(range[0] + "|" + range[1]);
 	}
 }

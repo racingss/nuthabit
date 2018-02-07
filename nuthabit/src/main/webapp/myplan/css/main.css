@@ -3477,3 +3477,11 @@ width: .9rem;
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.able1 {
+	background: red;
+}
+
+.able2 {
+	background: rgba(255, 0, 255, .8);
+}
