@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import com.nuthabit.dao.Kehu;
 import com.nuthabit.util.KehuUtil;
 
-@WebFilter(urlPatterns = {"/myplan/index.html"})
+// -@WebFilter(urlPatterns = {"/myplan/index.html"})
 public class EnviromentFilter implements Filter {
 	Log log=LogFactory.getLog(this.getClass().getName());
 
