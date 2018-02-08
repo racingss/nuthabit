@@ -15,6 +15,12 @@ import com.nuthabit.dao.Myplan;
 import com.nuthabit.dao.MyplanDAO;
 import com.nuthabit.dao.MyplanHistory;
 
+/**
+ * 打卡事件处理
+ * Page : planDetail.jsp
+ * @author jefferyxu
+ *
+ */
 @WebServlet("/myplan/signin.html")
 public class SigninServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,10 +49,7 @@ public class SigninServlet extends HttpServlet {
 		}
 
 		MyplanDAO dao = new MyplanDAO();
-
-		// TODO Auto-generated method stub
 		response.setContentType("text/html");
-		// 设置字符编码为UTF-8, 这样支持汉字显示
 		response.setCharacterEncoding("UTF-8");
 
 		if (request.getParameter("ajax") != null) {

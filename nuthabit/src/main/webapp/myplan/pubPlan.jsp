@@ -43,7 +43,7 @@ if(request.getAttribute("myplan")!=null)
         <a class="left back" onclick="goBack()"></a>
         <span><%if(m!=null){out.print("修改计划");}else out.print("发起计划"); %></span>
     </nav>
-    <!--form enctype="multipart/form-data" method="post" action="addplan.html"-->
+    <form enctype="multipart/form-data" method="post" action="addplan.html">
     <%
     if(m!=null){
     	%>
@@ -184,7 +184,7 @@ if(request.getAttribute("myplan")!=null)
 
         <button type="submit" class="submitBtn" id="pubPlan">提交计划</button>
     </div>
-    <!--/form-->
+    </form>
     <div class="pageLast"></div>
 
 </div>

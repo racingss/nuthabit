@@ -149,6 +149,13 @@ public class MyplanDAO extends SampleDAO {
 		}
 	}
 
+	/**
+	 * 打卡处理
+	 * 1.新增打卡记录
+	 * 2.更新计划表
+	 * @param m
+	 * @return
+	 */
 	public long signin(Myplan m) {
 		Connection conn;
 		PreparedStatement ps;
@@ -181,6 +188,37 @@ public class MyplanDAO extends SampleDAO {
 		return -1;
 	}
 
+	/**
+	 * 判定是否今日已经打卡
+	 * 
+	 * @param m
+	 * @return true 已打卡, false 未打卡
+	 */
+	public boolean hasSignedin(Myplan m) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		int dakaCount = 0;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select count(*) from myplan_history where planId=? and planDate=?");
+			ps.setLong(1, m.getId());
+			ps.setString(2, new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			rs = ps.executeQuery();			
+			if (rs.next()) {
+				dakaCount = rs.getInt(1);
+			}			
+		} catch(Exception e) {
+			
+		} finally {
+			close(conn, ps, rs);
+		}
+		return dakaCount > 0;
+	}
+	
 	public void thumbup(MyplanThumbup m) {
 		Connection conn;
 		PreparedStatement ps;

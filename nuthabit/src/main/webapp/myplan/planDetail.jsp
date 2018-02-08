@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 Myplan m = (Myplan)request.getAttribute("plan");
+Boolean hasSignin = (Boolean)request.getAttribute("hasSignin");
 Collection coll = (Collection)request.getAttribute("detailColl");
 Collection exColl = (Collection)request.getAttribute("experienceColl");
 Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
@@ -67,7 +68,7 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
     <div class="page paleBlue">
         <nav class="blue">
             <span><%=m.getTitle() %></span>
-            <a class="left back" onclick="goBack()"></a>
+            <a class="left back" onclick="self.location=document.referrer"></a>
             <a class="right setting">
             </a>
             <ul class="setBox">
@@ -102,10 +103,12 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
                 </div>
                 <p>已累计坚持<span> <%=m.getContinued() %> </span>天</p>
             </div>
+            <% if (hasSignin) { %>
+            <div>已打卡</div>            
+            <% } else { %>
             <div class="middle daka">
-               
-               
             </div>
+            <% } %>
             <script type="text/javascript">
             $(function(){
                 daka();
@@ -167,8 +170,9 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
 			url: 'dakahistory.html?planId=<%=m.getId()%>',
 			dataType:'json',
 		    success: function(data){
-		    	if(data!='')
+		    	if(data!='') {
 		    		dakaDaysArray = data;
+		    	}
 		    	new Calendar({
 		            // 用户传入实际的数据
 		            container: 'container',
@@ -189,19 +193,26 @@ Collection thumbupColl = (Collection)request.getAttribute("thumbupColl");
 		            },
 		            switchRender: function (year, month, cal) {
 		                console.log('计算机识别的 - 年份: ' + year + ' 月份: ' + month);
-		                $.ajax({
-		            			url: 'dakahistory.html?planId=<%=m.getId()%>&from=' + year + ',' + month,
-		            			dataType:'json',
-		            		    success: function(data){
-		            		    	if(data!='')
-		            		    		cal.renderCallbackArr(data);
-		            		    }
-		            	  	});
+		                var dakaKey = year + ',' + month;
+		                var dakaCache = $("#container").data(dakaKey);
+		                if (dakaCache != undefined) {
+		                		cal.renderCallbackArr(dakaCache);
+		                } else {
+			                $.ajax({
+			            			url: 'dakahistory.html?planId=<%=m.getId()%>&from=' + year + ',' + month,
+			            			dataType:'json',
+			            		    success: function(data){
+			            		    		$("#container").data(dakaKey , data);
+				            		    	if(data!='') {
+				            		    		cal.renderCallbackArr(data);				            		    		
+				            		    	}
+			            		    }
+			            	  	});
+		                }
 		            }
 		        });
 		    }
-	  	});
-        
+	  	});   
         </script>
         <div class="pdRecord">
             <h4>心得感悟<a class="pdRecordAdd" href="signin.html?id=<%=m.getId()%>"></a></h4>

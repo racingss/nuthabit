@@ -44,11 +44,12 @@ public class DetailServlet extends HttpServlet {
 		}
 
 		MyplanDAO dao = new MyplanDAO();
-
+		Myplan m = dao.get(request.getParameter("planId"));
+		boolean hasSignin = dao.hasSignedin(m);
 		request.setAttribute("plan", dao.get(request.getParameter("planId")));
+		request.setAttribute("hasSignin", hasSignin);
 
 		if (request.getParameter("delete") != null) {
-			Myplan m = dao.get(request.getParameter("planId"));
 			if (m.getKehuId().equals(k.getKehuId()))
 				dao.deleteExperience(Long.parseLong(request.getParameter("exId")));
 			else
