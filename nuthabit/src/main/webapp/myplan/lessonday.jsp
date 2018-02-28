@@ -1,8 +1,15 @@
+<%@ page language="java" import="java.util.*,com.nuthabit.dao.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+MyplanLesson l = (MyplanLesson)request.getAttribute("lesson");
+MyplanLessonDay d = (MyplanLessonDay)request.getAttribute("day");
+Collection dayColl = (Collection)request.getAttribute("dayColl");
+long dayId = Long.parseLong(request.getAttribute("dayId").toString());
+%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>行者知</title>
+    <title>行者知之成——行动力课程</title>
     <link rel="stylesheet" href="css/calendar.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
@@ -55,7 +62,7 @@
 <body style="display: block">
     <div class="page paleBlue">
         <nav class="blue">
-            <span>行者知——行动课</span>
+            <span>行者知之成-<%=l.getTitle() %></span>
             <a class="left back"></a>
             <a class="right plan">
             </a>
@@ -70,15 +77,18 @@
         </div>
         <div class="sdPlan">
             <div class="hd">
-                <a href=""><i></i>前一天</a>
-                <h4>今日目标<span>(第3天)</span></h4>
-                <a href="">后一天<i></i></a>
+                <a href="<%if(dayId>1){%>lesson.html?lessonId=1&dayId=<%=(dayId-1)%><%}%>"><i></i>前一天</a>
+                <h4><%=l.getTitle() %></h4>
+                <a href="<%if(dayId<2){%>lesson.html?lessonId=1&dayId=<%=(dayId+1)%><%}%>">后一天<i></i></a>
             </div>
             <div class="bd">
                 <h4>
-                    <p>第一阶段轻食运动7天</p>
+                    <p>第<%=d.getDayIndex()%>天 <%=d.getTitle()%> </p>
                     <a class="ckjc"><i></i>查看进程</a>
                 </h4>
+                <div class="item">
+                	<%=d.getDiscription() %>
+                </div>
                 <div class="item">
                     <h5 class="orange">任务1</h5>
                     <p>早餐：牛奶、鸡蛋X1、水果色拉</p>
@@ -240,51 +250,17 @@
     <div class="popup2">
         <div>
             <div class="itemBox">
-                <div class="item active">
+            	<%
+            	Iterator it = dayColl.iterator();
+            	while(it.hasNext()){
+            		MyplanLessonDay day = (MyplanLessonDay)it.next();
+            	%>
+                <div class="item<%if(day.getDayIndex()==dayId){%> active<%}%>">
                     <i></i>
-                    <h4>第1天</h4>
-                    <p>第一阶段轻食运动</p>
+                    <h4>第<%=day.getDayIndex() %>天</h4>
+                    <p><%=day.getTitle() %></p>
                 </div>
-                <div class="item active">
-                    <i></i>
-                    <h4>第2天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第3天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第1天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第2天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第3天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第1天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第2天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
-                <div class="item">
-                    <i></i>
-                    <h4>第3天</h4>
-                    <p>第一阶段轻食运动</p>
-                </div>
+                <%} %>                
             </div>
             <div class="close">
                 
