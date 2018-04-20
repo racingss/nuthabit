@@ -81,158 +81,24 @@ Collection exColl = (Collection)request.getAttribute("experienceColl");
         </div>
         <div class="found2">
             <a class="title">热门活动</a>
-            <a class="item" href="" style="background-image: url(frame/found-5.png);">
+            <a class="item" href="lesson.html?lessonId=1&dayId=1" style="background-image: url(frame/found-5.png);">
                 <span>读书王挑战赛</span>
                 <div><i class="qing">学习</i><i class="orange">读好书</i></div>
             </a>
-            <a class="item" href="" style="background-image: url(frame/found-6.png);">
+            <a class="item" href="lesson.html?lessonId=1&dayId=1" style="background-image: url(frame/found-6.png);">
                 <span>健身强人大比拼</span>
                 <div><i class="blue">健身</i><i class="green">美体健身</i></div>
             </a>
-            <a class="item" href="" style="background-image: url(frame/found-7.png);">
+            <a class="item" href="lesson.html?lessonId=1&dayId=1" style="background-image: url(frame/found-7.png);">
                 <span>国粹书法鉴赏会</span>
                 <div><i class="pink">书法</i><i class="orange">国学精粹</i></div>
             </a>
             
-            <a class="title">热门活动</a>
         </div>
         
         
         <div class="pageLast" style="height: .4rem;"></div>
     </div>
-    
-    
-    
-    <div class="pdRecord">
-    
-            <ul>
-            	<%
-            	Iterator exIt = exColl.iterator();
-            	int maxi=5;
-            	while(exIt.hasNext()&&maxi-->0){
-            		MyplanExperience myex = (MyplanExperience)exIt.next();
-                    //todolist 临时使用
-                    Collection thumbupExColl = new MyplanDAO().getExperienceThumbup(myex.getId());
-            	%>
-                <li class="show">
-                    <div class="userHd">
-                        <img src="<%=myex.getHeadimgurl()%>">
-                    </div>
-                    <div class="content">
-                        <div class="hd">
-                            <span><%=myex.getNickname()%></span>
-                            <a class="zan<%=PageUtil.thumbupCss(thumbupExColl,request)%>" planId="<%=myex.getPlanId() %>" experienceId="<%=myex.getId()%>">点赞</a>
-                            <a class="ping" experienceId="<%=myex.getId()%>">评论</a>
-                        </div>
-                        <div class="bd">
-                            <%=myex.getReview() %>
-                        </div>
-                        <div class="imgUl">
-                        	<%
-                            if(myex.getPic1()!=null &&myex.getPic1().length()>2){
-                            	if(myex.getPic3()==null || myex.getPic3().length()<2){
-                            		%>
-                            		<div class="img" style="width: 4rem; height: auto; overflow: auto; max-height: 5rem;">
-		                                <img class="reviewimg" src="upload/historypic/<%=myex.getPic1()%>" style="width: 100%; height: auto; position: relative;">
-		                            </div>
-                            		<%
-                            	}else{
-                            		%>
-                            		<div class="img">
-		                                <img class="reviewimg"  src="upload/historypic/<%=myex.getPic1()%>">
-		                            </div>
-                            		<%
-                            	}
-                            	%>
-                            <%} %>
-                            <%
-                            if(myex.getPic2()!=null &&myex.getPic2().length()>2){
-                            	if(myex.getPic3()==null || myex.getPic3().length()<2){
-                            		%>
-                            		<div class="img" style="width: 4rem; height: auto; overflow: auto; max-height: 5rem;">
-		                                <img class="reviewimg"  src="upload/historypic/<%=myex.getPic2()%>" style="width: 100%; height: auto; position: relative;">
-		                            </div>
-                            		<%
-                            	}else{
-                            		%>
-                            		<div class="img">
-		                                <img class="reviewimg"  src="upload/historypic/<%=myex.getPic2()%>">
-		                            </div>
-                            		<%
-                            	}
-                            	%>
-                            	
-                            	
-                            	
-                            <%} %><%
-                            if(myex.getPic3()!=null &&myex.getPic3().length()>2){
-                            %>
-                            <div class="img">
-                                <img class="reviewimg"  src="upload/historypic/<%=myex.getPic3()%>">
-                            </div>
-                            <%} %>
-                        </div>
-                        <div class="info">
-                            <span><%=myex.getPlanDate() %></span>
-                            <p><a href="detail.html?planId=<%=myex.getPlanId()%>"><%=myex.getPlanTitle() %><a></a></p>
-                        </div>
-                        <div class="good" id="ex_<%=myex.getId()%>">
-                        <%
-                        if(thumbupExColl.size()>0){
-                        %>
-                        
-                            <ul><%
-                            	Iterator exThIt = thumbupExColl.iterator();
-                                String tempNickname = "";
-                                int i=0;
-                                while(exThIt.hasNext() && i++<4){
-                                	MyplanThumbup mt = (MyplanThumbup)exThIt.next();
-                                	tempNickname = mt.getNickname();
-                            		%>
-                                	<li><img src="<%=mt.getHeadimgurl()%>"></li>
-                                <%} %>
-                            </ul>
-                            <div><span>~<%=tempNickname %><%=thumbupExColl.size() %>位好友点了赞</div>
-                        
-                        <%} %>
-                        </div>
-                        <div class="comment">
-                            <ul>
-                            	<%
-                            	//todolist 临时使用
-                            	Collection replyColl = new MyplanDAO().getPlanExperienceReply(myex.getId());
-                            	Iterator replyIt = replyColl.iterator();
-                            	while(replyIt.hasNext()){
-                            		MyplanExperience reply = (MyplanExperience)replyIt.next();
-                            	%>
-                                <li>
-                                    <div class="left">
-                                        <img src="<%=reply.getHeadimgurl()%>">
-                                    </div>
-                                    <div class="right">
-                                        <h4>
-                                            <span><%=reply.getNickname() %></span>
-                                            <p><%=reply.getPlanDate().substring(5,16) %></p>
-                                        </h4>
-                                        <div><%=reply.getReview() %></div>   
-                                    </div>
-                                </li>
-                                <%} %>
-                                
-                            </ul>
-                        </div>
-
-                    </div>
-                </li>
-                <%} %>
-            </ul>
-            <div class="more">
-                <span>查看更多</span>
-                <i></i>
-            </div>
-        </div>
-    
-    
     
 </div>
 

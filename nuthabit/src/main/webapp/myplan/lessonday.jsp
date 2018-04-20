@@ -9,7 +9,7 @@ long dayId = Long.parseLong(request.getAttribute("dayId").toString());
 <html>
 <head>
     <meta charset="utf-8">
-    <title>行者知之成——行动力课程</title>
+    <title><%=d.getTitle() %></title>
     <link rel="stylesheet" href="css/calendar.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.min.js"></script>
@@ -67,19 +67,21 @@ long dayId = Long.parseLong(request.getAttribute("dayId").toString());
             <a class="right plan">
             </a>
             <ul class="setBox planBox">
-                <li><a href="">加入计划</a></li>
-                <li><a href="">分享计划</a></li>
+                <li><a href="">加入</a></li>
+                <li><a href="">分享</a></li>
+                <!-- 
                 <li><a href="">退出秘书</a></li>
+                 -->
             </ul>
         </nav>
         <div class="sdBg">
-            <img src="frame/supeD-5.png">
+            <img src="temp/633584715.jpg">
         </div>
         <div class="sdPlan">
             <div class="hd">
                 <a href="<%if(dayId>1){%>lesson.html?lessonId=1&dayId=<%=(dayId-1)%><%}%>"><i></i>前一天</a>
                 <h4><%=l.getTitle() %></h4>
-                <a href="<%if(dayId<2){%>lesson.html?lessonId=1&dayId=<%=(dayId+1)%><%}%>">后一天<i></i></a>
+                <a href="<%if(dayId<12){%>lesson.html?lessonId=1&dayId=<%=(dayId+1)%><%}%>">后一天<i></i></a>
             </div>
             <div class="bd">
                 <h4>
@@ -89,7 +91,7 @@ long dayId = Long.parseLong(request.getAttribute("dayId").toString());
                 <div class="item">
                 	<%=d.getDiscription() %>
                 </div>
-                <div class="item">
+                <!--div class="item">
                     <h5 class="orange">任务1</h5>
                     <p>早餐：牛奶、鸡蛋X1、水果色拉</p>
                     <p>午餐：蔬菜色拉500克</p>
@@ -98,26 +100,26 @@ long dayId = Long.parseLong(request.getAttribute("dayId").toString());
                 <div class="item">
                     <h5 class="green">任务2</h5>
                     <p>运动：早晚各跳绳5分钟，深蹲10个1组，做3组</p>
-                </div>
+                </div-->
                 <div class="tip">
                     <h4>提示</h4>
-                    <p>光减少摄入无法有持续降低体脂，只有减脂的同时增加肌肉，肌肉能帮助人体每天消耗更多的热量</p>
-                    <p>另外人体每日需要不同的营养，所以每日必须摄入足够的钙、蛋白质以及各类维生素</p>
+                    <p>即使今天的任务做不到早起也不要紧，我们明天会教你有用的方法</p>
+                    <p>万事开头难，只要做了，就已经成功90%了</p>
                 </div>
             </div>
         </div>
         <div class="sdOther">
             <div class="left">
                 <div class="hd">
-                    <img src="frame/hd-1.png">
+                    <img src="temp/head.jpg">
                 </div>
-                <h4>大蓝老师</h4>
+                <h4>叶老师</h4>
                 <div class="tip">
-                    <span class="blue">美体专家</span>
-                    <span class="green">健康师</span>
-                    <span class="orange">营养师</span>
+                    <span class="blue">时间管理专家</span>
+                    <span class="green">易效能</span>
+                    <span class="orange">认证机构</span>
                 </div>
-                <a class="blue" href="">立即咨询</a>
+                <a class="blue" href="QAdetail.html">立即咨询</a>
             </div>
             <div class="right">
                 <ul>
@@ -135,117 +137,7 @@ long dayId = Long.parseLong(request.getAttribute("dayId").toString());
             </div>
         </div>
 
-        <div class="pdRecord sdRecord">
-            <h4>讨论区</h4>
-            <ul>
-                <li class="show">
-                    <div class="userHd">
-                        <img src="frame/hd-1.png">
-                    </div>
-                    <div class="content">
-                        <div class="hd">
-                            <span>Adon</span>
-                        </div>
-                        <div class="bd">
-                            身体是革命的本钱，赚再多的钱，不如拥有一个健康的身体以及健美的体魄，加油!
-                        </div>
-                        <div class="imgUl">
-                            <div class="img">
-                                <img src="frame/img-2.png">
-                            </div>
-                        </div>
-                        <div class="comment">
-                            <ul>
-                                <li>
-                                    <div class="left">
-                                        <img src="frame/hd-1.png">
-                                    </div>
-                                    <div class="right">
-                                        <h4>
-                                            <span>汪汪队小力</span>
-                                        </h4>
-                                        <div>加油！你一定行的！希望你能越来越好，活出真正的自己！</div>   
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="frame/hd-1.png">
-                                    </div>
-                                    <div class="right">
-                                        <h4>
-                                            <span>汪汪队小力</span>
-                                        </h4>
-                                        <div>加油！你一定行的！希望你能越来越好，活出真正的自己！</div>   
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </li>
-                <li>
-                    <div class="userHd">
-                        <img src="frame/hd-1.png">
-                    </div>
-                    <div class="content">
-                        <div class="hd">
-                            <span>Adon</span>
-                        </div>
-                        <div class="bd">
-                            身体是革命的本钱，赚再多的钱，不如拥有一个健康的身体以及健美的体魄，加油!
-                        </div>
-                        <div class="imgUl">
-                            <div class="img">
-                                <img src="frame/img-1.png">
-                            </div>
-                            <div class="img">
-                                <img src="frame/img-1.png">
-                            </div>
-                            <div class="img">
-                                <img src="frame/img-1.png">
-                            </div>
-                        </div>
-                        <div class="comment">
-                            <ul>
-                                <li>
-                                    <div class="left">
-                                        <img src="frame/hd-1.png">
-                                    </div>
-                                    <div class="right">
-                                        <h4>
-                                            <span>汪汪队小力</span>
-                                        </h4>
-                                        <div>加油！你一定行的！希望你能越来越好，活出真正的自己！</div>   
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="frame/hd-1.png">
-                                    </div>
-                                    <div class="right">
-                                        <h4>
-                                            <span>汪汪队小力</span>
-                                        </h4>
-                                        <div>加油！你一定行的！希望你能越来越好，活出真正的自己！</div>   
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </li>
-
-            </ul>
-            <div class="more">
-                <span>查看更多</span>
-                <i></i>
-            </div>
-        </div>
-        <div class="pdBtns">
-            <a href="index.html">首页</a>
-            <a href="pubPlan.jsp">发布</a>
-            <a href="">微信</a>
-        </div>
+        <!-- delete footer menu -->
     </div>
     <div class="popup2">
         <div>
@@ -268,5 +160,24 @@ long dayId = Long.parseLong(request.getAttribute("dayId").toString());
 
         </div>
     </div>
+    
+<footer>
+    <a class="active" href="index.html">
+        <i></i>
+        <span>习惯</span>
+    </a>
+    <a href="discovery.html">
+        <i>
+            <span class="number">5</span>
+        </i>
+        <span>发现</span>
+    </a>
+    <a href="my.html">
+        <i>
+            <span class="spot"></span>
+        </i>
+        <span>我的</span>
+    </a>
+</footer>
 </body>
 </html>
