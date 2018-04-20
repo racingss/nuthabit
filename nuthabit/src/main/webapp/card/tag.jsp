@@ -3,6 +3,15 @@
     pageEncoding="UTF-8"%>
 <%
 Collection cardColl = (Collection)request.getAttribute("cardColl");
+long tagId=0;
+if(request.getParameter("tagId")!=null)
+	tagId = Long.parseLong(request.getParameter("tagId"));
+else if(request.getSession().getAttribute("tagId")!=null)
+	tagId = Long.parseLong(request.getSession().getAttribute("tagId").toString());
+CardTag ct = CardTag.getCartTagByTagId(tagId);
+int headlength=3;
+if(ct.getTag().length()>4)
+	headlength=2;
 %>    
 <!DOCTYPE html>
 <html lang="zh"><head>
@@ -89,8 +98,10 @@ Collection cardColl = (Collection)request.getAttribute("cardColl");
 		
 		<section class="accordion">
 			<div class="item">
-		            <img src="img/car.png" class="headpng">
-		            <h3>交通  transport</h3>
+					<a href="index.html">
+		            	<img src="img/<%=ct.getHeadpng() %>" class="headpng">
+		            </a>
+		            <h3 style="font-size:<%=headlength%>em;"><%=ct.getTag() %></h3>
 		    </div>
 		    <p style="display: block;">
 		            <span>
@@ -139,10 +150,14 @@ Collection cardColl = (Collection)request.getAttribute("cardColl");
 	<script type="text/javascript">
 	function load()
 	{
+		<%
+		if(request.getParameter("creat_card_succ")!=null){
+		%>
 		$.dialog({
 			showTitle : false,
 			contentHtml : '卡片创建成功，您可以继续添加新的卡片'
 	    });
+		<%}%>
 	}
 	</script>
 

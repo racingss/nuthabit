@@ -18,6 +18,8 @@ if(request.getParameter("tagId")!=null)
 	tagId = Long.parseLong(request.getParameter("tagId"));
 else if(request.getSession().getAttribute("tagId")!=null)
 	tagId = Long.parseLong(request.getSession().getAttribute("tagId").toString());
+CardTag ct = CardTag.getCartTagByTagId(tagId);
+
 
 StringBuffer displayMeaning=new StringBuffer("");
 if(meaningColl!=null&&meaningColl.size()>0){
@@ -28,9 +30,11 @@ if(meaningColl!=null&&meaningColl.size()>0){
 			displayMeaning.append("   ");
 		}
 }
-int headlength=3;
+double headlength=3;
 if(displayMeaning.length()>4)
 	headlength=2;
+if(displayMeaning.length()>8)
+	headlength=1.5;
 %>    
 <!DOCTYPE html>
 <html lang="zh"><head>
@@ -42,6 +46,8 @@ if(displayMeaning.length()>4)
 	<link rel="stylesheet" href="css/dialog.css">
 	<link rel="stylesheet" href="css/card.css">
 	<link rel="stylesheet" href="css/audioplayer.css" />
+	<link href="css/mfb.css" rel="stylesheet">
+	<script src="js/mfb.js"></script>  
 	<style type="text/css">
 	a{
 		text-decoration:none;
@@ -149,7 +155,9 @@ if(displayMeaning.length()>4)
 		    
 		    <!--             头部              -->
 			<div class="item">
-		            <img src="img/car.png" class="headpng">
+					<a href="cardbytag.html?tagId=<%=ct.getTagId()%>">
+		            	<img src="img/<%=ct.getHeadpng() %>" class="headpng">
+		            </a>
 		            <h3 style="font-size:<%=headlength%>em;"><%=displayMeaning.toString()%></h3>
 		    </div>
 		    
@@ -178,7 +186,7 @@ if(displayMeaning.length()>4)
     		
     		
     		<!--             语音              -->
-		    <span id="wrapper">
+		    <span id="wrapper" style="display:none">
 		    	<%
 				if(soundColl!=null&&soundColl.size()>0){
 			  		Iterator it = soundColl.iterator();
@@ -187,7 +195,7 @@ if(displayMeaning.length()>4)
 			  			//if(s.getLanguageId()!=languageId)
 			  			//	continue;
 			  			%>
-						<audio preload="auto" controls>
+						<audio preload="auto" controls id="sound_<%=s.getSoundId()%>">
 							<source src="/<%=s.getSound() %>">
 						</audio>
 						<%
@@ -198,6 +206,42 @@ if(displayMeaning.length()>4)
 		</section>
 		
 	</div>
+	
+	
+	<!--                   菜单    给语音使用                 -->
+	<%
+	if(soundColl!=null&&soundColl.size()>0){
+	%>
+	<ul id="menu" class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
+	  <li class="mfb-component__wrap">
+	    <a href="#" class="mfb-component__button--main" >
+	      <i class="mfb-component__main-icon--resting ion-plus-round">语音</i>
+	      <i class="mfb-component__main-icon--active ion-close-round"><img src="http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJRmN2LQ0g82D7Nlzkw7oPKTMW6f2uxbaIXVtPWIgLq8urkkFsUArqF4JNdWfdQ6KjG9HqCaNRr6g/0"  style="width: 45px;
+    border-radius: 25px;
+    margin-top: 5px;"></i>
+	    </a>
+	    <ul class="mfb-component__list">
+	    	<%
+	    	Iterator it = soundColl.iterator();
+	    	int j=0;
+	    	while(it.hasNext()){
+	  			CardSound s = (CardSound)it.next();
+	    		  %>
+			      <li>
+			        <a href="#" soundId="<%=s.getSoundId() %>" 
+			            data-mfb-label="Child Button <%=++j %>" class="mfb-component__button--child">
+			          <i class="mfb-component__child-icon ion-social-twitter">语音<%=j %></i>
+			        </a>
+			      </li>
+			      <%
+			}%>
+	    </ul>
+	    
+	  </li>
+	</ul>
+	
+	
+	<%} %>
 	
 	<script src="js/jquery.js"></script>
 	<script src="js/audioplayer.js"></script>
@@ -230,6 +274,15 @@ if(displayMeaning.length()>4)
 	    	       contentHtml : '<p>您确定要删除这张图片吗？</p> <p>删除后图片将无法恢复</p>'
 	    	    });
 	    });
+		
+		
+		//播放语音
+		$('.mfb-component__button--child').on("click", function () {
+			soundId = "sound_"+$(this).attr("soundId");
+			document.getElementById(soundId).play();
+		});
+		
+		
 	})
 	</script>
 

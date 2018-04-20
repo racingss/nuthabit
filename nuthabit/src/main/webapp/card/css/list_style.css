@@ -44,8 +44,8 @@ body {
   height: 100%;
 }
 .accordion .item:first-of-type {
-  background: #620808;
-  color: #f4ce74;
+  background: #d5441c;
+  color: #ffe9c1;
 }
 .accordion .item:nth-of-type(2) {
   background: #a53f3f;
@@ -72,7 +72,7 @@ body {
   box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.2);
 }
 .accordion p:first-of-type {
-  background: #620808;
+  background: #d5441c;
   color: #f4ce74;
 }
 .accordion p:nth-of-type(2) {

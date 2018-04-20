@@ -1,6 +1,8 @@
 package com.babycard.dao;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class CardTag {
 	private long tagId = 0;
@@ -40,6 +42,29 @@ public class CardTag {
 
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+
+	private static Collection coll = null;
+
+	public static CardTag getCartTagByTagId(long tagId) {
+		if (coll == null)
+			coll = new TagDAO().getAllTagList();
+		Iterator it = coll.iterator();
+		while (it.hasNext()) {
+			CardTag ct = (CardTag) it.next();
+			if (ct.getTagId() == tagId)
+				return ct;
+		}
+
+		coll = new TagDAO().getAllTagList();
+		it = coll.iterator();
+		while (it.hasNext()) {
+			CardTag ct = (CardTag) it.next();
+			if (ct.getTagId() == tagId)
+				return ct;
+		}
+		return null;
+
 	}
 
 	public CardTag() {

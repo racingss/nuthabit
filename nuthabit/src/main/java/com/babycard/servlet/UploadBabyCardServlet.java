@@ -209,6 +209,9 @@ public class UploadBabyCardServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			request.getSession().setAttribute("picurl", weburl + pic);
+			request.setAttribute("picurl", weburl + pic);
 
 			if (filetype == 1) {
 				new CardDAO().addCardPic(cardId, weburl + pic);
@@ -230,12 +233,12 @@ public class UploadBabyCardServlet extends HttpServlet {
 				response.sendRedirect("/card/cardlist.html?static=t&cardId=" + cardId);
 				return;
 			}
-			request.getSession().setAttribute("picurl", weburl + pic);
-			request.setAttribute("picurl", weburl + pic);
+			
 
 		}
 		request.getRequestDispatcher("create_own_card_add_word.jsp").forward(request, response);
 
+		
 	}
 
 	/**

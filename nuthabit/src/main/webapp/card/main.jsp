@@ -13,9 +13,12 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 	<title>点兵点将 儿童卡片</title>
 	<link rel="stylesheet" href="css/list_style.css">
 	<link rel="stylesheet" href="css/dialog.css">
+	<link href="css/mfb.css" rel="stylesheet">
+	<script src="js/mfb.js"></script>  
 	<style type="text/css">
 	a{
 		text-decoration:none;
+		color: #e8722e;
 	}
 	.headpng{
 		width:70px;
@@ -87,7 +90,7 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 </head>
 <body style="background: #e8e8e8;">
 	<header>
-		<img alt="" src="images/head1.png" style="width: 100%;margin: 0;">
+		<img alt="" src="img/head.png" style="width: 100%;margin: 0;">
 	</header>
 	<div class="htmleaf-container">
 		
@@ -102,7 +105,7 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 		            <img src="img/<%=ct.getHeadpng() %>" class="headpng">
 		            <h3><%=ct.getTag() %>
 		            	<a href="#" class="deletecardgroup" tagId="<%=ct.getTagId() %>" >
-		            		<img alt="" src="img/delete.png" style="width:15px">
+		            		<img alt="" src="img/delete.png" style="width:18px">
 		            	</a>
 		            </h3>
 		       </div>
@@ -180,6 +183,8 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 		            		<span class="imgspan" style="width:<%=a%>%">
 		            			<a href="cardlist.html?static=t&cardId=<%=c.getCardId()%>&tagId=<%=ct.getTagId()%>">
 		            				<img alt="" src="<%=c.getImg() %>" style="margin-top:10px;width:90%;" class="card">
+		            				<br/>
+		            				<%=c.getMeaning() %>
 		            			</a>
 		            		</span>
     						<%
@@ -195,6 +200,39 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 		   </section>
 		
 	</div>
+	
+	
+	<!--                   菜单                     -->
+	<ul id="menu" class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
+	  <li class="mfb-component__wrap">
+	    <a href="#" class="mfb-component__button--main">
+	      <i class="mfb-component__main-icon--resting ion-plus-round">语言</i>
+	      <i class="mfb-component__main-icon--active ion-close-round">Language</i>
+	    </a>
+	    <ul class="mfb-component__list">
+	      <li>
+	        <a href="#" data-mfb-label="Child Button 1" class="mfb-component__button--child">
+	          <i class="mfb-component__child-icon ion-social-github">Other</i>
+	        </a>
+	      </li>
+	      <li>
+	        <a href="#" data-mfb-label="Child Button 2" class="mfb-component__button--child">
+	          <i class="mfb-component__child-icon ion-social-octocat">日文</i>
+	        </a>
+	      </li>
+	      <li>
+	        <a href="#" data-mfb-label="Child Button 3" class="mfb-component__button--child">
+	          <i class="mfb-component__child-icon ion-social-octocat">English</i>
+	        </a>
+	      </li>
+	      <li>
+	        <a href="#" data-mfb-label="Child Button 4" class="mfb-component__button--child">
+	          <i class="mfb-component__child-icon ion-social-twitter">中文</i>
+	        </a>
+	      </li>
+	    </ul>
+	  </li>
+	</ul> 
 	
 	<script src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/dialog.js"></script>

@@ -14,20 +14,34 @@ CardPic pTest = (CardPic)cardCollTest.iterator().next();
 boolean flag = Math.random()>0.5;
 %>    
 <!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <meta charset="utf-8">
-    <title>看图识物</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/card.css">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/util.js"></script>
-    <script type="text/javascript">
+<html lang="zh"><head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>点兵点将 儿童卡片</title>
+	<link rel="stylesheet" href="css/list_style.css">
+	<link rel="stylesheet" href="css/dialog.css">
+	<link rel="stylesheet" href="css/card.css">
+	<style type="text/css">
+	a{
+		text-decoration:none;
+	}
+	.headpng{
+		width:70px;
+	}
+	.imgspan{
+		background: #fff;
+	    border-radius: .1rem;
+	    padding-bottom: .35rem;
+	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+	    display: inline-block;
+	    text-align: center;
+	    margin: 10px;
+	}
+	</style>
+	<script src="js/jquery.min.js"></script>
+	<script type="text/javascript">
 	    $(function(){
-	    	$("body").height($(window).height());
-	    	
 	    	$("#img_true").click(function(){
 	    		$("#img_true").css({'background':'#74b319'});
 	    		
@@ -64,90 +78,81 @@ boolean flag = Math.random()>0.5;
 	    })
 	 </script>
 </head>
-<body style="display: block">
-<header style="text-align: center;">
-	<div style="overflow:scroll;background-color: #fdfdfd;padding-top:5px;text-align:left;padding-left: 0px;">
-		<a href="index.jsp">
-			<img alt="" src="images/home.jpg" class="headpic" />
-		</a>
-		<a href="uploadCard.jsp">
-			<img alt="" src="images/add.jpg" class="headpic" />
-		</a>
-		<a href="#">
-			<img alt="" src="images/delete.jpg" class="headpic" id="deleteImg"/>
-		</a>
-		<a href="#">
-			<img alt="" src="images/tag.jpg" class="headpic" id="tagImg"/>
-		</a>
-		<a href="#">
-			<img alt="" src="images/meaning.jpg" class="headpic" />
-		</a>
-		<a href="#">
-			<img alt="" src="images/language.jpg" class="headpic" id="languageImg" />
-		</a>
-	</div>
-	
-	<div style="width:100%;background-color: #fdfdfd;padding-top:5px;text-align:left;padding-left: 0px;">
+<body style="background: #d5441c;" onload="load()">
+	<div class="htmleaf-container">
+		
+		<section class="accordion">
+			
+			
+			<!--            菜单               -->
+		    <span class="sdPlan" style="display: block;text-align: center;background: #97d9e6;">
+		    	<a href="index.html">
+		    		<img alt="" src="images/first.jpg" class="menupic"/>
+		    	</a>
+		    	<a href="#" id="nexturl">
+		    		<img alt="" src="images/right.jpg" class="menupic" />
+		    	</a>
+		    </span>
+		
+		
+		
+			<div class="item">
+					<a href="index.html">
+		            	<img src="img/question.png" class="headpng">
+		            </a>
+		            <h3 style="font-size:1.5em;">哪张图片是<span style="color:#64c2ff;font-size: 35px;"> <%=c.getMeaning() %> </span>?</h3>
+		    </div>
+			<p style="display:block;">
+					
+					<span class="imgspan" style="width:90%" id="img_<%=flag%>">
+				    	<%
+				    	if(true){
+				    		CardPic temp = null;
+				    		String url = null;
+				    		if(flag){
+				    			temp = p;
+				    		}else{
+				    			temp =pTest;
+				    		}
+				    		%>
+				    		<img alt="" src="/<%=temp.getCardpic() %>" style="margin-top:15px;width:90%;"/>
+				    	<%} %>
+				    </span>
+				    
+				    <span class="imgspan" style="width:90%" id="img_<%=!flag%>">
+				    	<%
+				    	if(true){
+				    		CardPic temp = null;
+				    		if(flag)
+				    			temp = pTest;
+				    		else
+				    			temp =p;
+				    	%>
+				    	<a href="#">
+				    		<img alt="" src="/<%=temp.getCardpic() %>" style="margin-top:15px;width:90%;" />
+				    	</a>
+				    	<%}
+				    	%>
+				    </span>
+					
+			
+			</p>
+			
+						           
+		</section>
 		
 	</div>
-</header>
-    
-<div class="page paleBlue">
-    
-    <div class="sdPlan" style="text-align:center;" id="img_<%=flag%>">
-    	<%
-    	if(true){
-    		CardPic temp = null;
-    		String url = null;
-    		if(flag){
-    			temp = p;
-    		}else{
-    			temp =pTest;
-    		}
-    		%>
-    		<img alt="" src="/<%=temp.getCardpic() %>" style="margin-top:15px;width:90%;"/>
-    	<%} %>
-    </div>
-    
-    <div class="sdPlan" style="text-align: center;
-    background: #97d9e6;
-    /* height: 35px; */
-    padding-top: 10px;
-    font-size: 25px;
-    color: white;">
-    	哪张图片是<span style="color:red;font-size: 35px;"> <%=c.getMeaning() %> </span>?
-    	<a href="#" id="nexturl">
-    		<img id="nexttest" src="images/right.jpg" style="width: 35px;
-    padding-top: 5px;
-    float: right;
-    margin-right: 20px;
-    margin-top: 5px;
-    display:none;
-    "/>
-    	</a>
-    </div>
-    <audio  autoplay="true"><source src="/<%=cm.getSoundQue() %>" type="audio/mpeg" /></audio>
-    
-    <div class="sdPlan" style="text-align:center;" id="img_<%=!flag%>">
-    	<%
-    	if(true){
-    		CardPic temp = null;
-    		if(flag)
-    			temp = pTest;
-    		else
-    			temp =p;
-    	%>
-    	<a href="#">
-    		<img alt="" src="/<%=temp.getCardpic() %>" style="margin-top:15px;width:90%;" />
-    	</a>
-    	<%}
-    	%>
-    </div>
-    
-</div>
+	
+	<audio id="succaudio" ><source src="/<%=request.getAttribute("soundSuss").toString() %>" type="audio/mpeg" /></audio>
+	<audio id="failaudio" ><source src="/<%=request.getAttribute("soundFail").toString() %>" type="audio/mpeg" /></audio>
+	
+	
+	<script type="text/javascript" src="js/dialog.js"></script>
+	<script type="text/javascript">
+	function load()
+	{
+		
+	}
+	</script>
 
-<audio id="succaudio" ><source src="/<%=request.getAttribute("soundSuss").toString() %>" type="audio/mpeg" /></audio>
-<audio id="failaudio" ><source src="/<%=request.getAttribute("soundFail").toString() %>" type="audio/mpeg" /></audio>
-
-</body>
-</html>
+</body></html>
