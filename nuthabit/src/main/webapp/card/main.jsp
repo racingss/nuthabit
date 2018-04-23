@@ -4,6 +4,27 @@
 <%
 Collection tagColl = (Collection)request.getAttribute("tagColl");
 Collection myColl = (Collection)request.getAttribute("myColl");
+
+//切换语言
+long languageId = 0;
+if (request.getSession().getAttribute("languageId") != null) {
+	languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
+}
+
+long languageId_2 = -1;
+if (request.getSession().getAttribute("languageId_2") != null) {
+	languageId_2 = Long.parseLong(request.getSession().getAttribute("languageId_2").toString());
+}
+if(request.getParameter("languageId_2")!=null){
+	languageId_2 = Long.parseLong(request.getParameter("languageId_2").toString());
+	request.getSession().setAttribute("languageId_2", languageId_2);
+}
+if(request.getParameter("type")!=null){
+	languageId_2 = -1;
+	request.getSession().setAttribute("languageId_2", -1);
+}
+
+
 %>    
 <!DOCTYPE html>
 <html lang="zh"><head>
@@ -18,7 +39,7 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 	<style type="text/css">
 	a{
 		text-decoration:none;
-		color: #e8722e;
+		color: #524f4f;
 	}
 	.headpng{
 		width:70px;
@@ -105,67 +126,24 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 		            <img src="img/<%=ct.getHeadpng() %>" class="headpng">
 		            <h3><%=ct.getTag() %>
 		            	<a href="#" class="deletecardgroup" tagId="<%=ct.getTagId() %>" >
-		            		<img alt="" src="img/delete.png" style="width:18px">
+		            		<img alt="" src="img/delete.png" style="width:18px;padding-left: 5px;">
 		            	</a>
+		            	<a href="#" class="">
+		            		<img alt="" src="img/lock.png" style="width:18px;padding-left: 5px;">
+		            	</a>
+		            	
 		            </h3>
 		       </div>
 		            <p>
 		            <span>
 		                <a href="create_own_card_create_tag.html?tagId=<%=ct.getTagId()%>">
-		            		<button type="button" class="btn btn-pink btnwidth30" >添加<i class="fa fa-book"></i></button>
+		            		<button type="button" class="btn btn-pink btnwidth30" ><%=Menu.getMenu("add", languageId) %><i class="fa fa-book"></i></button>
 		            	</a>
 		                <a href="cardlist.html?tagId=<%=ct.getTagId()%>">
-		            		<button type="button" class="btn btn-green btnwidth30" >学习<i class="fa fa-book"></i></button>
+		            		<button type="button" class="btn btn-green btnwidth30" ><%=Menu.getMenu("study", languageId) %><i class="fa fa-book"></i></button>
 		            	</a>
 		            	<a href="test_iop.html">
-		            		<button type="button" class="btn btn-orange btnwidth30">复习<i class="fa fa-book"></i></button>
-		            	</a>
-		            </span>
-		            <%
-		            int i=0;
-		            if(true){
-		            	Iterator it = new CardDAO().getCardListByTag(ct.getTagId()).iterator();
-		            	while(it.hasNext()){
-		            		Card c = (Card)it.next();
-		            		int a=90;
-		            		if(i++>4)
-		            			a = 25;
-		            		else if(i>1)
-		            			a = 40;
-		            		%>
-		            		<span class="imgspan" style="width:<%=a%>%">
-		            			<a href="cardlist.html?static=t&cardId=<%=c.getCardId()%>&tagId=<%=ct.getTagId()%>">
-		            				<img alt="" src="<%=c.getImg() %>" style="margin-top:10px;width:90%;" class="card">
-		            			</a>
-		            		</span>
-    						<%
-		            	}
-		            }
-		            %>
-		            </p>
-		       <%} %> 
-			
-			
-			
-			
-			
-			<!--           默认的卡片组                  -->
-			<%
-			Iterator tagIt = tagColl.iterator();
-			while(tagIt.hasNext()){
-			   CardTag ct = (CardTag)tagIt.next();
-			   %>
-		       <div class="item">
-		            <img src="img/<%=ct.getHeadpng() %>" class="headpng">
-		            <h3><%=ct.getTag() %></h3>
-		       </div>
-		            <p>
-		            <span>
-		            	<a href="cardlist.html?tagId=<%=ct.getTagId()%>">
-		            		<button type="button" class="btn btn-green btnwidth40" >学习<i class="fa fa-book"></i></button>
-		            	</a>
-		            	<a href="test_iop.html">
-		            		<button type="button" class="btn btn-orange btnwidth40">复习<i class="fa fa-book"></i></button>
+		            		<button type="button" class="btn btn-orange btnwidth30"><%=Menu.getMenu("test", languageId) %><i class="fa fa-book"></i></button>
 		            	</a>
 		            </span>
 		            <%
@@ -193,9 +171,77 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 		            %>
 		            </p>
 		       <%} %> 
+			
+			
+			
+			
+			
+			<!--           默认的卡片组                  -->
+			<%
+			Iterator tagIt = tagColl.iterator();
+			while(tagIt.hasNext()){
+			   CardTag ct = (CardTag)tagIt.next();
+			   %>
 		       <div class="item">
-		            <img src="img/add.png" class="headpng">
-		            <h3><a href="create_own_card_create_tag.html" style="color:#ffe9c1">新建我的卡片组</a></h3>
+		            <img src="img/<%=ct.getHeadpng() %>" class="headpng">
+		            <h3>
+		            <%=CardTagLanguage.getTagLanguage(ct.getTagId(), languageId) %></h3>
+		       </div>
+		            <p>
+		            <span class="carddetail" style="background: #fff;
+	    border-radius: .1rem;
+	    padding: 20px;
+	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+	    display: inline-block;
+	    margin: 10px;
+	    color: #524f4f;
+	    width:80%;">
+		            	<%=Menu.getMenu("tag_detail", languageId) %>：20个常见的动物
+		            	<br/><%=Menu.getMenu("tag_pic_count", languageId) %>：100  
+		            	<br/><%=Menu.getMenu("tag_sound_count", languageId) %>：38
+		            	<br/><%=Menu.getMenu("tag_use", languageId) %>：<%=Menu.getMenu("free", languageId) %> 
+		            	<br/><%=Menu.getMenu("get_point", languageId) %>：50
+		            	<br/><%=Menu.getMenu("support_language", languageId) %>：🇨🇳🇺🇸🇯
+		            	<br/>
+		            	<br/>
+		            	<a href="cardlist.html?tagId=<%=ct.getTagId()%>">
+		            		<button type="button" class="btn btn-green btnwidth40" ><%=Menu.getMenu("study", languageId) %><i class="fa fa-book"></i></button>
+		            	</a>
+		            	<a href="test_iop.html">
+		            		<button type="button" class="btn btn-orange btnwidth40"><%=Menu.getMenu("test", languageId) %><i class="fa fa-book"></i></button>
+		            	</a>
+		            </span>
+		            <span>
+		            	
+		            </span>
+		            <%
+		            int i=0;
+		            if(true){
+		            	Iterator it = new CardDAO().getCardListByTag(ct.getTagId()).iterator();
+		            	while(it.hasNext()){
+		            		Card c = (Card)it.next();
+		            		int a=90;
+		            		if(i++>4)
+		            			a = 25;
+		            		else if(i>1)
+		            			a = 40;
+		            		%>
+		            		<span class="imgspan" style="width:<%=a%>%">
+		            			<a href="cardlist.html?static=t&cardId=<%=c.getCardId()%>&tagId=<%=ct.getTagId()%>">
+		            				<img alt="" src="<%=c.getImg() %>" style="margin-top:10px;width:90%;" class="card">
+		            				<br/>
+		            				<%=c.getMeaning(languageId,c.getCardId()) %>
+		            			</a>
+		            		</span>
+    						<%
+		            	}
+		            }
+		            %>
+		            </p>
+		       <%} %> 
+		       <div class="item" style="position: sticky;bottom: -5px;height: 60px;background-color: #2f89f9;">
+		            
+		            <h3 style="text-align: center;width: 100%;padding: 0px;"><a href="create_own_card_create_tag.html" style="color:#ffe9c1"><%=Menu.getMenu("add_my_card", languageId) %></a></h3>
 		       </div>            
 		   </section>
 		
@@ -206,30 +252,48 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 	<ul id="menu" class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
 	  <li class="mfb-component__wrap">
 	    <a href="#" class="mfb-component__button--main">
-	      <i class="mfb-component__main-icon--resting ion-plus-round">语言</i>
-	      <i class="mfb-component__main-icon--active ion-close-round">Language</i>
+	      <i class="mfb-component__main-icon--resting ion-plus-round"><%=Menu.getMenu("lang", languageId) %></i>
+	      <i class="mfb-component__main-icon--active ion-close-round"><%=Menu.getMenu("lang", languageId) %></i>
 	    </a>
 	    <ul class="mfb-component__list">
-	      <li>
-	        <a href="#" data-mfb-label="Child Button 1" class="mfb-component__button--child">
-	          <i class="mfb-component__child-icon ion-social-github">Other</i>
-	        </a>
-	      </li>
-	      <li>
-	        <a href="#" data-mfb-label="Child Button 2" class="mfb-component__button--child">
-	          <i class="mfb-component__child-icon ion-social-octocat">日文</i>
-	        </a>
-	      </li>
-	      <li>
-	        <a href="#" data-mfb-label="Child Button 3" class="mfb-component__button--child">
-	          <i class="mfb-component__child-icon ion-social-octocat">English</i>
-	        </a>
-	      </li>
-	      <li>
-	        <a href="#" data-mfb-label="Child Button 4" class="mfb-component__button--child">
-	          <i class="mfb-component__child-icon ion-social-twitter">中文</i>
-	        </a>
-	      </li>
+	      <%
+	      if(languageId_2!=-1){
+	    	  %>
+	          <li>
+		        <a href="index.html?type=delete_language_2" data-mfb-label="Waiting..." class="mfb-component__button--child">
+		          <i class="mfb-component__child-icon ion-social-github">-</i>
+		        </a>
+		      </li>
+		  <%}else{ %>
+		      <li>
+		        <a href="language.html?type=languageId_2" data-mfb-label="Waiting..." class="mfb-component__button--child">
+		          <i class="mfb-component__child-icon ion-social-github">+</i>
+		        </a>
+		      </li>
+		  <%} %>    
+	      
+	      <%
+	      if(languageId_2!=-1){
+	    	  %>
+	    	  <li>
+		        <a href="language.html?type=languageId_2" data-mfb-label="Waiting..." class="mfb-component__button--child">
+		          <i class="mfb-component__child-icon ion-social-octocat"><%=Language.getLanguageByid(languageId_2).getLname() %></i>
+		        </a>
+		      </li>
+	    	  <%
+	      }
+	      %>
+	      <%
+	      if(true){
+	    	  %>
+	    	  <li>
+		        <a href="language.html?type=languageId" data-mfb-label="Waiting..." class="mfb-component__button--child">
+		          <i class="mfb-component__child-icon ion-social-octocat"><%=Language.getLanguageByid(languageId).getLname() %></i>
+		        </a>
+		      </li>
+	    	  <%
+	      }
+	      %>
 	    </ul>
 	  </li>
 	</ul> 
@@ -253,7 +317,7 @@ Collection myColl = (Collection)request.getAttribute("myColl");
 		    	       },
 		    	       onClickCancel : function(){        		
 		    	       },
-		    	       contentHtml : '<p>我是confirm类型的对话框。</p> <p>我只是用来占位的内容展示，仅仅用来占位撑起提示内容的高度。我只是用来占位的内容展示，仅仅用来占位撑起提示内容的高度。</p>'
+		    	       contentHtml : '<p>是否删除</p>'
 		    	    });
 		    });
 		}(jQuery));

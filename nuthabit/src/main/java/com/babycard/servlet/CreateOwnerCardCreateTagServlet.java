@@ -55,7 +55,7 @@ public class CreateOwnerCardCreateTagServlet extends HttpServlet {
 		} else {
 			ct = new TagDAO().getTag(Long.parseLong(request.getParameter("tagId")));
 		}
-		
+
 		request.getSession().setAttribute("cardTag", ct);
 		request.setAttribute("popup", "f");
 

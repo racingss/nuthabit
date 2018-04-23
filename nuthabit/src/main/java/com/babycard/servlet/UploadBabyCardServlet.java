@@ -213,7 +213,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 			request.getSession().setAttribute("picurl", weburl + pic);
 			request.setAttribute("picurl", weburl + pic);
 
-			if (filetype == 1) {
+			if (filetype == 1 && cardId!=0) {
 				new CardDAO().addCardPic(cardId, weburl + pic);
 				response.sendRedirect("/card/cardlist.html?static=t&cardId=" + cardId);
 				return;

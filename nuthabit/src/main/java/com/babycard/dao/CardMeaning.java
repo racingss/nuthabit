@@ -85,12 +85,18 @@ public class CardMeaning {
 			this.setMeaning(rs.getString("meaning"));
 			this.setMeaningId(rs.getLong("meaningId"));
 			this.setCardId(rs.getLong("cardId"));
-//			this.setSound(rs.getString("sound"));
+			// this.setSound(rs.getString("sound"));
 			this.setSoundQue(rs.getString("soundQue"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "CardMeaning [meaningId=" + meaningId + ", languageId=" + languageId + ", meaning=" + meaning
+				+ ", cardId=" + cardId + ", sound=" + sound + ", soundQue=" + soundQue + "]";
 	}
 
 }

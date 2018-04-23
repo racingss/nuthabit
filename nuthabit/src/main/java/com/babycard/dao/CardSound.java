@@ -11,6 +11,10 @@ public class CardSound {
 	private long kehuId = 0;
 	private long status = 0;
 
+	public final static long STATUS_FIRST = 0;
+	public final static long STATUS_CONFIRMED = 1;
+	public final static long STATUS_REJECT = -1;
+
 	public long getSoundId() {
 		return soundId;
 	}

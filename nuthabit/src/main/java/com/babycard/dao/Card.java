@@ -1,6 +1,7 @@
 package com.babycard.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -22,13 +23,21 @@ public class Card {
 	public Collection cardMeaningColl = null;
 	public Collection cardSoundColl = null;
 
-	public String getMeaning(long languageId) {
+	public String getMeaning(long languageId,long cardId) {
+		if(cardMeaningColl==null)
+			cardMeaningColl = new CardMeaningDAO().getAllCardMeaning();
 		Iterator it = cardMeaningColl.iterator();
 		while (it.hasNext()) {
 			CardMeaning cm = (CardMeaning) it.next();
-			if (cm.getLanguageId() == languageId)
+			if (cm.getLanguageId() == languageId && cm.getCardId()==cardId)
 				return cm.getMeaning();
 		}
+		CardMeaning cm = new CardMeaningDAO().getCardMeaning(cardId, languageId);
+		if(cm!=null){
+			cardMeaningColl.add(cm);
+			return cm.getMeaning();
+		}
+				
 		return "";
 	}
 
@@ -85,6 +94,24 @@ public class Card {
 		}
 
 		return "没找到";
+	}
+
+	private static Collection cardprivateColl = new ArrayList();
+
+	public static Card getStaticCard(long cardId) {
+		Iterator it = cardprivateColl.iterator();
+		while (it.hasNext()) {
+			Card c = (Card) it.next();
+			if (c.getCardId() == cardId)
+				return c;
+		}
+		Card temp = new CardDAO().getCardByCardId(cardId);
+		if (temp == null) {
+			temp = new Card();
+			temp.setMeaning("卡片已经删除");
+		}
+		cardprivateColl.add(temp);
+		return temp;
 	}
 
 	public Card() {

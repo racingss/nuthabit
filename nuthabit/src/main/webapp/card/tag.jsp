@@ -21,9 +21,11 @@ if(ct.getTag().length()>4)
 	<title>点兵点将 儿童卡片</title>
 	<link rel="stylesheet" href="css/list_style.css">
 	<link rel="stylesheet" href="css/dialog.css">
+	<link rel="stylesheet" href="css/card.css">
 	<style type="text/css">
 	a{
 		text-decoration:none;
+		color: #524f4f;
 	}
 	.headpng{
 		width:70px;
@@ -89,6 +91,17 @@ if(ct.getTag().length()>4)
 		background-color: #F57C02;
     	color: #fff;
 	}
+	//卡片详细
+	.carddetail{
+		background: #fff;
+	    border-radius: .1rem;
+	    padding: 20px;
+	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+	    display: inline-block;
+	    margin: 10px;
+	    color: #524f4f;
+	    width:80%;
+	}
 	</style>
 	<script type="text/javascript">
 	</script>
@@ -104,18 +117,30 @@ if(ct.getTag().length()>4)
 		            <h3 style="font-size:<%=headlength%>em;"><%=ct.getTag() %></h3>
 		    </div>
 		    <p style="display: block;">
-		            <span>
-		                <a href="create_own_card_create_tag.html?tagId=30">
+		    		<span class="carddetail" style="background: #fff;
+	    border-radius: .1rem;
+	    padding: 20px;
+	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+	    display: inline-block;
+	    margin: 10px;
+	    color: #524f4f;
+	    width:80%;">
+		            	卡片内容：20个常见的动物
+		            	<br/>图片数量：100  &nbsp;&nbsp;&nbsp;&nbsp; 语音数量：38
+		            	<br/>使用方式：免费  &nbsp;&nbsp;可获积分：50
+		            	<br/>支持语音：🇨🇳🇺🇸🇯
+		            	<br/><br/>
+		            	<a href="create_own_card_create_tag.html?tagId=<%=ct.getTagId()%>">
 		            		<button type="button" class="btn btn-pink btnwidth30">添加<i class="fa fa-book"></i></button>
 		            	</a>
-		                <a href="cardlist.html?tagId=30">
+		                <a href="cardlist.html?tagId=<%=ct.getTagId()%>">
 		            		<button type="button" class="btn btn-green btnwidth30">学习<i class="fa fa-book"></i></button>
 		            	</a>
 		            	<a href="test_iop.html">
 		            		<button type="button" class="btn btn-orange btnwidth30">复习<i class="fa fa-book"></i></button>
 		            	</a>
 		            </span>
-		            
+		    		
 		            <%
 		            int i=0;
 		            if(true){
@@ -131,6 +156,8 @@ if(ct.getTag().length()>4)
 		            		<span class="imgspan" style="width:<%=a%>%">
 		            			<a href="cardlist.html?static=t&cardId=<%=c.getCardId()%>&tagId=<%=request.getParameter("tagId")%>">
 		            				<img alt="" src="<%=c.getImg() %>" style="margin-top:10px;width:90%;" class="card">
+		            				<br/>
+		            				<%=c.getMeaning() %>
 		            			</a>
 		            		</span>
     						<%

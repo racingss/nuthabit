@@ -695,57 +695,7 @@ public class CardDAO extends SampleDAO {
 		}
 	}
 
-	public Collection getCardMeaning(long cardId) {
-		Connection conn;
-		PreparedStatement ps;
-		ResultSet rs;
-		conn = null;
-		ps = null;
-		rs = null;
-		Collection coll = new ArrayList();
-
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card_meaning where cardId=? ");
-			ps.setLong(1, cardId);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				coll.add(new CardMeaning(rs));
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn, ps, rs);
-		}
-		return coll;
-	}
-
-	public CardMeaning getCardMeaning(long cardId, long languageId) {
-		Connection conn;
-		PreparedStatement ps;
-		ResultSet rs;
-		conn = null;
-		ps = null;
-		rs = null;
-		Collection coll = new ArrayList();
-		CardMeaning cm = null;
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card_meaning where cardId=? ");
-			ps.setLong(1, cardId);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				cm = new CardMeaning(rs);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn, ps, rs);
-		}
-		return cm;
-	}
+	
 
 	public CardTag addCardTag(String tag) {
 		Connection conn;

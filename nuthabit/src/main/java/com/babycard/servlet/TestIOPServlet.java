@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.babycard.dao.Card;
 import com.babycard.dao.CardDAO;
 import com.babycard.dao.CardMeaning;
+import com.babycard.dao.CardMeaningDAO;
 import com.babycard.dao.CardPic;
 import com.babycard.dao.CardTag;
 import com.babycard.dao.Kehu;
@@ -69,7 +70,7 @@ public class TestIOPServlet extends HttpServlet {
 
 		CardDAO dao = new CardDAO();
 		Card c  = dao.getCardByCardId(s.getCardId());
-		CardMeaning cm = dao.getCardMeaning(c.getCardId(),languageId);
+		CardMeaning cm = new CardMeaningDAO().getCardMeaning(c.getCardId(),languageId);
 
 		// 获取卡片图片
 		Collection cardColl = dao.getCardPicByCardId(c.getCardId());

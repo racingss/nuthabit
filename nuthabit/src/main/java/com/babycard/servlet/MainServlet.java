@@ -53,6 +53,18 @@ public class MainServlet extends HttpServlet {
 			if (tagColl == null || request.getParameter("reload") != null) {
 				tagColl = new TagDAO().getMainTagList();
 			}
+			
+
+			// 语言切换
+			long languageId = 0;
+			if (request.getSession().getAttribute("languageId") != null) {
+				languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
+			}
+			if (request.getParameter("languageId") != null) {
+				languageId = Long.parseLong(request.getParameter("languageId"));
+				request.getSession().setAttribute("languageId", languageId);
+			}
+			
 
 			request.setAttribute("myColl", new TagDAO().getMyTagList(1));
 

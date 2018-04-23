@@ -2,7 +2,11 @@
 <%@ page language="java" import="com.babycard.dao.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-CardTag ct = (CardTag)request.getSession().getAttribute("cardTag");
+CardTag ct = null;
+if(request.getSession().getAttribute("cardTag")!=null)
+	ct = (CardTag)request.getSession().getAttribute("cardTag");
+if(request.getParameter("tagId")!=null)
+	ct = CardTag.getCartTagByTagId(Long.parseLong(request.getParameter("tagId")));
 %>
 <!DOCTYPE html>
 <html>
@@ -80,12 +84,7 @@ CardTag ct = (CardTag)request.getSession().getAttribute("cardTag");
 		{
 			$.dialog({
 				showTitle : false,
-				contentHtml : '<%
-				if(request.getAttribute("popup")==null){
-					%><p>标签创建已经成功，请继续上传卡片图片，一次最多上传3张图片</p><%
-				}else{
-					%><p>请继续上传卡片图片，一次最多上传3张图片</p><%
-				}%>'
+				contentHtml : '<p>请上传卡片图片，一次最多上传3张图片</p>'
 		    });
 		}
 	</script>

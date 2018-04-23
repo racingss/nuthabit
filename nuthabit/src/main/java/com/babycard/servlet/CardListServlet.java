@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.babycard.dao.Card;
 import com.babycard.dao.CardDAO;
 import com.babycard.dao.CardMeaning;
+import com.babycard.dao.CardMeaningDAO;
 import com.babycard.dao.CardPic;
 import com.babycard.dao.CardTag;
 import com.babycard.dao.Kehu;
@@ -139,7 +140,7 @@ public class CardListServlet extends HttpServlet {
 			// 获取卡片图片
 			Collection cardColl = dao.getCardPicByCardId(c.getCardId());
 			if (cardColl.size() > 0) {
-				c.cardMeaningColl = dao.getCardMeaning(c.getCardId());
+				c.cardMeaningColl = new CardMeaningDAO().getCardMeaning(c.getCardId());
 				c.cardSoundColl = dao.getCardSoundList(c.getCardId(), k.getId());
 				request.setAttribute("card", c);
 				request.setAttribute("cardColl", cardColl);

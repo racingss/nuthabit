@@ -8,11 +8,20 @@ Collection cardColl = (Collection)request.getAttribute("cardColl");
 CardPic p = (CardPic)cardColl.iterator().next();
 Collection meaningColl = c.cardMeaningColl;
 Collection soundColl = c.cardSoundColl;
+
+//切换语言
 long languageId = 0;
-boolean autoPlay=false;
 if (request.getSession().getAttribute("languageId") != null) {
 	languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
 }
+
+long languageId_2 = -1;
+if (request.getSession().getAttribute("languageId_2") != null) {
+	languageId_2 = Long.parseLong(request.getSession().getAttribute("languageId_2").toString());
+}
+
+
+boolean autoPlay=false;
 long tagId=0;
 if(request.getParameter("tagId")!=null)
 	tagId = Long.parseLong(request.getParameter("tagId"));
@@ -21,15 +30,8 @@ else if(request.getSession().getAttribute("tagId")!=null)
 CardTag ct = CardTag.getCartTagByTagId(tagId);
 
 
-StringBuffer displayMeaning=new StringBuffer("");
-if(meaningColl!=null&&meaningColl.size()>0){
-		Iterator it = meaningColl.iterator();
-		while(it.hasNext()){
-			CardMeaning cm = (CardMeaning)it.next();
-			displayMeaning.append(cm.getMeaning());
-			displayMeaning.append("   ");
-		}
-}
+String displayMeaning=c.getMeaning(languageId, c.getCardId());
+
 double headlength=3;
 if(displayMeaning.length()>4)
 	headlength=2;
@@ -161,7 +163,6 @@ if(displayMeaning.length()>8)
 		            <h3 style="font-size:<%=headlength%>em;"><%=displayMeaning.toString()%></h3>
 		    </div>
 		    
-		    
 		    <!--              图片                -->
 		    <p style="display: block;">
 		            <%
@@ -172,7 +173,8 @@ if(displayMeaning.length()>8)
 		            		CardPic cp = (CardPic)it.next();
 		            		int a=90;
 		            		if(i++>0)
-		            			a = 25;%>
+		            			a=25;
+		            		%>
 		            		<span class="imgspan" style="width:<%=a%>%">
 		            			<a href="#">
 		            				<img alt="" src="<%=cp.getImgurl() %>" style="margin-top:10px;width:90%;" class="card" id="card_<%=i%>" picId="<%=cp.getPicId()%>">
@@ -182,7 +184,50 @@ if(displayMeaning.length()>8)
 		            	}
 		            }
 		            %>
+		            
+		            
+		            <!--             文字                  -->
+		    		
+	    		<%
+	    		for(int wenzii=0;wenzii<2;wenzii++)
+	    		if(true){
+	    			Iterator it = meaningColl.iterator();
+	    			int l_i=0;
+	    			while(it.hasNext()){
+	    				CardMeaning cm = (CardMeaning)it.next();
+	    				if(wenzii==0){
+	    					if(cm.getLanguageId()!=languageId)
+	    						continue;
+	    				}
+	    				if(wenzii==1){
+	    					if(cm.getLanguageId()!=languageId_2)
+	    						continue;
+	    				}
+	    				%>
+	    				<span class="carddetail" style="background: #fff;
+					    border-radius: .1rem;
+					    padding: 20px;
+					    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+					    display: inline-block;
+					    margin: 10px;
+					    color: #524f4f;
+					    text-align:center;
+					    width:80%;">
+					    		<em style="font-size:50px;"><%=cm.getMeaning() %>
+					    		<br/>
+					    		<em style="font-size:20px;float:right;">
+			    					<%=Language.getLanguageByid(cm.getLanguageId()).getLname() %>
+			    				</em>	
+			    		</span>		
+	    				<%
+	    			}
+	    		}
+	    		%>
+				    
     		</p>
+    		
+    		
+    		
     		
     		
     		<!--             语音              -->
@@ -281,8 +326,6 @@ if(displayMeaning.length()>8)
 			soundId = "sound_"+$(this).attr("soundId");
 			document.getElementById(soundId).play();
 		});
-		
-		
 	})
 	</script>
 

@@ -184,6 +184,7 @@
                     for (var i = 0; i < state.fileBatch.length; i++) {
                         data.append('files[]', state.fileBatch[i].file, state.fileBatch[i].fileName);
                     }
+                    alert('图片上传中，请等待上传成功提示');
                     $.ajax({
                         type: 'POST',
                         url: options.ajaxUrl,
