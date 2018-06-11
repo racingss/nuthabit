@@ -9,8 +9,11 @@ long languageId = 0;
 if (request.getSession().getAttribute("languageId") != null) {
 	languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
 }
-String type=request.getParameter("type");
 
+String type=request.getParameter("type");
+String ext="";
+if(request.getParameter("cardId")!=null)
+	ext = "&cardId="+request.getParameter("cardId");
 %>    
 <!DOCTYPE html>
 <html lang="zh"><head>
@@ -104,11 +107,11 @@ String type=request.getParameter("type");
 				  
 						%>
 						<div class="item" >
-								<a href="index.html?<%=type %>=<%=l.getLanguageId() %>" >
+								<a href="?<%=type %>=<%=l.getLanguageId() %><%=ext %>" >
 					            	<img src="img/play.png" class="headpng">
 					            
 					            <h3 >
-					            	<a href="index.html?<%=type %>=<%=l.getLanguageId() %>" >
+					            	<a href="?<%=type %>=<%=l.getLanguageId() %><%=ext %>" >
 					            		<%=l.getLname()%>
 					            	</a>	
 					            </h3>

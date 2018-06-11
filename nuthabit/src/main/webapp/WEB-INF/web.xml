@@ -24,4 +24,44 @@
     <exception-type>java.lang.NullPointerException</exception-type>
     <location>/error.jsp</location>
   </error-page>
+  <servlet>
+    <description></description>
+    <display-name>Parents</display-name>
+    <servlet-name>Parents</servlet-name>
+    <servlet-class>com.babycard.servlet.Parents</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Parents</servlet-name>
+    <url-pattern>/Parents</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SubscribeServlet</display-name>
+    <servlet-name>SubscribeServlet</servlet-name>
+    <servlet-class>com.babycard.servlet.SubscribeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubscribeServlet</servlet-name>
+    <url-pattern>/SubscribeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DiscoverServlet</display-name>
+    <servlet-name>DiscoverServlet</servlet-name>
+    <servlet-class>com.babycard.servlet.DiscoverServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DiscoverServlet</servlet-name>
+    <url-pattern>/DiscoverServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CardDetailServlet</display-name>
+    <servlet-name>CardDetailServlet</servlet-name>
+    <servlet-class>com.babycard.servlet.CardDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CardDetailServlet</servlet-name>
+    <url-pattern>/CardDetailServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

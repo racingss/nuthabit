@@ -3,6 +3,7 @@ package com.babycard.servlet;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -23,6 +24,8 @@ import com.babycard.dao.Sound;
 import com.babycard.dao.SoundDAO;
 import com.babycard.dao.Study;
 import com.babycard.dao.StudyDAO;
+import com.babycard.util.KehuUtil;
+import com.babycard.util.LanguageHttp;
 
 @WebServlet("/card/test_iop.html")
 public class TestIOPServlet extends HttpServlet {
@@ -40,28 +43,54 @@ public class TestIOPServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
-		
-		Kehu k = new Kehu();
-		k.setId(1);
-		
-		// 语言切换
-		long languageId = 0;
-		if (request.getSession().getAttribute("languageId") != null) {
-			languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
+
+		Kehu k = new KehuUtil().getKehu(request, response);
+		if(k==null){
+			response.sendRedirect("/card/wx_login.jsp");
+			return;
 		}
-		if (request.getParameter("languageId") != null) {
-			languageId = Long.parseLong(request.getParameter("languageId"));
-			request.getSession().setAttribute("languageId", languageId);
+		
+
+		
+		// 语言
+		long languageId = new LanguageHttp().getLanguageId(request);
+
+		// 测试初始化
+		if (request.getParameter("cardId") != null) {
+			long cardId = Long.parseLong(request.getParameter("cardId"));
+			Collection testColl = new CardDAO().getCardPicByCardId(cardId);
+			request.getSession().setAttribute("testColl", testColl);
+			request.getRequestDispatcher("test_cardpic.jsp").forward(request, response);
+			return;
 		}
 
+		Collection testColl = (Collection) request.getSession().getAttribute("testColl");
+		Iterator it = testColl.iterator();
+		while (it.hasNext()) {
+			CardPic cp = (CardPic) it.next();
+
+			// 处理测试结果
+			if (request.getParameter("picId") != null) {
+				if (cp.getPicId() == Long.parseLong(request.getParameter("picId"))) {
+					cp.result = request.getParameter("result");
+					return;
+				}
+
+			}
+		}
+
+		request.getRequestDispatcher("test_cardpic.jsp").forward(request, response);
+
+		// 屏蔽老版本程序
+		if (true)
+			return;
 		StudyDAO daoStudy = new StudyDAO();
-
 		// 回答
 		if (request.getParameter("result") != null) {
 			Study sResult = daoStudy.getStudy(k.getId(), Long.parseLong(request.getParameter("cardId")));
 			sResult.setReviewDate(null);
-			if(request.getParameter("result").equals("s")){
-				sResult.setReviewLevel(sResult.getReviewLevel()+1);
+			if (request.getParameter("result").equals("s")) {
+				sResult.setReviewLevel(sResult.getReviewLevel() + 1);
 			}
 			daoStudy.update(sResult);
 		}
@@ -69,8 +98,8 @@ public class TestIOPServlet extends HttpServlet {
 		Study s = daoStudy.getStudy(k.getId());
 
 		CardDAO dao = new CardDAO();
-		Card c  = dao.getCardByCardId(s.getCardId());
-		CardMeaning cm = new CardMeaningDAO().getCardMeaning(c.getCardId(),languageId);
+		Card c = dao.getCardByCardId(s.getCardId());
+		CardMeaning cm = new CardMeaningDAO().getCardMeaning(c.getCardId(), 0, languageId);
 
 		// 获取卡片图片
 		Collection cardColl = dao.getCardPicByCardId(c.getCardId());
@@ -81,16 +110,17 @@ public class TestIOPServlet extends HttpServlet {
 		request.setAttribute("cardTest", cardTest);
 		request.setAttribute("cardColl", cardColl);
 		request.setAttribute("cardCollTest", dao.getCardPicByCardId(cardTest.getCardId()));
+
+		// 获取成功和失败语音，临时
+//		Object soundObjsSucc[] = new SoundDAO().getSoundColl("SUCC_CN");
+//		String soundSuss = ((Sound) soundObjsSucc[new Random().nextInt(soundObjsSucc.length)]).getSoundUrl();
+//
+//		Object soundObjs[] = new SoundDAO().getSoundColl("FAILED_CN");
+//		String soundFail = ((Sound) soundObjs[new Random().nextInt(soundObjs.length)]).getSoundUrl();
+//		request.setAttribute("soundSuss", soundSuss);
+//		request.setAttribute("soundFail", soundFail);
 		
-		//获取成功和失败语音，临时
-		Object soundObjsSucc[] = new SoundDAO().getSoundColl("SUCC_CN");
-		String soundSuss = ((Sound) soundObjsSucc[new Random().nextInt(soundObjsSucc.length)]).getSoundUrl();
-		
-		Object soundObjs[] = new SoundDAO().getSoundColl("FAILED_CN");
-		String soundFail = ((Sound) soundObjs[new Random().nextInt(soundObjs.length)]).getSoundUrl();
-		request.setAttribute("soundSuss", soundSuss);
-		request.setAttribute("soundFail", soundFail);
-		
+
 		request.getRequestDispatcher("test_iop.jsp").forward(request, response);
 	}
 

@@ -1,29 +1,24 @@
 <%@page import="java.net.URLDecoder"%>
-<%@ page language="java" import="com.babycard.dao.*,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 Collection tagColl = (Collection)request.getAttribute("tagColl");
 Collection myColl = (Collection)request.getAttribute("myColl");
 
 //切换语言
-long languageId = 0;
-if (request.getSession().getAttribute("languageId") != null) {
-	languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
-}
+long languageId = new LanguageHttp().getLanguageId(request);
+long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 
-long languageId_2 = -1;
-if (request.getSession().getAttribute("languageId_2") != null) {
-	languageId_2 = Long.parseLong(request.getSession().getAttribute("languageId_2").toString());
-}
-if(request.getParameter("languageId_2")!=null){
-	languageId_2 = Long.parseLong(request.getParameter("languageId_2").toString());
-	request.getSession().setAttribute("languageId_2", languageId_2);
-}
 if(request.getParameter("type")!=null){
 	languageId_2 = -1;
 	request.getSession().setAttribute("languageId_2", -1);
 }
 
+if(request.getParameter("cardId")!=null){
+	//转回卡片页面
+	response.sendRedirect("cardlist.html?static=t&cardId="+request.getParameter("cardId"));
+	return;
+}
 
 %>    
 <!DOCTYPE html>
@@ -105,17 +100,111 @@ if(request.getParameter("type")!=null){
 		background-color: #F57C02;
     	color: #fff;
 	}
+	
+	.inc-scroll-landscape-container { 
+	width: 100%; 
+	overflow: hidden; 
+}
+.inc-scroll-landscape-container > .inc-scroll-landscape-content {
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: scroll; /* 1 */
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    -webkit-overflow-scrolling: touch; /* 2 */
+    &::-webkit-scrollbar { display: none;}
+}
+.inc-scroll-landscape-container > .inc-scroll-landscape-content > ul {
+	margin: 0 5px;
+}
+.inc-scroll-landscape-container > .inc-scroll-landscape-content > ul > li { 
+	display: inline-block; 
+    text-align: center; 
+}
+
+.levelli{
+	display:block;
+	width:150px;
+	height:100px;
+	font-size:20px;
+}
+.titlediv{
+	font-size: 20px;
+    color: #e4d59f;
+    padding-left: 20px;
+    font-weight: 400;
+}
+.bookli{
+	overflow: hidden;
+    width: 80px;
+    height: 100px;
+    border-radius: 5px;
+    background: #FFF;
+}
 	</style>
 	<script type="text/javascript">
-	</script>
+	//获取缩略图盒子宽高后再执行缩放
+	function DrawImage_box(ImgID) {
+	    var width_img=$("#imgBox").width();
+	    var height_img=$("#imgBox").height();
+	    DrawImage(ImgID, width_img, height_img);
+	}
+	
+	
+	//图片缩放居中核心功能
+	function DrawImage(ImgID, width_s, height_s) {
+	    var image = new Image();
+	    image.src = ImgID.src;
+	    
+	    if (image.width > 0 && image.height > 0) {
+	    	flag = true;
+	        if (image.width / image.height <= width_s / height_s) {
+	            ImgID.width = width_s;
+	            var height = (image.height * width_s) / image.width;
+	            ImgID.height = height;
+	            ImgID.style.marginTop = -(height - height_s)/2 + "px";
+	        } else {
+	            ImgID.height = height_s;
+	            var width = (image.width * height_s) / image.height;
+	            ImgID.width = width;
+	            ImgID.style.marginLeft = -(width - width_s)/2 + "px";
+	        }
+	    }
+	}
+</script>  
 </head>
 <body style="background: #e8e8e8;">
 	<header>
 		<img alt="" src="img/head.png" style="width: 100%;margin: 0;">
 	</header>
+	<!--           最近阅读                     -->
+	<div class="inc-scroll-landscape-container">
+	    <div class="inc-scroll-landscape-content">
+	        <ul>
+	        	<%
+	        	if(true){
+		        	Iterator it = new CardDAO().getCardListByTag(47).iterator();
+		        	while(it.hasNext()){
+		        		Card recentCard = (Card)it.next();
+		        	%>
+		            <li class="bookli">
+		            	<a href="cardlist.html?static=t&cardId=<%=recentCard.getCardId()%>">
+		            		<img alt="" src="<%=recentCard.getImg() %>" onload="DrawImage(this, 70, 90)" />
+		            	</a>
+		            </li>
+		            <%}
+	        	}%>
+	        </ul>
+	     </div>
+	 </div> 
+	
+	
 	<div class="htmleaf-container">
 		
 		<section class="accordion">
+			
+		
+		
 			<!--           自建的卡片组                  -->
 			<%
 			Iterator myIt = myColl.iterator();
@@ -125,9 +214,9 @@ if(request.getParameter("type")!=null){
 		       <div class="item">
 		            <img src="img/<%=ct.getHeadpng() %>" class="headpng">
 		            <h3><%=ct.getTag() %>
-		            	<a href="#" class="deletecardgroup" tagId="<%=ct.getTagId() %>" >
+		            	<!-- a href="#" class="deletecardgroup" tagId="<%=ct.getTagId() %>" >
 		            		<img alt="" src="img/delete.png" style="width:18px;padding-left: 5px;">
-		            	</a>
+		            	</a-->
 		            	<a href="#" class="">
 		            		<img alt="" src="img/lock.png" style="width:18px;padding-left: 5px;">
 		            	</a>
@@ -162,7 +251,7 @@ if(request.getParameter("type")!=null){
 		            			<a href="cardlist.html?static=t&cardId=<%=c.getCardId()%>&tagId=<%=ct.getTagId()%>">
 		            				<img alt="" src="<%=c.getImg() %>" style="margin-top:10px;width:90%;" class="card">
 		            				<br/>
-		            				<%=c.getMeaning() %>
+		            				<%=c.getMeaning(languageId,c.getCardId()) %>
 		            			</a>
 		            		</span>
     						<%
@@ -188,32 +277,8 @@ if(request.getParameter("type")!=null){
 		            <%=CardTagLanguage.getTagLanguage(ct.getTagId(), languageId) %></h3>
 		       </div>
 		            <p>
-		            <span class="carddetail" style="background: #fff;
-	    border-radius: .1rem;
-	    padding: 20px;
-	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
-	    display: inline-block;
-	    margin: 10px;
-	    color: #524f4f;
-	    width:80%;">
-		            	<%=Menu.getMenu("tag_detail", languageId) %>：20个常见的动物
-		            	<br/><%=Menu.getMenu("tag_pic_count", languageId) %>：100  
-		            	<br/><%=Menu.getMenu("tag_sound_count", languageId) %>：38
-		            	<br/><%=Menu.getMenu("tag_use", languageId) %>：<%=Menu.getMenu("free", languageId) %> 
-		            	<br/><%=Menu.getMenu("get_point", languageId) %>：50
-		            	<br/><%=Menu.getMenu("support_language", languageId) %>：🇨🇳🇺🇸🇯
-		            	<br/>
-		            	<br/>
-		            	<a href="cardlist.html?tagId=<%=ct.getTagId()%>">
-		            		<button type="button" class="btn btn-green btnwidth40" ><%=Menu.getMenu("study", languageId) %><i class="fa fa-book"></i></button>
-		            	</a>
-		            	<a href="test_iop.html">
-		            		<button type="button" class="btn btn-orange btnwidth40"><%=Menu.getMenu("test", languageId) %><i class="fa fa-book"></i></button>
-		            	</a>
-		            </span>
-		            <span>
-		            	
-		            </span>
+		            
+		            
 		            <%
 		            int i=0;
 		            if(true){
@@ -240,7 +305,6 @@ if(request.getParameter("type")!=null){
 		            </p>
 		       <%} %> 
 		       <div class="item" style="position: sticky;bottom: -5px;height: 60px;background-color: #2f89f9;">
-		            
 		            <h3 style="text-align: center;width: 100%;padding: 0px;"><a href="create_own_card_create_tag.html" style="color:#ffe9c1"><%=Menu.getMenu("add_my_card", languageId) %></a></h3>
 		       </div>            
 		   </section>

@@ -22,6 +22,15 @@ public class Myplan {
 	private long serviceFlag = 0;
 	private String createDate = null;
 	private long thumbup = 0;
+	private long defaultFlag = 0;
+
+	public long getDefaultFlag() {
+		return defaultFlag;
+	}
+
+	public void setDefaultFlag(long defaultFlag) {
+		this.defaultFlag = defaultFlag;
+	}
 
 	public String getHeadimgurl() {
 		return headimgurl;
@@ -205,6 +214,7 @@ public class Myplan {
 			this.setCreateDate(rs.getString("createDate"));
 			this.setThumbup(rs.getLong("thumbup"));
 			this.setHeadimgurl(rs.getString("headimgurl"));
+			this.setDefaultFlag(rs.getLong("defaultFlag"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

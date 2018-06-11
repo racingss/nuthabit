@@ -1,6 +1,9 @@
 package com.babycard.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class CardPic {
 	private long picId = 0;
@@ -9,6 +12,17 @@ public class CardPic {
 	private String weburl = null;
 	private long cardId = 0;
 	private long favCount = 0;
+	private long mainPicId = 0;
+
+	public String result = "0"; // 0 have not test, 1 test failed, 2 test succ
+
+	public long getMainPicId() {
+		return mainPicId;
+	}
+
+	public void setMainPicId(long mainPicId) {
+		this.mainPicId = mainPicId;
+	}
 
 	public String getDisplayurl() {
 		return displayurl;
@@ -54,6 +68,31 @@ public class CardPic {
 		return cardpic;
 	}
 
+	public static Collection cardPicCOll = new ArrayList();
+
+	public static Collection getPicCollByMainPicId(long mainPicId) {
+		Iterator it = cardPicCOll.iterator();
+		while (it.hasNext()) {
+			Object obj[] = (Object[]) it.next();
+			if (Long.parseLong(obj[0].toString()) == mainPicId)
+				return (Collection) obj[1];
+		}
+		Collection temp = new CardPicDAO().getCardPicByMainCardId(mainPicId);
+		cardPicCOll.add(new Object[] { mainPicId, temp });
+		return temp;
+	}
+	
+	public static void rebuildPicCollByPicId(long picId) {
+		Iterator it = cardPicCOll.iterator();
+		while (it.hasNext()) {
+			Object obj[] = (Object[]) it.next();
+			if (Long.parseLong(obj[0].toString()) == picId)
+				obj[1]=new CardPicDAO().getCardPicByMainCardId(picId);
+		}
+	}
+	
+	
+
 	public String getImgurl() {
 		if (cardpic != null)
 			return "/" + cardpic;
@@ -76,6 +115,7 @@ public class CardPic {
 			this.setFavCount(rs.getLong("favCount"));
 			this.setDisplayurl(rs.getString("displayurl"));
 			this.setWeburl(rs.getString("weburl"));
+			this.setMainPicId(rs.getLong("mainPicId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,7 +125,8 @@ public class CardPic {
 	@Override
 	public String toString() {
 		return "CardPic [picId=" + picId + ", cardpic=" + cardpic + ", displayurl=" + displayurl + ", weburl=" + weburl
-				+ ", cardId=" + cardId + ", favCount=" + favCount + "]";
+				+ ", cardId=" + cardId + ", favCount=" + favCount + ", mainPicId=" + mainPicId + ", result=" + result
+				+ "]";
 	}
 
 }

@@ -40,7 +40,7 @@ Myplan m = (Myplan)request.getAttribute("plan");
         <a class="left back" onclick="goBack()"></a>
         <span>发布心得体会</span>
     </nav>
-    <!--form action="experience.html" method="post" enctype="multipart/form-data"  data-ajax="false"-->
+    <form action="experience.html" method="post" enctype="multipart/form-data"  data-ajax="false">
     <input type="hidden" name="processadd" value="t" />
     <input type="hidden" name="id" value="<%=m.getPlanId() %>" id="planId"/>
     <div>
@@ -93,7 +93,7 @@ Myplan m = (Myplan)request.getAttribute("plan");
         </div>
         <button class="submitBtn" id="signin">发布</button>
     </div>
-    <!--/form-->
+    </form>
     <div class="pageLast"></div>
 </div>
 <script src="js/IMGUP.js"></script>

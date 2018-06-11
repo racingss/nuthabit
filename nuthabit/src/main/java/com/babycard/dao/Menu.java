@@ -46,7 +46,15 @@ public class Menu {
 
 	}
 
-	private static Collection menuColl = null;
+	public static String getTitle(long languageId) {
+		if (languageId == 0 ||languageId == 3 ||languageId == 25 ||languageId == 27)
+			return "卡片点点";
+		else
+			return "Cardpopo";
+
+	}
+
+	public static Collection menuColl = null;
 
 	public static String getMenu(String menuType, long languageId) {
 		if (menuColl == null)
@@ -66,6 +74,8 @@ public class Menu {
 			it = menuColl.iterator();
 			while (it.hasNext()) {
 				Menu m = (Menu) it.next();
+				if(m.getMenuType()==null)
+					continue;
 				if (m.getLanguageId() == 1 && m.getMenuType().equals(menuType))
 					return m.getMenuCont();
 			}

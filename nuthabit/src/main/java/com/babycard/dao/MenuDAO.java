@@ -75,7 +75,7 @@ public class MenuDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_menu where languageId=0");
+			ps = conn.prepareStatement("select * from baby_menu where languageId=0 order by menuId desc");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				coll.add(new Menu(rs));
@@ -125,16 +125,16 @@ public class MenuDAO extends SampleDAO {
 
 		TransApi api = new TransApi(Main.APP_ID, Main.SECURITY_KEY);
 
-		try {
-			while (menuIt.hasNext()) {
-				Menu m = (Menu) menuIt.next();
-				System.out.println(m.toString());
+		while (menuIt.hasNext()) {
+			Menu m = (Menu) menuIt.next();
+			System.out.println(m.toString());
 
-				Iterator it = coll.iterator();
-				while (it.hasNext()) {
-					Language l = (Language) it.next();
-					if (dao.getMenu(l.getLanguageId(), m.getMenuType()) != null)
-						continue;
+			Iterator it = coll.iterator();
+			while (it.hasNext()) {
+				Language l = (Language) it.next();
+				if (dao.getMenu(l.getLanguageId(), m.getMenuType()) != null)
+					continue;
+				try {
 
 					String r = api.getTransResult(m.getMenuCont(), "zh", l.getSname());
 					JSONObject json = JSONObject.fromObject(r.toString());
@@ -146,21 +146,16 @@ public class MenuDAO extends SampleDAO {
 
 					System.out.println("目标语言：" + json1.get("dst"));
 					dao.addMenu(m.getMenuType(), json1.get("dst").toString(), l.getLanguageId());
-
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
+					Thread.sleep(100);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
+
 	}
 
 }

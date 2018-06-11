@@ -10,7 +10,7 @@ public class KehuDAO extends SampleDAO {
 	public KehuDAO() {
 	}
 
-	public Kehu addKehu(Kehu k){
+	public Kehu addKehu(Kehu k) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -208,7 +208,7 @@ public class KehuDAO extends SampleDAO {
 		return;
 	}
 
-	public void updateJifen(Kehu k, long jifen) throws Exception {
+	public boolean updateJifen(long kId, long jifen, boolean plus, String desc) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -217,9 +217,86 @@ public class KehuDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("update kehu set jifen+=? where id=? ");
+			long balance = 0;
+			ps = conn.prepareStatement("select * from kehu where id=?");
+			ps.setLong(1, kId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				balance = rs.getLong("jifen");
+			}
+			rs.close();
+			ps.close();
+
+			if (plus) {
+				balance += jifen;
+				ps = conn.prepareStatement("update kehu set jifen =jifen+? where id=? ");
+			} else {
+				balance -= jifen;
+				if (balance < 0) {
+					System.err.println("积分不够:" + kId + ":" + balance + ":" + plus + ":" + balance + ":" + ":" + jifen);
+					return false;
+				}
+				ps = conn.prepareStatement("update kehu set jifen =jifen-? where id=? ");
+			}
 			ps.setLong(1, jifen);
-			ps.setLong(2, k.getId());
+			ps.setLong(2, kId);
+			ps.executeUpdate();
+			ps.close();
+
+			ps = conn.prepareStatement(
+					"insert into kehu_jifen_history(kId,point,jifenDate,description,balance)values(?,?,?,?,?)");
+			ps.setLong(1, kId);
+			ps.setLong(2, jifen);
+			ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			ps.setString(4, desc);
+			ps.setLong(5, balance);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return false;
+	}
+
+	public void addMember(KehuCardMember k) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from kehu_card_member where kId=?");
+			ps.setLong(1, k.getkId());
+			rs = ps.executeQuery();
+			KehuCardMember temp = null;
+			if (rs.next()) {
+				temp = new KehuCardMember(rs);
+			}
+			rs.close();
+			ps.close();
+
+			if (temp == null) {
+				ps = conn.prepareStatement(
+						"insert into kehu_card_member(kId,memberLevel,createDate,closeDate)values(?,?,?,?)");
+				ps.setLong(1, k.getkId());
+				ps.setLong(2, k.getMemberLevel());
+				ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+				ps.setTimestamp(4, k.getCloseDate());
+			} else {
+				ps = conn.prepareStatement(
+						"update kehu_card_member set memberLevel=?,createDate=?,closeDate=? where kId=?");
+				k.rebuild(temp.getCloseDate());
+				ps.setLong(1, k.getMemberLevel());
+				ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+				ps.setTimestamp(3, k.getCloseDate());
+				ps.setLong(4, k.getkId());
+			}
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -229,6 +306,34 @@ public class KehuDAO extends SampleDAO {
 		}
 
 		return;
+	}
+
+	public KehuCardMember getMember(long kId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		KehuCardMember temp = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from kehu_card_member where kId=?");
+			ps.setLong(1, kId);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				temp = new KehuCardMember(rs);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return temp;
 	}
 
 	public void denglu(Kehu k) throws Exception {
@@ -274,6 +379,32 @@ public class KehuDAO extends SampleDAO {
 			if (rs.next())
 				k = new Kehu(rs);
 			System.out.println((new StringBuilder("kehuDAO :")).append(ps.toString()).toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return k;
+	}
+	
+	public Kehu getKehuById(long id) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		Kehu k;
+		conn = null;
+		ps = null;
+		rs = null;
+		k = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from kehu where id=?");
+			ps.setLong(1, id);
+			rs = ps.executeQuery();
+			if (rs.next())
+				k = new Kehu(rs);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -415,37 +546,8 @@ public class KehuDAO extends SampleDAO {
 		}
 		return k;
 	}
-	
-	public static void main(String[] arg) {
-		System.out.println("开始");
-		Iterator it = new KehuDAO().getAll().iterator();// .getAllByShouji("13601621719").iterator();
-		// .getAll().iterator();//
-		int i = 0;
-		while (it.hasNext()) {
-			Kehu k = (Kehu) it.next();
-		    //System.out.println(k.toString());
-			//
-			// HongbaoDAO dao = new HongbaoDAO();
-			// Hongbao h = dao.getMaxCanUse(k.getKehuId(), 1000);
-			// if(h!=null){
-			// System.out.println(h.toString());
-			// }else{
-			// ++i;
-			System.out.println("发红包了:" + i);
-			//Fahongbao.kuaisufabao(k.getKehuId(), k.getShouji(), 20, 100, 14);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// }
-		}
 
-		System.out.println("结束,发了:" + i + "红包");
-	}
-	
-	public Kehu updateKehu(Kehu k){
+	public Kehu updateKehu(Kehu k) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -482,4 +584,64 @@ public class KehuDAO extends SampleDAO {
 		}
 		return getKehu("kehuId", k.getKehuId());
 	}
+
+	public static void main(String[] arg) {
+		System.out.println(new KehuDAO().getKehuById(2670).toString());
+		
+		if (true)
+			return;
+
+		
+		
+		System.out.println(new KehuDAO().getMember(2));
+		System.out.println(new KehuDAO().getMember(3));
+		System.out.println(new KehuDAO().getMember(8));
+
+		if (true)
+			return;
+
+		KehuCardMember m = new KehuCardMember();
+
+		m.setkId(8);
+		m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
+		new KehuDAO().addMember(m);
+
+		if (true)
+			return;
+
+		new KehuDAO().updateJifen(159, 100, true, "注册");
+		new KehuDAO().updateJifen(159, 10, true, "登录");
+		new KehuDAO().updateJifen(159, 30, false, "看书");
+		new KehuDAO().updateJifen(159, 91, false, "年付");
+
+		if (true)
+			return;
+		System.out.println("开始");
+		Iterator it = new KehuDAO().getAll().iterator();// .getAllByShouji("13601621719").iterator();
+		// .getAll().iterator();//
+		int i = 0;
+		while (it.hasNext()) {
+			Kehu k = (Kehu) it.next();
+			// System.out.println(k.toString());
+			//
+			// HongbaoDAO dao = new HongbaoDAO();
+			// Hongbao h = dao.getMaxCanUse(k.getKehuId(), 1000);
+			// if(h!=null){
+			// System.out.println(h.toString());
+			// }else{
+			// ++i;
+			System.out.println("发红包了:" + i);
+			// Fahongbao.kuaisufabao(k.getKehuId(), k.getShouji(), 20, 100, 14);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// }
+		}
+
+		System.out.println("结束,发了:" + i + "红包");
+	}
+
 }

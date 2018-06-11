@@ -1,6 +1,7 @@
 package com.babycard.servlet;
 
 import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServlet;
 
 import java.awt.Graphics;
@@ -29,8 +30,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 
 import com.babycard.dao.*;
+import com.babycard.util.*;
 
-@WebServlet("/card/index.html")
+@WebServlet("/diandian/index.html")
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -49,27 +51,31 @@ public class MainServlet extends HttpServlet {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
-
-			if (tagColl == null || request.getParameter("reload") != null) {
-				tagColl = new TagDAO().getMainTagList();
-			}
 			
+			Kehu k = new KehuUtil().getKehu(request, response);
+			if(k==null){
+				response.sendRedirect("/card/wx_login.jsp");
+				return;
+			}
 
 			// 语言切换
-			long languageId = 0;
-			if (request.getSession().getAttribute("languageId") != null) {
-				languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
-			}
-			if (request.getParameter("languageId") != null) {
-				languageId = Long.parseLong(request.getParameter("languageId"));
-				request.getSession().setAttribute("languageId", languageId);
-			}
+			long languageId = new LanguageHttp().getLanguageId(request);
 			
+			CardDAO dao = new CardDAO();
+			
+			//taglist
+			request.setAttribute("tagColl", new TagDAO().getMainTagList());
 
-			request.setAttribute("myColl", new TagDAO().getMyTagList(1));
+			//最新上架
+			request.setAttribute("favColl", dao.getCardListFav(k.getId()));
+			//最新上架
+			request.setAttribute("newColl", dao.getCardListByIndex(999));
+			//我创建的
+			request.setAttribute("myColl", dao.getCardListByKid(k.getId()));
+			//越近阅读
+			request.setAttribute("myRecentColl", dao.getCardListRecent(k.getId()));
 
-			request.setAttribute("tagColl", tagColl);
-			request.getRequestDispatcher("main.jsp").forward(request, response);
+			request.getRequestDispatcher("/diandian/home.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

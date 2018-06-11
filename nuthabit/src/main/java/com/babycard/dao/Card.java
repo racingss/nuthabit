@@ -11,6 +11,33 @@ public class Card {
 	private long picCount = 0;
 	private long favCount = 0;
 	private long cardIndex = 0;
+	private long age = 0;
+	private String defaultPic = null;
+	private long kId = 0;
+
+	public long getkId() {
+		return kId;
+	}
+
+	public void setkId(long kId) {
+		this.kId = kId;
+	}
+
+	public String getDefaultPic() {
+		return defaultPic;
+	}
+
+	public void setDefaultPic(String defaultPic) {
+		this.defaultPic = defaultPic;
+	}
+
+	public long getAge() {
+		return age;
+	}
+
+	public void setAge(long age) {
+		this.age = age;
+	}
 
 	public long getCardIndex() {
 		return cardIndex;
@@ -23,21 +50,32 @@ public class Card {
 	public Collection cardMeaningColl = null;
 	public Collection cardSoundColl = null;
 
-	public String getMeaning(long languageId,long cardId) {
-		if(cardMeaningColl==null)
+	public String getMeaning(long languageId, long cardId) {
+		if (cardMeaningColl == null)
 			cardMeaningColl = new CardMeaningDAO().getAllCardMeaning();
 		Iterator it = cardMeaningColl.iterator();
 		while (it.hasNext()) {
 			CardMeaning cm = (CardMeaning) it.next();
-			if (cm.getLanguageId() == languageId && cm.getCardId()==cardId)
+			if (cm.getLanguageId() == languageId && cm.getCardId() == cardId) {
 				return cm.getMeaning();
+			}
 		}
-		CardMeaning cm = new CardMeaningDAO().getCardMeaning(cardId, languageId);
-		if(cm!=null){
+		CardMeaning cm = new CardMeaningDAO().getCardMeaning(cardId, 0, languageId);
+		if (cm != null) {
 			cardMeaningColl.add(cm);
 			return cm.getMeaning();
 		}
-				
+
+		//如果没有，就自动翻译
+		if (languageId != 0) {
+			new CardMeaningDAO().buildMeaningByCardId(cardId, languageId);
+			cm = new CardMeaningDAO().getCardMeaning(cardId, 0, languageId);
+			if (cm != null) {
+				cardMeaningColl.add(cm);
+				return cm.getMeaning();
+			}
+		}
+
 		return "";
 	}
 
@@ -73,9 +111,12 @@ public class Card {
 		this.meaning = meaning;
 	}
 
-	private static Collection cardPicColl = null;
+	public static Collection cardPicColl = null;
 
 	public String getImg() {
+		if (defaultPic != null)
+			return "/" + defaultPic;
+
 		if (cardPicColl == null)
 			cardPicColl = new CardDAO().getCardPicCollection();
 		Iterator it = cardPicColl.iterator();
@@ -92,11 +133,11 @@ public class Card {
 			if (cp.getCardId() == cardId)
 				return cp.getImgurl();
 		}
+		return "/card/img/magic-book.png";
 
-		return "没找到";
 	}
 
-	private static Collection cardprivateColl = new ArrayList();
+	public static Collection cardprivateColl = new ArrayList();
 
 	public static Card getStaticCard(long cardId) {
 		Iterator it = cardprivateColl.iterator();
@@ -125,6 +166,9 @@ public class Card {
 			this.setPicCount(rs.getLong("picCount"));
 			this.setFavCount(rs.getLong("favCount"));
 			this.setCardIndex(rs.getLong("cardIndex"));
+			this.setAge(rs.getLong("age"));
+			this.setDefaultPic(rs.getString("defaultPic"));
+			this.setkId(rs.getLong("kId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,7 +178,8 @@ public class Card {
 	@Override
 	public String toString() {
 		return "Card [cardId=" + cardId + ", meaning=" + meaning + ", picCount=" + picCount + ", favCount=" + favCount
-				+ ", cardIndex=" + cardIndex + "]";
+				+ ", cardIndex=" + cardIndex + ", age=" + age + ", defaultPic=" + defaultPic + ", kId=" + kId
+				+ ", cardMeaningColl=" + cardMeaningColl + ", cardSoundColl=" + cardSoundColl + "]";
 	}
 
 }

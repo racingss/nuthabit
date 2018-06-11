@@ -1,15 +1,27 @@
 package com.babycard.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class CardMeaning {
 	private long meaningId = 0;
 	// 0 中文 ，1 英 ，2 上海话
 	private long languageId = 0;
-	private String meaning = null;
+	private String meaning = "";
 	private long cardId = 0;
 	private String sound = null;
 	private String soundQue = null;
+	private long picId = 0;
+
+	public long getPicId() {
+		return picId;
+	}
+
+	public void setPicId(long picId) {
+		this.picId = picId;
+	}
 
 	public String getSoundQue() {
 		return soundQue;
@@ -87,16 +99,46 @@ public class CardMeaning {
 			this.setCardId(rs.getLong("cardId"));
 			// this.setSound(rs.getString("sound"));
 			this.setSoundQue(rs.getString("soundQue"));
+			this.setPicId(rs.getLong("picId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public static Collection meaningColl = null;
+
+	public static CardMeaning getStaticCard(long picId, long languageId) {
+		try {
+			CardMeaningDAO dao = new CardMeaningDAO();
+			if (meaningColl == null)
+				meaningColl = dao.getAllCardMeaning();
+			Iterator it = meaningColl.iterator();
+			while (it.hasNext()) {
+				CardMeaning cm = (CardMeaning) it.next();
+				if (cm == null)
+					continue;
+				if (cm.getPicId() == picId && cm.getLanguageId() == languageId)
+					return cm;
+			}
+
+			// 重新翻译
+			dao.buildMeaning(picId, languageId);
+			CardMeaning temp = new CardMeaningDAO().getCardMeaningByPicId(picId, languageId);
+			meaningColl.add(temp);
+			return temp;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 	@Override
 	public String toString() {
 		return "CardMeaning [meaningId=" + meaningId + ", languageId=" + languageId + ", meaning=" + meaning
-				+ ", cardId=" + cardId + ", sound=" + sound + ", soundQue=" + soundQue + "]";
+				+ ", cardId=" + cardId + ", sound=" + sound + ", soundQue=" + soundQue + ", picId=" + picId + "]";
 	}
 
 }

@@ -1,13 +1,16 @@
 <%@page import="java.net.URLDecoder"%>
-<%@ page language="java" import="com.babycard.dao.*,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+long languageId = new LanguageHttp().getLanguageId(request);
+%>
 <!doctype html>
 <html lang="zh" class="no-js">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>上传</title>
+	<title><%=Menu.getTitle(languageId) %></title>
 	<link rel="stylesheet" type="text/css" href="css/default_uploadfile.css" />
 	<link rel="stylesheet" type="text/css" href="css/component_uploadfile.css" />
 	<link rel="stylesheet" type="text/css" href="css/demo.css">
@@ -22,17 +25,53 @@
     padding: 0;
     font-weight: normal;
     line-height: inherit;
-    background: #e8e8e8;
+    background-image: url(/diandian/frame/home-18.jpg);
     color: #404d5b;">
-<section class="content bgcolor-3">    
-    <h2 style="opacity: 0.9;text-align: center;font-size: 150%;margin: 0;">上传您的语音/图片</h2>
+<section class="content">    
+    <h2 style="opacity: 0.9;text-align: center;font-size: 150%;margin: 0;">
+    	<%if(request.getParameter("cover")!=null) {%>
+    		<%=Menu.getMenu("upload_1", languageId) %>：80X108）
+    	<%}else if(request.getParameter("sound")!=null) {%>
+			<%=Menu.getMenu("upload_2", languageId) %>
+		<%}else{ %>
+    		<%=Menu.getMenu("upload_3", languageId) %>
+    	<%} %>
+    </h2>
+	
 	
 	<form action="uploadbabycard.html" method="post" enctype="multipart/form-data"  data-ajax="false">
 	
 	<input type="hidden" name="cardId" value="<%=request.getParameter("cardId") %>" />    	
    	<input type="hidden" name="sound" value="t" />
-   	<input type="hidden" name="languageId" value="<%=request.getParameter("languageId") %>" />
+   	<%
+   	if(request.getParameter("languageId")!=null){
+   	%>
+   		<input type="hidden" name="languageId" value="<%=request.getParameter("languageId") %>" />
+   	<%} %>
+   	
+   	<%
+   	if(request.getParameter("picId")!=null){
+   	%>
+   		<input type="hidden" name="picId" value="<%=request.getParameter("picId") %>" />
+   	<%} %>
+   	
+   	<%
+   	if(request.getParameter("cover")!=null){
+   	%>
+   		<input type="hidden" name="cover" value="t" />
+   	<%} %>
+   	
+   	<%
+   	if(request.getParameter("mainPicId")!=null){
+   	%>
+   		<input type="hidden" name="mainPicId" value="<%=request.getParameter("mainPicId") %>" />
+   	<%} %>
 	
+	<%
+   	if(request.getParameter("slide")!=null){
+   	%>
+   		<input type="hidden" name="slide" value="<%=request.getParameter("slide") %>" />
+   	<%} %>
 	<div class="container">
 			<div class="content">
 				
@@ -47,7 +86,7 @@
 	</div><!-- /container -->
 	
 	<p style="text-align:center;">
-		<button type="submit" class="bigbutom" style="font-size: 25px;padding: 10px;">上传</button>
+		<button type="submit" class="bigbutom" style="font-size: 25px;padding: 10px;"><%=Menu.getMenu("upload_but", languageId) %></button>
 	</p>
 	
 	</form>

@@ -29,6 +29,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 
 import com.babycard.dao.*;
+import com.babycard.util.LanguageHttp;
 
 @WebServlet("/card/language.html")
 public class LanguageServlet extends HttpServlet {
@@ -49,9 +50,22 @@ public class LanguageServlet extends HttpServlet {
 
 		try {
 
-			request.setAttribute("languageColl", Language.languageColl);
+			long languageId = new LanguageHttp().getLanguageId(request);
+			long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 
-			request.getRequestDispatcher("language.jsp").forward(request, response);
+			if (request.getParameter("type") != null) {
+				request.setAttribute("languageColl", Language.languageColl);
+				request.getRequestDispatcher("language.jsp").forward(request, response);
+				return;
+			}
+
+			if (request.getParameter("cardId") != null) {
+				response.sendRedirect("/card/cardlist.html?cardId=" + request.getParameter("cardId"));
+				return;
+			} else {
+				response.sendRedirect("/diandian/");
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

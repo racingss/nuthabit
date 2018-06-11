@@ -14,8 +14,8 @@ public class Main {
 	public static void main(String[] args) {
 		TransApi api = new TransApi(APP_ID, SECURITY_KEY);
 
-		String query = "";
-		String r = api.getTransResult(query, "zh", "wyw");
+		String query = "鹅鹅鹅，曲项向天歌。白毛浮绿水，红掌拨清波。";
+		String r = api.getTransResult(query, "wyw", "zh");
 		JSONObject json = JSONObject.fromObject(r.toString());
 		String str1 = json.get("trans_result").toString();
 		// 去掉[]

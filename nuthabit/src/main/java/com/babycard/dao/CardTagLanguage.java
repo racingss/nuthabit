@@ -47,7 +47,7 @@ public class CardTagLanguage {
 
 	}
 
-	private static Collection languageColl = null;
+	public static Collection languageColl = null;
 
 	public static String getTagLanguage(long tagId, long languageId) {
 		if (languageColl == null)

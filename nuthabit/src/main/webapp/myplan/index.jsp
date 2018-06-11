@@ -113,12 +113,40 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
         <a class="right add" href="pubPlan.jsp?rand=<%=System.currentTimeMillis() %>"></a>
     </nav>
     <div>
-    	<div id="newMessageDiv" class="newMess">
+    	<!--div id="newMessageDiv" class="newMess">
             <div class="img">
                 <img src="frame/hd-1.png">
             </div>
             <span>1条新信息</span>
-        </div>
+        </div-->
+        
+        
+        <div class="todayPlan">
+        	<div class="item">
+                <div class="left">
+                    <div>
+                        <h4><a href="pubList.jsp" style="color: #79b621;">任务列表</a></h4>
+                        
+                    </div>
+                    <span>
+                    <%
+                    Myplan defaultP = (Myplan)request.getAttribute("default");
+                    if(defaultP==null){
+                    	%>
+                    	<a href="pubList.jsp">添加</a>
+                    	<%
+                    }else{
+                    	%>
+                    	<%=defaultP.getDiscription() %> 
+                    	<%
+                    }
+                    %>
+                    </span>
+                </div>
+        	</div>
+        </div>	
+        
+        
         <h4 class="title"><img src="frame/h4-1.png">今日目标</h4>
         <div class="todayPlan">
         	
@@ -129,6 +157,8 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
         <%
         while(it.hasNext()){
         Myplan m = (Myplan)it.next();
+        if(m.getDefaultFlag()!=0)
+        	continue;
         if(m.isToday()){
         %>
             <div class="item">
@@ -163,6 +193,8 @@ Collection plancoll = (Collection)request.getAttribute("plancoll");
         <%
             while(it.hasNext()){
                 Myplan m = (Myplan)it.next();
+                if(m.getDefaultFlag()!=0)
+                	continue;
                 if(!m.isToday()){
         %>
             <div class="item">

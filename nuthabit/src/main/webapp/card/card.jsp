@@ -2,7 +2,6 @@
 <%@ page language="java" import="com.babycard.dao.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-System.out.println("cardjsp");
 Card c = (Card)request.getAttribute("card");
 Collection cardColl = (Collection)request.getAttribute("cardColl");
 CardPic p = (CardPic)cardColl.iterator().next();

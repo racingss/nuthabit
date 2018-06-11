@@ -1,10 +1,12 @@
 package com.babycard.servlet;
 
 import java.awt.Graphics;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,14 +31,13 @@ import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.babycard.dao.CardDAO;
+import com.babycard.dao.CardMeaningDAO;
+import com.babycard.dao.CardPic;
+import com.babycard.dao.CardPicDAO;
 import com.babycard.dao.CardSound;
-import com.nuthabit.dao.Kehu;
-import com.nuthabit.dao.Myplan;
-import com.nuthabit.dao.MyplanDAO;
-import com.nuthabit.dao.MyplanExperience;
-import com.nuthabit.dao.MyplanHistory;
-import com.nuthabit.model.Message;
-import com.nuthabit.websocket.MessageWebsocketServer;
+import com.babycard.dao.Kehu;
+import com.babycard.dao.SoundDAO;
+import com.babycard.util.KehuUtil;
 
 @WebServlet("/card/uploadbabycard.html")
 public class UploadBabyCardServlet extends HttpServlet {
@@ -57,14 +58,11 @@ public class UploadBabyCardServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
-		// Kehu k = null;
-		// if (request.getSession().getAttribute("kehu") != null) {
-		// k = (Kehu) request.getSession().getAttribute("kehu");
-		// } else {
-		// request.getRequestDispatcher("loginwx.jsp").forward(request,
-		// response);
-		// return;
-		// }
+		Kehu k = new KehuUtil().getKehu(request, response);
+		if (k == null) {
+			response.sendRedirect("/card/wx_login.jsp");
+			return;
+		}
 
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
@@ -108,13 +106,16 @@ public class UploadBabyCardServlet extends HttpServlet {
 		// 循环处理所有文件
 		int i = 0;
 		long cardId = 0;
-		long kehuId = 1;
+		long picId = 0;
+		long mainPicId = 0;
 		long languageId = 0;
 		long meaningId = 0;
+		String slide = null;
 		String sound = null;
 		String soundQue = null;
+		String cover = null;
 
-		while (fileItr.hasNext() && i <= 3) {
+		while (fileItr.hasNext() && i <= 8) {
 
 			FileItem fileItem = null;
 			String path2 = null;
@@ -125,8 +126,24 @@ public class UploadBabyCardServlet extends HttpServlet {
 				if ("cardId".equals(fileItem.getFieldName())) {
 					cardId = Long.parseLong(fileItem.getString("UTF-8"));
 				}
+				if ("picId".equals(fileItem.getFieldName())) {
+					picId = Long.parseLong(fileItem.getString("UTF-8"));
+				}
+
+				if ("mainPicId".equals(fileItem.getFieldName())) {
+					mainPicId = Long.parseLong(fileItem.getString("UTF-8"));
+				}
+
 				if ("sound".equals(fileItem.getFieldName())) {
 					sound = fileItem.getString("UTF-8");
+				}
+
+				if ("cover".equals(fileItem.getFieldName())) {
+					cover = fileItem.getString("UTF-8");
+				}
+
+				if ("slide".equals(fileItem.getFieldName())) {
+					slide = fileItem.getString("UTF-8");
 				}
 
 				if ("soundQue".equals(fileItem.getFieldName())) {
@@ -164,9 +181,10 @@ public class UploadBabyCardServlet extends HttpServlet {
 			int filetype = 0;// 0未知 1图片 2音频
 			String ext = path2.substring(path2.indexOf("."), path2.length());
 			if (ext.indexOf("jpg") != -1 || ext.indexOf("JPG") != -1 || ext.indexOf("gif") != -1
-					|| ext.indexOf("GIF") != -1 || ext.indexOf("png") != -1 || ext.indexOf("PNG") != -1) {
+					|| ext.indexOf("GIF") != -1 || ext.indexOf("png") != -1 || ext.indexOf("PNG") != -1
+					|| ext.indexOf("jpeg") != -1 || ext.indexOf("JPEG") != -1) {
 				filetype = 1;
-			}else if(ext.indexOf("mp3") != -1){
+			} else if (ext.indexOf("mp3") != -1) {
 				filetype = 2;
 			}
 
@@ -177,6 +195,8 @@ public class UploadBabyCardServlet extends HttpServlet {
 			String distp = path + pic;
 
 			System.out.println(i + "PATH******:" + distp);
+			System.out.println(cardId);
+			System.out.println(mainPicId);
 
 			try {
 				// 保存文件
@@ -209,36 +229,68 @@ public class UploadBabyCardServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			request.getSession().setAttribute("picurl", weburl + pic);
 			request.setAttribute("picurl", weburl + pic);
 
-			if (filetype == 1 && cardId!=0) {
-				new CardDAO().addCardPic(cardId, weburl + pic);
-				response.sendRedirect("/card/cardlist.html?static=t&cardId=" + cardId);
+			if (cover != null) {
+				// 上传封面
+				new CardDAO().updateCardDefaultPic(cardId, weburl + pic);
+				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
 				return;
-			} if (filetype == 2) {
+			}
+
+			if (filetype == 1 && cardId != 0) {
+				if (mainPicId != 0) {
+					// 插一张图片
+					new CardPicDAO().addOntherCardPic(mainPicId, weburl + pic);
+					// 重新初始化
+					CardPic.cardPicCOll = new ArrayList();
+					if (!fileItr.hasNext()) {
+						response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
+						return;
+					}
+				} else if (picId == 0) {
+					// 新增
+					System.out.println("新增");
+					CardPic cp = new CardDAO().addCardPic(cardId, weburl + pic);
+					if (!fileItr.hasNext()) {
+						response.sendRedirect(
+								"create_own_card_add_word.jsp?picId=" + cp.getPicId() + "&cardId=" + cardId);
+						return;
+					}
+				} else {
+					// 替换
+					System.out.println("替换");
+					new CardDAO().replaceCardPic(picId, weburl + pic);
+					if (!fileItr.hasNext()) {
+						response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
+						return;
+					}
+				}
+			}
+
+			if (filetype == 2) {
 				// 提交语音
 				CardSound cs = new CardSound();
 				cs.setCardId(cardId);
-				cs.setKehuId(kehuId);
+				cs.setKehuId(k.getId());
 				cs.setLanguageId(languageId);
 				cs.setSound(weburl + pic);
-				new CardDAO().addCardSound(cs);
-				response.sendRedirect("/card/cardlist.html?static=t&cardId=" + cardId);
+				cs.setPicId(picId);
+				new SoundDAO().addCardSound(cs, false);
+				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
 				return;
 			} else if (soundQue != null) {
 				// 提交问题语音
 				new CardDAO().cardMeaningSoundQue(meaningId, weburl + pic);
-				response.sendRedirect("/card/cardlist.html?static=t&cardId=" + cardId);
+				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
 				return;
 			}
-			
 
 		}
 		request.getRequestDispatcher("create_own_card_add_word.jsp").forward(request, response);
 
-		
 	}
 
 	/**

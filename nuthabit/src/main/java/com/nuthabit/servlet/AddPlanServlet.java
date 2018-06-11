@@ -52,7 +52,7 @@ public class AddPlanServlet extends HttpServlet {
 		if (request.getSession().getAttribute("kehu") != null) {
 			k = (Kehu) request.getSession().getAttribute("kehu");
 		} else {
-			request.getSession().setAttribute("sessionURL", request.getRequestURL()+"?"+request.getQueryString());
+			request.getSession().setAttribute("sessionURL", request.getRequestURL() + "?" + request.getQueryString());
 			request.getRequestDispatcher("loginwx.jsp").forward(request, response);
 			return;
 		}
@@ -105,6 +105,7 @@ public class AddPlanServlet extends HttpServlet {
 		String title = null;
 		String discription = null;
 		String id = null;
+		long defaultFlag = 0;
 
 		while (fileItr.hasNext()) {// && i < 3) {
 
@@ -129,6 +130,10 @@ public class AddPlanServlet extends HttpServlet {
 				}
 				if ("id".equals(fileItem.getFieldName())) {
 					id = fileItem.getString("UTF-8");
+				}
+
+				if ("defaultFlag".equals(fileItem.getFieldName())) {
+					defaultFlag = Long.parseLong(fileItem.getString("UTF-8"));
 				}
 
 				continue;// 非file域不处理
@@ -212,6 +217,7 @@ public class AddPlanServlet extends HttpServlet {
 			m.setKehuId(k.getKehuId());
 			m.setKehuNick(k.getNickname());
 			m.setHeadimgurl(k.getHeadimgurl());
+			m.setDefaultFlag(defaultFlag);
 
 			// System.out.println("AddplanServlet:"+m.toString());
 

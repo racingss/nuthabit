@@ -44,7 +44,7 @@ public class CardTag {
 		this.tag = tag;
 	}
 
-	private static Collection coll = null;
+	public static Collection coll = null;
 
 	public static CardTag getCartTagByTagId(long tagId) {
 		if (coll == null)

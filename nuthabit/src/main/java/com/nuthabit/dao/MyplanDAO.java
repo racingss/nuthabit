@@ -21,7 +21,7 @@ public class MyplanDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"insert into myplan (kehuId,title,times,discription,pic,planId,kehuNick,beginDate,endDate,privacyFlag,serviceFlag,createDate,headimgurl)values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					"insert into myplan (kehuId,title,times,discription,pic,planId,kehuNick,beginDate,endDate,privacyFlag,serviceFlag,createDate,headimgurl,defaultFlag)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, m.getKehuId());
 			ps.setString(2, m.getTitle());
 			ps.setString(3, m.getTimes());
@@ -35,6 +35,7 @@ public class MyplanDAO extends SampleDAO {
 			ps.setLong(11, m.getServiceFlag());
 			ps.setString(12, m.getCreateDate());
 			ps.setString(13, m.getHeadimgurl());
+			ps.setLong(14, m.getDefaultFlag());
 			ps.executeUpdate();
 
 		} catch (Exception e) {
@@ -96,10 +97,10 @@ public class MyplanDAO extends SampleDAO {
 			conn = getConnection();
 			ps = conn.prepareStatement(
 					"select planDate from myplan_history where planId=? and planDate between ? and ? order by planDate");
-			ps.setLong(1,planId);
+			ps.setLong(1, planId);
 			ps.setString(2, from);
 			ps.setString(3, to);
-			
+
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				if (dakaDateHistory == null) {
@@ -112,10 +113,10 @@ public class MyplanDAO extends SampleDAO {
 		} finally {
 			close(conn, ps, rs);
 		}
-		
+
 		return dakaDateHistory;
 	}
-	
+
 	public void experience(MyplanExperience h) {
 		Connection conn;
 		PreparedStatement ps;
@@ -150,9 +151,8 @@ public class MyplanDAO extends SampleDAO {
 	}
 
 	/**
-	 * 打卡处理
-	 * 1.新增打卡记录
-	 * 2.更新计划表
+	 * 打卡处理 1.新增打卡记录 2.更新计划表
+	 * 
 	 * @param m
 	 * @return
 	 */
@@ -207,18 +207,18 @@ public class MyplanDAO extends SampleDAO {
 			ps = conn.prepareStatement("select count(*) from myplan_history where planId=? and planDate=?");
 			ps.setLong(1, m.getId());
 			ps.setString(2, new java.text.SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-			rs = ps.executeQuery();			
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				dakaCount = rs.getInt(1);
-			}			
-		} catch(Exception e) {
-			
+			}
+		} catch (Exception e) {
+
 		} finally {
 			close(conn, ps, rs);
 		}
 		return dakaCount > 0;
 	}
-	
+
 	public void thumbup(MyplanThumbup m) {
 		Connection conn;
 		PreparedStatement ps;
@@ -332,6 +332,31 @@ public class MyplanDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 		return coll;
+	}
+
+	public Myplan getDefault(String kehuId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Myplan m = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from myplan where kehuId=? and defaultFlag=9");
+			ps.setString(1, kehuId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				m = new Myplan(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return m;
 	}
 
 	public Collection<MyplanHistory> getAllPlanHistyory(String planId) {

@@ -19,6 +19,7 @@ import com.babycard.dao.CardTag;
 import com.babycard.dao.Kehu;
 import com.babycard.dao.Study;
 import com.babycard.dao.StudyDAO;
+import com.babycard.util.KehuUtil;
 
 @WebServlet("/card/addcardpic.html")
 public class AddCardPicAjaxServlet extends HttpServlet {
@@ -37,8 +38,11 @@ public class AddCardPicAjaxServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
-		Kehu k = new Kehu();
-		k.setId(1);
+		Kehu k = new KehuUtil().getKehu(request, response);
+		if(k==null){
+			response.sendRedirect("/card/wx_login.jsp");
+			return;
+		}
 
 		CardDAO dao = new CardDAO();
 		long cardId = 0;

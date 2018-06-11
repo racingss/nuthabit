@@ -100,6 +100,9 @@ public class MyplanServlet extends HttpServlet {
 
 		Collection plancoll = dao.getAll(k.getKehuId());
 		request.setAttribute("plancoll", plancoll);
+		
+		request.setAttribute("default", dao.getDefault(k.getKehuId()));
+		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 

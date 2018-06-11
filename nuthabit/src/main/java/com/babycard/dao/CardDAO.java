@@ -14,6 +14,7 @@ import com.nuthabit.dao.Kehu;
 import com.nuthabit.dao.SampleDAO;
 
 public class CardDAO extends SampleDAO {
+	static long NUMS = 9;
 
 	public Card addCard(String meaning) {
 		Connection conn;
@@ -41,6 +42,145 @@ public class CardDAO extends SampleDAO {
 				ps.close();
 				return addCard(meaning);
 			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return c;
+	}
+
+	public void updateCardCount(long cardId, long count) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card set picCount=? where cardId=? ");
+			ps.setLong(1, count);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updateCardAge(long cardId, long age) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card set age=? where cardId=? ");
+			ps.setLong(1, age);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updateCardDefaultPic(long cardId, String defaultPic) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement("update baby_card set defaultPic =? where cardId=?");
+			ps.setString(1, defaultPic);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public Card deleteCard(long cardId, long kId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("delete from baby_card where cardId=? and kId=? ");
+			ps.setLong(1, cardId);
+			ps.setLong(2, kId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return c;
+	}
+
+	public Card addCard(String meaning, long kId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement("insert into baby_card(meaning,kId)values(?,?) ");
+			ps.setString(1, meaning);
+			ps.setLong(2, kId);
+			ps.executeUpdate();
+			ps.close();
+
+			ps = conn.prepareStatement("select * from baby_card where kId=? order by cardId desc");
+			ps.setLong(1, kId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				c = new Card(rs);
+			}
+
+			ps = conn
+					.prepareStatement("insert into baby_card_meaning(meaning,languageId,cardId,picId)values(?,0,?,0) ");
+			ps.setString(1, meaning);
+			ps.setLong(2, c.getCardId());
+			ps.executeUpdate();
+			ps.close();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -115,14 +255,14 @@ public class CardDAO extends SampleDAO {
 		return c;
 	}
 
-	public void addCardPic(long cardId, String cardPic) {
+	public CardPic addCardPic(long cardId, String cardPic) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
 		conn = null;
 		ps = null;
 		rs = null;
-
+		CardPic cp = null;
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement("insert into baby_card_pic(cardId,cardPic)values(?,?) ");
@@ -133,7 +273,37 @@ public class CardDAO extends SampleDAO {
 			ps = conn.prepareStatement("update baby_card set picCount=picCount+1 where cardId=? ");
 			ps.setLong(1, cardId);
 			ps.executeUpdate();
+			ps.close();
+			ps = conn.prepareStatement("select * from baby_card_pic where cardId=? and cardPic=?");
+			ps.setLong(1, cardId);
+			ps.setString(2, cardPic);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cp = new CardPic(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return cp;
+	}
 
+	public void replaceCardPic(long picId, String cardPic) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic cp = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set cardPic=? where picId=?");
+			ps.setString(1, cardPic);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -235,29 +405,6 @@ public class CardDAO extends SampleDAO {
 				ps.executeUpdate();
 
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn, ps, rs);
-		}
-	}
-
-	public void addCardSound(CardSound s) {
-		Connection conn;
-		PreparedStatement ps;
-		ResultSet rs;
-		conn = null;
-		ps = null;
-		rs = null;
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement("insert into baby_card_sound(languageId,cardId,sound,kehuId)values(?,?,?,?) ");
-			ps.setLong(1, s.getLanguageId());
-			ps.setLong(2, s.getCardId());
-			ps.setString(3, s.getSound());
-			ps.setLong(4, s.getKehuId());
-			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -413,7 +560,7 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 
-			ps = conn.prepareStatement("select * from baby_card_pic  where cardId=? order by favCount desc");
+			ps = conn.prepareStatement("select * from baby_card_pic  where cardId=? order by cardId ");
 			ps.setLong(1, cardId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -508,7 +655,7 @@ public class CardDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card where picCount>0 and cardId=?");
+			ps = conn.prepareStatement("select * from baby_card where cardId=?");
 			ps.setLong(1, cardId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -558,7 +705,38 @@ public class CardDAO extends SampleDAO {
 		return c;
 	}
 
-	public Collection getCardListByTag(long tagId) {
+	public Collection getCardListByTag(long tagId, long page) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+
+			StringBuffer sb = new StringBuffer(
+					"select * from baby_card where picCount>0 and cardId in( select cardId from baby_bind_card_tag where tagId=?) order by cardIndex limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			ps.setLong(1, tagId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getCardListRecent(long kehuId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -569,8 +747,197 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_card where picCount>0 and cardId in( select cardId from baby_bind_card_tag where tagId=?) order by cardIndex");
+					"select * from baby_card where cardId in( select cardId from baby_card_history where kId=? order by historyId desc) limit 0,5");
+			ps.setLong(1, kehuId);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getCardListByKid(long kId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where  kId=? order by cardId desc limit 0,20");
+			ps.setLong(1, kId);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getCardListFav(long kehuId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(
+					"select * from baby_card where cardId in( select cardId from baby_card_fav where kehuId=? order by favId desc) limit 0,20");
+			ps.setLong(1, kehuId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getCardListByTagAge(long tagId, long age) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(
+					"select * from baby_card where cardId in( select cardId from baby_bind_card_tag where tagId=?) and age=? order by cardIndex");
 			ps.setLong(1, tagId);
+			ps.setLong(2, age);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getCardListByAge(long age, long page) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			StringBuffer sb = new StringBuffer("select * from baby_card where age=? order by cardIndex limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			ps.setLong(1, age);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getAllCardList() {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection searchCard(String qString,long page) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			
+			StringBuffer sb = new StringBuffer(" select * from baby_card where meaning like '%" + qString + "%' limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
+	public Collection getCardListByIndex(long cardIndex) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement("select * from baby_card where cardIndex=?");
+			ps.setLong(1, cardIndex);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				coll.add(new Card(rs));
@@ -615,87 +982,6 @@ public class CardDAO extends SampleDAO {
 		}
 		return c;
 	}
-
-	public void deleteCardPic(long picId, long cardId) {
-		Connection conn;
-		PreparedStatement ps;
-		ResultSet rs;
-		conn = null;
-		ps = null;
-		rs = null;
-		CardPic p = null;
-
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement("delete from baby_card_pic  where picId=?");
-			ps.setLong(1, picId);
-			ps.executeUpdate();
-			ps.close();
-
-			ps = conn.prepareStatement("update  baby_card set picCount=picCount-1  where cardId=?");
-			ps.setLong(1, cardId);
-			ps.executeUpdate();
-			ps.close();
-
-			ps = conn.prepareStatement("select * from baby_card where cardId=?");
-			ps.setLong(1, cardId);
-			rs = ps.executeQuery();
-			Card c = null;
-			if (rs.next()) {
-				c = new Card(rs);
-			}
-			rs.close();
-			ps.close();
-
-			if (c == null) {
-				return;
-			}
-
-			if (c.getPicCount() < 1) {
-				// 没有图片，删除card
-				ps = conn.prepareStatement("delete from baby_card  where cardId=?");
-				ps.setLong(1, cardId);
-				ps.executeUpdate();
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn, ps, rs);
-		}
-	}
-
-	public void favCardPic(long picId, long cardId) {
-		Connection conn;
-		PreparedStatement ps;
-		ResultSet rs;
-		conn = null;
-		ps = null;
-		rs = null;
-		CardPic p = null;
-
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement("update  baby_card_pic set favCount=favCount+1  where picId=?");
-			ps.setLong(1, picId);
-			ps.executeUpdate();
-			ps.close();
-
-			ps = conn.prepareStatement("update  baby_card set favCount=favCount+1  where cardId=?");
-			ps.setLong(1, cardId);
-			ps.executeUpdate();
-			ps.close();
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn, ps, rs);
-		}
-	}
-
-	
 
 	public CardTag addCardTag(String tag) {
 		Connection conn;
@@ -912,7 +1198,29 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		Card c = dao.getCardByCardIndex(0, null, 15);
+
+		Iterator it = dao.getCardListRecent(2670).iterator();
+		while (it.hasNext()) {
+			Card c = (Card) it.next();
+			System.out.println(c.toString());
+		}
+
+		if (true)
+			return;
+
+		// Iterator it = dao.getAllCardList().iterator();
+		// while(it.hasNext()){
+		// Card c = (Card)it.next();
+		//
+		// long count = new CardPicDAO().getCardPicCountByCardId(c.getCardId());
+		//
+		// dao.updateCardCount(c.getCardId(), count);
+		//
+		//
+		// System.out.println(c.toString());
+		// System.out.println(count);
+		//
+		// }
 
 	}
 
