@@ -51,29 +51,39 @@ public class MainServlet extends HttpServlet {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
-			
+
 			Kehu k = new KehuUtil().getKehu(request, response);
-			if(k==null){
+
+			// 仅供测试
+			if (request.getParameter("adon") != null) {
+				k = new KehuDAO().getKehuById(2670);
+				request.getSession().setAttribute("kehu", k);
+			}
+
+			if (k == null) {
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}
 
 			// 语言切换
 			long languageId = new LanguageHttp().getLanguageId(request);
-			
+
 			CardDAO dao = new CardDAO();
-			
-			//taglist
+
+			// taglist
 			request.setAttribute("tagColl", new TagDAO().getMainTagList());
 
-			//最新上架
+			// 最新上架
 			request.setAttribute("favColl", dao.getCardListFav(k.getId()));
-			//最新上架
+			// 最新上架
 			request.setAttribute("newColl", dao.getCardListByIndex(999));
-			//我创建的
+			// 我创建的
 			request.setAttribute("myColl", dao.getCardListByKid(k.getId()));
-			//越近阅读
-			request.setAttribute("myRecentColl", dao.getCardListRecent(k.getId()));
+			// 越近阅读
+			CardCookie cookie = new CardCookie();
+			request.setAttribute("myRecentColl", cookie.showRecent(request, response));
+			// 搜索
+			request.setAttribute("searchHistory", new SearchDAO().getSearchBykId(k.getId()));
 
 			request.getRequestDispatcher("/diandian/home.jsp").forward(request, response);
 		} catch (Exception e) {

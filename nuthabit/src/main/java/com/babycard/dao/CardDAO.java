@@ -99,6 +99,35 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
+	
+	public void updateCardTag(long cardId, long tagId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("delete from baby_bind_card_tag where cardId=? ");
+			ps.setLong(1, cardId);
+			ps.executeUpdate();
+			
+			ps.close();
+			ps = conn.prepareStatement("insert into baby_bind_card_tag(cardId,tagId)values(?,?)");
+			ps.setLong(1, cardId);
+			ps.setLong(2, tagId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
 
 	public void updateCardDefaultPic(long cardId, String defaultPic) {
 		Connection conn;
@@ -924,6 +953,37 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
+	
+	public Collection searchCard(String qString,long page,long age) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			
+			StringBuffer sb = new StringBuffer(" select * from baby_card where meaning like '%" + qString + "%' and age=? limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			ps.setLong(1, age);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
 
 	public Collection getCardListByIndex(long cardIndex) {
 		Connection conn;
@@ -1198,12 +1258,15 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
+		dao.updateCardTag(2020, 8);
 
-		Iterator it = dao.getCardListRecent(2670).iterator();
-		while (it.hasNext()) {
-			Card c = (Card) it.next();
-			System.out.println(c.toString());
-		}
+//		Iterator it = dao.getCardListRecent(2670).iterator();
+//		while (it.hasNext()) {
+//			Card c = (Card) it.next();
+//			System.out.println(c.toString());
+//		}
+		
+		System.out.println(dao.searchCard("车", 1, 1).size());
 
 		if (true)
 			return;

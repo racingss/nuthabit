@@ -59,7 +59,6 @@ public class CardListServlet extends HttpServlet {
 				}
 
 			}
-			
 
 			// 搜藏
 			if (request.getParameter("favcard") != null) {
@@ -68,9 +67,15 @@ public class CardListServlet extends HttpServlet {
 				f.setKehuId(k.getId());
 
 				new FavDAO().addFav(f);
-				response.sendRedirect("/diandian/");
 				return;
 			}
+			// 取消收藏
+			if (request.getParameter("favdelete") != null) {
+				new FavDAO().closeFav(k.getId(), cardId);
+				return;
+			}
+
+			request.setAttribute("isFav", new FavDAO().isFav(k.getId(), cardId));
 
 			// 语言
 			long languageId = new LanguageHttp().getLanguageId(request);
@@ -103,6 +108,10 @@ public class CardListServlet extends HttpServlet {
 			s.setCreateDate(new Timestamp(System.currentTimeMillis()));
 			s.setCustomerId(k.getId());
 			new StudyDAO().addStudy(s);
+
+			// 记录在cookie中
+			CardCookie cookie = new CardCookie();
+			cookie.add(request, response, c.getCardId());
 
 			// 记录卡片阅读历史
 			History h = new History();

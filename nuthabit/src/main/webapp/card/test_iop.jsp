@@ -1,5 +1,5 @@
 <%@page import="java.net.URLDecoder"%>
-<%@ page language="java" import="com.babycard.dao.*,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 Card c = (Card)request.getAttribute("card");
@@ -10,7 +10,7 @@ CardPic p = (CardPic)cardColl.iterator().next();
 Card cTest = (Card)request.getAttribute("cardTest");
 Collection cardCollTest = (Collection)request.getAttribute("cardCollTest");
 CardPic pTest = (CardPic)cardCollTest.iterator().next();
-
+long languageId =  new LanguageHttp().getLanguageId(request);
 boolean flag = Math.random()>0.5;
 %>    
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ boolean flag = Math.random()>0.5;
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>点兵点将 儿童卡片</title>
+	<title><%=Menu.getTitle(languageId) %></title>
 	<link rel="stylesheet" href="css/list_style.css">
 	<link rel="stylesheet" href="css/dialog.css">
 	<link rel="stylesheet" href="css/card.css">
