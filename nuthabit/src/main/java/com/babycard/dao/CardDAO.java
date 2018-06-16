@@ -829,7 +829,7 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_card where cardId in( select cardId from baby_card_fav where kehuId=? order by favId desc) limit 0,20");
+					"select * from baby_card where cardId in( select cardId from baby_card_fav where kehuId=? and status=0 order by favId desc) limit 0,20");
 			ps.setLong(1, kehuId);
 			rs = ps.executeQuery();
 			while (rs.next()) {

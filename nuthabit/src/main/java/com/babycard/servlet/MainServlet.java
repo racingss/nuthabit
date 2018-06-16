@@ -73,7 +73,7 @@ public class MainServlet extends HttpServlet {
 			// taglist
 			request.setAttribute("tagColl", new TagDAO().getMainTagList());
 
-			// 最新上架
+			// 我的收藏
 			request.setAttribute("favColl", dao.getCardListFav(k.getId()));
 			// 最新上架
 			request.setAttribute("newColl", dao.getCardListByIndex(999));
