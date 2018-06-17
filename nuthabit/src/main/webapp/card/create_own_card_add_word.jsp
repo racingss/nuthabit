@@ -67,6 +67,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		}
 		
 		$(".bigbutom").click(function(){
+			
 			$.post("create_own_card_add_word.html",
 					  {
 					    meaning:$("#input-19").attr("value"),
@@ -77,6 +78,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					    
 					  },
 					  function(data,status){
+						  alert('ok');
 						   <%if(request.getParameter("cardId")==null){//)if(ct.getTagId()!=0){%>
 						   		window.location.href='index.html';
 						   <%}else{%>

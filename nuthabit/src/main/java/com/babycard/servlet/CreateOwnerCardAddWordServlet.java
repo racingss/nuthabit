@@ -40,14 +40,12 @@ public class CreateOwnerCardAddWordServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
 		Kehu k = new KehuUtil().getKehu(request, response);
-		
+
 		if (k == null) {
 			response.sendRedirect("/card/wx_login.jsp");
 			return;
@@ -60,8 +58,6 @@ public class CreateOwnerCardAddWordServlet extends HttpServlet {
 		// 语言
 		long languageId = new LanguageHttp().getLanguageId(request);
 
-		
-
 		// 文字相关
 		if (request.getParameter("meaning") != null && request.getParameter("meaning").length() > 0) {
 
@@ -71,21 +67,27 @@ public class CreateOwnerCardAddWordServlet extends HttpServlet {
 				picId = Long.parseLong(request.getParameter("picId"));
 			}
 
-			
-
 			if (picId != 0) {
 				new CardMeaningDAO().addCardMeaning(request.getParameter("meaning"), languageId,
 						Long.parseLong(request.getParameter("cardId")), Long.parseLong(request.getParameter("picId")));
+
+				String dst = null;
 				// 如果是中文重设需要全部翻译
 				if (languageId == 0) {
-
+					System.out.println("翻译英文");
+					CardMeaningDAO mDAO = new CardMeaningDAO();
+					dst = mDAO.buildMeaning(picId, 1);
 				}
 
 				// 如果是中英文重设需要抓取语音
 				if (languageId == 0 || languageId == 1) {
-					new Thread(new BaiduTools(picId, languageId, Long.parseLong(request.getParameter("cardId")),
-							request.getParameter("meaning"), request.getSession().getServletContext().getRealPath("/")))
-									.start();
+					System.out.println("抓取中文语音");
+					new BaiduTools(picId, 0, Long.parseLong(request.getParameter("cardId")),
+							request.getParameter("meaning"), request.getSession().getServletContext().getRealPath("/"))
+									.buildMeaning();
+					System.out.println("抓取英文语音");
+					new BaiduTools(picId, 1, Long.parseLong(request.getParameter("cardId")), dst,
+							request.getSession().getServletContext().getRealPath("/")).buildMeaning();
 				}
 
 				// 重新初始化
@@ -105,10 +107,6 @@ public class CreateOwnerCardAddWordServlet extends HttpServlet {
 		}
 
 	}
-
-	
-
-	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

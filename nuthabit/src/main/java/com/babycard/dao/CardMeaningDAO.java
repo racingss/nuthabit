@@ -256,11 +256,11 @@ public class CardMeaningDAO extends SampleDAO {
 		}
 	}
 
-	public void buildMeaning(long picId, long languageId) {
+	public String buildMeaning(long picId, long languageId) {
 
 		CardMeaning m = getCardMeaningByPicId(picId, 0);
 		if (m == null)
-			return;
+			return null;
 
 		TransApi api = new TransApi(Main.APP_ID, Main.SECURITY_KEY);
 
@@ -277,6 +277,7 @@ public class CardMeaningDAO extends SampleDAO {
 
 		System.out.println("目标语言：" + json1.get("dst"));
 		addCardMeaning(json1.get("dst").toString(), l.getLanguageId(), m.getCardId(), m.getPicId());
+		return json1.get("dst").toString();
 	}
 
 	public void buildMeaningByCardId(long cardId, long languageId) {
