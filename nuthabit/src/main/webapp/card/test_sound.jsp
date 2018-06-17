@@ -87,13 +87,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 	
 	<p style="text-align:center;">
 		<button type="submit" class="bigbutom" style="font-size: 25px;padding: 10px;"><%=Menu.getMenu("upload_but", languageId) %></button>
-		<script type="text/javascript">
-		$(function(){
-			$(".bigbutom").click(function(){
-				this.disabled=true;
-			})
-		})
-		</script>
+
 	</p>
 	</form>
 </section>	

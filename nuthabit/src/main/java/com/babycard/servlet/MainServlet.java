@@ -1,7 +1,7 @@
 package com.babycard.servlet;
 
 import javax.servlet.annotation.WebServlet;
-
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 
 import java.awt.Graphics;
@@ -52,21 +52,35 @@ public class MainServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 
-			Kehu k = new KehuUtil().getKehu(request, response);
-
+			Kehu k = null;
 			// 仅供测试
 			if (request.getParameter("adon") != null) {
 				k = new KehuDAO().getKehuById(2670);
 				request.getSession().setAttribute("kehu", k);
+				//cookie加入
+				Cookie cookie = new Cookie("openId", k.getOpenId());
+				cookie.setMaxAge(30 * 24 * 60 * 60);// 设置为30min
+				cookie.setPath("/");
+				response.addCookie(cookie);
+			} else {
+				k = new KehuUtil().getKehu(request, response);
 			}
 
 			if (k == null) {
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}
+			
+			if(request.getParameter("languageId")!=null){
+				Cookie cookie = new Cookie("languageId", request.getParameter("languageId"));
+				cookie.setMaxAge(30 * 24 * 60 * 60);// 设置为30min
+				cookie.setPath("/");
+				response.addCookie(cookie);
+			}
 
 			// 语言切换
 			long languageId = new LanguageHttp().getLanguageId(request);
+			k.languageId = languageId;
 
 			CardDAO dao = new CardDAO();
 

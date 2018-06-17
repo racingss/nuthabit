@@ -31,6 +31,7 @@ public class Kehu {
 	private String country = null;
 	private String city = null;
 	private String province = null;
+	public long languageId=0;
 
 	public String getCountry() {
 		return country;
