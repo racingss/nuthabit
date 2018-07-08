@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>点兵点将</title>
+	<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/swiper.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var mySwiper = new Swiper('.swiper-container',{
+          		loop: true,
+        		autoplay: 3000,
+        		pagination: '.swiper-pagination',
+        	});
+
+			/* 语言选择 */
+			$("#yuyan").click(function(){
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+					$(this).next(".language").hide();
+				}else {
+					$(this).addClass("active");
+					$(this).next(".language").show();
+				}
+			})
+			$("#sousuo").click(function(){
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+					$(".homeSearch").hide();
+				}else {
+					$(this).addClass("active");
+					$(".homeSearch").show();
+				}
+			})
+			$("#quxiao").click(function(){
+				$("#sousuo").removeClass("active");
+				$(".homeSearch").hide();
+			})
+			$("#sousuokuang input").focus(function(){
+				$(this).next("a").show();
+				$("#sousuokuang a").click(function(){
+					$("#sousuokuang input").val("");
+					$(this).hide();
+				})
+			})
+		})
+	</script>
+</head>
+<body>
+	<div class="page home">
+		<nav>
+			<span>点兵点将</span>
+			<a class="i2" id="sousuo"><img src="frame/home-1.png"></a>
+			<a class="i1" id="yuyan"><img src="frame/home-2.png"></a>
+			<ul class="language">
+				<a href="">语言1</a>
+				<a href="">语言2</a>
+				<a href="" class="active">语言3</a>
+				<a href="">语言4</a>
+				<a href="">语言5</a>
+				<a href="">语言6</a>
+			</ul>
+		</nav>
+		<div>
+			<div class="banner">
+			    <div class="swiper-container">
+			        <div class="swiper-wrapper">
+			            <div class="swiper-slide">
+							<img src="frame/home-17.jpg">
+			            </div>
+			            <div class="swiper-slide">
+			            	<img src="frame/home-17.jpg">
+			            </div>
+			            <div class="swiper-slide">
+			            	<img src="frame/home-17.jpg">
+			            </div>
+			        </div>
+			        <!-- 如果需要分页器 -->
+			    	<div class="swiper-pagination"></div>
+			    </div>
+			</div>
+			<div class="category">
+				<div>
+					<a href="">
+						<i><img src="frame/home-3.png"></i>
+						<span>动物</span>
+					</a>
+					<a href="">
+						<i><img src="frame/home-4.png"></i>
+						<span>交通</span>
+					</a>
+					<a href="">
+						<i><img src="frame/home-5.png"></i>
+						<span>人物</span>
+					</a>
+					<a href="">
+						<i><img src="frame/home-6.png"></i>
+						<span>自然</span>
+					</a>
+					<a href="">
+						<i><img src="frame/home-7.png"></i>
+						<span>水果</span>
+					</a>				
+				</div>
+			</div>
+			<div class="age">
+				<div>
+					<a href="">
+						<img src="frame/home-9.png">
+					</a>
+					<a href="">
+						<img src="frame/home-10.png">
+					</a>
+					<a href="">
+						<img src="frame/home-11.png">
+					</a>			
+				</div>
+			</div>
+			<h4 class="h41">最近阅读</h4>
+			<div class="recently">
+				<div>
+					<a href="">
+						<img src="frame/home-12.jpg">
+						<i class="i34">3~4岁</i>
+					</a>
+					<a href="">
+						<img src="frame/home-13.jpg">
+						<i class="i23">2~3岁</i>
+					</a>
+					<a href="">
+						<img src="frame/home-14.jpg">
+						<i class="i12">1~2岁</i>
+					</a>
+					<a href="">
+						<img src="frame/home-12.jpg">
+						<i class="i45">4~5岁</i>
+					</a>
+					<a href="">
+						<img src="frame/home-13.jpg">
+						<i class="i23">2~3岁</i>
+					</a>
+					<a href="">
+						<img src="frame/home-14.jpg">
+						<i class="i12">1~2岁</i>
+					</a>
+				</div>
+			</div>
+			<h4 class="h42">我的</h4>
+			<div class="my">
+				<div>
+					<a href="">
+						<img src="frame/home-12.jpg">
+					</a>
+					<a href="">
+						<img src="frame/home-13.jpg">
+					</a>
+					<a href="">
+						<img src="frame/home-14.jpg">
+					</a>
+					<a class="add" href=""></a>
+				</div>
+			</div>
+		</div>
+		<footer>
+		    <a class="active" href="home.html">
+		        <i></i>
+		        <span>首页</span>
+		    </a>
+		    <a href="">
+		        <i></i>
+		        <span>发现</span>
+		    </a>
+		    <a href="subscribe.html">
+		        <i></i>
+		        <span>订阅</span>
+		    </a>
+		    <a href="parents.html">
+		        <i></i>
+		        <span>家长</span>
+		    </a>
+		</footer>
+		<ul class="homeSearch">
+			<div class="nav">
+				<div id="sousuokuang">
+					<i></i>
+					<input type="text" name="" placeholder="书名、作者、关键词">
+					<a id="lf"></a>
+				</div>
+				<span id="quxiao">取消</span>
+			</div>
+			<div class="history">
+				<h4>历史记录</h4>
+				<div>
+					<a href="">英语课</a>
+					<a href="">汤姆</a>
+					<a href="">小黄鸭</a>
+					<a href="">汤姆与杰瑞</a>
+					<a href="">儿童读物</a>
+					<a href="">小红帽</a>
+					<a href="">蜡笔小新</a>
+				</div>
+			</div>
+			<div class="empty">
+				<a href="">清空历史记录</a>
+			</div>
+
+		</ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>点兵点将</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#saixuan").click(function(){
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+					$(".filterPopup").hide();
+				}else {
+					$(this).addClass("active");
+					$(".filterPopup").show();
+				}
+			})
+			$("#guanbi").click(function(){
+				$(".filterPopup").hide();
+			})
+
+			$(".filterPopup label a").click(function(){
+		        var i = $(this).children("span").text();
+		        if($(this).hasClass("active")){
+
+		        }else {
+		            $(this).parent().children("a").removeClass("active");
+		            $(this).addClass("active");
+		            $(this).parent().children("input").attr("value",i);
+		        }
+		    })
+
+		})
+	</script>
+</head>
+<body>
+	<div class="page searchResults">
+		<nav class="srNav">
+			<a class="i1" href=""></a>
+			<span>点兵点将</span>
+			<a class="i2" id="saixuan"></a>
+		</nav>
+		<div>
+			<div class="box">
+				<a href="">
+					<img src="frame/home-12.jpg">
+					<i class="i34">3~4岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-13.jpg">
+					<i class="i23">2~3岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-14.jpg">
+					<i class="i12">1~2岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-12.jpg">
+					<i class="i45">4~5岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-12.jpg">
+					<i class="i34">3~4岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-13.jpg">
+					<i class="i23">2~3岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-14.jpg">
+					<i class="i12">1~2岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-12.jpg">
+					<i class="i45">4~5岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-13.jpg">
+					<i class="i23">2~3岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-14.jpg">
+					<i class="i12">1~2岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-12.jpg">
+					<i class="i34">3~4岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-13.jpg">
+					<i class="i23">2~3岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-14.jpg">
+					<i class="i12">1~2岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-12.jpg">
+					<i class="i45">4~5岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-13.jpg">
+					<i class="i23">2~3岁</i>
+				</a>
+				<a href="">
+					<img src="frame/home-14.jpg">
+					<i class="i12">1~2岁</i>
+				</a>
+			</div>
+			<div class="more">
+				<a href="">查看更多</a>
+			</div>
+		</div>
+		<ul class="filterPopup">
+			<div>
+				<div class="hd">
+					<span>排序</span>
+					<a id="guanbi"></a>
+				</div>
+				<label class="i1">
+					<a>
+						<span>最受欢迎</span>
+						<i></i>						
+					</a>
+					<a class="active">
+						<span>最新</span>
+						<i></i>						
+					</a>
+					<a>
+						<span>A~Z</span>
+						<i></i>						
+					</a>
+					<input type="text" name="">
+				</label>
+				<label class="i2">
+					<a>
+						<span>1-2岁</span>
+						<i></i>	
+					</a>
+					<a>
+						<span>2-3岁</span>
+						<i></i>	
+					</a>
+					<a class="active">
+						<span>3-4岁</span>
+						<i></i>	
+					</a>
+					<a>
+						<span>4-5岁</span>
+						<i></i>	
+					</a>
+					<a>
+						<span>5-6岁</span>
+						<i></i>	
+					</a>
+					<input type="text" name="">
+				</label>
+				<a href="">确认</a>
+			</div>
+		</ul>
+	</div>
+</body>
+</html>

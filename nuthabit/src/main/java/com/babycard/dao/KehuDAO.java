@@ -271,8 +271,8 @@ public class KehuDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from kehu_card_member where kId=?");
-			ps.setLong(1, k.getkId());
+			ps = conn.prepareStatement("select * from kehu_card_member where kehuId=?");
+			ps.setString(1, k.getKehuId());
 			rs = ps.executeQuery();
 			KehuCardMember temp = null;
 			if (rs.next()) {
@@ -283,19 +283,19 @@ public class KehuDAO extends SampleDAO {
 
 			if (temp == null) {
 				ps = conn.prepareStatement(
-						"insert into kehu_card_member(kId,memberLevel,createDate,closeDate)values(?,?,?,?)");
-				ps.setLong(1, k.getkId());
+						"insert into kehu_card_member(kehuId,memberLevel,createDate,closeDate)values(?,?,?,?)");
+				ps.setString(1, k.getKehuId());
 				ps.setLong(2, k.getMemberLevel());
 				ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 				ps.setTimestamp(4, k.getCloseDate());
 			} else {
 				ps = conn.prepareStatement(
-						"update kehu_card_member set memberLevel=?,createDate=?,closeDate=? where kId=?");
+						"update kehu_card_member set memberLevel=?,createDate=?,closeDate=? where kehuId=?");
 				k.rebuild(temp.getCloseDate());
 				ps.setLong(1, k.getMemberLevel());
 				ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 				ps.setTimestamp(3, k.getCloseDate());
-				ps.setLong(4, k.getkId());
+				ps.setString(4, k.getKehuId());
 			}
 			ps.executeUpdate();
 		} catch (Exception e) {
@@ -308,7 +308,7 @@ public class KehuDAO extends SampleDAO {
 		return;
 	}
 
-	public KehuCardMember getMember(long kId) {
+	public KehuCardMember getMember(String kehuId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -318,8 +318,8 @@ public class KehuDAO extends SampleDAO {
 		KehuCardMember temp = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from kehu_card_member where kId=?");
-			ps.setLong(1, kId);
+			ps = conn.prepareStatement("select * from kehu_card_member where kehuId=?");
+			ps.setString(1, kehuId);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -378,7 +378,18 @@ public class KehuDAO extends SampleDAO {
 			rs = ps.executeQuery();
 			if (rs.next())
 				k = new Kehu(rs);
-			System.out.println((new StringBuilder("kehuDAO :")).append(ps.toString()).toString());
+
+			if (k != null) {
+				rs.close();
+				ps.close();
+				ps = conn.prepareStatement("select * from baby where kId=?");
+				ps.setLong(1, k.getId());
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					k.b = new Baby(rs);
+				}
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -388,7 +399,7 @@ public class KehuDAO extends SampleDAO {
 
 		return k;
 	}
-	
+
 	public Kehu getKehuById(long id) {
 		Connection conn;
 		PreparedStatement ps;
@@ -587,22 +598,20 @@ public class KehuDAO extends SampleDAO {
 
 	public static void main(String[] arg) {
 		System.out.println(new KehuDAO().getKehuById(2670).toString());
-		
+
 		if (true)
 			return;
 
-		
-		
-		System.out.println(new KehuDAO().getMember(2));
-		System.out.println(new KehuDAO().getMember(3));
-		System.out.println(new KehuDAO().getMember(8));
+//		System.out.println(new KehuDAO().getMember(2));
+//		System.out.println(new KehuDAO().getMember(3));
+//		System.out.println(new KehuDAO().getMember(8));
 
 		if (true)
 			return;
 
 		KehuCardMember m = new KehuCardMember();
 
-		m.setkId(8);
+//		m.setKehuId(kehuId);(8);
 		m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
 		new KehuDAO().addMember(m);
 
