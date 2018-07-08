@@ -75,7 +75,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				$(".regV").hide();
 			})
 			
-			$(".i8").click(function(){
+			$("#subi8").click(function(){
 				$.ajax({
 					url: '/diandian/homeajax.html?nexttime=t',
 					dateType:'json',
@@ -90,7 +90,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				sex=$(this).attr("sex");
 			})
 			
-			$(".i7").click(function(){
+			$("#subi7").click(function(){
 				birthyear=$("#birthyear option:selected").text();
 				birthmonth=$("#birthmonth option:selected").text();
 				$.ajax({
@@ -100,6 +100,15 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				    	alert("<%=Menu.getMenu("update_succ", languageId) %>");
 				    }
 			   });
+			})
+			
+			
+			$(".cardsub").click(function(){
+				src=$(this).attr("src");
+				cardId=$(this).attr("cardId");
+				$(".regVimg").attr("src",src);
+				$(".regVhref").attr("href","/card/cardlist.html?cardId="+cardId);
+				$(".regV").show();
 			})
 
 		})
@@ -210,7 +219,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						while(recentIt.hasNext()){
 							Card c = (Card)recentIt.next();
 							%>
-							<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
+							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
 								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
 							</a>	
@@ -221,6 +230,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 									
 				</div>
 			</div>
+			
 			
 			<%
 			if(((Collection)request.getAttribute("myRecentColl")).size()>0){
@@ -238,7 +248,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 							if(c==null)
 								continue;
 							%>
-							<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
+							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
 								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
 							</a>	
@@ -282,7 +292,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						while(recentIt.hasNext()){
 							Card c = (Card)recentIt.next();
 							%>
-							<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
+							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
 								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
 							</a>	
@@ -359,7 +369,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			<div>
 				<div class="hd">
 					<div class="i1"></div>
-					<div class="i2"><%=Menu.getMenu("reg_succ", languageId) %>注册成功</div>
+					<div class="i2"><%=Menu.getMenu("reg_succ", languageId) %></div>
 					<div class="i3"><%=Menu.getMenu("you_get", languageId) %><span>3</span><i></i></div>
 				</div>
 				<div class="bd">
@@ -398,13 +408,33 @@ long languageId = new LanguageHttp().getLanguageId(request);
 							</div>
 						</label>
 					</div>
-					<a class="i7"><%=Menu.getMenu("search_ok", languageId) %></a>
-					<a class="i8"><%=Menu.getMenu("next_time", languageId) %></a>
+					<a class="i7" id="subi7"><%=Menu.getMenu("search_ok", languageId) %></a>
+					<a class="i8" id="subi8"><%=Menu.getMenu("next_time", languageId) %></a>
 				</div>
 			</div>
 		</ol>
 		
 		<%} %>
+		
+		<ol class="regV" style="display:none">
+			<div>
+				<div class="hd">
+					<div class="i1"></div>
+					<div class="i2">您还未订阅</div>
+					<div class="i3">您目前有<span>3</span><i></i></div>
+				</div>
+				<div class="bd">
+					<div style="text-align:center;">
+						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
+					</div>
+					
+					<a class="i7 regVhref" href="#" >消费1个积分来阅读</a>
+					<div style="text-align: center;margin: 0.5rem;">
+						<a href="subscribe.html">订阅用户</a>可以免费阅读所有卡片书</div>
+					<a class="i8">放弃</a>
+				</div>
+			</div>
+		</ol>
 		
 		
 		
