@@ -336,7 +336,7 @@ public class KehuDAO extends SampleDAO {
 		return temp;
 	}
 
-	public void denglu(Kehu k) throws Exception {
+	public void denglu(Kehu k) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;

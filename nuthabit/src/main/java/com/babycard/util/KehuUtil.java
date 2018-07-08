@@ -19,7 +19,7 @@ public class KehuUtil {
 	public static final String secret = "9d4c6cf58377cc59aa9139f404294c20";
 	public static final String mchId = "1504346731";
 	public static final String notify_url = "http://www.suyufuwu.com/diandian/weixinzhifuresult.html";
-	public static final long JIFEN_REG=3;
+	public static final long JIFEN_REG = 3;
 
 	public KehuUtil() {
 
@@ -44,6 +44,17 @@ public class KehuUtil {
 				}
 			}
 		}
+
+		// 处理一下登录和送积分
+		if (k != null) {
+			String dengluri = new java.sql.Timestamp(System.currentTimeMillis()).toString().substring(0, 10);
+			if (k.getDengluri() == null || !k.getDengluri().substring(0, 10).equals(dengluri)) {
+				new KehuDAO().denglu(k);
+				k.setDengluri(new java.sql.Timestamp(System.currentTimeMillis()).toString());
+				new KehuDAO().updateJifen(k.getId(), 1, true, "登录");
+			}
+		}
+
 		return k;
 	}
 
@@ -189,7 +200,6 @@ public class KehuUtil {
 				k.setJifen(JIFEN_REG);
 			}
 
-			dao.denglu(k);
 			request.getSession().setAttribute("kehu", k);
 
 			// cookie加入

@@ -36,7 +36,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						<span><%=Menu.getMenu("mypoint", languageId) %></span>
 					</div>
 					<div class="bd">
-						<span><%=k.getJifen() %></span>
+						<span><%=new KehuDAO().getJifen(k.getId()) %></span>
 						<i></i>
 					</div>
 					<div class="btn">
