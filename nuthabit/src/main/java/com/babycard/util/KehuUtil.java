@@ -19,6 +19,7 @@ public class KehuUtil {
 	public static final String secret = "9d4c6cf58377cc59aa9139f404294c20";
 	public static final String mchId = "1504346731";
 	public static final String notify_url = "http://www.suyufuwu.com/diandian/weixinzhifuresult.html";
+	public static final long JIFEN_REG=3;
 
 	public KehuUtil() {
 
@@ -184,6 +185,8 @@ public class KehuUtil {
 				// }
 
 				k = dao.addKehu(k);
+				dao.updateJifen(k.getId(), JIFEN_REG, true, "注册");
+				k.setJifen(JIFEN_REG);
 			}
 
 			dao.denglu(k);

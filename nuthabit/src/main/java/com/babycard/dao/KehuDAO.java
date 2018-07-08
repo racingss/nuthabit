@@ -400,6 +400,33 @@ public class KehuDAO extends SampleDAO {
 		return k;
 	}
 
+	public long getJifen(long kId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		Kehu k;
+		conn = null;
+		ps = null;
+		rs = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select jifen from kehu where id=? ");
+			ps.setLong(1, kId);
+			rs = ps.executeQuery();
+			if (rs.next())
+				return rs.getLong(1);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return 0;
+	}
+
 	public Kehu getKehuById(long id) {
 		Connection conn;
 		PreparedStatement ps;
@@ -602,16 +629,16 @@ public class KehuDAO extends SampleDAO {
 		if (true)
 			return;
 
-//		System.out.println(new KehuDAO().getMember(2));
-//		System.out.println(new KehuDAO().getMember(3));
-//		System.out.println(new KehuDAO().getMember(8));
+		// System.out.println(new KehuDAO().getMember(2));
+		// System.out.println(new KehuDAO().getMember(3));
+		// System.out.println(new KehuDAO().getMember(8));
 
 		if (true)
 			return;
 
 		KehuCardMember m = new KehuCardMember();
 
-//		m.setKehuId(kehuId);(8);
+		// m.setKehuId(kehuId);(8);
 		m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
 		new KehuDAO().addMember(m);
 

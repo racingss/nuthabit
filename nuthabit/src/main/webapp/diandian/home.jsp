@@ -421,7 +421,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				<div class="hd">
 					<div class="i1"></div>
 					<div class="i2">您还未订阅</div>
-					<div class="i3">您目前有<span>3</span><i></i></div>
+					<div class="i3">您目前有<span><%=new KehuDAO().getJifen(k.getId()) %></span><i></i></div>
 				</div>
 				<div class="bd">
 					<div style="text-align:center;">
