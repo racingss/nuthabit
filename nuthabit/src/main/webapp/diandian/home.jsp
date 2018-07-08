@@ -420,7 +420,15 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			<div>
 				<div class="hd">
 					<div class="i1"></div>
-					<div class="i2">您还未订阅</div>
+					<div class="i2">
+					<%
+					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
+					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+						%>您还未订阅<%
+					}else{
+						%>您是订阅用户<%
+					}
+					%></div>
 					<div class="i3">您目前有<span><%=new KehuDAO().getJifen(k.getId()) %></span><i></i></div>
 				</div>
 				<div class="bd">
@@ -428,7 +436,15 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
 					</div>
 					
-					<a class="i7 regVhref" href="#" >消费1个积分来阅读</a>
+					<a class="i7 regVhref" href="#" >
+					<%
+					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+						%>消费1个积分来阅读<%
+					}else{
+						%>免费阅读<%
+					}
+					%>
+					</a>
 					<div style="text-align: center;margin: 0.5rem;">
 						<a href="subscribe.html">订阅用户</a>可以免费阅读所有卡片书</div>
 					<a class="i8">放弃</a>

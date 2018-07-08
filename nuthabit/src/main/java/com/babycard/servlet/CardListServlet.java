@@ -102,6 +102,14 @@ public class CardListServlet extends HttpServlet {
 
 			c = dao.getCardByCardId(cardId);
 
+			// 扣除积分
+			if (c.getkId() != k.getId()) {
+				KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
+				if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+					new KehuDAO().updateJifen(k.getId(), 1, false, "阅读："+c.getCardId());
+				}
+			}
+
 			// 记录用户学习状态,可能会被废除
 			Study s = new Study();
 			s.setCardId(c.getCardId());
@@ -110,8 +118,8 @@ public class CardListServlet extends HttpServlet {
 			new StudyDAO().addStudy(s);
 
 			// 记录在cookie中
-//			CardCookie cookie = new CardCookie();
-//			cookie.add(request, response, c.getCardId());
+			// CardCookie cookie = new CardCookie();
+			// cookie.add(request, response, c.getCardId());
 
 			// 记录卡片阅读历史
 			History h = new History();
