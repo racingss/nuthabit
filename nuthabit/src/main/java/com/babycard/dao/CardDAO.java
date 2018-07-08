@@ -169,6 +169,13 @@ public class CardDAO extends SampleDAO {
 			ps.setLong(1, cardId);
 			ps.setLong(2, kId);
 			ps.executeUpdate();
+			
+			ps.close();
+			ps = conn.prepareStatement("delete from baby_card_history where cardId=?");
+			ps.setLong(1, cardId);
+			ps.executeUpdate();
+			
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
