@@ -106,7 +106,10 @@ public class CardListServlet extends HttpServlet {
 			if (c.getkId() != k.getId()) {
 				KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 				if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
-					new KehuDAO().updateJifen(k.getId(), 1, false, "阅读："+c.getCardId());
+					if(!new KehuDAO().updateJifen(k.getId(), 1, false, "阅读："+c.getCardId())){
+						response.sendRedirect("/diandian/subscribe.html");
+						return;
+					}
 				}
 			}
 
