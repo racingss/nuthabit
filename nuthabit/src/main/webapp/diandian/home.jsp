@@ -221,6 +221,10 @@ long languageId = new LanguageHttp().getLanguageId(request);
 									
 				</div>
 			</div>
+			
+			<%
+			if(((Collection)request.getAttribute("myRecentColl")).size()>0){
+			%>
 			<h4 class="h42"><%=Menu.getMenu("menu_recent", languageId) %></h4>
 			<div class="recently">
 				<div>
@@ -229,24 +233,25 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					if(true){
 						Iterator recentIt = ((Collection)request.getAttribute("myRecentColl")).iterator();
 						while(recentIt.hasNext()){
-							Object obj =recentIt.next();
-							if(obj==null)
-								return;
-							long cardId = Long.parseLong(obj.toString());
+							long cardId =Long.parseLong(recentIt.next().toString());
 							Card c = Card.getStaticCard(cardId);
+							if(c==null)
+								continue;
 							%>
 							<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
 								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
 							</a>	
 							<%
-							
 						}
 					}
 					%>
 									
 				</div>
 			</div>
+			<%} %>
+			
+			
 			<h4 class="h41"><%=Menu.getMenu("menu_my", languageId) %></h4>
 			<div class="my">
 				<div>

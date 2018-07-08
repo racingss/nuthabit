@@ -94,8 +94,9 @@ public class MainServlet extends HttpServlet {
 			// 我创建的
 			request.setAttribute("myColl", dao.getCardListByKid(k.getId()));
 			// 越近阅读
-			CardCookie cookie = new CardCookie();
-			request.setAttribute("myRecentColl", cookie.showRecent(request, response));
+//			CardCookie cookie = new CardCookie();
+//			request.setAttribute("myRecentColl", cookie.showRecent(request, response));
+			request.setAttribute("myRecentColl", dao.getCardListRecent(k.getId()));
 			// 搜索
 			request.setAttribute("searchHistory", new SearchDAO().getSearchBykId(k.getId()));
 

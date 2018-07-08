@@ -776,12 +776,12 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_card where cardId in( select cardId from baby_card_history where kId=? order by historyId desc) limit 0,5");
+					"select cardId from baby_card_history where kId=? order by historyId desc limit 0,7");
 			ps.setLong(1, kehuId);
 
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				coll.add(new Card(rs));
+				coll.add(rs.getLong(1));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

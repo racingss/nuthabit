@@ -110,8 +110,8 @@ public class CardListServlet extends HttpServlet {
 			new StudyDAO().addStudy(s);
 
 			// 记录在cookie中
-			CardCookie cookie = new CardCookie();
-			cookie.add(request, response, c.getCardId());
+//			CardCookie cookie = new CardCookie();
+//			cookie.add(request, response, c.getCardId());
 
 			// 记录卡片阅读历史
 			History h = new History();

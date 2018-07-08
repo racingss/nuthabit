@@ -18,6 +18,12 @@ public class HistoryDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
+			ps = conn.prepareStatement("delete from baby_card_history where kId=? and cardId=?");
+			ps.setLong(1, h.getKId());
+			ps.setLong(2, h.getCardId());
+			ps.executeUpdate();
+			ps.close();
+			
 			ps = conn.prepareStatement("insert into baby_card_history(kId,cardId,readDate)values(?,?,?)");
 			ps.setLong(1, h.getKId());
 			ps.setLong(2, h.getCardId());
