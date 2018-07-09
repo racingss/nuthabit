@@ -51,9 +51,7 @@ public class CreateOwnerCardServlet extends HttpServlet {
 		}
 
 		Card c = new CardDAO().addCard(request.getParameter("meaning"), k.getId());
-
-		
-		response.sendRedirect("/card/test_sound.jsp?cover=t&cardId=" + c.getCardId());
+		response.sendRedirect("/card/carddetail.html?cardId=" + c.getCardId());
 	}
 
 	/**
