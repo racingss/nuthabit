@@ -73,8 +73,8 @@ public class KehuCardMember {
 				calendar.add(Calendar.MONTH, 1);// 把日期往后增加一天.正数往后推,负数往前推
 			} else if (memberLevel == MEMBER_LEVEL_YEAR) {
 				calendar.add(Calendar.YEAR, 1);// 把日期往后增加一天.正数往后推,负数往前推
-			} else if (memberLevel == MEMBER_LEVEL_MONTH) {
-				calendar.add(Calendar.YEAR, 99);// 把日期往后增加一天.正数往后推,负数往前推
+			} else if (memberLevel == MEMBER_LEVEL_LIFELONG) {
+				calendar.add(Calendar.YEAR, 9);// 把日期往后增加一天.正数往后推,负数往前推
 			}
 
 			date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
