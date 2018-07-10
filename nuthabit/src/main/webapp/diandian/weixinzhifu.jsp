@@ -24,16 +24,16 @@ Dingdan dingdan = (Dingdan)request.getAttribute("dingdan");
         	});
 			
 			$(".i7").click(function(){
-				$(this).text("查询中。。。");
+				$(this).text("<%=Menu.getMenu("querying", languageId) %>");
 				$.ajax({
 					url: '/diandian/order.html?type=query&dingdanId=<%=dingdan.getDingdanId()%>',
 					dateType:'json',
 				    success: function(data){
 				    	if(data=='<%=Dingdan.STATUS_YIZHIFU%>'){
-				    		alert("支付成功，您可以在家长页面查看订阅有效期");
+				    		alert("<%=Menu.getMenu("pay_succ", languageId) %>");
 				    		window.location.href='/diandian/parents.html';
 				    	}else  if(data=='<%=Dingdan.STATUS_DAIZHIFU%>'){
-				    		alert("等待支付");
+				    		alert("<%=Menu.getMenu("pay_wait", languageId) %>");
 				    	}
 				    }
 			   });
@@ -94,11 +94,11 @@ Dingdan dingdan = (Dingdan)request.getAttribute("dingdan");
 			<div>
 				<div class="hd" style="height: 2.5rem;">
 					<div class="i1"></div>
-					<div class="i2">您需要支付<%=request.getParameter("amount") %>元</div>
+					<div class="i2"><%=Menu.getMenu("you_need_pay", languageId) %><%=request.getParameter("amount") %>元</div>
 				</div>
 				<div class="bd" style="padding: 1rem 0;height: 3rem;">
-					<a class="i7">查看支付结果</a>
-					<a class="i8" style="position: relative;" href="Javascript:history.back();">取消支付</a>
+					<a class="i7"><%=Menu.getMenu("pay_result", languageId) %></a>
+					<a class="i8" style="position: relative;" href="Javascript:history.back();"><%=Menu.getMenu("pay_cancle", languageId) %></a>
 				</div>
 			</div>
 		</ol>
