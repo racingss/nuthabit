@@ -9,24 +9,31 @@ import com.babycard.dao.KehuDAO;
 public class LanguageHttp {
 	public long getLanguageId(HttpServletRequest request) {
 		long languageId = 0;
-		if (request.getSession().getAttribute("languageId") != null) {
-			languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
-		} else {
-			Cookie[] cookies = request.getCookies();
-			if (null == cookies) {
-				System.out.println("没有cookie languageId==============");
-			} else {
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals("languageId")) {
-						languageId = Long.parseLong(cookie.getValue());
-						break;
-					}
-				}
-			}
-		}
+//		if (request.getSession().getAttribute("languageId") != null) {
+//			languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
+//		} else {
+//			Cookie[] cookies = request.getCookies();
+//			if (null == cookies) {
+//				System.out.println("没有cookie languageId==============");
+//			} else {
+//				for (Cookie cookie : cookies) {
+//					if (cookie.getName().equals("languageId")) {
+//						languageId = Long.parseLong(cookie.getValue());
+//						break;
+//					}
+//				}
+//			}
+//		}
+		Kehu k = new KehuUtil().getKehu(request);
+		
 		if (request.getParameter("languageId") != null) {
 			languageId = Long.parseLong(request.getParameter("languageId"));
-			request.getSession().setAttribute("languageId", languageId);
+			
+			new KehuDAO().updateLanguageId(k.getId(), languageId);
+			k.setLanguageId(languageId);
+//			request.getSession().setAttribute("languageId", languageId);
+		}else{
+			languageId = k.getLanguageId();
 		}
 		return languageId;
 	}

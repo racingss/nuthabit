@@ -33,6 +33,16 @@ public class Kehu {
 	private String province = null;
 	public long languageId=0;
 	public Baby b = null;
+	
+	
+
+	public long getLanguageId() {
+		return languageId;
+	}
+
+	public void setLanguageId(long languageId) {
+		this.languageId = languageId;
+	}
 
 	public String getCountry() {
 		return country;
@@ -311,6 +321,7 @@ public class Kehu {
 			this.setProvince(rs.getString("province"));
 			this.setCity(rs.getString("city"));
 			this.setCountry(rs.getString("country"));
+			this.setLanguageId(rs.getLong("languageId"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

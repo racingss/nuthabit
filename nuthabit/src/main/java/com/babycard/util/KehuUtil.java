@@ -58,6 +58,10 @@ public class KehuUtil {
 		return k;
 	}
 
+	public Kehu getKehu(HttpServletRequest request) {
+		return getKehu(request, null);
+	}
+
 	public String getCookieByName(HttpServletRequest request, String name) {
 		try {
 			if (request.getCookies() != null) {

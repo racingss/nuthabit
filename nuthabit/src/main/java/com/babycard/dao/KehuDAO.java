@@ -69,6 +69,30 @@ public class KehuDAO extends SampleDAO {
 		return;
 	}
 
+	
+	
+	public void updateLanguageId(long kId, long languageId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update kehu set languageId=? where id=? ");
+			ps.setLong(1, languageId);
+			ps.setLong(2, kId);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return;
+	}
+
 	public void updateNickname(Kehu k) throws Exception {
 		Connection conn;
 		PreparedStatement ps;
