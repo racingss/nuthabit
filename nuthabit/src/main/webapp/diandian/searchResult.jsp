@@ -10,6 +10,7 @@ if(request.getParameter("tagId")!=null)
 	tagId = Long.parseLong(request.getParameter("tagId"));
 String qString=request.getAttribute("qString").toString();
 long languageId = new LanguageHttp().getLanguageId(request);
+Kehu k = new KehuUtil().getKehu(request, response);
 %>
 <!DOCTYPE html>
 <html>
@@ -74,6 +75,18 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		   	   });
 			
 			})
+			
+			$(".cardsub").click(function(){
+				src=$(this).attr("src");
+				cardId=$(this).attr("cardId");
+				$(".regVimg").attr("src",src);
+				$(".regVhref").attr("href","/card/cardlist.html?cardId="+cardId);
+				$(".regV").show();
+			})
+			
+			$(".regV .i7,.regV .i8").click(function(){
+				$(".regV").hide();
+			})
 		    
 
 		})
@@ -97,7 +110,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						result=true;
 						Card c = (Card)it.next();
 						%>
-						<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
+						<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 							<img src="<%=c.getImg()%>">
 							<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
 						</a>		
@@ -175,6 +188,46 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				<a href=""><%=Menu.getMenu("search_ok", languageId) %></a>
 			</div>
 		</ul>
+		
+		
+		
+		
+		
+		<ol class="regV cardwindow" style="display:none">
+			<div>
+				<div class="hd">
+					<div class="i1"></div>
+					<div class="i2">
+					<%
+					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
+					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+						%><%=Menu.getMenu("you_are_not_member", languageId) %><%
+					}else{
+						%><%=Menu.getMenu("you_are_member", languageId) %><%
+					}
+					%></div>
+					<div class="i3"><%=Menu.getMenu("you_curr_have", languageId) %><span><%=new KehuDAO().getJifen(k.getId()) %></span><i></i></div>
+				</div>
+				<div class="bd">
+					<div style="text-align:center;">
+						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
+					</div>
+					
+					<a class="i7 regVhref" href="#" >
+					<%
+					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+						%><%=Menu.getMenu("use1point", languageId) %><%
+					}else{
+						%><%=Menu.getMenu("free_read", languageId) %><%
+					}
+					%>
+					</a>
+					<div style="text-align: center;margin: 0.5rem;">
+						<a href="subscribe.html"><%=Menu.getMenu("orderuser", languageId) %></a><%=Menu.getMenu("freeread", languageId) %></div>
+					<a class="i8"><%=Menu.getMenu("giveup", languageId) %></a>
+				</div>
+			</div>
+		</ol>
 	</div>
 </body>
 </html>

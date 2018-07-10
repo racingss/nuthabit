@@ -336,7 +336,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					<p style="text-align: center;font-size: 30px;margin-top:15px">
     						&nbsp;&nbsp;<%=Menu.getMenu("u_just_read", languageId) %>：
     						<br/>
-    						<img alt="" src="<%=c.getImg()%>" style="width:30%;margin: 5px;border-radius: 10px;">
+    						<img alt="" src="<%=c.getImg()%>" style="width:30%;margin: 5px;border-radius: 10px;" class="lastimg">
     					</p>
     					<p style="text-align: center;font-size: 20px;">
     						<%=Menu.getMenu("test_rightnow", languageId) %><a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>
