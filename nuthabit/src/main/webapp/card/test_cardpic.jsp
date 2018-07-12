@@ -155,8 +155,12 @@ boolean flag = Math.random()>0.5;
 	}
 	
 	$(function(){
+		var flag=0;
 		$('.test_true').on("click", function () {
 			$('#result_true').css({'display':'block'});
+			if(flag==1)
+				return;
+			flag=1;
 			$.ajax({
 				url: 'test_iop.html?picId=<%=test.getPicId()%>&result=2',
 				dateType:'json',
@@ -173,6 +177,9 @@ boolean flag = Math.random()>0.5;
 		});
 		$('.test_false').on("click", function () {
 			$('#result_false').css({'display':'block'});
+			if(flag==1)
+				return;
+			flag=1;
 			$.ajax({
 				url: 'test_iop.html?picId=<%=test.getPicId()%>&result=1',
 				dateType:'json',
