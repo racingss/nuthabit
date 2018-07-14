@@ -184,3 +184,17 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				</div>
 			</div>
 		</ol>
+		
+		<%
+		if(request.getParameter("jifen")!=null){
+		%>
+		<ol class="regV" style="">
+			<div>
+				<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">
+					<img src="frame/newmy.jpeg" style="position: fixed;bottom: 2.5rem;right: 0.5rem;width: 1.5rem;">
+					<p style="text-align:center;color:white;font-size:1rem;"><%=Menu.getMenu("jifen_fabu_jiangli", languageId) %></p>
+					<a class="i8" style="position: relative;"><%=Menu.getMenu("close", languageId) %></a>
+				</div>
+			</div>
+		</ol>
+		<%}%>

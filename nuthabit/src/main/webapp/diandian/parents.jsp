@@ -44,7 +44,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							<img src="frame/parents-3.png">
 							<span><%=Menu.getMenu("sharepoint", languageId) %></span>
 						</a>
-						<a href="">
+						<a href="/diandian/?jifen=1">
 							<img src="frame/parents-4.png">
 							<span><%=Menu.getMenu("pushpoint", languageId) %></span>
 						</a>

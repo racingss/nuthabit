@@ -98,7 +98,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</div>
 			</div>
 			<div class="other">
-				<a href=""><%=Menu.getMenu("othergetway", languageId) %></a>
+				<a href="parents.html"><%=Menu.getMenu("othergetway", languageId) %></a>
 			</div>
 		</div>
 		
