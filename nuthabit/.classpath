@@ -23,5 +23,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/resources/xstream-1.4.5.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/Qrcode.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

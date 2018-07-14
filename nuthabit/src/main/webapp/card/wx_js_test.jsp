@@ -1,7 +1,14 @@
+<%@page import="com.babycard.wx.*"%>
 <%@page import="com.babycard.util.*"%>
 <%@ page language="java" import="com.babycard.dao.*,java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+if(true)
+	return;
 Map<String, String> ret = AccessToken.sign();
+String appId = KehuUtil.appId;
+String timestamp = ret.get("timestamp");
+String nonceStr = ret.get("nonceStr");
+String signature = ret.get("signature");
 %>
 <!DOCTYPE html>
 <html>
@@ -125,7 +132,7 @@ Map<String, String> ret = AccessToken.sign();
     </div>
   </div>
 </body>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
   /*
    * 注意：
@@ -140,10 +147,10 @@ Map<String, String> ret = AccessToken.sign();
    */
   wx.config({
       debug: false,
-      appId: '<%=KehuUtil.appId%>',
-      timestamp: <%=ret.get("timestamp")%>,
-      nonceStr: '<%=ret.get("nonceStr")%>',
-      signature: '<%=ret.get("signature")%>',
+      appId: '<%=appId %>',
+      timestamp: <%=timestamp %>,
+      nonceStr: '<%=nonceStr%>',
+      signature: '<%=signature%>',
       jsApiList: [
         'checkJsApi',
         'onMenuShareTimeline',
