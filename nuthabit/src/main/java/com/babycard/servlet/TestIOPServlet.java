@@ -45,13 +45,11 @@ public class TestIOPServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		Kehu k = new KehuUtil().getKehu(request, response);
-		if(k==null){
+		if (k == null) {
 			response.sendRedirect("/card/wx_login.jsp");
 			return;
 		}
-		
 
-		
 		// 语言
 		long languageId = new LanguageHttp().getLanguageId(request);
 
@@ -73,55 +71,31 @@ public class TestIOPServlet extends HttpServlet {
 			if (request.getParameter("picId") != null) {
 				if (cp.getPicId() == Long.parseLong(request.getParameter("picId"))) {
 					cp.result = request.getParameter("result");
+					
+					
+					
+					StudyDAO daoStudy = new StudyDAO();
+					Study sResult = daoStudy.getStudyByCustomerIdPicId(k.getId(),
+							Long.parseLong(request.getParameter("picId")));
+					sResult.setReviewDate(null);
+					if (request.getParameter("result").equals("2")) {
+						sResult.setReviewLevel(sResult.getReviewLevel() + 1);
+					} else {
+						if (sResult.getReviewLevel() > 0)
+							sResult.setReviewLevel(sResult.getReviewLevel() - 1);
+
+					}
+					sResult.setReviewFlag(0);
+					daoStudy.update(sResult);
 					return;
 				}
-
 			}
+			
+			
 		}
 
 		request.getRequestDispatcher("test_cardpic.jsp").forward(request, response);
 
-		// 屏蔽老版本程序
-		if (true)
-			return;
-		StudyDAO daoStudy = new StudyDAO();
-		// 回答
-		if (request.getParameter("result") != null) {
-			Study sResult = daoStudy.getStudy(k.getId(), Long.parseLong(request.getParameter("cardId")));
-			sResult.setReviewDate(null);
-			if (request.getParameter("result").equals("s")) {
-				sResult.setReviewLevel(sResult.getReviewLevel() + 1);
-			}
-			daoStudy.update(sResult);
-		}
-
-		Study s = daoStudy.getStudy(k.getId());
-
-		CardDAO dao = new CardDAO();
-		Card c = dao.getCardByCardId(s.getCardId());
-		CardMeaning cm = new CardMeaningDAO().getCardMeaning(c.getCardId(), 0, languageId);
-
-		// 获取卡片图片
-		Collection cardColl = dao.getCardPicByCardId(c.getCardId());
-		request.setAttribute("card", c);
-		request.setAttribute("cm", cm);
-		long tagId = dao.getTagId(c.getCardId());
-		Card cardTest = dao.getTestCard(tagId, c.getCardId());
-		request.setAttribute("cardTest", cardTest);
-		request.setAttribute("cardColl", cardColl);
-		request.setAttribute("cardCollTest", dao.getCardPicByCardId(cardTest.getCardId()));
-
-		// 获取成功和失败语音，临时
-//		Object soundObjsSucc[] = new SoundDAO().getSoundColl("SUCC_CN");
-//		String soundSuss = ((Sound) soundObjsSucc[new Random().nextInt(soundObjsSucc.length)]).getSoundUrl();
-//
-//		Object soundObjs[] = new SoundDAO().getSoundColl("FAILED_CN");
-//		String soundFail = ((Sound) soundObjs[new Random().nextInt(soundObjs.length)]).getSoundUrl();
-//		request.setAttribute("soundSuss", soundSuss);
-//		request.setAttribute("soundFail", soundFail);
-		
-
-		request.getRequestDispatcher("test_iop.jsp").forward(request, response);
 	}
 
 	/**

@@ -106,19 +106,23 @@ public class CardListServlet extends HttpServlet {
 			if (c.getkId() != k.getId()) {
 				KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 				if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
-					if(!new KehuDAO().updateJifen(k.getId(), 1, false, "阅读："+c.getCardId())){
+					if (!new KehuDAO().updateJifen(k.getId(), 1, false, "阅读：" + c.getCardId())) {
 						response.sendRedirect("/diandian/subscribe.html");
 						return;
 					}
 				}
 			}
 
+			// 获取卡片图片
+			Collection cardColl = dao.getCardPicByCardId(c.getCardId());
+
 			// 记录用户学习状态,可能会被废除
 			Study s = new Study();
 			s.setCardId(c.getCardId());
 			s.setCreateDate(new Timestamp(System.currentTimeMillis()));
 			s.setCustomerId(k.getId());
-			new StudyDAO().addStudy(s);
+
+			new StudyDAO().addStudy(s, cardColl);
 
 			// 记录在cookie中
 			// CardCookie cookie = new CardCookie();
@@ -130,8 +134,6 @@ public class CardListServlet extends HttpServlet {
 			h.setKId(k.getId());
 			new HistoryDAO().addHistory(h);
 
-			// 获取卡片图片
-			Collection cardColl = dao.getCardPicByCardId(c.getCardId());
 			if (cardColl.size() > 0) {
 				c.cardMeaningColl = new CardMeaningDAO().getCardMeaning(c.getCardId());
 				c.cardSoundColl = dao.getCardSoundList(c.getCardId(), k.getId());

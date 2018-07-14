@@ -13,19 +13,24 @@ if(test==null){
 CardPic compare = testHttp.getCompare(request, test.getPicId());
 long languageId =  new LanguageHttp().getLanguageId(request);
 boolean flag = Math.random()>0.5;
-%>    
+
+String disturl="test_iop";
+if(request.getAttribute("reviewFlag")!=null){
+	disturl="review";
+}
+%>
 <!DOCTYPE html>
 <html lang="zh" class="fsvs"><head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<title><%=Menu.getTitle(languageId) %></title>
-	<link rel="stylesheet" href="css/list_style.css">
-	<link rel="stylesheet" href="css/dialog.css">
-	<link rel="stylesheet" href="css/card.css">
-	<link rel="stylesheet" href="css/audioplayer.css" />
-	<link rel="stylesheet" href="assets/css/default.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="/card/css/list_style.css">
+	<link rel="stylesheet" href="/card/css/dialog.css">
+	<link rel="stylesheet" href="/card/css/card.css">
+	<link rel="stylesheet" href="/card/css/audioplayer.css" />
+	<link rel="stylesheet" href="/card/assets/css/default.css">
+    <link rel="stylesheet" href="/card/assets/css/style.css">
     <style type="text/css">
     .footbatbut{
     	background-color: #f49731;
@@ -54,10 +59,10 @@ boolean flag = Math.random()>0.5;
 	}
 
     </style>  
-	<script src="assets/js/jquery-1.11.0.min.js"></script>
-   <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-   <script src="assets/js/jquery.swipe-events.js"></script>
-   <script type="text/javascript" src="js/dialog.js"></script>
+	<script src="/card/assets/js/jquery-1.11.0.min.js"></script>
+   <script src="/card/assets/js/jquery-migrate-1.2.1.min.js"></script>
+   <script src="/card/assets/js/jquery.swipe-events.js"></script>
+   <script type="text/javascript" src="/card/js/dialog.js"></script>
    <script type="text/javascript">
 	
    </script> 
@@ -87,7 +92,7 @@ boolean flag = Math.random()>0.5;
 				    		<li class="bookli">
 		        				<a href="#" class="test_<%=flag%>">
 		        					<img alt="" src="<%=temp.getImgurl() %>"  picId=<%=temp.getPicId() %> class="testimg"/>
-		        					<img src="img/result_<%=flag%>.png" class="resultimg" id="result_<%=flag%>"/>
+		        					<img src="/card/img/result_<%=flag%>.png" class="resultimg" id="result_<%=flag%>"/>
 		        				</a>
 		        			</li>
 				    	<%} 
@@ -103,7 +108,7 @@ boolean flag = Math.random()>0.5;
 				    		<li class="bookli">
 		        				<a href="#" class="test_<%=!flag%>">
 		        					<img alt="" src="<%=temp.getImgurl() %>"  picId=<%=temp.getPicId() %> class="testimg"/>
-		        					<img src="img/result_<%=!flag%>.png" class="resultimg" id="result_<%=!flag%>"/>
+		        					<img src="/card/img/result_<%=!flag%>.png" class="resultimg" id="result_<%=!flag%>"/>
 		        				</a>
 		        			</li>
 				    	<%} %>
@@ -131,7 +136,7 @@ boolean flag = Math.random()>0.5;
 					    	<a class="footbatbut" href="/diandian/" style="color: #514e4f;">
 					    			<%=Menu.getMenu("home", languageId) %>
 				    		</a>
-				    		<a class="footbatbut" href="test_iop.html" style="color: #514e4f;">
+				    		<a class="footbatbut" href="<%if(request.getAttribute("reviewFlag")==null) {%>test_iop.html<%}else{%>review.html<%} %>" style="color: #514e4f;">
 					    			<%=Menu.getMenu("next", languageId) %>
 				    		</a>
 			    	</span>	
@@ -144,8 +149,8 @@ boolean flag = Math.random()>0.5;
     			
     </div>
     
-<audio id="succaudio" ><source src="<%=testHttp.getSound("result_succ",languageId) %>" type="audio/mpeg" /></audio>
-<audio id="failaudio" ><source src="<%=testHttp.getSound("result_false",languageId) %>" type="audio/mpeg" /></audio>
+<audio id="succaudio" ><source src="/card/<%=testHttp.getSound("result_succ",languageId) %>" type="audio/mpeg" /></audio>
+<audio id="failaudio" ><source src="/card/<%=testHttp.getSound("result_false",languageId) %>" type="audio/mpeg" /></audio>
 
 
 <script type="text/javascript">
@@ -162,7 +167,7 @@ boolean flag = Math.random()>0.5;
 				return;
 			flag=1;
 			$.ajax({
-				url: 'test_iop.html?picId=<%=test.getPicId()%>&result=2',
+				url: '<%=disturl%>.html?picId=<%=test.getPicId()%>&result=2',
 				dateType:'json',
 			    success: function(data){
 			    	var audio = audio = document.getElementById('succaudio');
@@ -181,7 +186,7 @@ boolean flag = Math.random()>0.5;
 				return;
 			flag=1;
 			$.ajax({
-				url: 'test_iop.html?picId=<%=test.getPicId()%>&result=1',
+				url: '<%=disturl%>.html?picId=<%=test.getPicId()%>&result=1',
 				dateType:'json',
 			    success: function(data){
 			    	var audio = audio = document.getElementById('failaudio');

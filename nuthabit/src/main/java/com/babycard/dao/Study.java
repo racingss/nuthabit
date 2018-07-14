@@ -8,10 +8,19 @@ public class Study {
 	private long id = 0;
 	private long customerId = 0;
 	private long cardId = 0;
+	private long picId = 0;
 	private Timestamp createDate;
 	private Timestamp reviewDate;
 	private long reviewFlag = 0;
 	private long reviewLevel = 0;
+
+	public long getPicId() {
+		return picId;
+	}
+
+	public void setPicId(long picId) {
+		this.picId = picId;
+	}
 
 	public long getId() {
 		return id;
@@ -103,6 +112,7 @@ public class Study {
 			this.setReviewDate(rs.getTimestamp("reviewDate"));
 			this.setReviewFlag(rs.getLong("reviewFlag"));
 			this.setReviewLevel(rs.getLong("reviewLevel"));
+			this.setPicId(rs.getLong("picId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

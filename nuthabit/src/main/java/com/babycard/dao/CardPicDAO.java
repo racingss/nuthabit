@@ -148,6 +148,33 @@ public class CardPicDAO extends SampleDAO {
 		return p;
 	}
 
+	public CardPic getCardPicBypicId(long picId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement("select * from baby_card_pic  where picId =?");
+			ps.setLong(1, picId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				p = new CardPic(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return p;
+	}
+
 	public Collection getCardPicByCardId(long cardId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -175,7 +202,7 @@ public class CardPicDAO extends SampleDAO {
 		}
 		return coll;
 	}
-	
+
 	public long getCardPicCountByCardId(long cardId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -183,7 +210,7 @@ public class CardPicDAO extends SampleDAO {
 		conn = null;
 		ps = null;
 		rs = null;
-		long count =0;
+		long count = 0;
 		try {
 			conn = getConnection();
 
@@ -326,7 +353,7 @@ public class CardPicDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
-	
+
 	public void mainCardPic(long picId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -334,7 +361,7 @@ public class CardPicDAO extends SampleDAO {
 		conn = null;
 		ps = null;
 		rs = null;
-		
+
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement("select * from baby_card_pic where picId=?");
@@ -346,13 +373,12 @@ public class CardPicDAO extends SampleDAO {
 			}
 			rs.close();
 			ps.close();
-			
-			if(picId==temp.getMainPicId() || temp.getMainPicId()==0){
+
+			if (picId == temp.getMainPicId() || temp.getMainPicId() == 0) {
 				System.out.println("不需要更改主图");
 				return;
 			}
-			
-			
+
 			ps = conn.prepareStatement("select * from baby_card_pic where picId=?");
 			ps.setLong(1, temp.getMainPicId());
 			rs = ps.executeQuery();
@@ -362,23 +388,19 @@ public class CardPicDAO extends SampleDAO {
 			}
 			rs.close();
 			ps.close();
-			
+
 			// 2、重置主图图片地址为幅图地址
 			ps = conn.prepareStatement("update baby_card_pic set cardpic=? where picId=?");
 			ps.setString(1, main.getCardpic());
 			ps.setLong(2, picId);
 			ps.executeUpdate();
 			ps.close();
-			
-			
+
 			ps = conn.prepareStatement("update baby_card_pic set cardpic=? where picId=?");
 			ps.setString(1, temp.getCardpic());
 			ps.setLong(2, temp.getMainPicId());
 			ps.executeUpdate();
 			ps.close();
-			
-			
-			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

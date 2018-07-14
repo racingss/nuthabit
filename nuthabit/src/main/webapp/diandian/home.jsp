@@ -320,7 +320,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 	
 	<!-- 复习按钮 -->
 	<div>
-		<a class="review"></a>
+		<a class="review" href="/card/review.html"></a>
 	</div>
 </body>
 </html>

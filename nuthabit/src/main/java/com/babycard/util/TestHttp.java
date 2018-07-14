@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 import com.babycard.dao.Card;
+import com.babycard.dao.CardDAO;
 import com.babycard.dao.CardPic;
 import com.babycard.dao.Sound;
 import com.babycard.dao.SoundDAO;
@@ -52,7 +53,13 @@ public class TestHttp {
 	}
 
 	public CardPic getCompare(HttpServletRequest request, long picId) {
-		Collection testColl = (Collection) request.getSession().getAttribute("testColl");
+		Collection testColl = null;
+
+		if (request.getAttribute("reviewFlag") != null) {
+			testColl = new CardDAO().getCardPicByCardId(Long.parseLong(request.getAttribute("cardId").toString()));
+		} else {
+			testColl = (Collection) request.getSession().getAttribute("testColl");
+		}
 		Object compareArray[] = testColl.toArray();
 
 		// 第一次随机
