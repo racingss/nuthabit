@@ -121,6 +121,7 @@ public class CardListServlet extends HttpServlet {
 			s.setCardId(c.getCardId());
 			s.setCreateDate(new Timestamp(System.currentTimeMillis()));
 			s.setCustomerId(k.getId());
+			s.setLanguageId(languageId);
 
 			new StudyDAO().addStudy(s, cardColl);
 

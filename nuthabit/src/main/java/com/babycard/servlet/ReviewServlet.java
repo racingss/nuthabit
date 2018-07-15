@@ -50,7 +50,7 @@ public class ReviewServlet extends HttpServlet {
 			StudyDAO daoStudy = new StudyDAO();
 
 			if (request.getParameter("delete") != null) {
-				daoStudy.deleteStudyByCustomerIdPicId(k.getId(), Long.parseLong(request.getParameter("picId")));
+				daoStudy.deleteStudyByCustomerIdPicId(k.getId(), Long.parseLong(request.getParameter("picId")),languageId);
 			}
 
 			// 复习队列
@@ -60,7 +60,7 @@ public class ReviewServlet extends HttpServlet {
 			// 回答
 			if (request.getParameter("result") != null) {
 				Study sResult = daoStudy.getStudyByCustomerIdPicId(k.getId(),
-						Long.parseLong(request.getParameter("picId")));
+						Long.parseLong(request.getParameter("picId")),languageId);
 				sResult.setReviewDate(null);
 				if (request.getParameter("result").equals("2")) {
 					sResult.setReviewLevel(sResult.getReviewLevel() + 1);
@@ -75,7 +75,7 @@ public class ReviewServlet extends HttpServlet {
 			}
 
 			// 取得一条需要复习的记录
-			Study s = daoStudy.getStudy(k.getId(), 0);
+			Study s = daoStudy.getStudy(k.getId(), 0,languageId);
 			if (s != null) {
 				CardPic cp = new CardPicDAO().getCardPicBypicId(s.getPicId());
 				request.setAttribute("test", cp);
@@ -85,7 +85,7 @@ public class ReviewServlet extends HttpServlet {
 
 			// 2、测试
 
-			s = daoStudy.getStudy(k.getId(), 1);
+			s = daoStudy.getStudy(k.getId(), 1,languageId);
 			if (s != null) {
 				CardPic cp = new CardPicDAO().getCardPicBypicId(s.getPicId());
 				request.setAttribute("test", cp);
@@ -97,7 +97,7 @@ public class ReviewServlet extends HttpServlet {
 			}
 
 			// 3、提示下次测试时间
-			String nextTime = daoStudy.getStudyNextTime(k.getId());
+			String nextTime = daoStudy.getStudyNextTime(k.getId(),languageId);
 			String temp = new Timestamp(System.currentTimeMillis()).toString().substring(0, 10);
 			if (nextTime != null) {
 				if (nextTime.indexOf(temp) != -1) {

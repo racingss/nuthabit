@@ -76,7 +76,7 @@ public class TestIOPServlet extends HttpServlet {
 					
 					StudyDAO daoStudy = new StudyDAO();
 					Study sResult = daoStudy.getStudyByCustomerIdPicId(k.getId(),
-							Long.parseLong(request.getParameter("picId")));
+							Long.parseLong(request.getParameter("picId")),languageId);
 					sResult.setReviewDate(null);
 					if (request.getParameter("result").equals("2")) {
 						sResult.setReviewLevel(sResult.getReviewLevel() + 1);

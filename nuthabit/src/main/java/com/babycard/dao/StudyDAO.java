@@ -23,7 +23,7 @@ public class StudyDAO extends SampleDAO {
 			conn = getConnection();
 
 			ps = conn.prepareStatement(
-					"insert into baby_study(customerId,cardId,createDate,reviewDate,reviewFlag,reviewLevel,picId)values(?,?,?,?,?,?,?) ");
+					"insert into baby_study(customerId,cardId,createDate,reviewDate,reviewFlag,reviewLevel,picId,languageId)values(?,?,?,?,?,?,?,?) ");
 			Iterator it = picColl.iterator();
 			while (it.hasNext()) {
 				CardPic cp = (CardPic) it.next();
@@ -34,6 +34,7 @@ public class StudyDAO extends SampleDAO {
 				ps.setLong(5, s.getReviewFlag());
 				ps.setLong(6, s.getReviewLevel());
 				ps.setLong(7, cp.getPicId());
+				ps.setLong(8, s.getLanguageId());
 				ps.addBatch();
 			}
 
@@ -49,7 +50,7 @@ public class StudyDAO extends SampleDAO {
 
 	}
 
-	public Study getStudy(long customerId, long reviewFlag) {
+	public Study getStudy(long customerId, long reviewFlag,long languageId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -60,10 +61,11 @@ public class StudyDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_study where customerId=? and reviewFlag=? and reviewDate<? and reviewLevel<=6");
+					"select * from baby_study where customerId=? and reviewFlag=? and reviewDate<? and reviewLevel<=6 and languageId=?");
 			ps.setLong(1, customerId);
 			ps.setLong(2, reviewFlag);
 			ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			ps.setLong(4, languageId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				s = new Study(rs);
@@ -85,7 +87,7 @@ public class StudyDAO extends SampleDAO {
 		return s;
 	}
 
-	public String getStudyNextTime(long customerId) {
+	public String getStudyNextTime(long customerId,long languageId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -96,8 +98,9 @@ public class StudyDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select reviewDate from baby_study where customerId=? and reviewFlag=0 and reviewLevel<=6 order by reviewDate");
+					"select reviewDate from baby_study where customerId=? and reviewFlag=0 and reviewLevel<=6 and languageId=? order by reviewDate");
 			ps.setLong(1, customerId);
+			ps.setLong(2, languageId);
 
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -113,7 +116,7 @@ public class StudyDAO extends SampleDAO {
 		return null;
 	}
 
-	public Study getStudyByCustomerIdPicId(long customerId, long picId) {
+	public Study getStudyByCustomerIdPicId(long customerId, long picId,long languageId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -123,9 +126,10 @@ public class StudyDAO extends SampleDAO {
 		Study s = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_study where customerId=? and picId=? ");
+			ps = conn.prepareStatement("select * from baby_study where customerId=? and picId=? and languageId=?");
 			ps.setLong(1, customerId);
 			ps.setLong(2, picId);
+			ps.setLong(3, languageId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				s = new Study(rs);
@@ -140,7 +144,7 @@ public class StudyDAO extends SampleDAO {
 		return s;
 	}
 
-	public void deleteStudyByCustomerIdPicId(long customerId, long picId) {
+	public void deleteStudyByCustomerIdPicId(long customerId, long picId,long languageId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -150,9 +154,10 @@ public class StudyDAO extends SampleDAO {
 		Study s = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("update baby_study set reviewLevel=9  where customerId=? and picId=? ");
+			ps = conn.prepareStatement("update baby_study set reviewLevel=9  where customerId=? and picId=? and languageId=?");
 			ps.setLong(1, customerId);
 			ps.setLong(2, picId);
+			ps.setLong(3, languageId);
 			ps.executeUpdate();
 
 		} catch (Exception e) {
@@ -173,12 +178,13 @@ public class StudyDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"update baby_study set reviewDate=?,reviewFlag=?,reviewLevel=? where customerId=? and picId=?");
+					"update baby_study set reviewDate=?,reviewFlag=?,reviewLevel=? where customerId=? and picId=? and languageId=?");
 			ps.setTimestamp(1, s.getReviewDate());
 			ps.setLong(2, s.getReviewFlag());
 			ps.setLong(3, s.getReviewLevel());
 			ps.setLong(4, s.getCustomerId());
 			ps.setLong(5, s.getPicId());
+			ps.setLong(6, s.getLanguageId());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -190,10 +196,10 @@ public class StudyDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 
-		new StudyDAO().deleteStudyByCustomerIdPicId(2670, 600);
+		new StudyDAO().deleteStudyByCustomerIdPicId(2670, 600,0);
 
 		String temp = new Timestamp(System.currentTimeMillis()).toString().substring(0, 10);
-		String nextTime = new StudyDAO().getStudyNextTime(2670);
+		String nextTime = new StudyDAO().getStudyNextTime(2670,0);
 		System.out.println(nextTime);
 		if (nextTime.indexOf(temp) != -1) {
 			nextTime = "今天 " + nextTime.substring(11, 16);

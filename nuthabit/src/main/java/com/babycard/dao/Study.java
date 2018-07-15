@@ -13,6 +13,15 @@ public class Study {
 	private Timestamp reviewDate;
 	private long reviewFlag = 0;
 	private long reviewLevel = 0;
+	private long languageId = 0;
+
+	public long getLanguageId() {
+		return languageId;
+	}
+
+	public void setLanguageId(long languageId) {
+		this.languageId = languageId;
+	}
 
 	public long getPicId() {
 		return picId;
@@ -113,6 +122,7 @@ public class Study {
 			this.setReviewFlag(rs.getLong("reviewFlag"));
 			this.setReviewLevel(rs.getLong("reviewLevel"));
 			this.setPicId(rs.getLong("picId"));
+			this.setLanguageId(rs.getLong("languageId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
