@@ -67,6 +67,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				<a href="">
 					<img src="frame/parents-6.png">
 					<span><%=Menu.getMenu("coupon", languageId) %></span>
+					<p><%=k.getCode() %></p>
 				</a>
 			</div>
 			<div class="list">

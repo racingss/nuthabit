@@ -38,6 +38,10 @@ public class Parents extends HttpServlet {
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}
+			if(k.getCode()==null){
+				k.setCode(new RandomUtil().buildCode());
+				new KehuDAO().updateCode(k);
+			}
 			
 			request.getRequestDispatcher("parents.jsp").forward(request, response);
 			

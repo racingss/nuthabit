@@ -69,8 +69,6 @@ public class KehuDAO extends SampleDAO {
 		return;
 	}
 
-	
-	
 	public void updateLanguageId(long kId, long languageId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -162,6 +160,76 @@ public class KehuDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 		return;
+	}
+
+	public void updateCode(Kehu k) throws Exception {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update kehu set code=? where kehuId=? ");
+			ps.setString(1, k.getCode());
+			ps.setString(2, k.getKehuId());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return;
+	}
+
+	public String getCode(long id) throws Exception {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select code from kehu where id=? ");
+			ps.setLong(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return null;
+	}
+
+	public Kehu getKehuByCode(String code) throws Exception {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from kehu where code=? ");
+			ps.setString(1, code);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return new Kehu(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return null;
 	}
 
 	public void updateZhifubao(Kehu k) throws Exception {
