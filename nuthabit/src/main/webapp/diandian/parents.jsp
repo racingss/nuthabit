@@ -52,16 +52,39 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</div>
 			</div>
 			<div class="list">
-				<a href="">
+				<a href="subscribe.html">
 					<img src="frame/parents-5.png">
-					<span><%=Menu.getMenu("order", languageId) %></span>
-					<p>
 					<%
 					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
-					if(m!=null){
 					%>
-					<%=Menu.getMenu("last_date", languageId) %><%=m.getCloseDate().toString().substring(0,10) %>
-					<%} %>
+					<span>
+						<%
+						if(m!=null){
+							if(m.getMemberLevel()==2){
+								%>
+								<%=Menu.getMenu("lifelong_member", languageId) %>
+								<%
+							}else{
+								%>
+								<%=Menu.getMenu("member_lastdate", languageId) %>
+								<%
+							}
+						}else{
+							%>
+							<%=Menu.getMenu("order", languageId) %>
+							<%
+						}
+						%>
+					</span>
+					<p>
+					<%
+					
+					if(m!=null){
+						if(m.getMemberLevel()!=2){
+						%>
+							<%=m.getCloseDate().toString().substring(0,10) %>
+						<%} 
+					}%>
 					</p>
 				</a>
 				<a href="">
