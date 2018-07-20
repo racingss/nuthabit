@@ -56,7 +56,20 @@ if(request.getAttribute("reviewFlag")!=null){
 	}
 	.testimg{
 		max-height: 200px;
+		border-radius: 1rem;
 	}
+	.carddetail{
+    	border-radius: .1rem;
+	    padding: 10px;
+	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+	    /* display: inline-block; */
+	    margin: 10px;
+	    text-align: center;
+	    width: 95%;
+	    position: absolute;
+	    background: #fffefe;
+	    opacity: 0.8;
+    }
 
     </style>  
 	<script src="/card/assets/js/jquery-1.11.0.min.js"></script>
@@ -70,13 +83,12 @@ if(request.getAttribute("reviewFlag")!=null){
 </head>
 <body class="active-slide-1 active-nth-slide-1">
     <div id="fsvs-body" style="transition: all 1s;">
-        		<div class="slide nth-class-1 active-slide" >
-        			<p style="text-align: center;font-size: 22px;margin-top:10px;">
-    						&nbsp;&nbsp;<%=Menu.getMenu("which", languageId) %>
-    						<span style="font-size: 2em;"><%=CardMeaning.getStaticCard(test.getPicId(), languageId).getMeaning() %></span>&nbsp;?
-    				<p>
+        		<div class="slide nth-class-1 active-slide" style="background: 000;">
+        			<!--p style="text-align: center;font-size: 22px;margin-top:10px;">
+    						
+    				<p-->
         		
-        			<ul style="display:block;width:100%;text-align: center;">
+        			<ul style="display:block;width:100%;text-align: center;margin-top: 0.5rem;">
         				
         				<%
         				
@@ -120,26 +132,22 @@ if(request.getAttribute("reviewFlag")!=null){
         			
         			
     				<!--                内部工具栏                     -->
-	    			<span class="carddetail" style="background: #fffefe;
-  border-radius: .1rem;
-  /* padding: 10px; */
-  box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
-  display: inline-block;
-  margin: 10px;
-  text-align: center;
-  width: 95%;
-  z-index: 9999;
-  /* top: 0; */
-  position: absolute;
-  bottom: 0;opacity: 0.8;display: block;
-  float: left;">
-					    	<a class="footbatbut" href="/diandian/" style="color: #514e4f;">
-					    			<%=Menu.getMenu("home", languageId) %>
-				    		</a>
-				    		<a class="footbatbut" href="<%if(request.getAttribute("reviewFlag")==null) {%>test_iop.html<%}else{%>review.html<%} %>" style="color: #514e4f;">
-					    			<%=Menu.getMenu("next", languageId) %>
-				    		</a>
-			    	</span>	
+	    			<div class="carddetail" style="bottom: 0;">
+	    				<div style="font-size:50px;color: #524f4f;">
+	    					<a href="#" style="color: #524f4f;font-size: 1.2rem;">
+			    				&nbsp;&nbsp;<%=Menu.getMenu("which", languageId) %>
+    						<span style="font-size: 2em;color: #524f4f;"><%=CardMeaning.getStaticCard(test.getPicId(), languageId).getMeaning() %></span>&nbsp;?
+			    			</a>
+	    					<p style="height: 1rem;">
+						    	<a class="footbatbut" href="/diandian/" style="float: left;width: 45%;">
+						    			<%=Menu.getMenu("home", languageId) %>
+					    		</a>
+					    		<a class="footbatbut" href="<%if(request.getAttribute("reviewFlag")==null) {%>test_iop.html<%}else{%>review.html<%} %>" style="float: left;width: 45%;">
+						    			<%=Menu.getMenu("next", languageId) %>
+					    		</a>
+				    		</p>
+				    	</div>	
+			    	</div>	
     		
         			
         			
