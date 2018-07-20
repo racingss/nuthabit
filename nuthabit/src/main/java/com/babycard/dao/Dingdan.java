@@ -37,6 +37,15 @@ public class Dingdan {
 	private String lianxishijian = null;
 	private long youhuima = 0;
 	public String liquanId = null;
+	private long point = 0;
+
+	public long getPoint() {
+		return point;
+	}
+
+	public void setPoint(long point) {
+		this.point = point;
+	}
 
 	public String getLiquanId() {
 		return liquanId;
@@ -269,8 +278,6 @@ public class Dingdan {
 	public void setSonghuori(String songhuori) {
 		this.songhuori = songhuori;
 	}
-	
-	
 
 	@Override
 	public String toString() {
@@ -324,6 +331,7 @@ public class Dingdan {
 			this.setLianxishijian(rs.getString("lianxishijian"));
 			this.setYouhuima(rs.getLong("youhuima"));
 			this.setLiquanId(rs.getString("liquanId"));
+			this.setPoint(rs.getLong("point"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
