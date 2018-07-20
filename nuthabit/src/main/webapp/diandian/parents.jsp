@@ -94,11 +94,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</a>
 			</div>
 			<div class="list">
-				<a href="">
+				<a href="contact.jsp">
 					<img src="frame/parents-7.png">
 					<span><%=Menu.getMenu("contactus", languageId) %></span>
 				</a>
-				<a href="">
+				<a href="terms.jsp">
 					<img src="frame/parents-8.png">
 					<span><%=Menu.getMenu("userpr", languageId) %></span>
 				</a>
