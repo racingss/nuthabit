@@ -125,7 +125,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	.headmenu{
 		display:none;
 	}
-
+	
 	
     </style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
@@ -184,22 +184,22 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					</p>
     					
     					<div class="carddetail" style="bottom: 0;">
-							    	<a class="footbatbut" href="/diandian/" style="color: #514e4f;">
+							    	<a class="footbatbut" href="/diandian/" style="color: 000;">
 							    			<%=Menu.getMenu("back_to_home", languageId) %>
 						    		</a>
-						    		<a  class="footbatbut" href="language.html?type=languageId&cardId=<%=c.getCardId() %>" style="color: #514e4f;">
+						    		<a  class="footbatbut" href="language.html?type=languageId&cardId=<%=c.getCardId() %>" style="color: 000;">
 						    				<%=Menu.getMenu("language", languageId) %>
 						    		</a>
 						    		<%
 						    		if(k.getId()==c.getkId() ||k.getGuanlibiaoji()==1){
 						    		%>
-						    			<a class="footbatbut" href="carddetail.html?cardId=<%=c.getCardId() %>" style="color: #514e4f;">
+						    			<a class="footbatbut" href="carddetail.html?cardId=<%=c.getCardId() %>" style="color: 000;">
 								    		 <%=Menu.getMenu("weihu", languageId) %>
 							    		</a>
 						    		<%	
 						    		}else{
 						    		%>
-							    		<a class="footbatbut" href="test_iop.html?cardId=<%=c.getCardId() %>" style="color: #514e4f;">
+							    		<a class="footbatbut" href="test_iop.html?cardId=<%=c.getCardId() %>" style="color: 000;">
 								    			<%=Menu.getMenu("test", languageId) %>
 							    		</a>
 						    		<%} %>
@@ -220,7 +220,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
         		%>
         		
         		<!--             图片           -->
-        		<div class="slide">        		
+        		<div class="slide" style="background:000;">        		
         		
 	 				<!--         主图           -->        		
         			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%>">
@@ -256,7 +256,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
        				}
         			
         			
-		    		if(true){
+		    		if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0") ){
 		    			int l_i=0;
 		    				CardMeaning cm = CardMeaning.getStaticCard(cp.getPicId(), languageId);
 		    				%>
@@ -339,48 +339,30 @@ Kehu k = new KehuUtil().getKehu(request, response);
     						<img alt="" src="<%=c.getImg()%>" style="width:30%;margin: 5px;border-radius: 10px;" class="lastimg">
     					</p>
     					<p style="text-align: center;font-size: 20px;">
-    						<%=Menu.getMenu("test_rightnow", languageId) %><a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>
-    					</p>
-    					<p style="text-align: center;font-size: 20px;">
-    						<%=Menu.getMenu("or_read_next", languageId) %>：
+    						<%=Menu.getMenu("test_rightnow", languageId) %>
     						<br/>
-    						<%
-				        	if(true){
-					        	Iterator it = new CardDAO().getCardListByIndex(999).iterator();
-					        	int i=0;
-					        	while(it.hasNext() && i++<3){
-					        		Card recentCard = (Card)it.next();
-					        	%>
-					        	<a href="cardlist.html?cardId=<%=recentCard.getCardId() %>" style="background: url(<%=recentCard.getImg()%>);display:inline-block;width:90px;height:122px">
-					        		<img alt="" src="<%=recentCard.getImg()%>" style="width:90px;height:122px;border-radius: 10px;">
-					        	</a>
-					            <%}
-				        	}%>
-    						
+    						<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>
     					</p>
     					
     					<div class="carddetail" style="bottom: 0;">
-							    	<a class="footbatbut" href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="color: #514e4f;">
+							    	<a class="footbatbut" href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="color: 000;">
 							    			<%=Menu.getMenu("re_read", languageId) %>
 						    		</a>
 						    		
-						    		<a class="footbatbut" href="/diandian/" style="color: #514e4f;">
+						    		<a class="footbatbut" href="/diandian/" style="color: 000;">
 							    			<%=Menu.getMenu("back_to_home", languageId) %>
 						    		</a>
 						    		
-						    		<a class="footbatbut" href="test_iop.html?cardId=<%=c.getCardId() %>" style="color: #514e4f;">
-							    			<%=Menu.getMenu("test", languageId) %>
-						    		</a>
 						    		<%
 						    		if(Long.parseLong(request.getAttribute("isFav").toString())==0){
 						    			%>
-						    			<a class="footbatbut favImg" href="#" style="color: #514e4f;">
+						    			<a class="footbatbut favImg" href="#" style="color: 000;">
 							    			<%=Menu.getMenu("menu_fav_cancle", languageId) %>
 						    			</a>
 						    			<%
 						    		}else{
 						    			%>
-						    			<a class="footbatbut favImg" href="#" style="color: #514e4f;">
+						    			<a class="footbatbut favImg" href="#" style="color: 000;">
 							    			<%=Menu.getMenu("menu_fav", languageId) %>
 						    			</a>
 						    			<%
@@ -459,7 +441,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    	alert('<%=Menu.getMenu("fav_succ", languageId) %>');
 				    }
 			   });
-			   $(this).text('<%=Menu.getMenu("cancle_fav_succ", languageId) %>');
+			   $(this).text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
 			   favFlag=0;
 			}
 	    });
