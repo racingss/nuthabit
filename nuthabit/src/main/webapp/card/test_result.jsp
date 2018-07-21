@@ -43,6 +43,19 @@ long languageId =  new LanguageHttp().getLanguageId(request);
 	.testimg{
 		max-height: 200px;
 	}
+	
+	.carddetail{
+    	border-radius: .1rem;
+	    padding: 10px;
+	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
+	    /* display: inline-block; */
+	    margin: 10px;
+	    text-align: center;
+	    width: 95%;
+	    position: absolute;
+	    background: #fffefe;
+	    opacity: 0.8;
+    }
 
     </style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
@@ -59,7 +72,7 @@ long languageId =  new LanguageHttp().getLanguageId(request);
     		
         		<div class="slide nth-class-1 active-slide" >
         			<p style="text-align: center;margin-top: 40px;">
-    						<img alt="" src="img/goodjob.png" style="width: 100px;">
+    						<img alt="" src="img/goodjob.png" style="height: 4.5rem;">
     				</p>
         			<p style="text-align: center;font-size: 22px;margin-top:40px;">
     						&nbsp;&nbsp;<%=Menu.getMenu("test_over", languageId) %>：
@@ -67,7 +80,7 @@ long languageId =  new LanguageHttp().getLanguageId(request);
     						<%=Menu.getMenu("your_score", languageId) %>
     						<span style="font-size:2em"><%=testHttp.getTestResult(request) %>%</span>
     						<br/>
-    						<img alt="" src="<%=testHttp.getCard(request).getImg()%>" style="width:50%;margin: 20px;border-radius: 10px;">
+    						<img alt="" src="<%=testHttp.getCard(request).getImg()%>" style="height: 12rem;margin: 20px;border-radius: 10px;">
     				<p>
         		
         			<ul style="display:block;width:100%;text-align: center;">
@@ -81,26 +94,18 @@ long languageId =  new LanguageHttp().getLanguageId(request);
         			
         			
     				<!--                内部工具栏                     -->
-	    			<span class="carddetail" style="background: #fffefe;
-  border-radius: .1rem;
-  /* padding: 10px; */
-  box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
-  display: inline-block;
-  margin: 10px;
-  text-align: center;
-  width: 95%;
-  z-index: 9999;
-  /* top: 0; */
-  position: absolute;
-  bottom: 0;opacity: 0.8;display: block;
-  float: left;">
-					    	<a class="footbatbut" href="/diandian/" style="color: #514e4f;">
+	    			<div class="carddetail" style="bottom: 0;">
+	    				<div style="font-size:50px;color: #524f4f;">
+	    					<p style="height: 1rem;">
+					    	<a class="footbatbut" href="/diandian/" style="float: left;width: 45%;">
 					    			<%=Menu.getMenu("home", languageId) %>
 				    		</a>
-				    		<a class="footbatbut" href="cardlist.html?static=t&cardId=<%=testHttp.getCard(request).getCardId() %>&play=<%=System.currentTimeMillis() %>" style="color: #514e4f;">
+				    		<a class="footbatbut" href="cardlist.html?static=t&cardId=<%=testHttp.getCard(request).getCardId() %>&play=<%=System.currentTimeMillis() %>" style="float: left;width: 45%;">
 							    	<%=Menu.getMenu("re_read", languageId) %>
 						    </a>
-			    	</span>	
+						    </p>
+						</div>    
+			    	</div>	
     		
         			
         			
