@@ -39,7 +39,13 @@ public class FavDAO extends SampleDAO {
 				ps.setLong(2, fav.getCardId());
 				ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 				ps.executeUpdate();
+
 			}
+			
+			ps.close();
+			ps = conn.prepareStatement("update baby_card set favCount=favCount+1 where cardId=?");
+			ps.setLong(1, fav.getCardId());
+			ps.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -64,6 +70,11 @@ public class FavDAO extends SampleDAO {
 			ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 			ps.setLong(2, kehuId);
 			ps.setLong(3, cardId);
+			ps.executeUpdate();
+
+			ps.close();
+			ps = conn.prepareStatement("update baby_card set favCount=favCount-1 where cardId=?");
+			ps.setLong(1, cardId);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
