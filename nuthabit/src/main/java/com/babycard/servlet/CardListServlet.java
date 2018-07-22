@@ -44,6 +44,19 @@ public class CardListServlet extends HttpServlet {
 				return;
 			}
 
+			System.out.println(request.getParameter("wordFlag"));
+			// 显示文字
+			if (request.getParameter("wordFlag") != null) {
+				request.getSession().setAttribute("wordFlag", request.getParameter("wordFlag"));
+				return;
+			}
+
+			// 播放语音
+			if (request.getParameter("soundFlag") != null) {
+				request.getSession().setAttribute("soundFlag", request.getParameter("soundFlag"));
+				return;
+			}
+
 			CardDAO dao = new CardDAO();
 			long cardId = 0;
 			if (request.getParameter("cardId") != null) {

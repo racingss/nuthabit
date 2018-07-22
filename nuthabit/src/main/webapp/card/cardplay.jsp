@@ -349,7 +349,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							    			<%=Menu.getMenu("re_read", languageId) %>
 						    		</a>
 						    		
-						    		<a class="footbatbut" href="/diandian/" style="color: 000;">
+						    		<a class="footbatbut" href="/diandian/?recomm=t" style="color: 000;">
 							    			<%=Menu.getMenu("back_to_home", languageId) %>
 						    		</a>
 						    		

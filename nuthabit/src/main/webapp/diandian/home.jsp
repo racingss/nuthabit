@@ -161,6 +161,38 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					</a>			
 				</div>
 			</div>
+			
+			
+			
+			
+			<h4 class="h42"><%=Menu.getMenu("search_pop", languageId) %></h4>
+			<div class="recently">
+				<div>
+					<!--              最受欢迎               -->
+					<%
+					if(true){
+						Iterator recentIt = Card.getCardFavColl().iterator();
+						int temp=0;
+						while(recentIt.hasNext() && temp++<8){
+							Card c = (Card)recentIt.next();
+							%>
+							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
+								<img src="<%=c.getImg()%>">
+								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
+							</a>	
+							<%
+						}
+					}
+					%>
+									
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
 			<h4 class="h41"><%=Menu.getMenu("menu_new", languageId) %></h4>
 			<div class="recently">
 				<div>

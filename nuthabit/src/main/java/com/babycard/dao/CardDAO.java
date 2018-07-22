@@ -930,6 +930,30 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
+	
+	public Collection getAllCardListOrderByFavCount() {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where kId=0 order by favCount desc limit 0,50");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
 
 	public Collection searchCard(String qString,long page) {
 		Connection conn;
@@ -1003,7 +1027,7 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 
-			ps = conn.prepareStatement("select * from baby_card where cardIndex=?");
+			ps = conn.prepareStatement("select * from baby_card where cardIndex=? limit 0,8");
 			ps.setLong(1, cardIndex);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -1265,7 +1289,7 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		dao.updateCardTag(2020, 8);
+		System.out.println(dao.getAllCardListOrderByFavCount().size());
 
 //		Iterator it = dao.getCardListRecent(2670).iterator();
 //		while (it.hasNext()) {
@@ -1273,7 +1297,6 @@ public class CardDAO extends SampleDAO {
 //			System.out.println(c.toString());
 //		}
 		
-		System.out.println(dao.searchCard("车", 1, 1).size());
 
 		if (true)
 			return;

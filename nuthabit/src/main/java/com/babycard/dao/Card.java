@@ -66,7 +66,7 @@ public class Card {
 			return cm.getMeaning();
 		}
 
-		//如果没有，就自动翻译
+		// 如果没有，就自动翻译
 		if (languageId != 0) {
 			new CardMeaningDAO().buildMeaningByCardId(cardId, languageId);
 			cm = new CardMeaningDAO().getCardMeaning(cardId, 0, languageId);
@@ -138,6 +138,15 @@ public class Card {
 	}
 
 	public static Collection cardprivateColl = new ArrayList();
+
+	private static Collection cardFavColl = null;
+
+	public static Collection getCardFavColl() {
+		if (cardFavColl == null) {
+			cardFavColl = new CardDAO().getAllCardListOrderByFavCount();
+		}
+		return cardFavColl;
+	}
 
 	public static Card getStaticCard(long cardId) {
 		Iterator it = cardprivateColl.iterator();

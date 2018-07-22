@@ -65,6 +65,22 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				$(".cardwindow").show();
 			})
 
+			$("#wordFlag").click(function(){
+				var wordFlag=0;
+				if($(this).is(':checked')){
+					wordFlag=0;
+				}else{
+					wordFlag=1;
+				}
+				$.ajax({
+					url: '/card/cardlist.html?wordFlag='+wordFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
+				
+			})
+			
 		})
 	</script>
 
@@ -142,11 +158,14 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					%></div>
 					<div class="i3"><%=Menu.getMenu("you_curr_have", languageId) %><span><%=new KehuDAO().getJifen(k.getId()) %></span><i></i></div>
 				</div>
-				<div class="bd">
+				<div class="bd" style="height: 7.5rem;">
 					<div style="text-align:center;">
 						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
 					</div>
-					
+					<div style="text-align: center;font-size: 0.4rem;padding-bottom: 0.2rem">
+						<input type="checkbox" checked="checked" id="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
+						<input type="checkbox" checked="checked" id="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
+					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
 					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
@@ -194,6 +213,64 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					<img src="frame/newmy.jpeg" style="position: fixed;bottom: 2.5rem;right: 0.5rem;width: 1.5rem;">
 					<p style="text-align:center;color:white;font-size:1rem;"><%=Menu.getMenu("jifen_fabu_jiangli", languageId) %></p>
 					<a class="i8" style="position: relative;"><%=Menu.getMenu("close", languageId) %></a>
+				</div>
+			</div>
+		</ol>
+		<%}%>
+		
+		<%
+		if(request.getParameter("recomm")!=null){
+		%>
+		<ol class="regV" style="">
+			<div>
+				<div class="hd">
+					<div class="i1"></div>
+					<div class="i2">
+						<%=Menu.getMenu("for_you_recomm", languageId) %>：
+					</div>
+					<div class="i3"><%=Menu.getMenu("you_curr_have", languageId) %><span><%=new KehuDAO().getJifen(k.getId()) %></span><i></i></div>
+				</div>
+				<div class="bd" style="height: 7.5rem;">
+					<div style="text-align:center;">
+							<div class="recently">
+									<div>
+										<%
+										if(true){
+											Iterator recentIt = Card.getCardFavColl().iterator();
+											int temp=0;
+											while(recentIt.hasNext() && temp++<8){
+												Card c = (Card)recentIt.next();
+												%>
+												<a href="/card/cardlist.html?cardId=<%=c.getCardId() %>" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
+													<img src="<%=c.getImg()%>">
+													<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
+												</a>	
+												<%
+											}
+										}
+										%>
+									
+											
+									</div>
+								</div>						
+
+					</div>
+					<div style="text-align: center;font-size: 0.4rem;padding-bottom: 0.2rem">
+						<input type="checkbox" checked="checked" id="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
+						<input type="checkbox" checked="checked" id="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
+					</div>
+					<a class="i7 regVhref" href="#" >
+					<%
+					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+						%><%=Menu.getMenu("use1point", languageId) %><%
+					}else{
+						%><%=Menu.getMenu("free_read", languageId) %><%
+					}
+					%>
+					</a>
+					<div style="text-align: center;margin: 0.5rem;">
+						<a href="subscribe.html"><%=Menu.getMenu("orderuser", languageId) %></a><%=Menu.getMenu("freeread", languageId) %></div>
+					<a class="i8"><%=Menu.getMenu("giveup", languageId) %></a>
 				</div>
 			</div>
 		</ol>
