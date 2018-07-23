@@ -44,7 +44,6 @@ public class CardListServlet extends HttpServlet {
 				return;
 			}
 
-			System.out.println(request.getParameter("wordFlag"));
 			// 显示文字
 			if (request.getParameter("wordFlag") != null) {
 				request.getSession().setAttribute("wordFlag", request.getParameter("wordFlag"));

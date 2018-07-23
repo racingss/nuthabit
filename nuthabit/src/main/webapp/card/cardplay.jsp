@@ -278,12 +278,15 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    							continue;
 				    						soundFlag=false;
 				    						%>
-				    						<a href="#" class="audiohidden" soundId="<%=soundI %>" style="background: url(img/sound30.png);float:right"></a>
-				    						<audio <%if(soundI==1){%>autoplay="true"<%} %> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
-												<source src="<%=cs.getSound() %>">
-											</audio>	
-											
+				    						
 				    						<%
+				    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
+				    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="background: url(img/sound30.png);float:right"></a>
+					    						<audio <%if(soundI==1 ){%>autoplay="true"<%}%> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
+													<source src="<%=cs.getSound() %>">
+												</audio>	
+											<%
+				    						}
 				    					}
 				    					if(soundFlag && cm!=null){
 				    						// 如果是中英文重设需要抓取语音
