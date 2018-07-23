@@ -65,7 +65,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					dateType:'json',
 				    success: function(data){
 				    	if(data==0){
-				    		alert("没有更多啦");
+				    		alert("<%=Menu.getMenu("no_more", languageId) %>");
 				    	}else{
 				    		$("#searchhidden").before(data);	
 				    	}
