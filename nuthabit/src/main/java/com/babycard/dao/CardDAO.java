@@ -906,6 +906,90 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
+	
+	public Collection getAllCardListOrderByFavCount(long page) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			StringBuffer sb = new StringBuffer("select * from baby_card where kId=0 order by favCount desc limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+	
+	public Collection getAllCardListOrderByNew(long page) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			StringBuffer sb = new StringBuffer("select * from baby_card where kId=0 order by cardId desc limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+	
+	public Collection getAllCardListOrderByAZ(long page) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			StringBuffer sb = new StringBuffer("select * from baby_card where kId=0 order by meaning limit ");
+			sb.append((page - 1) * NUMS);
+			sb.append(",");
+			sb.append(NUMS);
+			ps = conn.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
 
 	public Collection getAllCardList() {
 		Connection conn;

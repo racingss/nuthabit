@@ -82,12 +82,7 @@ public class SearchServlet extends HttpServlet {
 				Collection searchResult = new CardDAO().getCardListByTag(Long.parseLong(request.getParameter("tagId")),
 						page);
 
-				if (page != 1) {
-					returnAjax(response, searchResult);
-				} else {
-					request.setAttribute("searchResult", searchResult);
-					request.getRequestDispatcher("searchResult.jsp").forward(request, response);
-				}
+				buildReturn(request, response, page, searchResult);
 
 				return;
 			}
@@ -98,13 +93,35 @@ public class SearchServlet extends HttpServlet {
 				request.setAttribute("qString", Menu.getMenu("age_" + request.getParameter("age"), languageId));
 				Collection searchResult = new CardDAO().getCardListByAge(Long.parseLong(request.getParameter("age")),
 						page);
-				if (page != 1) {
-					returnAjax(response, searchResult);
-				} else {
-					request.setAttribute("searchResult", searchResult);
-					request.getRequestDispatcher("searchResult.jsp").forward(request, response);
-				}
+				buildReturn(request, response, page, searchResult);
 
+				return;
+			}
+
+			// 最受欢迎
+			if (request.getParameter("pop") != null) {
+				request.getSession().removeAttribute("qString");
+				request.setAttribute("qString", Menu.getMenu("search_pop", languageId));
+				Collection searchResult = new CardDAO().getAllCardListOrderByFavCount(page);
+				buildReturn(request, response, page, searchResult);
+				return;
+			}
+
+			// 最新
+			if (request.getParameter("new") != null) {
+				request.getSession().removeAttribute("qString");
+				request.setAttribute("qString", Menu.getMenu("menu_new", languageId));
+				Collection searchResult = new CardDAO().getAllCardListOrderByNew(page);
+				buildReturn(request, response, page, searchResult);
+				return;
+			}
+
+			// A-Z
+			if (request.getParameter("order") != null) {
+				request.getSession().removeAttribute("qString");
+				request.setAttribute("qString", "A-Z");
+				Collection searchResult = new CardDAO().getAllCardListOrderByAZ(page);
+				buildReturn(request, response, page, searchResult);
 				return;
 			}
 
@@ -116,7 +133,7 @@ public class SearchServlet extends HttpServlet {
 				long subAge = 0;
 				if (request.getParameter("subAge") != null) {
 					subAge = Long.parseLong(request.getParameter("subAge"));
-					searchResult = new CardDAO().searchCard(qString, page,subAge);
+					searchResult = new CardDAO().searchCard(qString, page, subAge);
 				} else {
 					searchResult = new CardDAO().searchCard(qString, page);
 				}
@@ -128,12 +145,7 @@ public class SearchServlet extends HttpServlet {
 				s.setrCount(searchResult.size());
 				new SearchDAO().addSearch(s);
 
-				if (page != 1) {
-					returnAjax(response, searchResult);
-				} else {
-					request.setAttribute("searchResult", searchResult);
-					request.getRequestDispatcher("searchResult.jsp").forward(request, response);
-				}
+				buildReturn(request, response, page, searchResult);
 
 				return;
 			} else {
@@ -143,6 +155,16 @@ public class SearchServlet extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	private void buildReturn(HttpServletRequest request, HttpServletResponse response, long page,
+			Collection searchResult) throws IOException, ServletException {
+		if (page != 1) {
+			returnAjax(response, searchResult);
+		} else {
+			request.setAttribute("searchResult", searchResult);
+			request.getRequestDispatcher("searchResult.jsp").forward(request, response);
 		}
 	}
 

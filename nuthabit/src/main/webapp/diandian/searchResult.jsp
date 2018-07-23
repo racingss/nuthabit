@@ -107,6 +107,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
 
 		})
 	</script>
+	<style type="text/css">
+	.i1 a span{
+		color:#000;
+	}
+	.a{
+		color:#000;
+	}
+	</style>
 </head>
 <body>
 	<div class="page searchResults">
@@ -164,39 +172,31 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					<a id="guanbi"></a>
 				</div>
 				<label class="i1">
-					<a>
+					<a  <%if(request.getParameter("pop")!=null) {%>class="active"<%} %> href="search.html?pop=1">
 						<span><%=Menu.getMenu("search_pop", languageId) %></span>
 						<i></i>						
 					</a>
-					<a class="active">
+					<a <%if(request.getParameter("new")!=null) {%>class="active"<%} %> href="search.html?new=1">
 						<span><%=Menu.getMenu("search_new", languageId) %></span>
 						<i></i>						
 					</a>
-					<a>
+					<a <%if(request.getParameter("order")!=null) {%>class="active"<%} %> href="search.html?order=1">
 						<span>A~Z</span>
 						<i></i>						
 					</a>
 					<input type="text" name="">
 				</label>
 				<label class="i2">
-					<a href="search.html?subAge=1" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("1")){ out.print("class='active'");} %>>
+					<a href="search.html?age=1" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("1")){ out.print("class='active'");} %>>
 						<span>1-2<%=Menu.getMenu("sui", languageId) %></span>
 						<i></i>	
 					</a>
-					<a href="search.html?subAge=2" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("2")){ out.print("class='active'");} %>>
+					<a href="search.html?age=2" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("2")){ out.print("class='active'");} %>>
 						<span>2-3<%=Menu.getMenu("sui", languageId) %></span>
 						<i></i>	
 					</a>
-					<a href="search.html?subAge=3" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("3")){ out.print("class='active'");} %>>
+					<a href="search.html?age=3" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("3")){ out.print("class='active'");} %>>
 						<span>3-4<%=Menu.getMenu("sui", languageId) %></span>
-						<i></i>	
-					</a>
-					<a href="search.html?subAge=4" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("4")){ out.print("class='active'");} %>>
-						<span>4-5<%=Menu.getMenu("sui", languageId) %></span>
-						<i></i>	
-					</a>
-					<a href="search.html?subAge=5" <%if(request.getParameter("subAge")!=null && request.getParameter("subAge").equals("5")){ out.print("class='active'");} %>>
-						<span>4-5<%=Menu.getMenu("sui", languageId) %></span>
 						<i></i>	
 					</a>
 					<input type="text" name="">
