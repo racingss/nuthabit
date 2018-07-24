@@ -65,7 +65,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				$(".cardwindow").show();
 			})
 
-			$("#wordFlag").click(function(){
+			$(".wordFlag").click(function(){
 				var wordFlag=0;
 				if($(this).is(':checked')){
 					wordFlag=0;
@@ -81,7 +81,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				
 			})
 			
-			$("#soundFlag").click(function(){
+			$(".soundFlag").click(function(){
 				var soundFlag=0;
 				if($(this).is(':checked')){
 					soundFlag=0;
@@ -179,8 +179,8 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
 					</div>
 					<div style="text-align: center;font-size: 0.4rem;padding-bottom: 0.2rem">
-						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> id="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
-						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> id="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
+						<input type="checkbox" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
+						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
@@ -272,8 +272,8 @@ long languageId = new LanguageHttp().getLanguageId(request);
 
 					</div>
 					<div style="text-align: center;font-size: 0.4rem;padding-bottom: 0.2rem">
-						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> id="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
-						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> id="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
+						<input type="checkbox" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
+						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
