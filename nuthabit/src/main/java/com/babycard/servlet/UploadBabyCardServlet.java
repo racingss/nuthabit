@@ -204,20 +204,20 @@ public class UploadBabyCardServlet extends HttpServlet {
 				fileItem.write(fileOne);
 
 				// 缩放文件
-				if (filetype == 1) {
-					BufferedImage source = ImageIO.read(fileOne);
-					int width = source.getWidth();// 图片宽度
-					int height = source.getHeight();// 图片高度
-					int targetW = 800;
-					int targetH = 0;
-					if (width > targetW) {
-						targetH = (int) (height * ((double) targetW / (double) width));
-						BufferedImage imageResult = zoomInImage(source, targetW, targetH);
-						File outFile = new File(distp);
-						ImageIO.write(imageResult, "jpg", outFile);
-						System.out.println("缩放成功");
-					}
-				}
+//				if (filetype == 1) {
+//					BufferedImage source = ImageIO.read(fileOne);
+//					int width = source.getWidth();// 图片宽度
+//					int height = source.getHeight();// 图片高度
+//					int targetW = 800;
+//					int targetH = 0;
+//					if (width > targetW) {
+//						targetH = (int) (height * ((double) targetW / (double) width));
+//						BufferedImage imageResult = zoomInImage(source, targetW, targetH);
+//						File outFile = new File(distp);
+//						ImageIO.write(imageResult, "jpg", outFile);
+//						System.out.println("缩放成功");
+//					}
+//				}
 
 				response.setStatus(200);
 			} catch (Exception e) {
