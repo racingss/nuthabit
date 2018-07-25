@@ -92,7 +92,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				<div>
 					<p><%=Menu.getMenu("order_curr", languageId) %></p>
 					<div>
-						<p><span><%=new KehuDAO().getJifen(k.getId()) %></span><%=Menu.getMenu("order_gejianguo", languageId) %></p>
+						<p><span><%=new KehuDAO().getJifen(k.getId()) %></span><%=Menu.getMenu("jifen", languageId) %></p>
 						<a href=""><%=Menu.getMenu("chongzhi", languageId) %></a>
 					</div>					
 				</div>
