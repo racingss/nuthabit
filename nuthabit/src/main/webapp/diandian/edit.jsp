@@ -114,15 +114,15 @@ Baby b = (Baby)request.getAttribute("baby");
 			<div class="list" style="z-index:  1;position:  relative;margin-top: 1rem;">
 				<a href="edit.html?name=t">
 					<span><%=Menu.getMenu("baby_name", languageId) %></span>
-					<p id="babyNamep"><%=b.getBabyName() %></p>
+					<p id="babyNamep"><%if(b!=null) out.print(b.getBabyName()); %></p>
 				</a>
 				<a href="edit.html?bir=t">
 					<span><%=Menu.getMenu("chushengnianyue", languageId) %></span>
-					<p id="birthp"><%=b.getbYear() %>-<%=b.getbMonth() %></p>
+					<p id="birthp"><%if(b!=null){ %><%= b.getbYear() %>-<%=b.getbMonth() %><%} %></p>
 				</a>
 				<a href="edit.html?bir=t">
 					<span><%=Menu.getMenu("chushengnianyue", languageId) %></span>
-					<p id="sexp"><%=Menu.getMenu("sex_"+b.getSex(), languageId) %></p>
+					<p id="sexp"><%if(b!=null) {%><%=Menu.getMenu("sex_"+b.getSex(), languageId) %><%} %></p>
 				</a>
 			</div>
 			
