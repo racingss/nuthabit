@@ -17,6 +17,11 @@ public class BabyDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
+			ps = conn.prepareStatement("delete from baby where kId=?");
+			ps.setLong(1, b.getkId());
+			ps.executeUpdate();
+			ps.close();
+			
 			ps = conn.prepareStatement("insert into baby(kId,babyName,bYear,bMonth,bDay,headimg,sex)values(?,?,?,?,?,?,?) ");
 			ps.setLong(1, b.getkId());
 			ps.setString(2, b.getBabyName());
@@ -61,6 +66,31 @@ public class BabyDAO extends SampleDAO {
 		return b;
 	}
 	
+	public Baby getBabyBykId(long kId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Baby b=null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from  baby where kId=?");
+			ps.setLong(1, kId);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				b = new Baby(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return b;
+	}
+	
 	public void updateBaby(Baby b) {
 		Connection conn;
 		PreparedStatement ps;
@@ -78,6 +108,7 @@ public class BabyDAO extends SampleDAO {
 			ps.setString(5, b.getHeadImg());
 			ps.setLong(6, b.getkId());
 			ps.executeUpdate();
+			
 			ps.close();
 
 		} catch (Exception e) {

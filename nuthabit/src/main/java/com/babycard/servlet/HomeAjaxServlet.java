@@ -28,21 +28,62 @@ public class HomeAjaxServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("next time");
+
+		request.setCharacterEncoding("UTF-8");
+
 		if (request.getParameter("nexttime") != null)
 			request.getSession().setAttribute("nexttime", "t");
-		
+
 		if (request.getParameter("birthyear") != null) {
 			Kehu k = new KehuUtil().getKehu(request, response);
-			Baby b = new Baby();
-			b.setkId(k.getId());
-			b.setBabyName("");
-			b.setbYear(Long.parseLong(request.getParameter("birthyear")));
-			b.setbMonth(Long.parseLong(request.getParameter("birthmonth")));
-			b.setbDay(0);
-			b.setSex(Long.parseLong(request.getParameter("sex")));
-			new BabyDAO().addBaby(b);
-			k.b=b;
+			Baby b = new BabyDAO().getBabyBykId(k.getId());
+			if (b == null) {
+				b = new Baby();
+				b.setkId(k.getId());
+				b.setBabyName("");
+				b.setbYear(Long.parseLong(request.getParameter("birthyear")));
+				b.setbMonth(Long.parseLong(request.getParameter("birthmonth")));
+				b.setbDay(0);
+				b.setSex(Long.parseLong(request.getParameter("sex")));
+				new BabyDAO().addBaby(b);
+			} else {
+				b.setSex(Long.parseLong(request.getParameter("sex")));
+				b.setbYear(Long.parseLong(request.getParameter("birthyear")));
+				b.setbMonth(Long.parseLong(request.getParameter("birthmonth")));
+				new BabyDAO().updateBaby(b);
+			}
+			k.b = b;
+			return;
+		}
+
+		if (request.getParameter("babyName") != null) {
+			Kehu k = new KehuUtil().getKehu(request, response);
+			Baby b = new BabyDAO().getBabyBykId(k.getId());
+			b.setBabyName(request.getParameter("babyName"));
+			new BabyDAO().updateBaby(b);
+			k.b = b;
+			return;
+		}
+
+		if (request.getParameter("email") != null) {
+			Kehu k = new KehuUtil().getKehu(request, response);
+			k.setEmail(request.getParameter("email"));
+			new KehuDAO().updateKehu(k);
+			return;
+		}
+
+		if (request.getParameter("mobile") != null) {
+			Kehu k = new KehuUtil().getKehu(request, response);
+			k.setShouji(request.getParameter("mobile"));
+			new KehuDAO().updateKehu(k);
+			return;
+		}
+
+		if (request.getParameter("wx") != null) {
+			Kehu k = new KehuUtil().getKehu(request, response);
+			k.setWx(request.getParameter("wx"));
+			new KehuDAO().updateKehu(k);
+			return;
 		}
 
 	}

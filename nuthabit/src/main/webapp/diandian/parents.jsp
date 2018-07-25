@@ -52,6 +52,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</div>
 			</div>
 			<div class="list">
+				<a href="edit.html">
+					<img src="frame/parents-8.png">
+					<span><%=Menu.getMenu("edit_profie", languageId) %></span>
+				</a>
 				<a href="subscribe.html">
 					<img src="frame/parents-5.png">
 					<%

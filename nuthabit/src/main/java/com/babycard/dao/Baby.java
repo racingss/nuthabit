@@ -96,6 +96,7 @@ public class Baby {
 			this.setbYear(rs.getLong("bYear"));
 			this.setHeadImg(rs.getString("headImg"));
 			this.setSex(rs.getLong("sex"));
+			this.setkId(rs.getLong("kId"));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

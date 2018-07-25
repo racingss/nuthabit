@@ -687,7 +687,7 @@ public class KehuDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"update kehu set shouji=? ,unionId=?,openId=?,nickname=?,sex=?,headimgurl=?,jifen=?,status=?,tuijianren=?,zhuceri=?,pwd=?,kehuId=?,dengluri=?,province=?,city=?,country=? where id=?");
+					"update kehu set shouji=? ,unionId=?,openId=?,nickname=?,sex=?,headimgurl=?,jifen=?,status=?,tuijianren=?,zhuceri=?,pwd=?,kehuId=?,dengluri=?,province=?,city=?,country=?,email=?,wx=? where id=?");
 			ps.setString(1, k.getShouji());
 			ps.setString(2, k.getUnionId());
 			ps.setString(3, k.getOpenId());
@@ -704,7 +704,9 @@ public class KehuDAO extends SampleDAO {
 			ps.setString(14, k.getProvince());
 			ps.setString(15, k.getCity());
 			ps.setString(16, k.getCountry());
-			ps.setLong(17, k.getId());
+			ps.setString(17, k.getEmail());
+			ps.setString(18, k.getWx());
+			ps.setLong(19, k.getId());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

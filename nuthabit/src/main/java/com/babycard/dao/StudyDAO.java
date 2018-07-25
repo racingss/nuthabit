@@ -43,7 +43,7 @@ public class StudyDAO extends SampleDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
-			System.out.println("needdelete:" + ps.toString());
+//			System.out.println("needdelete:" + e.toString());
 		} finally {
 			close(conn, ps, rs);
 		}

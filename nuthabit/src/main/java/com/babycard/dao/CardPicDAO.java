@@ -305,6 +305,12 @@ public class CardPicDAO extends SampleDAO {
 			rs.close();
 			ps.close();
 
+			//卡片数-1
+			ps = conn.prepareStatement("update baby_card set picCount=picCount-1 where cardId=?");
+			ps.setLong(1, cardId);
+			ps.executeUpdate();
+			ps.close();
+			
 			// 删除的是幅图 ，直接删除后退出
 			if (temp.getMainPicId() != 0) {
 				ps = conn.prepareStatement("delete from baby_card_pic where picId=?");

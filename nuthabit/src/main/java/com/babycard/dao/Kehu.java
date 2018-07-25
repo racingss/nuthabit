@@ -11,7 +11,7 @@ import java.util.Date;
 public class Kehu {
 
 	private long id;
-	private String shouji;
+	private String shouji = "";
 	private String unionId;
 	private String openId;
 	private String nickname;
@@ -34,6 +34,24 @@ public class Kehu {
 	public long languageId = 0;
 	public Baby b = null;
 	private String code = null;
+	private String email = "";
+	private String wx = "";
+
+	public String getWx() {
+		return wx;
+	}
+
+	public void setWx(String wx) {
+		this.wx = wx;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public String getCode() {
 		return code;
@@ -330,6 +348,8 @@ public class Kehu {
 			this.setCountry(rs.getString("country"));
 			this.setLanguageId(rs.getLong("languageId"));
 			this.setCode(rs.getString("code"));
+			this.setEmail(rs.getString("email"));
+			this.setWx(rs.getString("wx"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

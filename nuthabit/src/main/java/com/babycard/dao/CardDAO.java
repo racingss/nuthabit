@@ -99,7 +99,7 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
-	
+
 	public void updateCardTag(long cardId, long tagId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -114,7 +114,7 @@ public class CardDAO extends SampleDAO {
 			ps = conn.prepareStatement("delete from baby_bind_card_tag where cardId=? ");
 			ps.setLong(1, cardId);
 			ps.executeUpdate();
-			
+
 			ps.close();
 			ps = conn.prepareStatement("insert into baby_bind_card_tag(cardId,tagId)values(?,?)");
 			ps.setLong(1, cardId);
@@ -169,13 +169,11 @@ public class CardDAO extends SampleDAO {
 			ps.setLong(1, cardId);
 			ps.setLong(2, kId);
 			ps.executeUpdate();
-			
+
 			ps.close();
 			ps = conn.prepareStatement("delete from baby_card_history where cardId=?");
 			ps.setLong(1, cardId);
 			ps.executeUpdate();
-			
-			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -906,7 +904,7 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
-	
+
 	public Collection getAllCardListOrderByFavCount(long page) {
 		Connection conn;
 		PreparedStatement ps;
@@ -934,7 +932,7 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
-	
+
 	public Collection getAllCardListOrderByNew(long page) {
 		Connection conn;
 		PreparedStatement ps;
@@ -945,7 +943,9 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			StringBuffer sb = new StringBuffer("select * from baby_card where kId=0 order by cardId desc limit ");
+			// StringBuffer sb = new StringBuffer("select * from baby_card where
+			// kId=0 order by cardId desc limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where picCount>=6 order by cardId desc limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -962,7 +962,7 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
-	
+
 	public Collection getAllCardListOrderByAZ(long page) {
 		Connection conn;
 		PreparedStatement ps;
@@ -1014,7 +1014,7 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
-	
+
 	public Collection getAllCardListOrderByFavCount() {
 		Connection conn;
 		PreparedStatement ps;
@@ -1039,7 +1039,7 @@ public class CardDAO extends SampleDAO {
 		return coll;
 	}
 
-	public Collection searchCard(String qString,long page) {
+	public Collection searchCard(String qString, long page) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -1049,8 +1049,9 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			
-			StringBuffer sb = new StringBuffer(" select * from baby_card where meaning like '%" + qString + "%' limit ");
+
+			StringBuffer sb = new StringBuffer(
+					" select * from baby_card where meaning like '%" + qString + "%' limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -1068,8 +1069,8 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
-	
-	public Collection searchCard(String qString,long page,long age) {
+
+	public Collection searchCard(String qString, long page, long age) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -1079,8 +1080,9 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			
-			StringBuffer sb = new StringBuffer(" select * from baby_card where meaning like '%" + qString + "%' and age=? limit ");
+
+			StringBuffer sb = new StringBuffer(
+					" select * from baby_card where meaning like '%" + qString + "%' and age=? limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -1373,14 +1375,21 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		System.out.println(dao.getAllCardListOrderByFavCount().size());
+		// System.out.println(dao.getAllCardListOrderByFavCount().size());
+		Collection coll = dao.getAllCardList();
+		Iterator it = coll.iterator();
+		CardPicDAO cDAO = new CardPicDAO();
+		while (it.hasNext()) {
+			Card c = (Card) it.next();
+			System.out.println(c.toString());
+			dao.updateCardCount(c.getCardId(), cDAO.getCardPicCountByCardId(c.getCardId()));
+		}
 
-//		Iterator it = dao.getCardListRecent(2670).iterator();
-//		while (it.hasNext()) {
-//			Card c = (Card) it.next();
-//			System.out.println(c.toString());
-//		}
-		
+		// Iterator it = dao.getCardListRecent(2670).iterator();
+		// while (it.hasNext()) {
+		// Card c = (Card) it.next();
+		// System.out.println(c.toString());
+		// }
 
 		if (true)
 			return;
