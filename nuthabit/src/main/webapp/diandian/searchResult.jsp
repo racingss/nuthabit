@@ -9,6 +9,19 @@ long tagId=0;
 if(request.getParameter("tagId")!=null)
 	tagId = Long.parseLong(request.getParameter("tagId"));
 String qString=request.getAttribute("qString").toString();
+
+long pop=0;
+if(request.getParameter("pop")!=null)
+pop=1;
+
+long order=0;
+if(request.getParameter("order")!=null)
+order=1;
+
+long newFlag=0;
+if(request.getParameter("new")!=null)
+newFlag=1;
+
 long languageId = new LanguageHttp().getLanguageId(request);
 Kehu k = new KehuUtil().getKehu(request, response);
 %>
@@ -47,6 +60,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		    })
 		    
 		    var age=<%=age%>;
+		    var pop=<%=pop%>;
+		    var order=<%=order%>;
+		    var newFlag=<%=newFlag%>;
 		    var tagId=<%=tagId%>;
 		    var qString = '<%=qString%>';
 		    var page=1;
@@ -56,6 +72,12 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					uslstring ='search.html?age=<%=age%>&page='+page; 
 				}else if(tagId!=0){
 					uslstring ='search.html?tagId=<%=tagId%>&page='+page;
+				}else if(pop!=0){
+					uslstring ='search.html?pop=<%=pop%>&page='+page;
+				}else if(order!=0){
+					uslstring ='search.html?order=<%=order%>&page='+page;
+				}else if(newFlag!=0){
+					uslstring ='search.html?new=<%=newFlag%>&page='+page;
 				}else{
 					uslstring ='search.html?qString=<%=qString%>&page='+page;
 				}
