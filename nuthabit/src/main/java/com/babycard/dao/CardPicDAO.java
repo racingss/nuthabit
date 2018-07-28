@@ -90,6 +90,28 @@ public class CardPicDAO extends SampleDAO {
 		}
 	}
 
+	public void updateSound(long picId, String sound) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic cp = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update baby_card_pic set sound=? where picId=?");
+			ps.setString(1, sound);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
 	public void addCardPic(long cardId, String displayurl, String weburl) {
 		Connection conn;
 		PreparedStatement ps;
@@ -305,12 +327,12 @@ public class CardPicDAO extends SampleDAO {
 			rs.close();
 			ps.close();
 
-			//卡片数-1
+			// 卡片数-1
 			ps = conn.prepareStatement("update baby_card set picCount=picCount-1 where cardId=?");
 			ps.setLong(1, cardId);
 			ps.executeUpdate();
 			ps.close();
-			
+
 			// 删除的是幅图 ，直接删除后退出
 			if (temp.getMainPicId() != 0) {
 				ps = conn.prepareStatement("delete from baby_card_pic where picId=?");

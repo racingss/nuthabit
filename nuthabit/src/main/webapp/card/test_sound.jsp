@@ -50,6 +50,12 @@ long languageId = new LanguageHttp().getLanguageId(request);
    	<%} %>
    	
    	<%
+   	if(request.getParameter("effect")!=null){
+   	%>
+   		<input type="hidden" name="effect" value="<%=request.getParameter("effect") %>" />
+   	<%} %>
+   	
+   	<%
    	if(request.getParameter("picId")!=null){
    	%>
    		<input type="hidden" name="picId" value="<%=request.getParameter("picId") %>" />

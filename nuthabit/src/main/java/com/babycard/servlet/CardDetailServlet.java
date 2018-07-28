@@ -47,9 +47,13 @@ public class CardDetailServlet extends HttpServlet {
 		}
 
 		Card c = dao.getCardByCardId(cardId);
-		if (c.getkId() != k.getId() && k.getGuanlibiaoji()==0) {
+		if (c.getkId() != k.getId() && k.getGuanlibiaoji() == 0) {
 			System.out.println("不是本人，不能操作");
 			return;
+		}
+
+		if (request.getParameter("cleansound") != null) {
+			new CardPicDAO().updateSound(Long.parseLong(request.getParameter("picId")), "");
 		}
 
 		// 获取卡片图片

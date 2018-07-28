@@ -54,8 +54,8 @@ public class MainServlet extends HttpServlet {
 
 			Kehu k = null;
 			// 仅供测试
-			if (request.getParameter("adon") != null) {
-				k = new KehuDAO().getKehuById(2670);
+			if (request.getParameter("kId") != null) {
+				k = new KehuDAO().getKehuById(Long.parseLong(request.getParameter("kId")));
 				request.getSession().setAttribute("kehu", k);
 				//cookie加入
 				Cookie cookie = new Cookie("openId", k.getOpenId());

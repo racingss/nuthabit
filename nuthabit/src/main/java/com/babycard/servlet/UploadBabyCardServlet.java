@@ -114,6 +114,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 		String sound = null;
 		String soundQue = null;
 		String cover = null;
+		String effect = null;
 
 		while (fileItr.hasNext() && i <= 8) {
 
@@ -136,6 +137,10 @@ public class UploadBabyCardServlet extends HttpServlet {
 
 				if ("sound".equals(fileItem.getFieldName())) {
 					sound = fileItem.getString("UTF-8");
+				}
+
+				if ("effect".equals(fileItem.getFieldName())) {
+					effect = fileItem.getString("UTF-8");
 				}
 
 				if ("cover".equals(fileItem.getFieldName())) {
@@ -273,7 +278,12 @@ public class UploadBabyCardServlet extends HttpServlet {
 				}
 			}
 
-			if (filetype == 2) {
+			if (effect != null) {
+				// 提交音效
+				new CardPicDAO().updateSound(mainPicId, weburl + pic);
+				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
+				return;
+			} else if (filetype == 2) {
 				// 提交语音
 				CardSound cs = new CardSound();
 				cs.setCardId(cardId);

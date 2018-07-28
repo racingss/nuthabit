@@ -216,7 +216,17 @@ Kehu k = new KehuUtil().getKehu(request, response);
         		%>
         		
         		<!--             图片           -->
-        		<div class="slide" style="background:000;">        		
+        		<div class="slide" style="background:000;"> 
+        			
+        			<!--         音效           -->
+        			<%
+   					if(cp.getSound()!=null && cp.getSound().length()>2){
+   					%>
+   						<a style="background: url(frame/trumpet.png);display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
+  						<audio preload="auto" controls id="effect_<%=cp.getPicId() %>" style="display:none">
+							<source src="/<%=cp.getSound() %>">
+						</audio>
+					<%} %>       		
         		
 	 				<!--         主图           -->        		
         			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%>">
@@ -391,6 +401,13 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			soundId = "sound_"+$(this).attr("soundId");
 			document.getElementById(soundId).play();
 		});
+		
+		//播放音效
+		$('.effecthidden').on("click", function () {
+			soundId = "effect_"+$(this).attr("picId");
+			document.getElementById(soundId).play();
+		});
+		
 		
 		
 		$(".pichidden").click(function(){

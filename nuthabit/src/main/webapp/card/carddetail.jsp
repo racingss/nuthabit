@@ -414,8 +414,31 @@ int slide=0;
 	        			
        				}
         			
-        		
         			%>
+        			
+        			<div class="carddetail" style="margin-bottom: 1em;">
+	    			<!--                   音效                     -->
+	    				<h4>音效</h4>
+	    				<p id="" >
+	    					<%
+	    					if(cp.getSound()!=null && cp.getSound().length()>2){
+	    					%>
+    						<audio preload="auto" controls id="" class="audiosound" >
+								<source src="/<%=cp.getSound() %>">
+							</audio>
+							<%} %>
+							<a href="test_sound.jsp?sound=t&cardId=<%=c.getCardId() %>&mainPicId=<%=cp.getPicId() %>&effect=t" >
+				        			<img alt="" src="img/add1.png" />
+				  			</a>
+				  			<a href="carddetail.html?cardId=<%=c.getCardId() %>&picId=<%=cp.getPicId() %>&cleansound=t" soundId="" picId="<%=cp.getPicId() %>" cardId="<%=c.getCardId() %>">
+				        			<img alt="" src="img/x-button.png" />
+				  			</a>
+						 <p>		
+	    			</div>
+        		
+        			
+        			
+        			
 		    		<div class="carddetail" style="margin-bottom: 1em;">
 		    			<!--                   文字                     -->
         			<%

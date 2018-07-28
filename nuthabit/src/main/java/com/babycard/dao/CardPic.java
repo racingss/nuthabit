@@ -13,6 +13,15 @@ public class CardPic {
 	private long cardId = 0;
 	private long favCount = 0;
 	private long mainPicId = 0;
+	private String sound = null;
+
+	public String getSound() {
+		return sound;
+	}
+
+	public void setSound(String sound) {
+		this.sound = sound;
+	}
 
 	public String result = "0"; // 0 have not test, 1 test failed, 2 test succ
 
@@ -81,17 +90,15 @@ public class CardPic {
 		cardPicCOll.add(new Object[] { mainPicId, temp });
 		return temp;
 	}
-	
+
 	public static void rebuildPicCollByPicId(long picId) {
 		Iterator it = cardPicCOll.iterator();
 		while (it.hasNext()) {
 			Object obj[] = (Object[]) it.next();
 			if (Long.parseLong(obj[0].toString()) == picId)
-				obj[1]=new CardPicDAO().getCardPicByMainCardId(picId);
+				obj[1] = new CardPicDAO().getCardPicByMainCardId(picId);
 		}
 	}
-	
-	
 
 	public String getImgurl() {
 		if (cardpic != null)
@@ -116,6 +123,7 @@ public class CardPic {
 			this.setDisplayurl(rs.getString("displayurl"));
 			this.setWeburl(rs.getString("weburl"));
 			this.setMainPicId(rs.getLong("mainPicId"));
+			this.setSound(rs.getString("sound"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
