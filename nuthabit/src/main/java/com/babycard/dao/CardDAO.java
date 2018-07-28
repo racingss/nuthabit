@@ -945,7 +945,7 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 			// StringBuffer sb = new StringBuffer("select * from baby_card where
 			// kId=0 order by cardId desc limit ");
-			StringBuffer sb = new StringBuffer("select * from baby_card where picCount>=6 order by cardId desc limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where picCount>=5 order by cardId desc limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);

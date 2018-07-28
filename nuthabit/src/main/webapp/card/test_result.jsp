@@ -80,7 +80,7 @@ long languageId =  new LanguageHttp().getLanguageId(request);
     						<%=Menu.getMenu("your_score", languageId) %>
     						<span style="font-size:2em"><%=testHttp.getTestResult(request) %>%</span>
     						<br/>
-    						<img alt="" src="<%=testHttp.getCard(request).getImg()%>" style="height: 12rem;margin: 20px;border-radius: 10px;">
+    						<img alt="" src="<%=testHttp.getCard(request).getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
     				<p>
         		
         			<ul style="display:block;width:100%;text-align: center;">

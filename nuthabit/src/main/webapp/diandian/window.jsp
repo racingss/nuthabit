@@ -99,8 +99,6 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			
 		})
 	</script>
-
-
 		
 		<!--          注册成功提示            -->
 		<%

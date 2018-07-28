@@ -172,15 +172,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					<p style="text-align: center;font-size: 22px;margin-top:20px;">
     						&nbsp;&nbsp;<%=Menu.getMenu("begin_to_read", languageId) %>：
     						<br/>
-    						<img alt="" src="<%=c.getImg()%>" style="width:35%;margin: 20px;border-radius: 10px;">
+    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
     						<br/>
     						<%=Menu.getMenu("finge_up", languageId) %>
     						<br/>
-    						<img alt="" src="img/touch.png" style="    width: 29%;
-    background: #FFF;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 10px;">
+    						<img alt="" src="img/touch.png" style="width: 25%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
     					</p>
     					
     					<div class="carddetail" style="bottom: 0;">
@@ -336,12 +332,12 @@ Kehu k = new KehuUtil().getKehu(request, response);
     	
     			<!--                 尾页                      -->
     			<div class="slide">
-    					<p style="text-align: center;font-size: 30px;margin-top:15px">
+    					<p style="text-align: center;font-size: 22px;margin-top:15px">
     						&nbsp;&nbsp;<%=Menu.getMenu("u_just_read", languageId) %>：
     						<br/>
-    						<img alt="" src="<%=c.getImg()%>" style="width:30%;margin: 5px;border-radius: 10px;" class="lastimg">
+    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 5px;border-radius: 10px;" class="lastimg">
     					</p>
-    					<p style="text-align: center;font-size: 20px;">
+    					<p style="text-align: center;font-size: 22px;">
     						<%=Menu.getMenu("test_rightnow", languageId) %>
     						<br/>
     						<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>

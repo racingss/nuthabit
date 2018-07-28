@@ -133,10 +133,10 @@ if(request.getAttribute("reviewFlag")!=null){
         			
     				<!--                内部工具栏                     -->
 	    			<div class="carddetail" style="bottom: 0;">
-	    				<div style="font-size:50px;color: #524f4f;">
-	    					<a href="#" style="color: #524f4f;font-size: 1.2rem;">
+	    				<div style="color: #524f4f;">
+	    					<a href="#" style="color: #524f4f;font-size: 1rem;">
 			    				&nbsp;&nbsp;<%=Menu.getMenu("which", languageId) %>
-    						<span style="font-size: 2em;color: #524f4f;"><%=CardMeaning.getStaticCard(test.getPicId(), languageId).getMeaning() %></span>&nbsp;?
+    						<span style="font-size: 1.5em;color: #524f4f;"><%=CardMeaning.getStaticCard(test.getPicId(), languageId).getMeaning() %></span>&nbsp;?
 			    			</a>
 	    					<p style="height: 1rem;">
 						    	<a class="footbatbut" href="/diandian/" style="float: left;width: 45%;">
