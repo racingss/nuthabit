@@ -222,7 +222,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
         			<%
    					if(cp.getSound()!=null && cp.getSound().length()>2){
    					%>
-   						<a style="background: url(frame/trumpet.png);display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
+   						<a style="background: url(frame/trumpet.png);display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
   						<audio preload="auto" controls id="effect_<%=cp.getPicId() %>" style="display:none">
 							<source src="/<%=cp.getSound() %>">
 						</audio>
@@ -405,7 +405,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		//播放音效
 		$('.effecthidden').on("click", function () {
 			soundId = "effect_"+$(this).attr("picId");
+			$(this).css({'box-shadow':'0rem'});
 			document.getElementById(soundId).play();
+			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
 		});
 		
 		

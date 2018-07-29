@@ -100,13 +100,14 @@ public class BabyDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("update baby set babyName=?,bYear=?,bMonth=?,bDay=?,headimg=? where kId=? ");
+			ps = conn.prepareStatement("update baby set babyName=?,bYear=?,bMonth=?,bDay=?,headimg=?,sex=? where kId=? ");
 			ps.setString(1, b.getBabyName());
 			ps.setLong(2, b.getbYear());
 			ps.setLong(3, b.getbMonth());
 			ps.setLong(4, b.getbDay());
 			ps.setString(5, b.getHeadImg());
-			ps.setLong(6, b.getkId());
+			ps.setLong(6, b.getSex());
+			ps.setLong(7, b.getkId());
 			ps.executeUpdate();
 			
 			ps.close();
