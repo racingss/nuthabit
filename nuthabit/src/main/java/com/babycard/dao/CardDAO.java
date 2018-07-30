@@ -1,6 +1,7 @@
 package com.babycard.dao;
 
 import java.sql.Connection;
+
 import java.io.*;
 import java.net.*;
 import java.sql.PreparedStatement;
@@ -9,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
-
-import com.nuthabit.dao.Kehu;
-import com.nuthabit.dao.SampleDAO;
 
 public class CardDAO extends SampleDAO {
 	static long NUMS = 9;

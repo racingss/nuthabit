@@ -87,6 +87,24 @@ public class CardListServlet extends HttpServlet {
 				return;
 			}
 
+			// 评分
+			if (request.getParameter("score") != null) {
+				new CardScoreDAO().add(cardId, k.getId(), Long.parseLong(request.getParameter("score")));
+				if (Long.parseLong(request.getParameter("score")) == 3) {
+					Fav f = new Fav();
+					f.setCardId(cardId);
+					f.setKehuId(k.getId());
+					new FavDAO().addFav(f);
+				}
+				return;
+			}
+
+			// 评论
+			if (request.getParameter("comm") != null) {
+				new CardCommDAO().add(cardId, k.getId(), request.getParameter("comm"));
+				return;
+			}
+
 			request.setAttribute("isFav", new FavDAO().isFav(k.getId(), cardId));
 
 			// 语言

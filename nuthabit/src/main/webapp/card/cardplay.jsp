@@ -125,7 +125,34 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	.headmenu{
 		display:none;
 	}
+	.ftmu{
+		display:block;
+		width:24%;
+		float:left;
+		text-align:center;
+	}
+	.ftmu_s1{
+		display:block;
+		width:100%;
+		text-align:center;
+	}
+	.ftmu_s2{
+		text-align: center;
+		  color: #FFF;
+		  background: #f49731;
+		  padding: 0.1rem 0.3rem;
+		  border-radius: 0.2rem;
+		  font-size: 1rem;
+		  box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
+	}
+	.pingjiaspan{
+		padding-bottom: .2rem;
+		display: inline-block;
+	}
 	
+	.scoreImg{
+		display:inline-block;width:24px;height:24px;
+	}
 	
     </style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
@@ -342,41 +369,99 @@ Kehu k = new KehuUtil().getKehu(request, response);
     	
     			<!--                 尾页                      -->
     			<div class="slide">
-    					<p style="text-align: center;font-size: 22px;margin-top:15px">
+    					
+    					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
+    						<%=Menu.getMenu("qingpingfen", languageId) %>
+    					</p>
+    					<p style="text-align: left;font-size: 1.2rem;padding-left: 4rem;margin-top: -0.5rem;">
+    						<a  class="scoreImg" score="3" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="3" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="3" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<span class="pingjiaspan" ><a href="#" class="scoreHref" score="3"><%=Menu.getMenu("henxihuan", languageId) %></a></span><br/>
+    						<a  class="scoreImg" score="2" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="2" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="2" href="#" style="display: inline-block;background: url(frame/star1.png);"></a>
+    						<span class="pingjiaspan" ><a href="#" class="scoreHref" score="2"><%=Menu.getMenu("youdaigaijin", languageId) %></a></span><br/>
+    						<a  class="scoreImg" score="1" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="1" href="#" style="display: inline-block;background: url(frame/star1.png);"></a>
+    						<a  class="scoreImg" score="1" href="#" style="display: inline-block;background: url(frame/star1.png);"></a>
+    						<span class="pingjiaspan" ><a href="#" class="scoreHref" score="1"><%=Menu.getMenu("buxihuan", languageId) %></a></span><br/>
+    					</p>
+    					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
+    						<%=Menu.getMenu("fabiaoxiangfa", languageId) %><br>
+    						<form style="text-align: center;">
+    							<textarea id="comm" rows="" cols="" style="width: 80%;color: #000;font-size: 1rem;margin-top:-0.5rem"></textarea>
+    							<br/>
+    							<a class="footbatbut" id="submitcomm" href="#" style="padding: 0.2rem 2rem;border-radius: 0.2rem;font-size: 1rem;margin-top:1.5rem;">
+							    	<%=Menu.getMenu("tijiao", languageId) %>
+						    	</a>
+    						</form>
+    					</p>
+    					<!--p style="text-align: center;font-size: 22px;margin-top:15px">
     						&nbsp;&nbsp;<%=Menu.getMenu("u_just_read", languageId) %>：
     						<br/>
     						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 5px;border-radius: 10px;" class="lastimg">
-    					</p>
-    					<p style="text-align: center;font-size: 22px;">
+    					</p-->
+    					<!--p style="text-align: center;font-size: 22px;margin-top:15px">
     						<%=Menu.getMenu("test_rightnow", languageId) %>
     						<br/>
     						<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>
-    					</p>
+    					</p-->
     					
-    					<div class="carddetail" style="bottom: 0;">
-							    	<a class="footbatbut" href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="color: 000;">
-							    			<%=Menu.getMenu("re_read", languageId) %>
-						    		</a>
-						    		
-						    		<a class="footbatbut" href="/diandian/?recomm=t" style="color: 000;">
-							    			<%=Menu.getMenu("back_to_home", languageId) %>
-						    		</a>
-						    		
-						    		<%
-						    		if(Long.parseLong(request.getAttribute("isFav").toString())==0){
+    					
+    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 4rem;">
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/exchange.png);display:inline-block;width:64px;height:64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<%=Menu.getMenu("re_read", languageId) %>
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="/diandian/?recomm=t" style="background: url(img/home.png);display:inline-block;width:64px;height:64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<%=Menu.getMenu("home", languageId) %>
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/medical-result.png);display:inline-block;width:64px;height:64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<%=Menu.getMenu("test", languageId) %>
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								
+    									<%
+						    			if(Long.parseLong(request.getAttribute("isFav").toString())==0){
 						    			%>
-						    			<a class="footbatbut favImg" href="#" style="color: 000;">
-							    			<%=Menu.getMenu("menu_fav_cancle", languageId) %>
-						    			</a>
-						    			<%
-						    		}else{
+    										<span class="ftmu_s1">
+		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/star2.png);display:inline-block;width:64px;height:64px"></a>
+		    								</span>
+		    								<span class="ftmu_s2" id="shoucang_txt">
+		    									<%=Menu.getMenu("menu_fav", languageId) %>
+		    								</span>
+    									<%
+    									}else{
 						    			%>
-						    			<a class="footbatbut favImg" href="#" style="color: 000;">
-							    			<%=Menu.getMenu("menu_fav", languageId) %>
-						    			</a>
+						    				<span class="ftmu_s1">
+		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/star3.png);display:inline-block;width:64px;height:64px"></a>
+		    								</span>
+		    								<span class="ftmu_s2" id="shoucang_txt">
+		    									<%=Menu.getMenu("menu_fav_cancle", languageId) %>
+		    								</span>
 						    			<%
 						    		}
-						    		%>
+						    		%>	
+    								
+    							</div>
+    					
+						    		
+						    		
 						    		
 					    </div>
     			
@@ -448,9 +533,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    	alert('<%=Menu.getMenu("cancle_fav_succ", languageId) %>');
 				    }
 			    });
-				$(this).text('<%=Menu.getMenu("menu_fav", languageId) %>');
+				$("#shoucang_txt").text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
+				$("#shoucangImg").css({'background':'url(img/star3.png)'});
 				favFlag=1;
-				
 			}else{
 				$.ajax({
 					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favcard=t',
@@ -459,10 +544,48 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    	alert('<%=Menu.getMenu("fav_succ", languageId) %>');
 				    }
 			   });
-			   $(this).text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
+			   $("#shoucang_txt").text('<%=Menu.getMenu("menu_fav", languageId) %>');
+			   $("#shoucangImg").css({'background':'url(img/star2.png)'});
 			   favFlag=0;
 			}
 	    });
+		
+		
+		$('.scoreImg').on("click", function () {
+			score = $(this).attr("score");
+			$.ajax({
+				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
+			    }
+		    });
+	    });
+		
+		$('.scoreHref').on("click", function () {
+			score = $(this).attr("score");
+			$.ajax({
+				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
+			    }
+		    });
+	    });
+		
+		$('#submitcomm').on("click", function () {
+			$.post("/card/cardlist.html",
+					  {
+						comm:document.getElementById('comm').value,
+						cardId:'<%=c.getCardId()%>'
+					  },
+					  function(data,status){
+						  alert('<%=Menu.getMenu("tijiao_chenggong", languageId) %>');
+						   
+			 });
+	    });
+		
+		
 		
 	})
 </script>

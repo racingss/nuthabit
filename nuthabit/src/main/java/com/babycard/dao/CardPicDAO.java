@@ -1,5 +1,6 @@
 package com.babycard.dao;
 
+
 import java.sql.Connection;
 import java.io.*;
 import java.net.*;
@@ -10,8 +11,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 
-import com.nuthabit.dao.Kehu;
-import com.nuthabit.dao.SampleDAO;
 
 public class CardPicDAO extends SampleDAO {
 
