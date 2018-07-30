@@ -14,15 +14,15 @@
   </resource-ref>
   <error-page>
     <error-code>404</error-code>
-    <location>/error404.jsp</location>
+    <location>/diandian/error404.jsp</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
-    <location>/error500.jsp</location>
+    <location>/diandian/error500.jsp</location>
   </error-page>
   <error-page>
     <exception-type>java.lang.NullPointerException</exception-type>
-    <location>/error.jsp</location>
+    <location>/diandian/error.jsp</location>
   </error-page>
   <servlet>
     <description></description>
