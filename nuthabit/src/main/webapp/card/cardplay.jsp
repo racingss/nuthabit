@@ -296,9 +296,27 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		    				<div class="carddetail" style="bottom: 0;">
 						            
 						            <!--                   文字                     -->
-						    		<div style="font-size:50px;color: #524f4f;">
+						            <%
+						            String display = null;
+						            double defaultSize=3.5;
+						            if(cm!=null)
+						            	display = cm.getMeaning();
+						            else
+						            	display = c.getMeaning(languageId, c.getCardId());
+						            if(display!=null){
+						            	if(display.length()>30)
+						            		defaultSize=1.5;
+						            	else if(display.length()>20)
+						            		defaultSize=1.8;
+						            	else if(display.length()>12)
+						            		defaultSize=2.2;
+						            	else if(display.length()>6)
+						            		defaultSize=2.5;
+						            }
+						            %>
+						    		<div style="font-size:<%=defaultSize%>rem;color: #524f4f;">
 						    			<a href="language.html?type=languageId&cardId=<%=cp.getCardId() %>" style="color:#524f4f">
-						    				<%if(cm!=null)out.print(cm.getMeaning());else out.print(c.getMeaning(languageId, c.getCardId())); %>
+						    				<%=display %>
 						    			</a>
 						    			<%
 				    					Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
