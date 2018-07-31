@@ -289,7 +289,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 				cs.setCardId(cardId);
 				cs.setKehuId(k.getId());
 				cs.setLanguageId(languageId);
-				cs.setSound(weburl + pic);
+				cs.setSound("/"+weburl + pic);
 				cs.setPicId(picId);
 				new SoundDAO().addCardSound(cs, false);
 				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);

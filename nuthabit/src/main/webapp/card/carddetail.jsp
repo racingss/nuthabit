@@ -464,11 +464,7 @@ int slide=0;
 		    						<audio preload="auto" controls id="sound_<%=soundI%>" class="audiosound" >
 										<source src="<%=cs.getSound() %>">
 									</audio>
-									<a href="test_sound.jsp?sound=t&cardId=<%=c.getCardId() %>&mainPicId=<%=cp.getPicId() %>" >
-						        			<img alt="" src="img/add1.png" />
-						  			</a>
-						  			
-						  			<a href="#" picId="<%=cp.getPicId() %>" cardId="<%=c.getCardId() %>" distLanguage="<%=cs.getLanguageId() %>" class="refresh-button" >
+									<a href="#" picId="<%=cp.getPicId() %>" cardId="<%=c.getCardId() %>" distLanguage="<%=cs.getLanguageId() %>" class="refresh-button" >
 						        			<img alt="" src="img/refresh.png" />
 						  			</a>
 						  			<a href="#" soundId="<%=cs.getSoundId() %>" picId="<%=cp.getPicId() %>" cardId="<%=c.getCardId() %>" distLanguage="<%=cs.getLanguageId() %>" class="x-button">
@@ -484,6 +480,9 @@ int slide=0;
 						  			<%
 		    					}
 		    					%>
+		    						<a href="test_sound.jsp?sound=t&cardId=<%=c.getCardId() %>&picId=<%=cp.getPicId() %>" >
+						        			<img alt="" src="img/add1.png" />
+						  			</a>
 		    					</div>
 		    					<%
 					    		
