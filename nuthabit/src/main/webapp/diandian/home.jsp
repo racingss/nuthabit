@@ -111,9 +111,16 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			</ul>
 		</nav>
 		<div>
-			<div >
+			<div style="position:relative;  
+                    left:0px;  
+                    top:0px;  
+                    margin:0;  
+                    padding:0;  ">
             	<a href="/card/cardlist.html?cardId=2189">
-					<img src="frame/animal.gif" style="width:100%;">
+					<img src="frame/animal_bak.jpg" style="width:100%;">
+					<img src="frame/mv1.gif" style="width: 20%;position: absolute;top: 31%;left: 53%;">
+					<img src="frame/mv2.gif" style="width: 16%;position: absolute;top: 38%;left: 30%;">
+					<img src="frame/nv3.gif" style="width: 16%;position: absolute;top: 5%;left: 80%;">
 				</a>
             </div>
 			<!--div class="banner">
