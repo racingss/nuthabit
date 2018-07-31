@@ -749,7 +749,7 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 
 			StringBuffer sb = new StringBuffer(
-					"select * from baby_card where picCount>0 and cardId in( select cardId from baby_bind_card_tag where tagId=?) order by cardIndex limit ");
+					"select * from baby_card where status=0 and cardId in( select cardId from baby_bind_card_tag where tagId=?) order by cardIndex limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -884,7 +884,7 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			StringBuffer sb = new StringBuffer("select * from baby_card where age=? order by cardIndex limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 and age=? order by cardIndex limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -913,7 +913,7 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			StringBuffer sb = new StringBuffer("select * from baby_card where kId=0 order by favCount desc limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 order by favCount desc limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -943,7 +943,7 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 			// StringBuffer sb = new StringBuffer("select * from baby_card where
 			// kId=0 order by cardId desc limit ");
-			StringBuffer sb = new StringBuffer("select * from baby_card where picCount>=5 order by cardId desc limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 and picCount>=5 order by cardId desc limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -971,7 +971,7 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			StringBuffer sb = new StringBuffer("select * from baby_card where kId=0 order by meaning limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 order by meaning limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -1049,7 +1049,7 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 
 			StringBuffer sb = new StringBuffer(
-					" select * from baby_card where meaning like '%" + qString + "%' limit ");
+					" select * from baby_card where status=0 and meaning like '%" + qString + "%' limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -1080,7 +1080,7 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 
 			StringBuffer sb = new StringBuffer(
-					" select * from baby_card where meaning like '%" + qString + "%' and age=? limit ");
+					" select * from baby_card where status=0 and meaning like '%" + qString + "%' and age=? limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
