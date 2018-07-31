@@ -1023,7 +1023,7 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card where kId=0 order by favCount desc limit 0,50");
+			ps = conn.prepareStatement("select * from baby_card where status=0 order by favCount desc limit 0,10");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				coll.add(new Card(rs));

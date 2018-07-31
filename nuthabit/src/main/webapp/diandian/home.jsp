@@ -181,7 +181,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					<!--              最受欢迎               -->
 					<%
 					if(true){
-						Iterator recentIt = Card.getCardFavColl().iterator();
+						Iterator recentIt = ((Collection)request.getAttribute("popColl")).iterator();
 						int temp=0;
 						while(recentIt.hasNext() && temp++<8){
 							Card c = (Card)recentIt.next();
