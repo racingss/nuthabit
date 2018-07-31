@@ -111,23 +111,26 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			</ul>
 		</nav>
 		<div>
-			<div class="banner">
+			<div >
+            	<a href="/card/cardlist.html?cardId=2189">
+					<img src="frame/animal.gif" style="width:100%;">
+				</a>
+            </div>
+			<!--div class="banner">
 			    <div class="swiper-container">
 			        <div class="swiper-wrapper">
 			            <div class="swiper-slide">
-							<img src="frame/home-17.jpg">
-			            </div>
-			            <div class="swiper-slide">
-			            	<img src="frame/home-17.jpg">
+			            	<a href="/card/cardlist.html?cardId=2189">
+								<img src="frame/animal.gif">
+							</a>
 			            </div>
 			            <div class="swiper-slide">
 			            	<img src="frame/home-17.jpg">
 			            </div>
 			        </div>
-			        <!-- 如果需要分页器 -->
-			    	<div class="swiper-pagination"></div>
+			        <div class="swiper-pagination"></div>
 			    </div>
-			</div>
+			</div-->
 			
 			<div class="category">
 				<div>
