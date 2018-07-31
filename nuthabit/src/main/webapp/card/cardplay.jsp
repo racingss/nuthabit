@@ -11,6 +11,10 @@ Collection soundColl = c.cardSoundColl;
 //切换语言
 long languageId = new LanguageHttp().getLanguageId(request);
 long languageId_2 = new LanguageHttp().getLanguageId_2(request);
+if(languageId_2==-1 && languageId==0)
+	languageId_2=1;
+if(languageId_2==-1 && languageId==1)
+	languageId_2=0;
 
 
 boolean autoPlay=false;
@@ -386,7 +390,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     	%>
     	
     			<!--                 尾页                      -->
-    			<div class="slide">
+    			<div class="slide" style="background: #eb7347;">
     					
     					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
     						<%=Menu.getMenu("qingpingfen", languageId) %>
@@ -427,7 +431,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					</p-->
     					
     					
-    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 4rem;">
+    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
     							<div class="ftmu">
     								<span class="ftmu_s1">
     									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/exchange.png);display:inline-block;width:64px;height:64px"></a>
