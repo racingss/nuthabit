@@ -150,7 +150,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						</label>
 					</div>
 					<a class="i7" id="subi7"><%=Menu.getMenu("search_ok", languageId) %></a>
-					<a class="i8" id="subi8"><%=Menu.getMenu("next_time", languageId) %></a>
+					<!--a class="i8" id="subi8"><%=Menu.getMenu("next_time", languageId) %></a-->
 				</div>
 			</div>
 		</ol>
@@ -288,4 +288,92 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				</div>
 			</div>
 		</ol>
+		<%}%>
+		
+		
+		<style>
+		.bigi5{
+			display:block;
+			width:100%;
+		}
+		.nianl{
+		    float: left;
+		    padding: 0.2rem 0.5rem;
+		    color: #fff;
+		    margin-left: 0.2rem;
+		    border-radius: 0.5rem;
+		    margin-top: 0.3rem;
+		    font-size: 0.4rem;
+		}
+		.miaol{
+			float: left;
+    		padding: 0.5rem;
+    		font-size: 0.35rem;
+		}
+		.dagou{
+			    margin-left: 0.2rem;
+    			margin-right: 0.2rem;
+		}
+		</style>
+		
+		
+		<%
+		if(request.getParameter("level")!=null){
+		%>
+		<ol class="regV">
+			<div>
+				<div class="hd">
+					<div class="i1"></div>
+					<div class="i2"><%=Menu.getMenu("readinglevel", languageId) %></div>
+					<div class="i3">针对1-4岁儿童，仅供参考</div>
+				</div>
+				<div class="bd">
+					<div class="bigi5">
+						<span class="nianl" style="background:#ffd200" id="nian1" index="1">1-2岁</span>
+						<span class="nianl" style="background:#b3b9b5" id="nian2" index="2">2-3岁</span>
+						<span class="nianl" style="background:#b3b9b5" id="nian3" index="3">3-4岁</span>
+					</div>
+					<div class="bigi5">
+						<span class="miaol" id="miaol1" >
+							<img src="frame/check.png" class="dagou" />能够辨别出红黄蓝绿这样的原色，目光喜欢追随色彩鲜艳的物体。<br/>
+							<img src="frame/check.png" class="dagou" />对形状有了初步的认识，并展现出初级的空间认知能力。<br/>
+							<img src="frame/check.png" class="dagou" />计数雏形出现，尽管不具备计数的能力，但能区分“一个”和“多个”。<br/>
+							<img src="frame/check.png" class="dagou" />“牙牙学语”以很快的速度发展成为发音清晰的词汇，更可发展成极简的短句。
+						</span>	
+						<span class="miaol" id="miaol2" style="display:none">
+							<img src="frame/check.png" class="dagou" />分辨出更多的颜色如一些混合色（紫/橙/粉），但不总能记住名字<br/>
+							<img src="frame/check.png" class="dagou" />能指认出简单的几何图形，能够在描点的前提下画出直线<br/>
+							<img src="frame/check.png" class="dagou" />可以按照顺序数到5左右，用手指点数物体可以数出2-3个<br/>
+							<img src="frame/check.png" class="dagou" />词汇量迅速发展为几百个甚至上千，有时依靠图片就可以说出物体名称。
+						</span>
+						<span class="miaol" id="miaol3" style="display:none">
+							<img src="frame/check.png" class="dagou" />已经认识了大部分的颜色，并能对照色卡与物体的颜色配对<br/>
+							<img src="frame/check.png" class="dagou" />能够辨别大部分形状（对于相似的形状缺少一些辨识力）<br/>
+							<img src="frame/check.png" class="dagou" />能够数到十，复述3-4个乱序的数字，数出5个以内的物体个数<br/>
+							<img src="frame/check.png" class="dagou" />从头脑中的词语库里拼组出意图清晰的句子，可以尽自己所能，详尽的回答问题<br/>
+						</span>
+					</div>
+					
+					<a class="i8"><%=Menu.getMenu("search_ok", languageId) %></a>
+				</div>
+			</div>
+		</ol>
+		<script type="text/javascript">
+		$(function(){
+			$(".nianl").click(function(){
+				index=$(this).attr("index");
+				$(".miaol").hide();
+				$(".nianl").css({'background':'#b3b9b5'});
+				if(index==1){
+					$("#nian1").css({'background':'#ffd200'});
+				}else if(index==2){
+					$("#nian2").css({'background':'#38ce6d'});
+				}else if(index==3){
+					$("#nian3").css({'background':'#00adef'});
+				}
+				$("#miaol"+index).show();
+			})
+		})
+		</script>
+		
 		<%}%>
