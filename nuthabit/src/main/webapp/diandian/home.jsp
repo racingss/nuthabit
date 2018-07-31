@@ -144,11 +144,12 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					<%
 					if(true){
 						Iterator tagIt = ((Collection)request.getAttribute("tagColl")).iterator();
+						int hi=1;
 						while(tagIt.hasNext()){
 							CardTag ct = (CardTag)tagIt.next();
 							%>
 							<a href="search.html?tagId=<%=ct.getTagId()%>">
-								<i><img src="<%=ct.getHeadpng()%>"></i>
+								<i><img src="frame/h_<%=hi++%>.png"></i>
 								<span><%=Menu.getMenu("tag_"+ct.getTagId(), languageId) %></span>
 							</a>
 							<%
