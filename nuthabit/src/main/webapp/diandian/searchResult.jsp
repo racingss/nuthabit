@@ -250,9 +250,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					<div style="text-align:center;">
 						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
 					</div>
-					<div style="text-align: center;font-size: 0.4rem;padding-bottom: 0.2rem">
-						<input type="checkbox" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> id="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
-						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> id="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
+					<div style="text-align: center;font-size: 0.45rem;padding-bottom: 0.1rem;vertical-align: middle;">
+						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/>
+						<%=Menu.getMenu("edit", languageId) %>
+						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/>
+					    <%=Menu.getMenu("sound", languageId) %>
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
