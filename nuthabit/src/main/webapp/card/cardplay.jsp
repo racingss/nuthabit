@@ -232,11 +232,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
     						<%} %>
     						<br/>
-    						<span style="font-size:1rem;">
     						<%=Menu.getMenu("finge_up", languageId) %>
-    						</span>
     						<br/>
-    						<img alt="" src="img/touch.png" style="width: 15%;background: #FFF;padding: 5px;margin: 10px;border-radius: 10px;">
+    						<img alt="" src="img/touch.png" style="width: 25%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
     					</p>
     					
     					<div class="carddetail" style="bottom: 0;">
@@ -368,7 +366,13 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    						
 					    						<%
 					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="left: 45%"></a>
+					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="<%
+									    				if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
+									    					%>left:45%;<%
+									    				}else{
+									    					%>left:90%;<%
+									    				}
+									    				%>"></a>
 						    						<audio <%if(soundI==1 ){%>autoplay="true"<%}%> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
@@ -391,8 +395,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    			
 					    			<style>
 					    			.wenzidiv{
-					    				color: #524f4f;width:50%;
-					    				float:left;
+					    				color: #524f4f;<%
+					    				if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
+					    					%>width:50%;<%
+					    				}else{
+					    					%>width:100%;<%
+					    				}
+					    				%>
+										float:left;
 					    				padding:3%;
 					    			}
 					    			</style>
@@ -402,7 +412,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    			
 					    			<!--                   文字右侧                     -->
 						            <%
-						            if(true){
+						            if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
 							            String display = "";
 							            cm = CardMeaning.getStaticCard(cp.getPicId(), languageId_2);
 				    					if(cm!=null)

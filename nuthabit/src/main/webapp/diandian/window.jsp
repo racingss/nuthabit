@@ -94,7 +94,21 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				    success: function(data){
 				    }
 			   });
-				
+			})
+			
+			$(".secondFlag").click(function(){
+				var secondFlag=0;
+				if($(this).is(':checked')){
+					secondFlag=0;
+				}else{
+					secondFlag=1;
+				}
+				$.ajax({
+					url: '/card/cardlist.html?secondFlag='+secondFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
 			})
 			
 		})
@@ -181,6 +195,8 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						<%=Menu.getMenu("edit", languageId) %>
 						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/>
 					    <%=Menu.getMenu("sound", languageId) %>
+					    <input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>checked="checked"<%} %> class="secondFlag"/>
+					    双语
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
@@ -271,9 +287,13 @@ long languageId = new LanguageHttp().getLanguageId(request);
 								</div>						
 
 					</div>
-					<div style="text-align: center;font-size: 0.4rem;padding-bottom: 0.2rem">
-						<input type="checkbox" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/><%=Menu.getMenu("edit", languageId) %>
-						<input type="checkbox" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/><%=Menu.getMenu("sound", languageId) %>
+					<div style="text-align: center;font-size: 0.45rem;padding-bottom: 0.1rem;vertical-align: middle;">
+						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/>
+						<%=Menu.getMenu("edit", languageId) %>
+						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/>
+					    <%=Menu.getMenu("sound", languageId) %>
+					    <input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>checked="checked"<%} %> class="secondFlag"/>
+					    双语
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%

@@ -110,7 +110,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				$(".regV").hide();
 			})
 			
-			$("#wordFlag").click(function(){
+			$(".wordFlag").click(function(){
 				var wordFlag=0;
 				if($(this).is(':checked')){
 					wordFlag=0;
@@ -124,6 +124,36 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    }
 			   });
 				
+			})
+			
+			$(".soundFlag").click(function(){
+				var soundFlag=0;
+				if($(this).is(':checked')){
+					soundFlag=0;
+				}else{
+					soundFlag=1;
+				}
+				$.ajax({
+					url: '/card/cardlist.html?soundFlag='+soundFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
+			})
+			
+			$(".secondFlag").click(function(){
+				var secondFlag=0;
+				if($(this).is(':checked')){
+					secondFlag=0;
+				}else{
+					secondFlag=1;
+				}
+				$.ajax({
+					url: '/card/cardlist.html?secondFlag='+secondFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
 			})
 		    
 
@@ -255,6 +285,8 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						<%=Menu.getMenu("edit", languageId) %>
 						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/>
 					    <%=Menu.getMenu("sound", languageId) %>
+					    <input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>checked="checked"<%} %> class="secondFlag"/>
+					    双语
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%

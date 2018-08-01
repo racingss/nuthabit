@@ -56,6 +56,12 @@ public class CardListServlet extends HttpServlet {
 				return;
 			}
 
+			// 双语设置
+			if (request.getParameter("secondFlag") != null) {
+				request.getSession().setAttribute("secondFlag", request.getParameter("secondFlag"));
+				return;
+			}
+
 			CardDAO dao = new CardDAO();
 			long cardId = 0;
 			if (request.getParameter("cardId") != null) {

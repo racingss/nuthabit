@@ -366,7 +366,13 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    						
 					    						<%
 					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="left: 45%"></a>
+					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="<%
+									    				if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
+									    					%>left:45%;<%
+									    				}else{
+									    					%>left:90%;<%
+									    				}
+									    				%>"></a>
 						    						<audio <%if(soundI==1 ){%>autoplay="true"<%}%> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
@@ -389,8 +395,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    			
 					    			<style>
 					    			.wenzidiv{
-					    				color: #524f4f;width:50%;
-					    				float:left;
+					    				color: #524f4f;<%
+					    				if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
+					    					%>width:50%;<%
+					    				}else{
+					    					%>width:100%;<%
+					    				}
+					    				%>
+										float:left;
 					    				padding:3%;
 					    			}
 					    			</style>
@@ -400,7 +412,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    			
 					    			<!--                   文字右侧                     -->
 						            <%
-						            if(true){
+						            if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
 							            String display = "";
 							            cm = CardMeaning.getStaticCard(cp.getPicId(), languageId_2);
 				    					if(cm!=null)
