@@ -62,11 +62,11 @@ public class Menu {
 		Iterator it = menuColl.iterator();
 		while (it.hasNext()) {
 			Menu m = (Menu) it.next();
-			if (m.getLanguageId() == languageId && m.getMenuType().equals(menuType))
+			if (m.getLanguageId() == 0 && m.getMenuType().equals(menuType))
 				return m.getMenuCont();
 		}
 
-		Menu tm = new MenuDAO().getMenu(languageId, menuType);
+		Menu tm = new MenuDAO().getMenu(0, menuType);
 		if (tm != null) {
 			menuColl.add(tm);
 			return tm.getMenuCont();
