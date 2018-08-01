@@ -535,6 +535,17 @@ public class KehuDAO extends SampleDAO {
 			rs = ps.executeQuery();
 			if (rs.next())
 				k = new Kehu(rs);
+			
+			if (k != null) {
+				rs.close();
+				ps.close();
+				ps = conn.prepareStatement("select * from baby where kId=?");
+				ps.setLong(1, k.getId());
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					k.b = new Baby(rs);
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
