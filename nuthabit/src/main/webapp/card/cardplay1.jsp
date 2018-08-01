@@ -162,7 +162,19 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	.scoreImg{
 		display:inline-block;width:24px;height:24px;
 	}
-	
+	.jiaoxueshili{
+		display: block;
+	    text-align: left;
+	    font-size: 1rem;
+	    margin: 0 1.5rem;
+	    text-indent: 1.5rem;
+	    line-height: 1.4rem;
+	    background: #fae1d8;
+	    color: #383834;
+	    padding: 1rem 1rem 0 1rem;
+	    border-radius: 1rem;
+	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
+	}
     </style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
    <script src="assets/js/prismjs.js"></script>
@@ -206,9 +218,19 @@ Kehu k = new KehuUtil().getKehu(request, response);
     		    <!--                 首页                      -->
     			<div class="slide">
     					<p style="text-align: center;font-size: 22px;margin-top:20px;">
-    						&nbsp;&nbsp;<%=Menu.getMenu("begin_to_read", languageId) %>：
-    						<br/>
-    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
+    						<%
+    						if(c.getDetail()!=null && c.getDetail().length()>6){
+    						%>
+	    						&nbsp;&nbsp;教学示例<%//=Menu.getMenu("begin_to_read", languageId) %>：
+	    						<br/>
+	    						<span class="jiaoxueshili">
+	    						<%=c.getDetail().replaceAll("\n", "<br/>") %>
+	    						</span>
+    						<%}else{ %>
+    							&nbsp;&nbsp;<%=Menu.getMenu("begin_to_read", languageId) %>：
+	    						<br/>
+	    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
+    						<%} %>
     						<br/>
     						<%=Menu.getMenu("finge_up", languageId) %>
     						<br/>
@@ -244,6 +266,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     	<%
     	if(true){
     		int soundI=1;
+    		int soundI_2=1;
         	Iterator itPic = cardColl.iterator();
         	while(itPic.hasNext()){
         		slide++;
@@ -306,7 +329,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						            
 						            <!--                   文字左侧                     -->
 						            <%
-						            double defaultSize=2.5;
+						            double defaultSize=2.2;
 						            if(true){
 							            String display = null;
 							            
@@ -318,11 +341,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							            	if(display.length()>30)
 							            		defaultSize=1;
 							            	else if(display.length()>20)
-							            		defaultSize=1.2;
+							            		defaultSize=1.1;
 							            	else if(display.length()>12)
-							            		defaultSize=1.5;
+							            		defaultSize=1.3;
 							            	else if(display.length()>6)
-							            		defaultSize=2;
+							            		defaultSize=1.7;
 							            }
 							            %>
 							    		<div style="font-size:<%=defaultSize%>rem;" class="wenzidiv">
@@ -343,7 +366,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    						
 					    						<%
 					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="left: 49%"></a>
+					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="left: 45%"></a>
 						    						<audio <%if(soundI==1 ){%>autoplay="true"<%}%> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
@@ -368,6 +391,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    			.wenzidiv{
 					    				color: #524f4f;width:50%;
 					    				float:left;
+					    				padding:3%;
 					    			}
 					    			</style>
 					    			
@@ -389,7 +413,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							    			<%
 					    					Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
 					    					Iterator picSoundIt = picSoundColl.iterator();
-					    					soundI++;
+					    					soundI_2++;
 					    					boolean soundFlag=true;
 					    					while(picSoundIt.hasNext()){
 					    						CardSound cs = (CardSound)picSoundIt.next();
@@ -400,8 +424,8 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    						
 					    						<%
 					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%>  <a href="#" class="audiohidden2" soundId="<%=soundI %>" style="right: 1%"></a>
-						    						<audio preload="auto" controls id="sound_2_<%=soundI%>" style="display:none">
+					    						%>  <a href="#" class="audiohidden2" soundId="<%=soundI_2 %>" style="right: 1%"></a>
+						    						<audio preload="auto" controls id="sound_2_<%=soundI_2%>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
 												<%

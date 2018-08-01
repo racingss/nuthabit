@@ -14,6 +14,15 @@ public class Card {
 	private long age = 0;
 	private String defaultPic = null;
 	private long kId = 0;
+	private String detail = null;
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 
 	public long getkId() {
 		return kId;
@@ -178,6 +187,7 @@ public class Card {
 			this.setAge(rs.getLong("age"));
 			this.setDefaultPic(rs.getString("defaultPic"));
 			this.setkId(rs.getLong("kId"));
+			this.setDetail(rs.getString("detail"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

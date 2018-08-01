@@ -162,7 +162,19 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	.scoreImg{
 		display:inline-block;width:24px;height:24px;
 	}
-	
+	.jiaoxueshili{
+		display: block;
+	    text-align: left;
+	    font-size: 1rem;
+	    margin: 0 1.5rem;
+	    text-indent: 1.5rem;
+	    line-height: 1.4rem;
+	    background: #fae1d8;
+	    color: #383834;
+	    padding: 1rem 1rem 0 1rem;
+	    border-radius: 1rem;
+	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
+	}
     </style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
    <script src="assets/js/prismjs.js"></script>
@@ -206,13 +218,25 @@ Kehu k = new KehuUtil().getKehu(request, response);
     		    <!--                 首页                      -->
     			<div class="slide">
     					<p style="text-align: center;font-size: 22px;margin-top:20px;">
-    						&nbsp;&nbsp;<%=Menu.getMenu("begin_to_read", languageId) %>：
+    						<%
+    						if(c.getDetail()!=null && c.getDetail().length()>6){
+    						%>
+	    						&nbsp;&nbsp;教学示例<%//=Menu.getMenu("begin_to_read", languageId) %>：
+	    						<br/>
+	    						<span class="jiaoxueshili">
+	    						<%=c.getDetail().replaceAll("\n", "<br/>") %>
+	    						</span>
+    						<%}else{ %>
+    							&nbsp;&nbsp;<%=Menu.getMenu("begin_to_read", languageId) %>：
+	    						<br/>
+	    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
+    						<%} %>
     						<br/>
-    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
-    						<br/>
+    						<span style="font-size:1rem;">
     						<%=Menu.getMenu("finge_up", languageId) %>
+    						</span>
     						<br/>
-    						<img alt="" src="img/touch.png" style="width: 25%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
+    						<img alt="" src="img/touch.png" style="width: 15%;background: #FFF;padding: 5px;margin: 10px;border-radius: 10px;">
     					</p>
     					
     					<div class="carddetail" style="bottom: 0;">

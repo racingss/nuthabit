@@ -73,6 +73,30 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
+	
+	public void updateCardDetail(long cardId, String detail) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card set detail=? where cardId=? ");
+			ps.setString(1, detail);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
 
 	public void updateCardAge(long cardId, long age) {
 		Connection conn;
@@ -1373,15 +1397,16 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
+		dao.updateCardDetail(2139, "好可爱");
 		// System.out.println(dao.getAllCardListOrderByFavCount().size());
-		Collection coll = dao.getAllCardList();
-		Iterator it = coll.iterator();
-		CardPicDAO cDAO = new CardPicDAO();
-		while (it.hasNext()) {
-			Card c = (Card) it.next();
-			System.out.println(c.toString());
-			dao.updateCardCount(c.getCardId(), cDAO.getCardPicCountByCardId(c.getCardId()));
-		}
+//		Collection coll = dao.getAllCardList();
+//		Iterator it = coll.iterator();
+//		CardPicDAO cDAO = new CardPicDAO();
+//		while (it.hasNext()) {
+//			Card c = (Card) it.next();
+//			System.out.println(c.toString());
+//			dao.updateCardCount(c.getCardId(), cDAO.getCardPicCountByCardId(c.getCardId()));
+//		}
 
 		// Iterator it = dao.getCardListRecent(2670).iterator();
 		// while (it.hasNext()) {

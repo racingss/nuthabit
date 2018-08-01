@@ -320,6 +320,11 @@ int slide=0;
     		</p>
     		<%} %>
     		
+    		<h4>教学示例</h4>
+    		<p class="tiship">
+    			<textarea rows="" cols="" style="width: 70%;height: 10rem;" class="carddetailinput"><%if(c.getDetail()!=null)out.print(c.getDetail()); %></textarea>		
+    		</p>
+    		
     		<h4><%=Menu.getMenu("suit_age", languageId) %></h4>
     		<p class="tiship">
     			<select class="cardselect ageselect">
@@ -356,6 +361,10 @@ int slide=0;
     				
     			</select>		
     		</p>
+    		
+    		
+    		
+    		
     		
     	</div>
     	
@@ -686,6 +695,20 @@ int slide=0;
 				    success: function(data){
 				    	alert('<%=Menu.getMenu("update_succ", languageId) %>');
 				    }
+			});
+		});
+		
+		//修改教学示例
+		$('.carddetailinput').on("change", function () {
+			detail = $(this).val();
+			$.ajax({
+				type: 'POST',
+				url: 'cardmanage.html',
+				data: {cardId:<%=c.getCardId() %>,detail:detail},
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("update_succ", languageId) %>');
+			    }
 			});
 		});
 		

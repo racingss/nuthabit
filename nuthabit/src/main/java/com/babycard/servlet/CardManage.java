@@ -156,6 +156,12 @@ public class CardManage extends HttpServlet {
 				CardMeaning.meaningColl = null;
 			}
 
+			// 更新卡片教学示例
+			if (request.getParameter("detail") != null) {
+				dao.updateCardDetail(cardId, request.getParameter("detail"));
+				return;
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
