@@ -170,7 +170,11 @@ public class CardListServlet extends HttpServlet {
 				c.cardSoundColl = dao.getCardSoundList(c.getCardId(), k.getId());
 				request.setAttribute("card", c);
 				request.setAttribute("cardColl", cardColl);
-				request.getRequestDispatcher("cardplay.jsp").forward(request, response);
+				if (request.getParameter("page") != null) {
+					request.getRequestDispatcher("cardplay1.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("cardplay.jsp").forward(request, response);
+				}
 			} else {
 				response.sendRedirect("carddetail.html?cardId=" + c.getCardId());
 				return;
