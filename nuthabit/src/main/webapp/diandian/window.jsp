@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 long languageId = new LanguageHttp().getLanguageId(request);
+long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 %>
 <script type="text/javascript">
 		$(function(){
@@ -22,20 +23,6 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				//$(".regV").hide();
 				//$(".reviewwindow").show();
 			//})
-			
-			
-			$("#subi8").click(function(){
-				$.ajax({
-					url: '/diandian/homeajax.html?nexttime=t',
-					dateType:'json',
-				    success: function(data){
-				    }
-			   });
-			   $(".regV").hide();
-			   $(".languagewindow").show();
-			   	
-			})
-			
 			var sex=0;
 			
 			$(".sex").click(function(){
@@ -49,9 +36,10 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					url: '/diandian/homeajax.html?birthyear='+birthyear+'&birthmonth='+birthmonth+'&sex='+sex,
 					dateType:'json',
 				    success: function(data){
-				    	alert("<%=Menu.getMenu("update_succ", languageId) %>");
-				    	$(".regV").hide();
-						$(".languagewindow").show();
+				    	//alert("<%=Menu.getMenu("update_succ", languageId) %>");
+				    	//$(".regV").hide();
+						//$(".languagewindow").show();
+				    	location.href='?setup=t';
 				    }
 			   });
 			})
@@ -65,52 +53,6 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				$(".cardwindow").show();
 			})
 
-			$(".wordFlag").click(function(){
-				var wordFlag=0;
-				if($(this).is(':checked')){
-					wordFlag=0;
-				}else{
-					wordFlag=1;
-				}
-				$.ajax({
-					url: '/card/cardlist.html?wordFlag='+wordFlag,
-					dateType:'json',
-				    success: function(data){
-				    }
-			   });
-				
-			})
-			
-			$(".soundFlag").click(function(){
-				var soundFlag=0;
-				if($(this).is(':checked')){
-					soundFlag=0;
-				}else{
-					soundFlag=1;
-				}
-				$.ajax({
-					url: '/card/cardlist.html?soundFlag='+soundFlag,
-					dateType:'json',
-				    success: function(data){
-				    }
-			   });
-			})
-			
-			$(".secondFlag").click(function(){
-				var secondFlag=0;
-				if($(this).is(':checked')){
-					secondFlag=0;
-				}else{
-					secondFlag=1;
-				}
-				$.ajax({
-					url: '/card/cardlist.html?secondFlag='+secondFlag,
-					dateType:'json',
-				    success: function(data){
-				    }
-			   });
-			})
-			
 		})
 	</script>
 		
@@ -190,14 +132,6 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					<div style="text-align:center;">
 						<img class="regVimg" src="/myplan/upload/historypic/1527556550466.jpg" style="height: 3.5rem;margin: 0.3rem;border-radius: 20px;">
 					</div>
-					<div style="text-align: center;font-size: 0.45rem;padding-bottom: 0.1rem;vertical-align: middle;">
-						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/>
-						<%=Menu.getMenu("edit", languageId) %>
-						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/>
-					    <%=Menu.getMenu("sound", languageId) %>
-					    <input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>checked="checked"<%} %> class="secondFlag"/>
-					    双语
-					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
 					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
@@ -214,27 +148,17 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			</div>
 		</ol>
 		
-		<ol class="regV languagewindow" style="display:none">
-			<div>
-				
-				<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">
-					<img src="frame/home-2.png" style="position: fixed;top: 0;right: 0;width: 2rem;">
-					<p style="text-align:center;color:white;font-size:1rem;"><%=Menu.getMenu("changelanguage", languageId) %></p>
-					<a class="i8 languagei8" style="position: relative;"><%=Menu.getMenu("nextstep", languageId) %></a>
-				</div>
-			</div>
-		</ol>
-		
-		
-		<!--ol class="regV reviewwindow" style="display:none">
+		<ol class="regV setupnextwindow" style="display:none">
 			<div>
 				<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">
 					<img src="frame/eye.png" style="position: fixed;bottom: 1.5rem;right: 0.5rem;width: 1.2rem;">
-					<p style="text-align:center;color:white;font-size:1rem;"><%=Menu.getMenu("reviewdesc", languageId) %></p>
-					<a class="i8" style="position: relative;"><%=Menu.getMenu("close", languageId) %></a>
+					<p style="text-align:center;color:white;font-size:1rem;">
+						阅读设置成功，以后点击右下角的小人图标可以修改设置
+					</p>
+					<a class="i8" style="position: relative;">关闭</a>
 				</div>
 			</div>
-		</ol-->
+		</ol>
 		
 		<%
 		if(request.getParameter("jifen")!=null){
@@ -286,14 +210,6 @@ long languageId = new LanguageHttp().getLanguageId(request);
 									</div>
 								</div>						
 
-					</div>
-					<div style="text-align: center;font-size: 0.45rem;padding-bottom: 0.1rem;vertical-align: middle;">
-						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>checked="checked"<%} %> class="wordFlag"/>
-						<%=Menu.getMenu("edit", languageId) %>
-						<input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>checked="checked"<%} %> class="soundFlag"/>
-					    <%=Menu.getMenu("sound", languageId) %>
-					    <input type="checkbox" style="zoom: 1.5;" <%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>checked="checked"<%} %> class="secondFlag"/>
-					    双语
 					</div>
 					<a class="i7 regVhref" href="#" >
 					<%
@@ -399,3 +315,180 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		</script>
 		
 		<%}%>
+		
+		
+		
+		
+		
+		<%
+	if(request.getParameter("setup")!=null){
+		%>
+		<ol class="regV">
+			<div>
+				<div class="hd" style="height: 2.5rem;">
+					<div class="i1"></div>
+					<div class="i2">阅读设置</div>
+				</div>
+				<div class="bd" style="height: 8.5rem">
+					<div class="i6">
+						<label>
+							<div class="setupdiv">
+								<span >文字：</span>
+								<select id="wordFlag" style="font-size: 0.4rem;width: 3rem;margin-left: 0.1rem;">
+                                    <%if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0")){%>								
+										<option value="0" selected >显示</option>
+										<option value="1">不显示</option>
+									<%}else{ %>
+										<option value="1" selected >不显示</option>
+										<option value="0">显示</option>
+									<%} %>	
+								</select>
+							</div>
+							<div class="setupdiv">
+								<span >语音：</span>
+								<select id="soundFlag" style="font-size: 0.4rem;width: 3rem;margin-left: 0.1rem;">
+									<%if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){%>								
+										<option value="0" selected >播放</option>
+										<option value="1">静音</option>
+									<%}else{ %>
+										<option value="1" selected >静音</option>
+										<option value="0">播放</option>
+									<%} %>	
+								</select>
+							</div>
+							<div class="setupdiv">
+								<span >显示：</span>
+								<select id="secondFlag" style="font-size: 0.4rem;width: 3rem;margin-left: 0.1rem;">
+									<%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>								
+										<option value="0" selected >双语</option>
+										<option value="1">单一语言</option>
+									<%}else{ %>
+										<option value="1" selected >单一语言</option>
+										<option value="0">双语</option>
+									<%} %>	
+								</select>
+							</div>
+							<div class="setupdiv">
+								<span >语言1：</span>
+								<select id="languageFlag" style="font-size: 0.4rem;width: 3rem;margin-left: 0.1rem;">
+									<option value="<%=languageId %>" selected><%=Language.getLanguageByid(languageId).getLname() %></option>
+									<%
+									if(true){
+										  Iterator it = Language.languageColl.iterator();
+										  while(it.hasNext()){
+											    Language l = (Language)it.next();
+										  		if(l.getLanguageId()==languageId)
+										  			continue;
+												%>
+												<option value="<%=l.getLanguageId() %>"><%=l.getLname()%></option>
+											    <%
+										  } %>
+								    <%
+								    } %>
+								</select>
+							</div>
+							<div class="setupdiv">
+								<span >语言2：</span>
+								<select id="language2Flag" style="font-size: 0.4rem;width: 3rem;margin-left: 0.1rem;">
+									<%
+									if(true){
+										 if(languageId_2==-1){
+											 	%>  		
+												<option selected>未设置</option>
+												<%
+										 }else{
+											 	%>  		
+												<option value="<%=languageId_2 %>" selected><%=Language.getLanguageByid(languageId_2).getLname() %></option>
+												<%
+										 }
+										
+										  Iterator it = Language.languageColl.iterator();
+										  while(it.hasNext()){
+											    Language l = (Language)it.next();
+										  		if(l.getLanguageId()==languageId_2)
+										  			continue;
+												%>
+												<option value="<%=l.getLanguageId() %>"><%=l.getLname()%></option>
+											    <%
+										  } %>
+								    <%
+								    } %>
+								</select>
+							</div>
+						</label>
+					</div>
+					<a class="i7" id="subi7"><%=Menu.getMenu("search_ok", languageId) %></a>
+				</div>
+			</div>
+		</ol>
+		<style>
+		.setupdiv{
+			margin: 0.2rem;padding-left: 0.7rem;
+		}
+		.setupdiv span{
+			font-size: 0.45rem;
+    		width: 1.8rem;
+    		display: inline-block;
+		}
+		</style>
+		<script type="text/javascript">
+		$(function(){
+			$("#wordFlag").change(function(){
+				var wordFlag=$(this).val();
+				$.ajax({
+					url: '/card/cardlist.html?wordFlag='+wordFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			    });
+			})
+			
+			$("#soundFlag").change(function(){
+				var soundFlag=$(this).val();
+				$.ajax({
+					url: '/card/cardlist.html?soundFlag='+soundFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
+			})
+			
+			$("#secondFlag").change(function(){
+				var secondFlag=$(this).val();
+				$.ajax({
+					url: '/card/cardlist.html?secondFlag='+secondFlag,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
+			})
+			
+			$("#languageFlag").change(function(){
+				var languageId=$(this).val();
+				$.ajax({
+					url: '/card/language.html?languageId='+languageId,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
+			})
+			
+			$("#language2Flag").change(function(){
+				var languageId_2=$(this).val();
+				$.ajax({
+					url: '/card/language.html?languageId_2='+languageId_2,
+					dateType:'json',
+				    success: function(data){
+				    }
+			   });
+			})
+			
+			$("#subi7").click(function(){
+			   $(".regV").hide();
+			   $(".setupnextwindow").show();
+			})
+		})
+		</script>
+		<%
+	}
+	%>

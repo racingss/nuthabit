@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 long languageId = new LanguageHttp().getLanguageId(request);
+long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 Kehu k = new KehuUtil().getKehu(request, response);
 %>    
 <!DOCTYPE html>
@@ -52,6 +53,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</div>
 			</div>
 			<div class="list">
+				<a href="/diandian/?setup=t">
+					<img src="frame/parents-7.png">
+					<span>阅读设置</span>
+				</a>
 				<a href="edit.html">
 					<img src="frame/parents-8.png">
 					<span><%=Menu.getMenu("edit_profie", languageId) %></span>
@@ -121,5 +126,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		
 		
 	</div>
+	
+	
+	
+	
 </body>
 </html>
