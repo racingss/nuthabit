@@ -171,7 +171,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    line-height: 1.4rem;
 	    background: #fae1d8;
 	    color: #383834;
-	    padding: 1rem 1rem 0 1rem;
+	    padding: 1rem;
 	    border-radius: 1rem;
 	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
 	}
@@ -234,10 +234,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
     						<br/>
     						<%=Menu.getMenu("finge_up", languageId) %>
     						<br/>
-    						<img alt="" src="img/touch.png" style="width: 25%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
+    						<img alt="" src="img/touch.png" style="width: 20%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
     					</p>
     					
-    					<div class="carddetail" style="bottom: 0;">
+    					<!--div class="carddetail" style="bottom: 0;">
 							    	<a class="footbatbut" href="/diandian/" style="color: 000;">
 							    			返回
 						    		</a>
@@ -260,7 +260,64 @@ Kehu k = new KehuUtil().getKehu(request, response);
 								    			<%=Menu.getMenu("test", languageId) %>
 							    		</a>
 						    		<%} %>
+					    </div-->
+					    
+					    
+					    <div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
+					    		<%
+					    		if(k.getId()==c.getkId() ||k.getGuanlibiaoji()==1){
+					    		%>
+					    			<div class="ftmu">
+	    								<span class="ftmu_s1">
+	    									<a  href="carddetail.html?cardId=<%=c.getCardId() %>" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
+	    								</span>
+	    								<span class="ftmu_s2">
+	    									维护
+	    								</span>
+	    							</div>
+					    		<%	
+					    		}else{
+					    		%>
+						    		<div class="ftmu">
+	    								<span class="ftmu_s1">
+	    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
+	    								</span>
+	    								<span class="ftmu_s2">
+	    									刷新
+	    								</span>
+	    							</div>
+					    		<%} %>
+					    		
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="/diandian/" style="background: url(img/f2.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									首页
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/f3.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<%=Menu.getMenu("test", languageId) %>
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="/diandian/?setup=t" style="background: url(/diandian/frame/eye.png) no-repeat center;display: inline-block;width: 64px;height: 64px;background-size: 45px 45px;"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									设置
+    								</span>
+    							</div>
+						    		
 					    </div>
+					    
+					    
+					    
+					    
     			</div>
     
     
@@ -526,7 +583,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
     								</span>
     								<span class="ftmu_s2">
-    									<%=Menu.getMenu("re_read", languageId) %>
+    									重读
     								</span>
     							</div>
     							<div class="ftmu">
