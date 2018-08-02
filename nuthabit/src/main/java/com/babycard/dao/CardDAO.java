@@ -121,6 +121,30 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
+	
+	public void updateCardStatus(long cardId, long status) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card set status=? where cardId=? ");
+			ps.setLong(1, status);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
 
 	public void updateCardTag(long cardId, long tagId) {
 		Connection conn;
@@ -1397,7 +1421,7 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		dao.updateCardDetail(2139, "好可爱");
+		dao.updateCardStatus(2225, 0);
 		// System.out.println(dao.getAllCardListOrderByFavCount().size());
 //		Collection coll = dao.getAllCardList();
 //		Iterator it = coll.iterator();

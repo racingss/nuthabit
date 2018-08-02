@@ -45,6 +45,15 @@ public class CardDetailServlet extends HttpServlet {
 		if (request.getParameter("cardId") != null) {
 			cardId = Long.parseLong(request.getParameter("cardId"));
 		}
+		
+		if (request.getParameter("status") != null) {
+			if (k.getGuanlibiaoji() == 1) {
+				new CardDAO().updateCardStatus(cardId, Long.parseLong(request.getParameter("status")));
+			} else {
+				System.out.println("为什么会有人来改：" + cardId);
+			}
+		}
+
 
 		Card c = dao.getCardByCardId(cardId);
 		if (c.getkId() != k.getId() && k.getGuanlibiaoji() == 0) {
@@ -52,6 +61,7 @@ public class CardDetailServlet extends HttpServlet {
 			return;
 		}
 
+		
 		if (request.getParameter("cleansound") != null) {
 			new CardPicDAO().updateSound(Long.parseLong(request.getParameter("picId")), "");
 		}

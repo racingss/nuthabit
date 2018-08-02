@@ -175,7 +175,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    border-radius: 1rem;
 	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
 	}
-    </style>  
+	</style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
    <script src="assets/js/prismjs.js"></script>
    <script src="assets/js/fsvs.js"></script>
@@ -239,10 +239,13 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					
     					<div class="carddetail" style="bottom: 0;">
 							    	<a class="footbatbut" href="/diandian/" style="color: 000;">
-							    			<%=Menu.getMenu("back_to_home", languageId) %>
+							    			返回
 						    		</a>
 						    		<a  class="footbatbut" href="language.html?type=languageId&cardId=<%=c.getCardId() %>" style="color: 000;">
-						    				<%=Menu.getMenu("language", languageId) %>
+						    				<%=Menu.getMenu("language", languageId) %>1
+						    		</a>
+						    		<a  class="footbatbut" href="language.html?type=languageId_2&cardId=<%=c.getCardId() %>" style="color: 000;">
+						    				<%=Menu.getMenu("language", languageId) %>2
 						    		</a>
 						    		<%
 						    		if(k.getId()==c.getkId() ||k.getGuanlibiaoji()==1){
@@ -281,14 +284,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
         			<%
    					if(cp.getSound()!=null && cp.getSound().length()>2){
    					%>
-   						<a style="background: url(frame/trumpet.png);display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
+   						<a style="background: url(frame/sound.gif);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
   						<audio preload="auto" controls id="effect_<%=cp.getPicId() %>" style="display:none">
 							<source src="/<%=cp.getSound() %>">
 						</audio>
 					<%} %>       		
         		
 	 				<!--         主图           -->        		
-        			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%>">
+        			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effectimg">
         			<%if(picColl.size()>1){ %>
         			    
         			    
@@ -340,23 +343,25 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							            if(display!=null){
 							            	if(display.length()>30)
 							            		defaultSize=1;
-							            	else if(display.length()>20)
+							            	else if(display.length()>15)
 							            		defaultSize=1.1;
-							            	else if(display.length()>12)
+							            	else if(display.length()>10)
 							            		defaultSize=1.3;
 							            	else if(display.length()>6)
 							            		defaultSize=1.7;
 							            }
 							            %>
 							    		<div style="font-size:<%=defaultSize%>rem;" class="wenzidiv">
-							    			<a href="language.html?type=languageId&cardId=<%=cp.getCardId() %>" style="color:#524f4f">
-							    				<%=display %>
-							    			</a>
 							    			<%
-					    					Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
+							    			Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
 					    					Iterator picSoundIt = picSoundColl.iterator();
 					    					soundI++;
 					    					boolean soundFlag=true;
+					    					%>
+							    			<a href="#" soundId="<%=soundI %>" style="color:#524f4f" class="playsound">
+							    				<%=display %>
+							    			</a>
+							    			<%
 					    					while(picSoundIt.hasNext()){
 					    						CardSound cs = (CardSound)picSoundIt.next();
 					    						if(cs.getLanguageId()!=languageId)
@@ -366,13 +371,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    						
 					    						<%
 					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%>  <a href="#" class="audiohidden" soundId="<%=soundI %>" style="<%
-									    				if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
-									    					%>left:45%;<%
-									    				}else{
-									    					%>left:90%;<%
-									    				}
-									    				%>"></a>
+					    						%> 
 						    						<audio <%if(soundI==1 ){%>autoplay="true"<%}%> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
@@ -419,14 +418,16 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    						display = cm.getMeaning();
 							            %>
 							    		<div style="font-size:<%=defaultSize%>rem;" class="wenzidiv">
-							    			<a href="language.html?type=languageId_2&cardId=<%=cp.getCardId() %>" style="color:#524f4f">
-							    				<%=display %>
-							    			</a>
 							    			<%
-					    					Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
+							    			Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
 					    					Iterator picSoundIt = picSoundColl.iterator();
 					    					soundI_2++;
 					    					boolean soundFlag=true;
+					    					%>
+							    			<a href="#" soundId="<%=soundI_2 %>" style="color:#524f4f" class="playsound2">
+							    				<%=display %>
+							    			</a>
+							    			<%
 					    					while(picSoundIt.hasNext()){
 					    						CardSound cs = (CardSound)picSoundIt.next();
 					    						if(cs.getLanguageId()!=languageId_2)
@@ -436,7 +437,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    						
 					    						<%
 					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%>  <a href="#" class="audiohidden2" soundId="<%=soundI_2 %>" style="right: 1%"></a>
+					    						%> 
 						    						<audio preload="auto" controls id="sound_2_<%=soundI_2%>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
@@ -522,7 +523,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
     							<div class="ftmu">
     								<span class="ftmu_s1">
-    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/exchange.png);display:inline-block;width:64px;height:64px"></a>
+    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
     								</span>
     								<span class="ftmu_s2">
     									<%=Menu.getMenu("re_read", languageId) %>
@@ -530,7 +531,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     							</div>
     							<div class="ftmu">
     								<span class="ftmu_s1">
-    									<a  href="/diandian/?recomm=t" style="background: url(img/home.png);display:inline-block;width:64px;height:64px"></a>
+    									<a  href="/diandian/?recomm=t" style="background: url(img/f2.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
     								</span>
     								<span class="ftmu_s2">
     									<%=Menu.getMenu("home", languageId) %>
@@ -538,7 +539,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     							</div>
     							<div class="ftmu">
     								<span class="ftmu_s1">
-    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/medical-result.png);display:inline-block;width:64px;height:64px"></a>
+    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/f3.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
     								</span>
     								<span class="ftmu_s2">
     									<%=Menu.getMenu("test", languageId) %>
@@ -550,7 +551,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						    			if(Long.parseLong(request.getAttribute("isFav").toString())==0){
 						    			%>
     										<span class="ftmu_s1">
-		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/star2.png);display:inline-block;width:64px;height:64px"></a>
+		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/f4.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
 		    								</span>
 		    								<span class="ftmu_s2" id="shoucang_txt">
 		    									<%=Menu.getMenu("menu_fav", languageId) %>
@@ -559,7 +560,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     									}else{
 						    			%>
 						    				<span class="ftmu_s1">
-		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/star3.png);display:inline-block;width:64px;height:64px"></a>
+		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/f4.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
 		    								</span>
 		    								<span class="ftmu_s2" id="shoucang_txt">
 		    									<%=Menu.getMenu("menu_fav_cancle", languageId) %>
@@ -592,12 +593,12 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	$(function(){
 		
 		//播放语音
-		$('.audiohidden').on("click", function () {
+		$('.playsound').on("click", function () {
 			soundId = "sound_"+$(this).attr("soundId");
 			document.getElementById(soundId).play();
 		});
 		
-		$('.audiohidden2').on("click", function () {
+		$('.playsound2').on("click", function () {
 			soundId = "sound_2_"+$(this).attr("soundId");
 			document.getElementById(soundId).play();
 		});
@@ -609,6 +610,12 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			document.getElementById(soundId).play();
 			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
 		});
+		$('.effectimg').on("click", function () {
+			soundId = "effect_"+$(this).attr("picId");
+			document.getElementById(soundId).play();
+		});
+		
+		
 		
 		
 		
@@ -649,7 +656,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    }
 			    });
 				$("#shoucang_txt").text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
-				$("#shoucangImg").css({'background':'url(img/star3.png)'});
+				$("#shoucangImg").css({'background':'url(img/f4.png)'});
 				favFlag=1;
 			}else{
 				$.ajax({
@@ -660,7 +667,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    }
 			   });
 			   $("#shoucang_txt").text('<%=Menu.getMenu("menu_fav", languageId) %>');
-			   $("#shoucangImg").css({'background':'url(img/star2.png)'});
+			   $("#shoucangImg").css({'background':'url(img/f4.png)'});
 			   favFlag=0;
 			}
 	    });

@@ -18,10 +18,10 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				$(".regV").hide();
 			})
 			
-			$(".languagei8").click(function(){
-				$(".regV").hide();
-				$(".reviewwindow").show();
-			})
+			//$(".languagei8").click(function(){
+				//$(".regV").hide();
+				//$(".reviewwindow").show();
+			//})
 			
 			
 			$("#subi8").click(function(){
@@ -226,7 +226,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		</ol>
 		
 		
-		<ol class="regV reviewwindow" style="display:none">
+		<!--ol class="regV reviewwindow" style="display:none">
 			<div>
 				<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">
 					<img src="frame/eye.png" style="position: fixed;bottom: 1.5rem;right: 0.5rem;width: 1.2rem;">
@@ -234,7 +234,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					<a class="i8" style="position: relative;"><%=Menu.getMenu("close", languageId) %></a>
 				</div>
 			</div>
-		</ol>
+		</ol-->
 		
 		<%
 		if(request.getParameter("jifen")!=null){

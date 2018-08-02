@@ -75,7 +75,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 	    bottom: 1.7rem;
 	    right: .4rem;
 	    background: url(frame/eye.png);
-	    background-size: .6rem .6rem;
+	    background-size: 1rem 1rem;
 	    background-position: center;
 	    background-repeat: no-repeat;
 	    background-color: #ffc600;

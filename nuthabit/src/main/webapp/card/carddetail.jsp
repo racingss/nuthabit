@@ -20,6 +20,8 @@ if(displayMeaning.length()>8)
 	headlength=1.5;
 
 int slide=0;
+
+Kehu k = new KehuUtil().getKehu(request, response);
 %>    
 <!DOCTYPE html>
 <html lang="zh" class="fsvs"><head>
@@ -324,6 +326,26 @@ int slide=0;
     		<p class="tiship">
     			<textarea rows="" cols="" style="width: 70%;height: 10rem;" class="carddetailinput"><%if(c.getDetail()!=null)out.print(c.getDetail()); %></textarea>		
     		</p>
+    		
+    		<%
+    		if(k.getGuanlibiaoji()==1){
+    		%>
+    		<h4>上线操作</h4>
+    		<p class="tiship">
+    			<%
+    			if(c.getStatus()==0){
+    				%>
+    				<a href="/card/carddetail.html?cardId=<%=c.getCardId()%>&status=-1">此卡片已上架，点击下架</a>
+    				<%
+    			}else{
+    				%>
+    				<a href="/card/carddetail.html?cardId=<%=c.getCardId()%>&status=0">此卡片未上架，点击上架</a>
+    				<%
+    			}
+    			%>
+    		</p>
+    		<%} %>
+    		
     		
     		<h4><%=Menu.getMenu("suit_age", languageId) %></h4>
     		<p class="tiship">
