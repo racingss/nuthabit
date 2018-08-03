@@ -143,14 +143,7 @@ Baby b = (Baby)request.getAttribute("baby");
 					<span><%=Menu.getMenu("diqu", languageId) %></span>
 				</a>
 			</div>
-			
-			<div class="list" style="z-index:  1;position:  relative;margin-top: 1rem;">
-				<a href="/card/language.html?type=languageId">
-					<span><%=Menu.getMenu("morenyuyan", languageId) %></span>
-					<p><%=Language.getLanguageByid(languageId).getLname() %></p>
-				</a>
-			</div>
-			
+						
 		</div>
 		
 		

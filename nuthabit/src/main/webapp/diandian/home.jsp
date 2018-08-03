@@ -88,8 +88,8 @@ long languageId = new LanguageHttp().getLanguageId(request);
 	<div class="page home">
 		<nav>
 			<span><%=Menu.getTitle(languageId) %></span>
-			<a class="i2" id="sousuo"><img src="frame/home-1.png"></a>
-			<a class="i1" id="yuyan"><img src="frame/home-2.png"></a>
+			<a class="i2" id="sousuo" style="right: .4rem;"><img src="frame/home-1.png"></a>
+			<!--a class="i1" id="yuyan"><img src="frame/home-2.png"></a-->
 			<ul class="language">
 			
 			
@@ -364,7 +364,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 	<!-- 复习按钮 -->
 	<div>
 		<!--a class="review" href="/card/review.html"></a-->
-		<a class="review" href="?setup=t"></a>
+		<a class="review" href="setup.html"></a>
 	</div>
 </body>
 </html>

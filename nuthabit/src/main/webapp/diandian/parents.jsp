@@ -53,7 +53,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</div>
 			</div>
 			<div class="list">
-				<a href="/diandian/?setup=t">
+				<a href="setup.html">
 					<img src="frame/parents-7.png">
 					<span>阅读设置</span>
 				</a>

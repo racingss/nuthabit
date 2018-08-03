@@ -10,34 +10,8 @@ Collection soundColl = c.cardSoundColl;
 
 //切换语言
 long languageId = new LanguageHttp().getLanguageId(request);
-long languageId_2 = new LanguageHttp().getLanguageId_2(request);
-if(languageId_2==-1 && languageId==0)
-	languageId_2=1;
-if(languageId_2==-1 && languageId==1)
-	languageId_2=0;
-if(languageId_2==-1 && languageId!=0){
-	languageId_2=0;
-}
-
-
 boolean autoPlay=false;
-long tagId=0;
-if(request.getParameter("tagId")!=null)
-	tagId = Long.parseLong(request.getParameter("tagId"));
-else if(request.getSession().getAttribute("tagId")!=null)
-	tagId = Long.parseLong(request.getSession().getAttribute("tagId").toString());
-CardTag ct = CardTag.getCartTagByTagId(tagId);
 
-
-String displayMeaning=c.getMeaning(languageId, c.getCardId());
-
-double headlength=3;
-if(displayMeaning.length()>4)
-	headlength=2;
-if(displayMeaning.length()>8)
-	headlength=1.5;
-
-int slide=1;
 
 Kehu k = new KehuUtil().getKehu(request, response);
 %>    
@@ -47,13 +21,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<title><%=Menu.getTitle(languageId) %></title>
-	<link rel="stylesheet" href="css/list_style.css">
-	<link rel="stylesheet" href="css/dialog.css">
 	<link rel="stylesheet" href="css/card.css">
-	<link rel="stylesheet" href="css/audioplayer.css" />
 	<link rel="stylesheet" href="assets/css/default.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <style type="text/css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<style type="text/css">
     .footbatbut{
     	/* padding: 0px 5px;
     	font-size: 20px;
@@ -76,41 +47,32 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    position: absolute;
 	    top: 1%;	    
     }
-    .pichidden, .pichiddenright{
-    	display: block;
-	    width: 32px;
-	    height: 32px;
-	    position: absolute;
-	    top: 100px;
-	}
+    
     
     .carddetail{
     	border-radius: .1rem;
-	    padding: 10px;
+	    /* padding: 10px; */
 	    box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);
 	    /* display: inline-block; */
-	    margin: 10px;
+	    margin: 3%;
 	    text-align: center;
-	    width: 95%;
-	    position: absolute;
+	    width: 90%;
+	    //position: absolute;
 	    background: #fffefe;
 	    opacity: 0.8;
     }
     
-    .inc-scroll-landscape-container { 
-	width: 100%; 
-	overflow: hidden; 
-}
-.inc-scroll-landscape-container > .inc-scroll-landscape-content {
-   
-}
-.inc-scroll-landscape-container > .inc-scroll-landscape-content > ul {
-	margin: 0 5px;
-}
-.inc-scroll-landscape-container > .inc-scroll-landscape-content > ul > li { 
-	display: inline-block; 
-    text-align: center; 
-}
+    .wenzidiv{
+		color: #524f4f;
+		width:100%;
+		float:left;
+		padding:3%;
+	}
+	a{
+		text-decoration: none;
+	}
+    
+    
 .bookli{
 	overflow: hidden;
     //width: 90px;
@@ -171,127 +133,208 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    line-height: 1.4rem;
 	    background: #fae1d8;
 	    color: #383834;
-	    padding: 1rem 1rem 0 1rem;
+	    padding: 1rem;
 	    border-radius: 1rem;
 	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
 	}
+	.slide{
+		position: absolute;
+	}
 	</style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
-   <script src="assets/js/prismjs.js"></script>
-   <script src="assets/js/fsvs.js"></script>
-   <script src="assets/js/main.js"></script>
-   <script type="text/javascript" src="js/dialog.js"></script>
-   <script type="text/javascript">
-	//获取缩略图盒子宽高后再执行缩放
-	function DrawImage_box(ImgID) {
-	    var width_img=$("#imgBox").width();
-	    var height_img=$("#imgBox").height();
-	    DrawImage(ImgID, width_img, height_img);
+	<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	
+	<script type="text/javascript">
+	var index=1;
+	var max_index=<%=cardColl.size()%>;
+	var times=8500;
+	
+	function load()
+	{
+		setTimeout(function(){
+			if(document.getElementById("sound_1")!=null)
+				audioAutoPlay1("sound_1");},1000);
+		setTimeout(function(){
+			if(document.getElementById("effect_1")!=null)
+				audioAutoPlay1("effect_1");},4000);
+		
+		t=setTimeout("move()",times);
+	}
+	
+	function audioAutoPlay1(id){
+	    var audio = document.getElementById(id);
+	    audio.load();
+	    audio.play();
+	    document.addEventListener("WeixinJSBridgeReady", function () {
+	            audio.play();
+	    }, false);
+	}
+	
+	function audioAutoPlay(id){
+	    var audio = document.getElementById(id),
+	        play = function(){
+	        audio.play();
+	        document.removeEventListener("touchstart",play, false);
+	    };
+	    audio.play();
+	    document.addEventListener("WeixinJSBridgeReady", function () {//微信
+	       play();
+	    }, false);
+	    document.addEventListener("YixinJSBridgeReady", function() {//易信
+	              play();
+	        }, false);
+	    document.addEventListener("touchstart",play, false);
+	}
+	
+	function move(){
+		$("#slide_"+index).animate({right:'200%',opacity:'0'},1000);
+		//$("#slide_"+index).animate({left:'100%',opacity:'0.4'},100);
+		index=index+1;
+		$("#slide_"+index).animate({left:'0'},1500);
+		setTimeout(function(){
+			if(document.getElementById("sound_"+index)!=null)
+				audioAutoPlay1("sound_"+index);},1500);
+		setTimeout(function(){
+			if(document.getElementById("effect_"+index)!=null)
+				audioAutoPlay1("effect_"+index);},4500);
+		if(index<=max_index){
+			setTimeout("move()",times);
+		}
 	}
 	
 	
-	//图片缩放居中核心功能
-	function DrawImage(ImgID, width_s, height_s) {
-	    var image = new Image();
-	    image.src = ImgID.src;
-	    
-	    if (image.width > 0 && image.height > 0) {
-	    	flag = true;
-	        if (image.width / image.height <= width_s / height_s) {
-	            ImgID.width = width_s;
-	            var height = (image.height * width_s) / image.width;
-	            ImgID.height = height;
-	            ImgID.style.marginTop = -(height - height_s)/2 + "px";
-	        } else {
-	            ImgID.height = height_s;
-	            var width = (image.width * height_s) / image.height;
-	            ImgID.width = width;
-	            ImgID.style.marginLeft = -(width - width_s)/2 + "px";
-	        }
-	    }
-	}
-</script> 
+	$(function(){
+		
+		
+		
+		
+		//播放语音
+		$('.playsound').on("click", function () {
+			//soundId = "sound_"+$(this).attr("soundId");
+			this.play();
+			//document.getElementById(soundId).play();
+		});
+		
+		
+		//播放音效
+		$('.effecthidden').on("click", function () {
+			soundId = "effect_"+$(this).attr("picId");
+			$(this).css({'box-shadow':'0rem'});
+			document.getElementById(soundId).play();
+			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
+		});
+		$('.effectimg').on("click", function () {
+			i = $(this).attr("index");
+			setTimeout(function(){
+				if(document.getElementById("sound_"+i)!=null)
+					audioAutoPlay1("sound_"+i);},100);
+			setTimeout(function(){
+				if(document.getElementById("effect_"+i)!=null)
+					audioAutoPlay1("effect_"+i);},3000);
+		});
+		
+		//0表示已收藏
+		var favFlag=<%=request.getAttribute("isFav").toString()%>;
+		
+		$('.favImg').on("click", function () {
+			if(favFlag==0){
+				$.ajax({
+					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favdelete=t',
+					dateType:'json',
+				    success: function(data){
+				    	alert('<%=Menu.getMenu("cancle_fav_succ", languageId) %>');
+				    }
+			    });
+				$("#shoucang_txt").text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
+				//$("#shoucangImg").css({'background':'url(img/f4.png)'});
+				favFlag=1;
+			}else{
+				$.ajax({
+					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favcard=t',
+					dateType:'json',
+				    success: function(data){
+				    	alert('<%=Menu.getMenu("fav_succ", languageId) %>');
+				    }
+			   });
+			   $("#shoucang_txt").text('<%=Menu.getMenu("menu_fav", languageId) %>');
+			   //$("#shoucangImg").css({'background':'url(img/f4.png)'});
+			   favFlag=0;
+			}
+	    });
+		
+		
+		$('.scoreImg').on("click", function () {
+			score = $(this).attr("score");
+			$.ajax({
+				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
+			    }
+		    });
+	    });
+		
+		$('.scoreHref').on("click", function () {
+			score = $(this).attr("score");
+			$.ajax({
+				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
+			    }
+		    });
+	    });
+		
+		$('#submitcomm').on("click", function () {
+			$.post("/card/cardlist.html",
+					  {
+						comm:document.getElementById('comm').value,
+						cardId:'<%=c.getCardId()%>'
+					  },
+					  function(data,status){
+						  alert('<%=Menu.getMenu("tijiao_chenggong", languageId) %>');
+						   
+			 });
+	    });
+		
+		
+		
+	})
+</script>
+
 </head>
 <body onload="load()">
     <div id="fsvs-body">
     		
-    		    <!--                 首页                      -->
-    			<div class="slide">
-    					<p style="text-align: center;font-size: 22px;margin-top:20px;">
-    						<%
-    						if(c.getDetail()!=null && c.getDetail().length()>6){
-    						%>
-	    						&nbsp;&nbsp;教学示例<%//=Menu.getMenu("begin_to_read", languageId) %>：
-	    						<br/>
-	    						<span class="jiaoxueshili">
-	    						<%=c.getDetail().replaceAll("\n", "<br/>") %>
-	    						</span>
-    						<%}else{ %>
-    							&nbsp;&nbsp;<%=Menu.getMenu("begin_to_read", languageId) %>：
-	    						<br/>
-	    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 20px;border-radius: 10px;">
-    						<%} %>
-    						<br/>
-    						<%=Menu.getMenu("finge_up", languageId) %>
-    						<br/>
-    						<img alt="" src="img/touch.png" style="width: 25%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
-    					</p>
-    					
-    					<div class="carddetail" style="bottom: 0;">
-							    	<a class="footbatbut" href="/diandian/" style="color: 000;">
-							    			返回
-						    		</a>
-						    		<a  class="footbatbut" href="language.html?type=languageId&cardId=<%=c.getCardId() %>" style="color: 000;">
-						    				<%=Menu.getMenu("language", languageId) %>1
-						    		</a>
-						    		<a  class="footbatbut" href="language.html?type=languageId_2&cardId=<%=c.getCardId() %>" style="color: 000;">
-						    				<%=Menu.getMenu("language", languageId) %>2
-						    		</a>
-						    		<%
-						    		if(k.getId()==c.getkId() ||k.getGuanlibiaoji()==1){
-						    		%>
-						    			<a class="footbatbut" href="carddetail.html?cardId=<%=c.getCardId() %>" style="color: 000;">
-								    		 <%=Menu.getMenu("weihu", languageId) %>
-							    		</a>
-						    		<%	
-						    		}else{
-						    		%>
-							    		<a class="footbatbut" href="test_iop.html?cardId=<%=c.getCardId() %>" style="color: 000;">
-								    			<%=Menu.getMenu("test", languageId) %>
-							    		</a>
-						    		<%} %>
-					    </div>
-    			</div>
-    
-    
     
     	
     	<%
     	if(true){
     		int soundI=1;
-    		int soundI_2=1;
         	Iterator itPic = cardColl.iterator();
+        	int index=0;
         	while(itPic.hasNext()){
-        		slide++;
+        		index++;
         		CardPic cp = (CardPic)itPic.next();
         		Collection picColl = CardPic.getPicCollByMainPicId(cp.getPicId());
         		%>
         		
         		<!--             图片           -->
-        		<div class="slide" style="background:000;"> 
-        			
+        		<div class="slide" id="slide_<%=index %>" index=<%=index %> style="<%if(index>1)out.print("left:100%");%>"> 
+        			<a href="/diandian/" >
+        				<img src="img/f2s.png" style="position: absolute;top: 1rem;left: 1rem;border-radius: 2rem;width: 45px;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);"/>
+        			</a>
         			<!--         音效           -->
         			<%
    					if(cp.getSound()!=null && cp.getSound().length()>2){
    					%>
-   						<a style="background: url(frame/sound.gif);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
-  						<audio preload="auto" controls id="effect_<%=cp.getPicId() %>" style="display:none">
+   						<audio preload="auto" controls id="effect_<%=index %>" style="display:none">
 							<source src="/<%=cp.getSound() %>">
 						</audio>
 					<%} %>       		
         		
 	 				<!--         主图           -->        		
-        			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effecthidden"">
+        			<img alt="" src="<%=cp.getImgurl() %>" index="<%=index %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effectimg">
         			<%if(picColl.size()>1){ %>
         			    
         			    
@@ -368,97 +411,16 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    							continue;
 					    						soundFlag=false;
 					    						%>
-					    						
-					    						<%
-					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%> 
-						    						<audio <%if(soundI==1 ){%>autoplay="true"<%}%> preload="auto" controls id="sound_<%=soundI%>" style="display:none">
+						    						<audio class="playsound" preload="auto" controls soundId="<%=index %>" id="sound_<%=index %>" style="display:none">
 														<source src="<%=cs.getSound() %>">
 													</audio>	
 												<%
-					    						}
-					    					}
-					    					if(soundFlag && cm!=null){
-					    						// 如果是中英文重设需要抓取语音
-					    						if (languageId == 0 || languageId == 1) {
-					    							System.out.println("抓取语音了");
-					    							new Thread(new BaiduTools(cm.getPicId(), languageId, c.getCardId(),
-					    									cm.getMeaning(), request.getSession().getServletContext().getRealPath("/")))
-					    											.start();
-					    						}
 					    					}
 					    					%>
 					    				</div>
 					    			<%} %>
 					    			
 					    			
-					    			<style>
-					    			.wenzidiv{
-					    				color: #524f4f;<%
-					    				if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
-					    					%>width:50%;<%
-					    				}else{
-					    					%>width:100%;<%
-					    				}
-					    				%>
-										float:left;
-					    				padding:3%;
-					    			}
-					    			</style>
-					    			
-					    			
-					    			
-					    			
-					    			<!--                   文字右侧                     -->
-						            <%
-						            if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){
-							            String display = "";
-							            cm = CardMeaning.getStaticCard(cp.getPicId(), languageId_2);
-				    					if(cm!=null)
-				    						display = cm.getMeaning();
-							            %>
-							    		<div style="font-size:<%=defaultSize%>rem;" class="wenzidiv">
-							    			<%
-							    			Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
-					    					Iterator picSoundIt = picSoundColl.iterator();
-					    					soundI_2++;
-					    					boolean soundFlag=true;
-					    					%>
-							    			<a href="#" soundId="<%=soundI_2 %>" style="color:#524f4f" class="playsound2">
-							    				<%=display %>
-							    			</a>
-							    			<%
-					    					while(picSoundIt.hasNext()){
-					    						CardSound cs = (CardSound)picSoundIt.next();
-					    						if(cs.getLanguageId()!=languageId_2)
-					    							continue;
-					    						soundFlag=false;
-					    						%>
-					    						
-					    						<%
-					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
-					    						%> 
-						    						<audio preload="auto" controls id="sound_2_<%=soundI_2%>" style="display:none">
-														<source src="<%=cs.getSound() %>">
-													</audio>	
-												<%
-					    						}
-					    					}
-					    					if(soundFlag && cm!=null){
-					    						// 如果是中英文重设需要抓取语音
-					    						if (languageId_2 == 0 || languageId_2 == 1) {
-					    							System.out.println("抓取语音了");
-					    							new Thread(new BaiduTools(cm.getPicId(), languageId_2, c.getCardId(),
-					    									cm.getMeaning(), request.getSession().getServletContext().getRealPath("/")))
-					    											.start();
-					    						}
-					    					}
-					    					%>
-					    				</div>
-					    			<%} %>
-				    				
-						    		
-						    		
 				    		</div>		
 		    				<%		    			
 		    		}
@@ -478,8 +440,8 @@ Kehu k = new KehuUtil().getKehu(request, response);
         }	
     	%>
     	
-    			<!--                 尾页                      -->
-    			<div class="slide" style="background: #eb7347;">
+    	<!--                 尾页                      -->
+    	<div class="slide" id="slide_<%=cardColl.size()+1 %>" index="<%=cardColl.size()+1%>" style="left:100%;background: #eb7347;" >
     					
     					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
     						<%=Menu.getMenu("qingpingfen", languageId) %>
@@ -523,10 +485,12 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
     							<div class="ftmu">
     								<span class="ftmu_s1">
-    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&play=<%=System.currentTimeMillis() %>" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
+    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&page=t" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
     								</span>
     								<span class="ftmu_s2">
-    									<%=Menu.getMenu("re_read", languageId) %>
+    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&page=t">
+    										重读
+    									</a>
     								</span>
     							</div>
     							<div class="ftmu">
@@ -534,7 +498,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
     									<a  href="/diandian/?recomm=t" style="background: url(img/f2.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
     								</span>
     								<span class="ftmu_s2">
-    									<%=Menu.getMenu("home", languageId) %>
+    									<a  href="/diandian/?recomm=t">
+    										<%=Menu.getMenu("home", languageId) %>
+    									</a>	
     								</span>
     							</div>
     							<div class="ftmu">
@@ -542,7 +508,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
     									<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/f3.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
     								</span>
     								<span class="ftmu_s2">
-    									<%=Menu.getMenu("test", languageId) %>
+    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>">
+    										<%=Menu.getMenu("test", languageId) %>
+    									</a>
     								</span>
     							</div>
     							<div class="ftmu">
@@ -554,7 +522,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/f4.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
 		    								</span>
 		    								<span class="ftmu_s2" id="shoucang_txt">
-		    									<%=Menu.getMenu("menu_fav", languageId) %>
+		    									<a  href="#" class="favImg">
+		    										<%=Menu.getMenu("menu_fav", languageId) %>
+		    									</a>
 		    								</span>
     									<%
     									}else{
@@ -563,7 +533,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/f4.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
 		    								</span>
 		    								<span class="ftmu_s2" id="shoucang_txt">
-		    									<%=Menu.getMenu("menu_fav_cancle", languageId) %>
+		    									<a  href="#" class="favImg">
+		    										<%=Menu.getMenu("menu_fav_cancle", languageId) %>
+		    									</a>
 		    								</span>
 						    			<%
 						    		}
@@ -577,6 +549,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    </div>
     			
     			</div>
+    	    			
     </div>
 
     
@@ -585,126 +558,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 
 
 
-<script type="text/javascript">
-	function load()
-	{
-	}
-	
-	$(function(){
-		
-		//播放语音
-		$('.playsound').on("click", function () {
-			soundId = "sound_"+$(this).attr("soundId");
-			document.getElementById(soundId).play();
-		});
-		
-		$('.playsound2').on("click", function () {
-			soundId = "sound_2_"+$(this).attr("soundId");
-			document.getElementById(soundId).play();
-		});
-		
-		//播放音效
-		$('.effecthidden').on("click", function () {
-			soundId = "effect_"+$(this).attr("picId");
-			$(this).css({'box-shadow':'0rem'});
-			document.getElementById(soundId).play();
-			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
-		});
-		
-		
-		
-		$(".pichidden").click(function(){
-			var picId = $(this).attr("picId");
-			var mainPicId = $(this).attr("mainPicId");
-			var next = $(".pic_"+picId).attr("next");
-			var pre = $(".pic_"+picId).attr("pre");
-			console.log(next+","+pre);
-			$(".pic_"+picId).attr("src",$("#futu_"+picId+"_"+pre).attr("src"));
-			$("#remove_"+mainPicId).attr("picId",$("#futu_"+picId+"_"+pre).attr("picId"));
-        	$(".pic_"+picId).attr("next",$("#futu_"+picId+"_"+pre).attr("next"));
-        	$(".pic_"+picId).attr("pre",$("#futu_"+picId+"_"+pre).attr("pre"));
-	    })
-	    $(".pichiddenright").click(function(){
-			var picId = $(this).attr("picId");
-			var mainPicId = $(this).attr("mainPicId");
-			var next = $(".pic_"+picId).attr("next");
-			var pre = $(".pic_"+picId).attr("pre");
-			console.log(picId);
-			console.log(next+","+pre);
-			$(".pic_"+picId).attr("src",$("#futu_"+picId+"_"+next).attr("src"));
-			$("#remove_"+mainPicId).attr("picId",$("#futu_"+picId+"_"+next).attr("picId"));
-        	$(".pic_"+picId).attr("next",$("#futu_"+picId+"_"+next).attr("next"));
-        	$(".pic_"+picId).attr("pre",$("#futu_"+picId+"_"+next).attr("pre"));
-	    })
-	    
-		//0表示已收藏
-		var favFlag=<%=request.getAttribute("isFav").toString()%>;
-		
-		$('.favImg').on("click", function () {
-			if(favFlag==0){
-				$.ajax({
-					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favdelete=t',
-					dateType:'json',
-				    success: function(data){
-				    	alert('<%=Menu.getMenu("cancle_fav_succ", languageId) %>');
-				    }
-			    });
-				$("#shoucang_txt").text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
-				$("#shoucangImg").css({'background':'url(img/f4.png)'});
-				favFlag=1;
-			}else{
-				$.ajax({
-					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favcard=t',
-					dateType:'json',
-				    success: function(data){
-				    	alert('<%=Menu.getMenu("fav_succ", languageId) %>');
-				    }
-			   });
-			   $("#shoucang_txt").text('<%=Menu.getMenu("menu_fav", languageId) %>');
-			   $("#shoucangImg").css({'background':'url(img/f4.png)'});
-			   favFlag=0;
-			}
-	    });
-		
-		
-		$('.scoreImg').on("click", function () {
-			score = $(this).attr("score");
-			$.ajax({
-				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
-				dateType:'json',
-			    success: function(data){
-			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
-			    }
-		    });
-	    });
-		
-		$('.scoreHref').on("click", function () {
-			score = $(this).attr("score");
-			$.ajax({
-				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
-				dateType:'json',
-			    success: function(data){
-			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
-			    }
-		    });
-	    });
-		
-		$('#submitcomm').on("click", function () {
-			$.post("/card/cardlist.html",
-					  {
-						comm:document.getElementById('comm').value,
-						cardId:'<%=c.getCardId()%>'
-					  },
-					  function(data,status){
-						  alert('<%=Menu.getMenu("tijiao_chenggong", languageId) %>');
-						   
-			 });
-	    });
-		
-		
-		
-	})
-</script>
+
 
 		
 
