@@ -180,10 +180,11 @@ public class KehuUtil {
 				k.setCity(u.getCity());
 				k.setCountry(u.getCountry());
 				k.setHeadimgurl(u.getHeadimgurl());
-//				if (u.getNickname() == null || u.getNickname().indexOf("\\") != -1)
-					k.setNickname("微信用户");
-//				else
-//					k.setNickname(u.getNickname());
+				// if (u.getNickname() == null || u.getNickname().indexOf("\\")
+				// != -1)
+				// k.setNickname("微信用户");
+				// else
+				k.setNickname(u.getNickname());
 				k.setProvince(u.getProvince());
 				k.setSex(Integer.toString(u.getSex()));
 
@@ -207,6 +208,9 @@ public class KehuUtil {
 				k.setJifen(JIFEN_REG);
 			}
 
+			// 更新用户名
+			verfyNickname(k, u, dao);
+
 			request.getSession().setAttribute("kehu", k);
 
 			// cookie加入
@@ -220,5 +224,18 @@ public class KehuUtil {
 			e.printStackTrace();
 		}
 		return k;
+	}
+
+	private void verfyNickname(Kehu k, UserInfo u, KehuDAO dao) {
+		try {
+			if (!k.getNickname().equals(u.getNickname())) {
+				k.setNickname(u.getNickname());
+				dao.updateKehu(k);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("验证用户名失败");
+		}
 	}
 }

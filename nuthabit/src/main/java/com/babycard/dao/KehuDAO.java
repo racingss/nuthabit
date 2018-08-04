@@ -41,6 +41,35 @@ public class KehuDAO extends SampleDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			// 因为怕昵称问题导致用户注册不成功，所以名字改为微信用户
+			try {
+				ps.close();
+				k.setNickname("微信用户");
+				ps = conn.prepareStatement(
+						"insert into kehu(shouji,unionId,openId,nickname,sex,headimgurl,jifen,status,tuijianren,zhuceri,pwd,kehuId,dengluri,province,city,country)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+				ps.setString(1, k.getShouji());
+				ps.setString(2, k.getUnionId());
+				ps.setString(3, k.getOpenId());
+				ps.setString(4, k.getNickname());
+				ps.setString(5, k.getSex());
+				ps.setString(6, k.getHeadimgurl());
+				ps.setLong(7, k.getJifen());
+				ps.setLong(8, k.getStatus());
+				ps.setString(9, k.getTuijianren());
+				ps.setString(10, k.getZhuceri());
+				ps.setString(11, k.getPwd());
+				ps.setString(12, k.getKehuId());
+				ps.setString(13, k.getDengluri());
+				ps.setString(14, k.getProvince());
+				ps.setString(15, k.getCity());
+				ps.setString(16, k.getCountry());
+				ps.executeUpdate();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.err.println("严重警告！！！！！！*******二次注册失败******");
+			}
+
 		} finally {
 			close(conn, ps, rs);
 		}
@@ -535,7 +564,7 @@ public class KehuDAO extends SampleDAO {
 			rs = ps.executeQuery();
 			if (rs.next())
 				k = new Kehu(rs);
-			
+
 			if (k != null) {
 				rs.close();
 				ps.close();
