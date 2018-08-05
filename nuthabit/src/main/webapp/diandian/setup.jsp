@@ -25,7 +25,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				}
 			})
 			$(".regV .i7,.regV .i8").click(function(){
-				location.href='setup.html';
+				location.href='setup.html<%if(request.getParameter("cardId")!=null)out.print("?cardId="+request.getParameter("cardId"));%>';
 			})
 			
 			$("#wordFlag").change(function(){
@@ -162,6 +162,21 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					</p>
 				</a>
 			</div>
+			
+			<%
+			if(request.getParameter("cardId")!=null){
+				Card c = Card.getStaticCard(Long.parseLong(request.getParameter("cardId")));
+			%>
+			<div style="z-index:  1;position:  relative;margin-top: 1rem;text-align:center;width:100%;">
+				<div style="padding-bottom: 0.2rem;width:20%;margin-left:40%;background: white;border-radius: 0.2rem;">
+						<a href="/card/cardlist.html?cardId=<%=c.getCardId() %>&replay=<%=System.currentTimeMillis() %>" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
+							<img src="<%=c.getImg()%>" style="width:100%;border-top-left-radius:0.2rem;border-top-right-radius:0.2rem">
+							<br>
+							<span style="font-size:0.5rem;color:black;">返回</span>
+						</a>
+				</div>		
+			</div>
+			<%} %>
 			
 			
 		</div>

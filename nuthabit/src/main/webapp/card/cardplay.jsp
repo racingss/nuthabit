@@ -293,10 +293,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
     							
     							<div class="ftmu">
     								<span class="ftmu_s1">
-    									<a  href="/diandian/setup.html" style="background: url(/diandian/frame/eye.png) no-repeat center;display: inline-block;width: 64px;height: 64px;background-size: 45px 45px;"></a>
+    									<a  href="/diandian/setup.html?cardId=<%=c.getCardId() %>" style="background: url(/diandian/frame/eye.png) no-repeat center;display: inline-block;width: 64px;height: 64px;background-size: 45px 45px;"></a>
     								</span>
     								<span class="ftmu_s2">
-    									<a  href="/diandian/setup.html">
+    									<a  href="/diandian/setup.html?cardId=<%=c.getCardId() %>">
     										设置
     									</a>
     								</span>
