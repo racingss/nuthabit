@@ -192,7 +192,7 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 									<div>
 										<%
 										if(true){
-											Iterator recentIt = Card.getCardFavColl().iterator();
+											Iterator recentIt = new CardDAO().getCardListByAge(k.b.getAge(), 1).iterator();
 											int temp=0;
 											while(recentIt.hasNext() && temp++<8){
 												Card c = (Card)recentIt.next();

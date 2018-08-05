@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Baby {
+	private static final long YEAR = 2018;
 	private long babyId = 0;
 	private long kId = 0;
 	private String babyName = null;
@@ -77,6 +78,12 @@ public class Baby {
 		this.headImg = headImg;
 	}
 
+	public long getAge(){
+		if (this.bYear == 0)
+			return 0;
+		return YEAR - this.bYear;
+	}
+
 	@Override
 	public String toString() {
 		return "Baby [babyId=" + babyId + ", kId=" + kId + ", babyName=" + babyName + ", bYear=" + bYear + ", bMonth="
@@ -97,7 +104,7 @@ public class Baby {
 			this.setHeadImg(rs.getString("headImg"));
 			this.setSex(rs.getLong("sex"));
 			this.setkId(rs.getLong("kId"));
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
