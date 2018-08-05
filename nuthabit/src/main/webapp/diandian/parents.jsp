@@ -63,37 +63,24 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</a>
 				<a href="subscribe.html">
 					<img src="frame/parents-5.png">
-					<%
-					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
-					%>
 					<span>
-						<%
-						if(m!=null){
-							if(m.getMemberLevel()==2){
-								%>
-								<%=Menu.getMenu("lifelong_member", languageId) %>
-								<%
-							}else{
-								%>
-								<%=Menu.getMenu("member_lastdate", languageId) %>
-								<%
-							}
-						}else{
-							%>
-							<%=Menu.getMenu("order", languageId) %>
-							<%
-						}
-						%>
+						会员有效期
 					</span>
 					<p>
 					<%
-					
+					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 					if(m!=null){
-						if(m.getMemberLevel()!=2){
+						if(m.getMemberLevel()==2){
 						%>
+							终身
+						<%}else{
+							%>
 							<%=m.getCloseDate().toString().substring(0,10) %>
-						<%} 
-					}%>
+							<%
+						}
+					}else{%>
+						未订阅
+					<%} %>
 					</p>
 				</a>
 				<a href="">
