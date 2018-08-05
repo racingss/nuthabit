@@ -366,5 +366,6 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		<!--a class="review" href="/card/review.html"></a-->
 		<a class="review" href="setup.html"></a>
 	</div>
+<jsp:include page="tracking.jsp" flush="true"/>	
 </body>
 </html>

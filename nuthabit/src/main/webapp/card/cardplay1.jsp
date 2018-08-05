@@ -210,27 +210,20 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		
 		//播放语音
 		$('.playsound').on("click", function () {
-			//soundId = "sound_"+$(this).attr("soundId");
-			this.play();
-			//document.getElementById(soundId).play();
+			soundId = "sound_"+$(this).attr("index");
+			//this.play();
+			document.getElementById(soundId).play();
 		});
 		
 		
 		//播放音效
-		$('.effecthidden').on("click", function () {
-			soundId = "effect_"+$(this).attr("picId");
-			$(this).css({'box-shadow':'0rem'});
-			document.getElementById(soundId).play();
-			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
-		});
-		$('.effectimg').on("click", function () {
+		$('.effectimg,.effecthidden').on("click", function () {
 			i = $(this).attr("index");
-			setTimeout(function(){
-				if(document.getElementById("sound_"+i)!=null)
-					audioAutoPlay1("sound_"+i);},100);
+			$('.effecthidden').css({'box-shadow':'0rem'});
 			setTimeout(function(){
 				if(document.getElementById("effect_"+i)!=null)
-					audioAutoPlay1("effect_"+i);},3000);
+					audioAutoPlay1("effect_"+i);},100);
+			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
 		});
 		
 		//0表示已收藏
@@ -328,6 +321,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
         			<%
    					if(cp.getSound()!=null && cp.getSound().length()>2){
    					%>
+   						<a style="background: url(frame/sound.gif);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" index="<%=index%>"></a>
    						<audio preload="auto" controls id="effect_<%=index %>" style="display:none">
 							<source src="/<%=cp.getSound() %>">
 						</audio>
@@ -401,7 +395,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					    					soundI++;
 					    					boolean soundFlag=true;
 					    					%>
-							    			<a href="#" soundId="<%=soundI %>" style="color:#524f4f" class="playsound">
+							    			<a href="#" index="<%=index %>" style="color:#524f4f" class="playsound">
 							    				<%=display %>
 							    			</a>
 							    			<%

@@ -324,7 +324,8 @@ Kehu k = new KehuUtil().getKehu(request, response);
         		%>
         		
         		<!--             图片           -->
-        		<div class="slide" style="background:000;"> 
+        		<div class="slide" style="background:000;">
+        			<a href="/diandian/"  style="background: url(img/f2s.png);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;left: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 2rem;" ></a>
         			
         			<!--         音效           -->
         			<%
@@ -660,15 +661,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		});
 		
 		//播放音效
-		$('.effecthidden').on("click", function () {
+		$('.effecthidden,.effectimg').on("click", function () {
 			soundId = "effect_"+$(this).attr("picId");
-			$(this).css({'box-shadow':'0rem'});
+			$('.effecthidden').css({'box-shadow':'0rem'});
 			document.getElementById(soundId).play();
 			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
-		});
-		$('.effectimg').on("click", function () {
-			soundId = "effect_"+$(this).attr("picId");
-			document.getElementById(soundId).play();
 		});
 		
 		
