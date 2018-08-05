@@ -330,12 +330,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
         			<!--         音效           -->
         			<%
    					if(cp.getSound()!=null && cp.getSound().length()>2){
+   						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
    					%>
    						<a style="background: url(frame/sound.gif);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" picId="<%=cp.getPicId()%>"></a>
   						<audio preload="auto" controls id="effect_<%=cp.getPicId() %>" style="display:none">
 							<source src="/<%=cp.getSound() %>">
 						</audio>
-					<%} %>       		
+					<%  } 
+					}%>       		
         		
 	 				<!--         主图           -->        		
         			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effectimg">
