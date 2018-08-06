@@ -68,6 +68,16 @@ public class CardListServlet extends HttpServlet {
 				cardId = Long.parseLong(request.getParameter("cardId"));
 			}
 
+			// tutorial
+			if (!new TutorialDAO().isTutorial(k.getId(), Tutorial.CARDPLAY)) {
+				Tutorial t = new Tutorial();
+				t.setkId(k.getId());
+				t.setTutorialType(Tutorial.CARDPLAY);
+				new TutorialDAO().add(t);
+				request.getRequestDispatcher("tutorial.jsp").forward(request, response);
+				return;
+			}
+
 			long picId = 0;
 			if (request.getParameter("picId") != null) {
 				picId = Long.parseLong(request.getParameter("picId"));
@@ -139,7 +149,7 @@ public class CardListServlet extends HttpServlet {
 			c = dao.getCardByCardId(cardId);
 
 			// 扣除积分
-			if (c.getkId() != k.getId() && request.getParameter("replay")==null) {
+			if (c.getkId() != k.getId() && request.getParameter("replay") == null) {
 				KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 				if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
 					if (!new KehuDAO().updateJifen(k.getId(), 1, false, "阅读：" + c.getCardId())) {

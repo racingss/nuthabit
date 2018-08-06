@@ -152,6 +152,15 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 			<div>
 				<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">
 					<img src="frame/eye.png" style="position: fixed;bottom: 1.5rem;right: 0.5rem;width: 1.2rem;">
+					<img src="frame/select.png" style="position: fixed;left: 50%;top:50%;width: 15%;z-index: 99;" id="movehand">
+					<script type="text/javascript">
+					$(function(){
+						movehand.onload = function() {
+						    setTimeout(function(){
+						    	$("#movehand").animate({left:'82%',top:'88%'},2000);},1000);
+						};
+					});
+					</script>
 					<p style="text-align:center;color:white;font-size:1rem;">
 						点击右下角的小人图标可以进行阅读设置
 					</p>
@@ -159,6 +168,7 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 				</div>
 			</div>
 		</ol>
+		
 		
 		<%
 		if(request.getParameter("jifen")!=null){

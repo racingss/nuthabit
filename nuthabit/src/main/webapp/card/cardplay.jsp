@@ -325,6 +325,34 @@ Kehu k = new KehuUtil().getKehu(request, response);
         		
         		<!--             图片           -->
         		<div class="slide" style="background:000;">
+        		
+        			<ol class="regV setupnextwindow" style="display:none;position: fixed;height: 100%;width: 100%;top: 0;left: 0;background: rgba(0,0,0,.6);z-index: 9;">
+							<div>
+								<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">
+									<img src="/diandian/frame/select.png" style="position: fixed;left: 85%;top:10%;width: 15%;z-index: 99;" id="movehand">
+									<script type="text/javascript">
+									$(function(){
+										movehand.onload = function() {
+										    setTimeout(function(){
+										    	$("#movehand").animate({left:'82%',top:'88%'},2000);},1000);
+										};
+										
+										$(".regV .i7,.regV .i8").click(function(){
+											$(".regV").hide();
+										})
+									});
+									</script>
+									<p class="i8" style="text-align: center;
+    color: white;
+    font-size: 2rem;
+    margin-top: 40%;
+    width: 70%;
+    margin-left: 20%;">
+										如果出现音效图标，点击后能发出音效
+									</p>
+								</div>
+							</div>
+						</ol>
         			<a href="/diandian/"  style="background: url(img/f2s.png);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;left: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 2rem;" ></a>
         			
         			<!--         音效           -->
