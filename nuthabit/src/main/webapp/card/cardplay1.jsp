@@ -14,6 +14,30 @@ boolean autoPlay=false;
 
 
 Kehu k = new KehuUtil().getKehu(request, response);
+
+String autoUrl="/diandian/";
+String tempUrl="/card/cardlist.html?page=t&cardId=";
+Iterator recentIt = new CardDAO().getCardListByAge(k.b.getAge(), 1).iterator();
+int temp=0;
+while(recentIt.hasNext() && temp++<8){
+	Card tempC = (Card)recentIt.next();
+	if(request.getParameter("auto")==null){
+		if(c.getCardId()==tempC.getCardId())
+			continue;
+		autoUrl = tempUrl+tempC.getCardId()+"&auto=t";
+		break;
+	}else{
+		if(c.getCardId()==tempC.getCardId()){
+			if(recentIt.hasNext()){
+				tempC = (Card)recentIt.next();
+				autoUrl = tempUrl+tempC.getCardId()+"&auto=t";
+				break;
+			}else{
+				autoUrl=tempUrl+"2221&auto=t";;
+			}
+		} 
+	}
+}
 %>    
 <!DOCTYPE html>
 <html lang="zh" class="fsvs"><head>
@@ -22,6 +46,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<title><%=Menu.getTitle(languageId) %></title>
 	<link rel="stylesheet" href="css/card.css">
+	<link rel="stylesheet" href="css/regV.css">
 	<link rel="stylesheet" href="assets/css/default.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<style type="text/css">
@@ -199,8 +224,30 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				audioAutoPlay1("effect_"+index);},4500);
 		if(index<=max_index){
 			setTimeout("move()",times);
+		}else{
+			$(".regV").show();
+			end();
 		}
 	}
+	
+	var daojishi=7;
+	var stopFlag=0;
+	
+	function end(){
+		if(stopFlag==0){
+			if(daojishi>0){
+				$("#daojishi").text(daojishi);
+				daojishi-=1;
+				setTimeout("end()",1000);
+			}else{
+				//alert("时间到了");
+				location.href="<%=autoUrl%>";
+				return;
+			}	
+		}
+		
+	}
+	
 	
 	
 	$(function(){
@@ -216,6 +263,13 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		});
 		
 		
+		$("#subi7").click(function(){
+			   $(".regV").hide();
+			   stopFlag=1;
+		})
+			
+		
+		
 		//播放音效
 		$('.effectimg,.effecthidden').on("click", function () {
 			i = $(this).attr("index");
@@ -228,6 +282,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		
 		//0表示已收藏
 		var favFlag=<%=request.getAttribute("isFav").toString()%>;
+		
 		
 		$('.favImg').on("click", function () {
 			if(favFlag==0){
@@ -550,6 +605,30 @@ Kehu k = new KehuUtil().getKehu(request, response);
     			</div>
     	    			
     </div>
+    
+    
+    
+    
+    <ol class="regV" style="display:none">
+			<div>
+				<div class="hd" style="height: 2.5rem;">
+					<div class="i1" style="width:3rem;height:3rem;"></div>
+					<div class="i2">自动播放</div>
+				</div>
+				<div class="bd" style="height: 7.5rem">
+					<div class="i6">
+						<label>
+							<div class="setupdiv" style="text-align: center;padding: 0.5rem;font-size:1.1rem;">
+								。。。<span id="daojishi" style="font-size: 1.5rem;padding-bottom: .2rem;color: red;">5</span>秒。。。
+								<br/>
+								后开始自动播放
+							</div>
+						</label>
+					</div>
+					<a class="i7" id="subi7" style="width: 60%;height: 1.5rem;font-size: 1rem;padding-top: 0.2rem;color: black;">停止</a>
+				</div>
+			</div>
+	</ol>
 
     
 
