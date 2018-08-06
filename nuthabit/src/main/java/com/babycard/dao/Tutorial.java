@@ -4,6 +4,7 @@ import java.sql.*;
 
 public class Tutorial {
 	public static final long CARDPLAY = 0;
+	public static final long MAIN = 1;
 
 	private long id=0;
 	private long kId=0;

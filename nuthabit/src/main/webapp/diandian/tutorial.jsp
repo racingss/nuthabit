@@ -32,18 +32,24 @@ div{
 <img alt="" src="images/tutorial2.jpeg" class="tutorial" id="tutorial2" index="2">
 <img alt="" src="images/tutorial3.jpeg" class="tutorial" id="tutorial3" index="3">
 <img alt="" src="images/tutorial4.jpeg" class="tutorial" id="tutorial4" index="4">
+<img alt="" src="images/tutorial5.jpeg" class="tutorial" id="tutorial5" index="5">
 </div>
-<script src="assets/js/jquery-1.11.0.min.js"></script>
+
+<script src="/card/assets/js/jquery-1.11.0.min.js"></script>
+
+
+
+
 <script type="text/javascript">
 $(function(){
 	var index = 1;
 	$('div').on("click", function () {
-		if(index<=3){
+		if(index<=4){
 			$('#tutorial'+index).hide();
 			index=parseInt(index)+1;
 			$('#tutorial'+index).show();
 		}else{
-			location.href="cardlist.html?cardId=<%=request.getParameter("cardId")%>";
+			location.href="/diandian/index.html";
 		}
 	});
 });

@@ -57,7 +57,7 @@ public class MainServlet extends HttpServlet {
 			if (request.getParameter("kId") != null) {
 				k = new KehuDAO().getKehuById(Long.parseLong(request.getParameter("kId")));
 				request.getSession().setAttribute("kehu", k);
-				//cookie加入
+				// cookie加入
 				Cookie cookie = new Cookie("openId", k.getOpenId());
 				cookie.setMaxAge(30 * 24 * 60 * 60);// 设置为30min
 				cookie.setPath("/");
@@ -70,14 +70,17 @@ public class MainServlet extends HttpServlet {
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}
-			
-			if(request.getParameter("languageId")!=null){
-				Cookie cookie = new Cookie("languageId", request.getParameter("languageId"));
-				cookie.setMaxAge(30 * 24 * 60 * 60);// 设置为30min
-				cookie.setPath("/");
-				response.addCookie(cookie);
-			}
 
+			// tutorial
+			if (!new TutorialDAO().isTutorial(k.getId(), Tutorial.MAIN)) {
+				Tutorial t = new Tutorial();
+				t.setkId(k.getId());
+				t.setTutorialType(Tutorial.MAIN);
+				new TutorialDAO().add(t);
+				request.getRequestDispatcher("tutorial.jsp").forward(request, response);
+				return;
+			}
+			
 			// 语言切换
 			long languageId = new LanguageHttp().getLanguageId(request);
 			k.languageId = languageId;
@@ -86,18 +89,19 @@ public class MainServlet extends HttpServlet {
 
 			// taglist
 			request.setAttribute("tagColl", new TagDAO().getMainTagList());
-			//最受欢迎
+			// 最受欢迎
 			request.setAttribute("popColl", dao.getAllCardListOrderByFavCount());
 			// 我的收藏
 			request.setAttribute("favColl", dao.getCardListFav(k.getId()));
 			// 最新上架
-//			request.setAttribute("newColl", dao.getCardListByIndex(999));
+			// request.setAttribute("newColl", dao.getCardListByIndex(999));
 			request.setAttribute("newColl", dao.getAllCardListOrderByNew(1));
 			// 我创建的
 			request.setAttribute("myColl", dao.getCardListByKid(k.getId()));
 			// 越近阅读
-//			CardCookie cookie = new CardCookie();
-//			request.setAttribute("myRecentColl", cookie.showRecent(request, response));
+			// CardCookie cookie = new CardCookie();
+			// request.setAttribute("myRecentColl", cookie.showRecent(request,
+			// response));
 			request.setAttribute("myRecentColl", dao.getCardListRecent(k.getId()));
 			// 搜索
 			request.setAttribute("searchHistory", new SearchDAO().getSearchBykId(k.getId()));
