@@ -906,7 +906,7 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_card where cardId in( select cardId from baby_bind_card_tag where tagId=?) and age=? order by cardIndex");
+					"select * from baby_card where cardId in( select cardId from baby_bind_card_tag where tagId=?) and age=? order by cardId desc");
 			ps.setLong(1, tagId);
 			ps.setLong(2, age);
 			rs = ps.executeQuery();
@@ -932,7 +932,7 @@ public class CardDAO extends SampleDAO {
 		Collection coll = new ArrayList();
 		try {
 			conn = getConnection();
-			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 and age=? order by cardIndex limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 and age=? order by favCount desc,cardId limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
