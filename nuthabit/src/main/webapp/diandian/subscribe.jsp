@@ -43,15 +43,15 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				<ul class="right">
 					<li>
 						<i></i>
-						<p><%=Menu.getMenu("order_3", languageId) %></p>
+						<p>每周有海量新书上线</p>
 					</li>
 					<li>
 						<i></i>
-						<p><%=Menu.getMenu("order_4", languageId) %></p>
+						<p>专业测试和复习功能</p>
 					</li>
 					<li>
 						<i></i>
-						<p><%=Menu.getMenu("order_5", languageId) %></p>
+						<p>自制卡片书上传赚钱</p>
 					</li>
 				</ul>
 			</div>
@@ -88,7 +88,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					</ul>
 				</div>
 			</div>
-			<div class="balance">
+			<!--div class="balance">
 				<div>
 					<p><%=Menu.getMenu("order_curr", languageId) %></p>
 					<div>
@@ -99,7 +99,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			</div>
 			<div class="other">
 				<a href="parents.html"><%=Menu.getMenu("othergetway", languageId) %></a>
-			</div>
+			</div-->
 		</div>
 		
 		
