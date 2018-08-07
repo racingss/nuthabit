@@ -65,7 +65,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
 								<p><span>299</span>元<!--i class="jianguo"></i--></p>	
 								<i><%=Menu.getMenu("order_onetime", languageId) %></i>
 							</div>
+							<%
+							KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
+							if(m==null || m.getMemberLevel()!=m.MEMBER_LEVEL_LIFELONG){
+							%>
 							<a href="/diandian/order.html?amount=299&level=<%=KehuCardMember.MEMBER_LEVEL_LIFELONG%>"><%=Menu.getMenu("order_now", languageId) %></a>
+							<%}else{ %>
+							<a href="#">已兑换</a>
+							<%} %>
 						</li>
 						<li>
 							<i></i>
@@ -74,7 +81,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
 								<p><span>19</span>元<!--i class="jianguo"></i--></p>	
 								<i><%=Menu.getMenu("order_month", languageId) %></i>
 							</div>
+							<%
+							if(m==null || m.getMemberLevel()!=m.MEMBER_LEVEL_LIFELONG){
+							%>
 							<a href="/diandian/order.html?amount=228&level=<%=KehuCardMember.MEMBER_LEVEL_YEAR%>"><%=Menu.getMenu("order_now", languageId) %></a>
+							<%}else{ %>
+							<a href="#">已兑换</a>
+							<%} %>
+							
 						</li>
 						<li>
 							<i></i>
@@ -83,7 +97,14 @@ Kehu k = new KehuUtil().getKehu(request, response);
 								<p><span>29</span>元<!--i class="jianguo"></i--></p>	
 								<i><%=Menu.getMenu("order_month", languageId) %></i>
 							</div>
+							<%
+							if(m==null || m.getMemberLevel()!=m.MEMBER_LEVEL_LIFELONG){
+							%>
 							<a href="/diandian/order.html?amount=29&level=<%=KehuCardMember.MEMBER_LEVEL_MONTH%>"><%=Menu.getMenu("order_now", languageId) %></a>
+							<%}else{ %>
+							<a href="#">已兑换</a>
+							<%} %>
+							
 						</li>
 					</ul>
 				</div>
