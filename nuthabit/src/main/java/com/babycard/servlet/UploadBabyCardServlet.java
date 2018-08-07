@@ -110,6 +110,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 		long mainPicId = 0;
 		long languageId = 0;
 		long meaningId = 0;
+		long distLanguage=0;
 		String slide = null;
 		String sound = null;
 		String soundQue = null;
@@ -162,6 +163,12 @@ public class UploadBabyCardServlet extends HttpServlet {
 				if ("languageId".equals(fileItem.getFieldName())) {
 					languageId = Long.parseLong(fileItem.getString("UTF-8"));
 				}
+				
+				if ("distLanguage".equals(fileItem.getFieldName())) {
+					distLanguage = Long.parseLong(fileItem.getString("UTF-8"));
+				}
+				
+				
 
 				continue;// 非file域不处理
 			}
@@ -288,7 +295,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 				CardSound cs = new CardSound();
 				cs.setCardId(cardId);
 				cs.setKehuId(k.getId());
-				cs.setLanguageId(languageId);
+				cs.setLanguageId(distLanguage);
 				cs.setSound("/"+weburl + pic);
 				cs.setPicId(picId);
 				new SoundDAO().addCardSound(cs, false);

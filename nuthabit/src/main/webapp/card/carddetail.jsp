@@ -1,3 +1,4 @@
+<%@page import="javax.swing.text.html.CSS"%>
 <%@page import="java.net.URLDecoder"%>
 <%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -511,7 +512,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						  			<%
 		    					}
 		    					%>
-		    						<a href="test_sound.jsp?sound=t&cardId=<%=c.getCardId() %>&picId=<%=cp.getPicId() %>" >
+		    						<a href="test_sound.jsp?sound=t&cardId=<%=c.getCardId() %>&picId=<%=cp.getPicId() %>&distLanguage=<%=cm.getLanguageId() %>" >
 						        			<img alt="" src="img/add1.png" />
 						  			</a>
 		    					</div>

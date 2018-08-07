@@ -48,6 +48,12 @@ long languageId = new LanguageHttp().getLanguageId(request);
    	%>
    		<input type="hidden" name="languageId" value="<%=request.getParameter("languageId") %>" />
    	<%} %>
+   	<%
+   	if(request.getParameter("distLanguage")!=null){
+   	%>
+   		<input type="hidden" name="distLanguage" value="<%=request.getParameter("distLanguage") %>" />
+   	<%} %>
+   	
    	
    	<%
    	if(request.getParameter("effect")!=null){
