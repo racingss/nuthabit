@@ -8,7 +8,7 @@ import com.babycard.dao.KehuDAO;
 
 public class LanguageHttp {
 	public long getLanguageId(HttpServletRequest request) {
-		long languageId = 0;
+		long languageId = 1;
 //		if (request.getSession().getAttribute("languageId") != null) {
 //			languageId = Long.parseLong(request.getSession().getAttribute("languageId").toString());
 //		} else {
@@ -39,7 +39,7 @@ public class LanguageHttp {
 	}
 
 	public long getLanguageId_2(HttpServletRequest request) {
-		long languageId_2 = -1;
+		long languageId_2 = 0;
 		if (request.getSession().getAttribute("languageId_2") != null) {
 			languageId_2 = Long.parseLong(request.getSession().getAttribute("languageId_2").toString());
 		}

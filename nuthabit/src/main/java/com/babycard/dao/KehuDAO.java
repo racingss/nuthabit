@@ -20,7 +20,7 @@ public class KehuDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"insert into kehu(shouji,unionId,openId,nickname,sex,headimgurl,jifen,status,tuijianren,zhuceri,pwd,kehuId,dengluri,province,city,country)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+					"insert into kehu(shouji,unionId,openId,nickname,sex,headimgurl,jifen,status,tuijianren,zhuceri,pwd,kehuId,dengluri,province,city,country,languageId)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
 			ps.setString(1, k.getShouji());
 			ps.setString(2, k.getUnionId());
 			ps.setString(3, k.getOpenId());
@@ -37,6 +37,7 @@ public class KehuDAO extends SampleDAO {
 			ps.setString(14, k.getProvince());
 			ps.setString(15, k.getCity());
 			ps.setString(16, k.getCountry());
+			ps.setLong(17, k.getLanguageId());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

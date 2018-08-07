@@ -180,6 +180,10 @@ public class KehuUtil {
 				k.setCity(u.getCity());
 				k.setCountry(u.getCountry());
 				k.setHeadimgurl(u.getHeadimgurl());
+
+				//默认注册时优先使用英语
+				k.setLanguageId(1);
+				
 				// if (u.getNickname() == null || u.getNickname().indexOf("\\")
 				// != -1)
 				// k.setNickname("微信用户");
