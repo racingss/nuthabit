@@ -71,16 +71,6 @@ public class MainServlet extends HttpServlet {
 				return;
 			}
 
-			// tutorial
-			if (!new TutorialDAO().isTutorial(k.getId(), Tutorial.MAIN)) {
-				Tutorial t = new Tutorial();
-				t.setkId(k.getId());
-				t.setTutorialType(Tutorial.MAIN);
-				new TutorialDAO().add(t);
-				request.getRequestDispatcher("tutorial.jsp").forward(request, response);
-				return;
-			}
-			
 			// 语言切换
 			long languageId = new LanguageHttp().getLanguageId(request);
 			k.languageId = languageId;

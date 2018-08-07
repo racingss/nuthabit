@@ -44,7 +44,7 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 				    	//alert("<%=Menu.getMenu("update_succ", languageId) %>");
 				    	$(".regV").hide();
 						//$(".setupnextwindow").show();
-				    	//location.href='?setup=t';
+				    	location.href='tutorial.jsp';
 				    }
 			   });
 			})
@@ -76,7 +76,8 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 				</div>
 				<div class="bd">
 					<div class="i4">
-						<%=Menu.getMenu("for_better_1", languageId) %>：
+						请提供您家宝贝的出生年月，<br/>
+						以便您获得更多适龄阅读内容：
 					</div>
 					<div class="i5">
 						<a class="active sex" sex="0"></a>
@@ -111,7 +112,6 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 						</label>
 					</div>
 					<a class="i7" id="subi7"><%=Menu.getMenu("search_ok", languageId) %></a>
-					<!--a class="i8" id="subi8"><%=Menu.getMenu("next_time", languageId) %></a-->
 				</div>
 			</div>
 		</ol>
