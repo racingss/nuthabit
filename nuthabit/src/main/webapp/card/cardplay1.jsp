@@ -96,6 +96,13 @@ while(recentIt.hasNext() && temp++<8){
 	a{
 		text-decoration: none;
 	}
+	.timediv{
+		width: 0%;
+    	height: 0.1rem;
+    	position: absolute;
+    	bottom: 0;
+    	background: red;
+	}
     
     
 .bookli{
@@ -176,6 +183,9 @@ while(recentIt.hasNext() && temp++<8){
 	
 	function load()
 	{
+		$(".timediv").css({'width':'0%'});
+		$(".timediv").animate({width:'100%',opacity:'0.4'},times);
+
 		setTimeout(function(){
 			if(document.getElementById("sound_1")!=null)
 				audioAutoPlay1("sound_1");},1000);
@@ -211,7 +221,18 @@ while(recentIt.hasNext() && temp++<8){
 	    document.addEventListener("touchstart",play, false);
 	}
 	
+	dwidth=1;
+	
 	function move(){
+		if(dwidth==1){
+			dwidth=0;
+			$(".timediv").animate({width:'0%'},times);
+		}else{
+			dwidth=1;
+			$(".timediv").animate({width:'100%'},times);
+		}
+		
+
 		$("#slide_"+index).animate({right:'200%',opacity:'0'},1000);
 		//$("#slide_"+index).animate({left:'100%',opacity:'0.4'},100);
 		index=index+1;
@@ -479,7 +500,7 @@ while(recentIt.hasNext() && temp++<8){
 		    				<%		    			
 		    		}
 		    		%>
-		    		<div>
+		    		<div class="timediv">
 			    		<a class="love favhead" href="#"></a>
 						<a class="happy favhead" href="#"></a>
 						<a class="nogood favhead" href="#"></a>
