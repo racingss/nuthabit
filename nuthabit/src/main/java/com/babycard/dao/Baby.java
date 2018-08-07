@@ -2,9 +2,10 @@ package com.babycard.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Baby {
-	private static final long YEAR = 2018;
 	private long babyId = 0;
 	private long kId = 0;
 	private String babyName = null;
@@ -78,10 +79,39 @@ public class Baby {
 		this.headImg = headImg;
 	}
 
-	public long getAge(){
+	public static String getCurrentYear() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+		Date date = new Date();
+		return sdf.format(date);
+	}
+
+	public static String getCurrentMonth() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		Date date = new Date();
+		return sdf.format(date);
+	}
+
+	public long getAge() {
+
+		long age = 1;
+		long cYear = Long.parseLong(getCurrentYear());
+		long cMonth = Long.parseLong(getCurrentMonth());
+
 		if (this.bYear == 0)
-			return 0;
-		return YEAR - this.bYear;
+			age = 1;
+		else {
+			age = cYear - this.bYear;
+
+			if (this.bMonth > cMonth)
+				age -= 1;
+
+			if (age > 3)
+				age = 3;
+			if (age < 1)
+				age = 1;
+		}
+
+		return age;
 	}
 
 	@Override
@@ -108,6 +138,17 @@ public class Baby {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	public static void main(String arg[]) {
+		for (int i = 2012; i < 2020; i++) {
+			for (int j = 1; j <= 12; j++) {
+				Baby b = new Baby();
+				b.setbYear(i);
+				b.setbMonth(j);
+				System.out.println(i + ":"+j+":" + b.getAge());
+			}
 		}
 	}
 
