@@ -30,10 +30,7 @@ public class CardListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 初始化
-		if (request.getParameter("init") != null) {
-			InitialData.initAlldate();
-		}
+		
 
 		try {
 			request.setCharacterEncoding("UTF-8");

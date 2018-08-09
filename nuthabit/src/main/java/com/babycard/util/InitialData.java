@@ -15,10 +15,7 @@ public class InitialData {
 		Card.cardPicColl = null;
 		Card.cardprivateColl = new ArrayList();
 		CardSound.cardSoundColl = new ArrayList();
-		CardTag.coll = null;
-		CardTagLanguage.languageColl = null;
 		CardMeaning.meaningColl=new ArrayList();
-		Menu.menuColl = null;
 	}
 
 }
