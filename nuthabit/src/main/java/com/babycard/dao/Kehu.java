@@ -32,10 +32,21 @@ public class Kehu {
 	private String city = null;
 	private String province = null;
 	public long languageId = 0;
+	private long languageId_2=0;
 	public Baby b = null;
 	private String code = null;
 	private String email = "";
 	private String wx = "";
+	
+	
+
+	public long getLanguageId_2() {
+		return languageId_2;
+	}
+
+	public void setLanguageId_2(long languageId_2) {
+		this.languageId_2 = languageId_2;
+	}
 
 	public String getWx() {
 		return wx;
@@ -347,6 +358,7 @@ public class Kehu {
 			this.setCity(rs.getString("city"));
 			this.setCountry(rs.getString("country"));
 			this.setLanguageId(rs.getLong("languageId"));
+			this.setLanguageId_2(rs.getLong("languageId_2"));
 			this.setCode(rs.getString("code"));
 			this.setEmail(rs.getString("email"));
 			this.setWx(rs.getString("wx"));
