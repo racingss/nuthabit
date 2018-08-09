@@ -81,7 +81,7 @@ public class OrderServlet extends HttpServlet {
 
 		// 订单支付
 		Dingdan d = new Dingdan();
-		
+
 		try {
 			d.setKehuId(k.getKehuId());
 			d.setFuwu1(request.getParameter("level"));
@@ -91,15 +91,21 @@ public class OrderServlet extends HttpServlet {
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			d.setRiqi(format1.format(c1.getTime()));
 
-			
 			d.setDingdanId("DD" + c1.get(c1.DAY_OF_WEEK + 1) * c1.get(c1.MINUTE) + "8" + System.currentTimeMillis());
 
 			d.setStatus(d.STATUS_DAIZHIFU);
 
 			long amount = Long.parseLong(request.getParameter("amount"));
-
-			d.setZhifujine(amount);
-			d.setZongjine(amount);
+			if (d.getFuwu1().equals("0")) {
+				d.setZhifujine(29);
+				d.setZongjine(29);
+			} else if (d.getFuwu1().equals("1")) {
+				d.setZhifujine(228);
+				d.setZongjine(228);
+			} else if (d.getFuwu1().equals("2")) {
+				d.setZhifujine(299);
+				d.setZongjine(299);
+			}
 
 			new DingdanDAO().newDingdan(d);
 
@@ -109,8 +115,9 @@ public class OrderServlet extends HttpServlet {
 			 * 开始提交微信支付
 			 */
 
-			//new Weixinzhifu().tijiaoweixin(request, response, k.getOpenId(), d.getDingdanId(), d.getZhifujine());
-			new Weixinzhifu().tijiaoweixin(request, response, k.getOpenId(), d.getDingdanId(), 1);
+			new Weixinzhifu().tijiaoweixin(request, response, k.getOpenId(), d.getDingdanId(), d.getZhifujine()*100);
+			// new Weixinzhifu().tijiaoweixin(request, response, k.getOpenId(),
+			// d.getDingdanId(), 1);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
