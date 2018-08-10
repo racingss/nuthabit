@@ -23,9 +23,14 @@
 <body>
 <%
  new KehuUtil().getKehuFromWX(request, response);
+String url = "/diandian/";
+if(session.getAttribute("cardId")!=null){
+	url = "/card/cardlist.html?cardId="+session.getAttribute("cardId").toString();
+	session.removeAttribute("cardId");
+}
  %>
 <script type="text/javascript">
-window.location.href='/diandian/';
+window.location.href='<%=url%>';
 </script>
 
 

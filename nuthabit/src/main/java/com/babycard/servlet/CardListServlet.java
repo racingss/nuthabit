@@ -30,13 +30,16 @@ public class CardListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 
 		try {
 			request.setCharacterEncoding("UTF-8");
 
 			Kehu k = new KehuUtil().getKehu(request, response);
 			if (k == null) {
+				// 增加记录CardId便于登录后直接转跳
+				if (request.getParameter("cardId") != null) {
+					request.getSession().setAttribute("cardId", request.getParameter("cardId"));
+				}
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}
@@ -185,6 +188,8 @@ public class CardListServlet extends HttpServlet {
 				request.setAttribute("cardColl", cardColl);
 				if (request.getParameter("page") != null) {
 					request.getRequestDispatcher("cardplay1.jsp").forward(request, response);
+				} else if (request.getParameter("test") != null) {
+					request.getRequestDispatcher("cardplay2.jsp").forward(request, response);
 				} else {
 					request.getRequestDispatcher("cardplay.jsp").forward(request, response);
 				}
