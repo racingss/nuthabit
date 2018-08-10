@@ -518,7 +518,7 @@ while(recentIt.hasNext() && temp++<8){
     	<!--                 尾页                      -->
     	<div class="slide" id="slide_<%=cardColl.size()+1 %>" index="<%=cardColl.size()+1%>" style="left:100%;background: #eb7347;" >
     					
-    					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
+    					<p style="text-align: center;font-size: 1.5rem;margin-top:1rem;">
     						<%=Menu.getMenu("qingpingfen", languageId) %>
     					</p>
     					<p style="text-align: left;font-size: 1.2rem;padding-left: 4rem;margin-top: -0.5rem;">
@@ -557,7 +557,7 @@ while(recentIt.hasNext() && temp++<8){
     					</p-->
     					
     					
-    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
+    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 1rem;">
     							<div class="ftmu">
     								<span class="ftmu_s1">
     									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&page=t" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>

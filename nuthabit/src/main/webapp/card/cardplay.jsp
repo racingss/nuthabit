@@ -234,10 +234,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
     						<br/>
     						<%=Menu.getMenu("finge_up", languageId) %>
     						<br/>
-    						<img alt="" src="img/touch.png" style="width: 15%;background: #FFF;padding: 10px;margin: 20px;border-radius: 10px;">
+    						<img alt="" src="img/touch.png" style="width: 15%;background: #FFF;padding: 10px;margin: 10px;border-radius: 10px;">
     					</p>
     					
-    					<div style="bottom: 0;margin: 10px;width: 100%;">
+    					<div style="margin: 5px;width: 100%;    margin-top: -2rem">
     							
     							<div class="ftmu">
     								<span class="ftmu_s1">
@@ -558,7 +558,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     			<!--                 尾页                      -->
     			<div class="slide" style="background: #eb7347;">
     					
-    					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
+    					<p style="text-align: center;font-size: 1.5rem;margin-top:1rem;">
     						<%=Menu.getMenu("qingpingfen", languageId) %>
     					</p>
     					<p style="text-align: left;font-size: 1.2rem;padding-left: 4rem;margin-top: -0.5rem;">
@@ -580,7 +580,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     						<form style="text-align: center;">
     							<textarea id="comm" rows="" cols="" style="width: 80%;color: #000;font-size: 1rem;margin-top:-0.5rem"></textarea>
     							<br/>
-    							<a class="footbatbut" id="submitcomm" href="#" style="padding: 0.2rem 2rem;border-radius: 0.2rem;font-size: 1rem;margin-top:1.5rem;">
+    							<a class="footbatbut" id="submitcomm" href="#" style="padding: 0.2rem 2rem;border-radius: 0.2rem;font-size: 1rem;margin-top:1rem;">
 							    	<%=Menu.getMenu("tijiao", languageId) %>
 						    	</a>
     						</form>
@@ -597,7 +597,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     					</p-->
     					
     					
-    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
+    					<div style="margin: 10px;width: 100%;margin-top: 0.5rem;">
     							<div class="ftmu">
     								<span class="ftmu_s1">
     									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
