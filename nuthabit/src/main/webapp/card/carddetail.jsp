@@ -313,6 +313,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     	<div class="slide"  id="slide_2">
     		<h2 style="color: #FF9800;text-align:  center;padding-top: 0.5em;">
     			<%=Menu.getMenu("basic_info", languageId) %>
+    			
     		</h2>
     		<%
 		    for(int i=0;i<=1;i++){
@@ -404,7 +405,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
         		
         		<!--             图片           -->
         		<div class="slide"  id="slide_<%=tempSlideId++%>">
-        			<h2 style="color: #FF9800;text-align:  center;padding-top: 0.5em;"><%=Menu.getMenu("detail_cover", languageId) %>卡片<%=slide %>
+        			<h2 style="color: #FF9800;text-align:  center;padding-top: 0.5em;">
+        				<%=Menu.getMenu("detail_cover", languageId) %>卡片<%=slide %>
+        				<input type="text" value="<%=cp.getPicIndex() %>" class="picIndex" picId="<%=cp.getPicId() %>" style="width: 4rem;float: right;margin-right: 0.2rem;font-size: 1.2rem;text-align: center;border-radius: 0.5rem;/>
         				<a href="#" mainPicId="<%=cp.getPicId() %>" class="delete_button"></a>
         			</h2>
         			        		
@@ -732,6 +735,23 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			    success: function(data){
 			    	alert('<%=Menu.getMenu("update_succ", languageId) %>');
 			    }
+			});
+		});
+		
+		//修改卡片顺序
+		$('.picIndex').on("change", function () {
+			picIndex = this.value;
+			picId = $(this).attr('picId');
+			
+			$.ajax({
+					type: 'POST',
+					url: 'cardmanage.html',
+					data: {cardId:<%=c.getCardId() %>,picId:picId,picIndex:picIndex},
+					dateType:'json',
+				    success: function(data){
+				    	alert('<%=Menu.getMenu("update_succ", languageId) %>');
+				    	location.reload();
+				    }
 			});
 		});
 		

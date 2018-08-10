@@ -13,6 +13,18 @@ public class CardPic {
 	private long cardId = 0;
 	private long favCount = 0;
 	private long mainPicId = 0;
+	private long picIndex=0;
+	
+	
+	
+	public long getPicIndex() {
+		return picIndex;
+	}
+
+	public void setPicIndex(long picIndex) {
+		this.picIndex = picIndex;
+	}
+
 	private String sound = null;
 
 	public String getSound() {
@@ -124,6 +136,7 @@ public class CardPic {
 			this.setWeburl(rs.getString("weburl"));
 			this.setMainPicId(rs.getLong("mainPicId"));
 			this.setSound(rs.getString("sound"));
+			this.setPicIndex(rs.getLong("picIndex"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

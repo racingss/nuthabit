@@ -105,6 +105,13 @@ public class CardManage extends HttpServlet {
 				return;
 			}
 
+			// 顺序相关
+			if (request.getParameter("picIndex") != null) {
+				new CardDAO().updateCardPicIndex(Long.parseLong(request.getParameter("picId")),
+						Long.parseLong(request.getParameter("picIndex")));
+				return;
+			}
+
 			// 删除整套卡片
 			if (request.getParameter("trash") != null) {
 				dao.deleteCard(cardId, k.getId());
