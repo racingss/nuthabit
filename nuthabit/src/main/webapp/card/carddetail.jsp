@@ -407,7 +407,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
         		<div class="slide"  id="slide_<%=tempSlideId++%>">
         			<h2 style="color: #FF9800;text-align:  center;padding-top: 0.5em;">
         				<%=Menu.getMenu("detail_cover", languageId) %>卡片<%=slide %>
-        				<input type="text" value="<%=cp.getPicIndex() %>" class="picIndex" picId="<%=cp.getPicId() %>" style="width: 4rem;float: right;margin-right: 0.2rem;font-size: 1.2rem;text-align: center;border-radius: 0.5rem;/>
+        				<input type="text" value="<%=cp.getPicIndex() %>" class="picIndex" picId="<%=cp.getPicId() %>" style="width: 4rem;float: right;margin-right: 0.2rem;font-size: 1.2rem;text-align: center;border-radius: 0.5rem;"/>
         				<a href="#" mainPicId="<%=cp.getPicId() %>" class="delete_button"></a>
         			</h2>
         			        		
@@ -415,6 +415,8 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	 				<h4><%=Menu.getMenu("detail_mainpic", languageId) %></h4>
 	 				<div style="width:100%;display:block;text-align:center;">        		
         				<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0"  class="pic_<%=cp.getPicId()%>" style="width:40%;box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);margin:0.5em;">
+        				<br/>
+        				<a href="test_sound.jsp?cardId=<%=c.getCardId() %>&picId=<%=cp.getPicId() %>" style="color: #7d7e7f;">更换</a>
         			</div>
         			
     
