@@ -44,7 +44,7 @@ while(recentIt.hasNext() && temp++<8){
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, user-scalable=no">
-	<title><%=Menu.getTitle(languageId) %></title>
+	<title><%=c.getMeaning()%>_卡片点点Cardpopo_幼儿语言启蒙教育平台</title>
 	<link rel="stylesheet" href="css/card.css">
 	<link rel="stylesheet" href="css/regV.css">
 	<link rel="stylesheet" href="assets/css/default.css">

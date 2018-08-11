@@ -189,7 +189,7 @@ public class CardListServlet extends HttpServlet {
 				if (request.getParameter("page") != null) {
 					request.getRequestDispatcher("cardplay1.jsp").forward(request, response);
 				} else if (request.getParameter("test") != null) {
-					request.getRequestDispatcher("cardplay2.jsp").forward(request, response);
+					request.getRequestDispatcher(request.getParameter("test")).forward(request, response);
 				} else {
 					request.getRequestDispatcher("cardplay.jsp").forward(request, response);
 				}
