@@ -18,10 +18,15 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.babycard.dao.Kehu;
+import com.babycard.util.KehuUtil;
+import com.gson.bean.UserInfo;
 import com.gson.util.ConfKit;
 import com.gson.util.HttpKit;
 
@@ -38,6 +43,7 @@ public class AccessToken {
 
 	private static final String ACCESSTOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";
 	private static final String JSAPI_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=";
+	private static final String USER_INFO_URI = "https://api.weixin.qq.com/cgi-bin/user/info";
 
 	public AccessToken() {
 	}
@@ -58,14 +64,15 @@ public class AccessToken {
 		Map<String, Object> map = com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
 		return map.get("access_token").toString();
 	}
-	
-	public static String getTicket(String accessToken) throws InterruptedException, ExecutionException, NoSuchAlgorithmException, KeyManagementException, IOException, NoSuchProviderException {
-        String jsonStr = HttpKit.get(JSAPI_TICKET.concat(accessToken));
-//        return com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
-        System.out.println(jsonStr);
+
+	public static String getTicket(String accessToken) throws InterruptedException, ExecutionException,
+			NoSuchAlgorithmException, KeyManagementException, IOException, NoSuchProviderException {
+		String jsonStr = HttpKit.get(JSAPI_TICKET.concat(accessToken));
+		// return com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
+		System.out.println(jsonStr);
 		Map<String, Object> map = com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
 		return map.get("ticket").toString();
-    }
+	}
 
 	public static void sendGet() {
 		BufferedReader in;
@@ -163,8 +170,8 @@ public class AccessToken {
 
 		return ret;
 	}
-	
-	public static final String encodeSH1(String str){
+
+	public static final String encodeSH1(String str) {
 		if (str == null) {
 			return null;
 		}
@@ -176,21 +183,41 @@ public class AccessToken {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5','6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-	
-	
+
+	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
+			'e', 'f' };
+
 	private static String getFormattedText(byte[] bytes) {
 		int len = bytes.length;
 		StringBuilder buf = new StringBuilder(len * 2);
 		// 把密文转换成十六进制的字符串形式
-		for (int j = 0; j < len; j++) { 			buf.append(HEX_DIGITS[(bytes[j] >> 4) & 0x0f]);
+		for (int j = 0; j < len; j++) {
+			buf.append(HEX_DIGITS[(bytes[j] >> 4) & 0x0f]);
 			buf.append(HEX_DIGITS[bytes[j] & 0x0f]);
 		}
 		return buf.toString();
 	}
-	
-	public static Map webSign(String url) {
+
+	public UserInfo getUserInfo(String openid) throws Exception {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("access_token", token);
+		params.put("openid", openid);
+		String jsonStr = HttpKit.get(USER_INFO_URI, params);
+		System.out.println("jsonStr find subscribe:" + jsonStr);
+
+		if (StringUtils.isNotEmpty(jsonStr)) {
+			com.alibaba.fastjson.JSONObject obj = com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
+			if (obj.get("errcode") != null) {
+				throw new Exception(obj.getString("errmsg"));
+			}
+
+			UserInfo user = com.alibaba.fastjson.JSONObject.toJavaObject(obj, UserInfo.class);
+			return user;
+		}
+		return null;
+	}
+
+	public Map webSign(String url, HttpServletRequest request, HttpServletResponse response) {
 		Map ret = new HashMap();
 
 		try {
@@ -200,19 +227,31 @@ public class AccessToken {
 			String signature = "";
 			String string1 = (new StringBuilder("jsapi_ticket=")).append(jsapi_ticket).append("&noncestr=")
 					.append(nonce_str).append("&timestamp=").append(timestamp).append("&url=").append(url).toString();
-			System.out.println("string1:"+string1);
+			System.out.println("string1:" + string1);
 
-//			MessageDigest crypt = MessageDigest.getInstance("MD5");
-//			crypt.reset();
-//			crypt.update(string1.getBytes("UTF-8"));
-//			signature = byteToHex(crypt.digest());
+			// MessageDigest crypt = MessageDigest.getInstance("MD5");
+			// crypt.reset();
+			// crypt.update(string1.getBytes("UTF-8"));
+			// signature = byteToHex(crypt.digest());
 			signature = encodeSH1(string1);
-			System.out.println("signature:"+signature);
+			System.out.println("signature:" + signature);
 			ret.put("url", url);
 			ret.put("jsapi_ticket", jsapi_ticket);
 			ret.put("nonceStr", nonce_str);
 			ret.put("timestamp", timestamp);
 			ret.put("signature", signature);
+
+			if (request.getSession().getAttribute("subscribe") == null) {
+
+				Kehu k = new KehuUtil().getKehu(request, response);
+				if (k != null) {
+					UserInfo user = getUserInfo(k.getOpenId());
+					System.out.println("!!!get subscribe:"+user.getSubscribe());
+					request.getSession().setAttribute("subscribe", user.getSubscribe());
+				}
+
+			}
+
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -247,26 +286,29 @@ public class AccessToken {
 	}
 
 	public static void main(String args[]) {
-//		try {
-//			AccessToken.getAccessToken();
-//		} catch (Exception e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
+		// try {
+		// AccessToken.getAccessToken();
+		// } catch (Exception e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
 
-//		if (true)
-//			return;
+		// if (true)
+		// return;
 
-		try {
-			Map ret = AccessToken.webSign("http://www.suyufuwu.com/card/cardlist.html?cardId=2189&test=cardplay3.jsp");
-			java.util.Map.Entry entry;
-			for (Iterator iterator = ret.entrySet().iterator(); iterator.hasNext(); System.out.println(
-					(new StringBuilder()).append(entry.getKey()).append(", ").append(entry.getValue()).toString()))
-				entry = (java.util.Map.Entry) iterator.next();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// Map ret =
+		// AccessToken.webSign("http://www.suyufuwu.com/card/cardlist.html?cardId=2189&test=cardplay3.jsp");
+		// java.util.Map.Entry entry;
+		// for (Iterator iterator = ret.entrySet().iterator();
+		// iterator.hasNext(); System.out.println(
+		// (new StringBuilder()).append(entry.getKey()).append(",
+		// ").append(entry.getValue()).toString()))
+		// entry = (java.util.Map.Entry) iterator.next();
+		//
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 
 }

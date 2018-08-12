@@ -590,16 +590,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						    	</a>
     						</form>
     					</p>
-    					<!--p style="text-align: center;font-size: 22px;margin-top:15px">
-    						&nbsp;&nbsp;<%=Menu.getMenu("u_just_read", languageId) %>：
-    						<br/>
-    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 5px;border-radius: 10px;" class="lastimg">
-    					</p-->
-    					<!--p style="text-align: center;font-size: 22px;margin-top:15px">
-    						<%=Menu.getMenu("test_rightnow", languageId) %>
-    						<br/>
-    						<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>
-    					</p-->
+    					
+
+    					
     					
     					
     					<div style="margin: 10px;width: 100%;margin-top: 0.5rem;">
@@ -803,18 +796,27 @@ Kehu k = new KehuUtil().getKehu(request, response);
 
 
 String url = "http://www.suyufuwu.com/card/cardlist.html?"+ (request.getQueryString()); 
-Map<String, String> ret = AccessToken.webSign(url);
+Map<String, String> ret = new AccessToken().webSign(url,request, response);
 String appId = KehuUtil.appId;
 String timestamp = ret.get("timestamp");
 String nonceStr = ret.get("nonceStr");
 String signature = ret.get("signature");
+
+if(request.getSession().getAttribute("subscribe")!=null && request.getSession().getAttribute("subscribe").toString().equals("0")){
+	request.getSession().removeAttribute("subscribe");
+	%>
+	<script type="text/javascript">
+	location.href='/diandian/weiguanzhu.jsp';
+	</script>
+	<%	
+}
 
 
 %>
 <script typet="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
 $(function(){
-            wx.config({
+			wx.config({
                 debug: false,////生产环境需要关闭debug模式
                 appId: '<%=appId %>',
                 timestamp: <%=timestamp %>,

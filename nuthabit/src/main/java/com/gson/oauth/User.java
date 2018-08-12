@@ -44,11 +44,16 @@ public class User {
 		params.put("access_token", accessToken);
 		params.put("openid", openid);
 		String  jsonStr = HttpKit.get(USER_INFO_URI, params);
+		//System.out.println("jsonStr:"+jsonStr);
+		
 		if(StringUtils.isNotEmpty(jsonStr)){
 			JSONObject obj = JSONObject.parseObject(jsonStr);
 			if(obj.get("errcode") != null){
 				throw new Exception(obj.getString("errmsg"));
 			}
+			
+			
+			
 			UserInfo user = JSONObject.toJavaObject(obj, UserInfo.class);
 			return user;
 		}
