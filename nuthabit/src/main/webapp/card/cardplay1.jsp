@@ -172,6 +172,13 @@ while(recentIt.hasNext() && temp++<8){
 	.slide{
 		position: absolute;
 	}
+	.mainimg{
+		width: 90%;
+	    border: 1px solid #afadad69;
+	    border-radius: 1rem;
+	    margin: 5%;
+	    box-shadow: 0.3rem 0.2rem 0.5rem rgba(0, 0, 0, 0.1)
+	}
 	</style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -407,7 +414,7 @@ while(recentIt.hasNext() && temp++<8){
    					} %>       		
         		
 	 				<!--         主图           -->        		
-        			<img alt="" src="<%=cp.getImgurl() %>" index="<%=index %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effectimg">
+        			<img alt="" src="<%=cp.getImgurl() %>" index="<%=index %>" picId="<%=cp.getPicId() %>" next="2" pre="0"  class="pic_<%=cp.getPicId()%> effectimg mainimg">
         			<%if(picColl.size()>1){ %>
         			    
         			    

@@ -179,6 +179,13 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    border-radius: 1rem;
 	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
 	}
+	.mainimg{
+		width: 90%;
+	    border: 1px solid #afadad69;
+	    border-radius: 1rem;
+	    margin: 5%;
+	    box-shadow: 0.3rem 0.2rem 0.5rem rgba(0, 0, 0, 0.1)
+	}
 	</style>  
 	<script src="assets/js/jquery-1.11.0.min.js"></script>
    <script src="assets/js/prismjs.js"></script>
@@ -373,7 +380,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					}%>       		
         		
 	 				<!--         主图           -->        		
-        			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effectimg">
+        			<img alt="" src="<%=cp.getImgurl() %>" picId="<%=cp.getPicId() %>" next="2" pre="0" class="pic_<%=cp.getPicId()%> effectimg mainimg">
         			<%if(picColl.size()>1){ %>
         			    
         			    
