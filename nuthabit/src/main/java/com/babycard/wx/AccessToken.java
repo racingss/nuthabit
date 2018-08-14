@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import com.babycard.dao.Kehu;
 import com.babycard.util.KehuUtil;
 import com.gson.bean.UserInfo;
+import com.gson.oauth.Qrcod;
 import com.gson.util.ConfKit;
 import com.gson.util.HttpKit;
 
@@ -246,7 +247,7 @@ public class AccessToken {
 				Kehu k = new KehuUtil().getKehu(request, response);
 				if (k != null) {
 					UserInfo user = getUserInfo(k.getOpenId());
-					System.out.println("!!!get subscribe:"+user.getSubscribe());
+					System.out.println("!!!get subscribe:" + user.getSubscribe());
 					request.getSession().setAttribute("subscribe", user.getSubscribe());
 				}
 
@@ -261,6 +262,24 @@ public class AccessToken {
 		}
 
 		return ret;
+	}
+
+	public String erweimaUrl(int kId) {
+		Qrcod code = new Qrcod();
+		try {
+			getToken();
+
+			com.alibaba.fastjson.JSONObject resultObj = code.createScene(token, 2592000, kId);
+
+//			System.out.println(resultObj.toString());
+//
+//			System.out.println(
+//					"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + resultObj.get("ticket").toString());
+			return code.showqrcodeUrl(resultObj.get("ticket").toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private static String byteToHex(byte hash[]) {
@@ -286,29 +305,7 @@ public class AccessToken {
 	}
 
 	public static void main(String args[]) {
-		// try {
-		// AccessToken.getAccessToken();
-		// } catch (Exception e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
-
-		// if (true)
-		// return;
-
-		// try {
-		// Map ret =
-		// AccessToken.webSign("http://www.suyufuwu.com/card/cardlist.html?cardId=2189&test=cardplay3.jsp");
-		// java.util.Map.Entry entry;
-		// for (Iterator iterator = ret.entrySet().iterator();
-		// iterator.hasNext(); System.out.println(
-		// (new StringBuilder()).append(entry.getKey()).append(",
-		// ").append(entry.getValue()).toString()))
-		// entry = (java.util.Map.Entry) iterator.next();
-		//
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+		System.out.println(new AccessToken().erweimaUrl(2749));
 	}
 
 }

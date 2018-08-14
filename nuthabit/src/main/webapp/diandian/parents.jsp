@@ -83,10 +83,10 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					<%} %>
 					</p>
 				</a>
-				<a href="">
+				<a href="poster.html">
 					<img src="frame/parents-6.png">
-					<span><%=Menu.getMenu("coupon", languageId) %></span>
-					<p><%=k.getCode() %></p>
+					<span>推广海报</span>
+					<p>进入</p>
 				</a>
 			</div>
 			<div class="list">
