@@ -46,7 +46,7 @@ KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 				    	//alert("<%=Menu.getMenu("update_succ", languageId) %>");
 				    	$(".regV").hide();
 						//$(".setupnextwindow").show();
-				    	location.href='tutorial.jsp';
+				    	//location.href='tutorial.jsp';
 				    }
 			   });
 			})
@@ -274,7 +274,7 @@ KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 		
 		
 		<%
-		if(request.getParameter("level")!=null){
+		if(request.getParameter("level")!=null && false){
 		%>
 		<ol class="regV">
 			<div>

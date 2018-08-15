@@ -90,12 +90,12 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				</a>
 			</div>
 			<div class="list">
-				<a href="/diandian/?level=t">
+				<!--a href="/diandian/?level=t">
 					<img src="frame/parents-5.png">
 					<span>
 						<%=Menu.getMenu("readinglevel", languageId) %>
 					</span>
-				</a>
+				</a-->
 				<a href="contact.jsp">
 					<img src="frame/parents-7.png">
 					<span><%=Menu.getMenu("contactus", languageId) %></span>

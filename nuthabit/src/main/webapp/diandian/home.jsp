@@ -148,7 +148,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 						while(tagIt.hasNext()){
 							CardTag ct = (CardTag)tagIt.next();
 							%>
-							<a href="search.html?tagId=<%=ct.getTagId()%>">
+							<a href="piclist.html?tagId=<%=ct.getTagId()%>">
 								<i><img src="frame/h_<%=hi++%>.png"></i>
 								<span><%=Menu.getMenu("tag_"+ct.getTagId(), languageId) %></span>
 							</a>
@@ -161,14 +161,14 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			</div>
 			<div class="age">
 				<div>
-					<a href="search.html?age=1">
-						<span>1~2</span><%=Menu.getMenu("sui", languageId) %>
+					<a href="piclist.html?level=1">
+						<span>level 1</span>
 					</a>
-					<a href="search.html?age=2">
-						<span>2~3</span><%=Menu.getMenu("sui", languageId) %>
+					<a href="piclist.html?level=2">
+						<span>level 2</span>
 					</a>
-					<a href="search.html?age=3">
-						<span>3~4</span><%=Menu.getMenu("sui", languageId) %>
+					<a href="piclist.html?level=3">
+						<span>level 3</span>
 					</a>			
 				</div>
 			</div>
@@ -189,7 +189,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 							%>
 							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
-								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
+								<i class="i<%=c.getAge()%><%=c.getAge()+1%>">level <%=c.getAge()%></i>
 							</a>	
 							<%
 						}
@@ -216,7 +216,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 							%>
 							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
-								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
+								<i class="i<%=c.getAge()%><%=c.getAge()+1%>">level <%=c.getAge()%></i>
 							</a>	
 							<%
 						}
@@ -245,7 +245,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 							%>
 							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
-								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
+								<i class="i<%=c.getAge()%><%=c.getAge()+1%>">level <%=c.getAge()%></i>
 							</a>	
 							<%
 						}
@@ -289,7 +289,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 							%>
 							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
-								<i class="i<%=c.getAge()%><%=c.getAge()+1%>"><%=c.getAge()%>~<%=c.getAge()+1%><%=Menu.getMenu("sui", languageId) %></i>
+								<i class="i<%=c.getAge()%><%=c.getAge()+1%>">level <%=c.getAge()%></i>
 							</a>	
 							<%
 						}
@@ -311,7 +311,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		
 		
 		<!--                   搜索                    -->
-		<form action="search.html" method="post" id="search_form">
+		<form action="piclist.html" method="post" id="search_form">
 			<ul class="homeSearch">
 				<div class="nav">
 					<div id="sousuokuang">
