@@ -176,7 +176,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			
 			
 			
-			<h4 class="h42"><%=Menu.getMenu("search_pop", languageId) %></h4>
+			<h4 class="h42"><a href="piclist.html?pop=t" style="color: #4baf6f;"><%=Menu.getMenu("search_pop", languageId) %></a></h4>
 			<div class="recently">
 				<div>
 					<!--              最受欢迎               -->
@@ -204,7 +204,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			
 			
 			
-			<h4 class="h41"><%=Menu.getMenu("menu_new", languageId) %></h4>
+			<h4 class="h41"><a href="piclist.html?new=t" style="color: #24b2c7;"><%=Menu.getMenu("menu_new", languageId) %></a></h4>
 			<div class="recently">
 				<div>
 					<!--              最新上架               -->
