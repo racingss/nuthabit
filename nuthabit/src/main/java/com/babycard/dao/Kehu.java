@@ -32,13 +32,20 @@ public class Kehu {
 	private String city = null;
 	private String province = null;
 	public long languageId = 0;
-	private long languageId_2=0;
+	private long languageId_2 = 0;
 	public Baby b = null;
 	private String code = null;
 	private String email = "";
 	private String wx = "";
-	
-	
+	private long fromId = 0;
+
+	public long getFromId() {
+		return fromId;
+	}
+
+	public void setFromId(long fromId) {
+		this.fromId = fromId;
+	}
 
 	public long getLanguageId_2() {
 		return languageId_2;
@@ -362,6 +369,7 @@ public class Kehu {
 			this.setCode(rs.getString("code"));
 			this.setEmail(rs.getString("email"));
 			this.setWx(rs.getString("wx"));
+			this.setFromId(rs.getLong("fromId"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

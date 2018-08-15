@@ -25,8 +25,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.babycard.dao.Kehu;
+import com.babycard.dao.KehuDAO;
 import com.babycard.util.KehuUtil;
 import com.gson.bean.UserInfo;
+import com.gson.oauth.Message;
 import com.gson.oauth.Qrcod;
 import com.gson.util.ConfKit;
 import com.gson.util.HttpKit;
@@ -264,6 +266,28 @@ public class AccessToken {
 		return ret;
 	}
 
+	public void sendMsg(String openId, String text) {
+		try {
+			getToken();
+			Message msg = new Message();
+			msg.sendText(token, openId, text);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void sendImg(String openId, String media_id) {
+		try {
+			getToken();
+			Message msg = new Message();
+			msg.SendImage(token, openId, media_id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public String erweimaUrl(int kId) {
 		Qrcod code = new Qrcod();
 		try {
@@ -271,10 +295,11 @@ public class AccessToken {
 
 			com.alibaba.fastjson.JSONObject resultObj = code.createScene(token, 2592000, kId);
 
-//			System.out.println(resultObj.toString());
-//
-//			System.out.println(
-//					"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + resultObj.get("ticket").toString());
+			// System.out.println(resultObj.toString());
+			//
+			// System.out.println(
+			// "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" +
+			// resultObj.get("ticket").toString());
 			return code.showqrcodeUrl(resultObj.get("ticket").toString());
 		} catch (Exception e) {
 			e.printStackTrace();

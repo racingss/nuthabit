@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 
 import com.alibaba.fastjson.JSON;
 import com.babycard.dao.*;
+import com.babycard.wx.AccessToken;
 import com.gson.WeChat;
 import com.gson.bean.UserInfo;
 
@@ -181,9 +182,9 @@ public class KehuUtil {
 				k.setCountry(u.getCountry());
 				k.setHeadimgurl(u.getHeadimgurl());
 
-				//默认注册时优先使用英语
+				// 默认注册时优先使用英语
 				k.setLanguageId(1);
-				
+
 				// if (u.getNickname() == null || u.getNickname().indexOf("\\")
 				// != -1)
 				// k.setNickname("微信用户");
@@ -228,6 +229,79 @@ public class KehuUtil {
 			e.printStackTrace();
 		}
 		return k;
+	}
+
+	public void registerWhenGuanzhu(String openId, long fromId) {
+		try {
+
+			Kehu k = new Kehu();
+			KehuDAO dao = new KehuDAO();
+
+			AccessToken.getToken();
+			UserInfo u = new AccessToken().getUserInfo(openId);
+
+			if (u == null) {
+				System.out.println("奇怪，关注公众号时候can not get userinfo from wx ");
+				return;
+			}
+
+			k = dao.getKehu("openId", u.getOpenid());
+
+			if (k == null) {
+				// 注册
+				System.out.println("关注公众号时候注册  register user info from wx");
+
+				k = new Kehu();
+				Calendar c1 = Calendar.getInstance();
+				c1.setTime(new Date());
+				k.setKehuId(new StringBuilder("CARD").append(c1.get(7 + 1) * c1.get(12)).append("9")
+						.append(System.currentTimeMillis()).toString());
+
+				k.setOpenId(u.getOpenid());
+				k.setCity(u.getCity());
+				k.setCountry(u.getCountry());
+				k.setHeadimgurl(u.getHeadimgurl());
+
+				// 默认注册时优先使用英语
+				k.setLanguageId(1);
+
+				// if (u.getNickname() == null || u.getNickname().indexOf("\\")
+				// != -1)
+				// k.setNickname("微信用户");
+				// else
+				k.setNickname(u.getNickname());
+				k.setProvince(u.getProvince());
+				k.setSex(Integer.toString(u.getSex()));
+
+				SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				k.setZhuceri(format1.format(c1.getTime()));
+				k.setDengluri(format1.format(c1.getTime()));
+
+				// 设置推荐人
+				// if (request.getSession().getAttribute("tuijianren") != null)
+				// {
+				// if
+				// (dao.getDaili(request.getSession().getAttribute("tuijianren").toString())
+				// != null) {
+				// k.setTuijianren(request.getSession().getAttribute("tuijianren").toString());
+				// new KehuDAO().updateTuijianren(k);
+				// }
+				// }
+
+				k.setFromId(fromId);
+
+				k = dao.addKehu(k);
+				dao.updateJifen(k.getId(), JIFEN_REG, true, "注册");
+				k.setJifen(JIFEN_REG);
+			}
+
+			// 更新用户名
+			verfyNickname(k, u, dao);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void verfyNickname(Kehu k, UserInfo u, KehuDAO dao) {

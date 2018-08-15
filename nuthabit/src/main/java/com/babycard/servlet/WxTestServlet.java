@@ -36,7 +36,10 @@ import org.dom4j.*;
 import org.dom4j.io.*;
 
 import com.babycard.dao.*;
+import com.babycard.util.KehuUtil;
+import com.babycard.wx.AccessToken;
 import com.gson.WeChat;
+import com.gson.oauth.Message;
 import com.gson.util.Tools;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -87,16 +90,6 @@ public class WxTestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// response.setCharacterEncoding("UTF-8");
-		// response.setContentType("text/xml");
-		// ServletInputStream in = request.getInputStream();
-		// String xmlMsg = Tools.inputStream2String(in);
-		// System.out.println("输入消息:[" + xmlMsg + "]");
-		// String xml = WeChat.processing(xmlMsg);
-		//
-		// System.out.println("看看回答了什么:"+xml);
-		// response.getWriter().write(xml);
 
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -111,15 +104,34 @@ public class WxTestServlet extends HttpServlet {
 			String message = null;
 
 			if (MsgTypeParam.MESSAGE_EVENT.equals(msgType)) {
-				String text = "欢迎您使用卡片点点（Cardpopo）\n我们是家长的学前教育好帮手，专门为您提供了一套儿童认知的教育平台软件。您可以点击下方菜单《卡片点点》进入使用。在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
-				// 调用初始化文本消息方法
+				String text = "欢迎您使用卡片点点（Cardpopo）\n我们是家长的学前教育好帮手，专门为您提供了一套儿童认知的教育平台软件。您可以点击下方菜单《<a href=\"http://www.suyufuwu.com/diandian\">卡片点点</a>》进入使用。在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
 				message = initText(toUserName, fromUserName, text);
+
+				// 调用初始化文本消息方法
+				String key = map.get("EventKey");
+				if (key != null) {
+					System.out.println(key);
+					long kId = 0;
+					if (key.indexOf("qrscene_") != -1) {
+						kId = Long.parseLong(key.substring(8));
+						Kehu inviteKehu = new KehuDAO().getKehuById(kId);
+						String text1 = "您是" + inviteKehu.getNickname() + "邀请过来的";
+						new AccessToken().sendMsg(fromUserName, text1);
+						// 登记用户
+						new KehuUtil().registerWhenGuanzhu(fromUserName, kId);
+
+					}
+				}
+
 			} else if (MsgTypeParam.MESSAGE_TEXT.equals(msgType)) {
 				String content = map.get("Content");
 				System.out.println(content);
 				String text = "在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
 				// 调用初始化文本消息方法
 				message = initText(toUserName, fromUserName, text);
+
+				new AccessToken().sendImg(fromUserName,
+						"Sjv-ctXDTdxc936tIb_Xw8WtTmhA8QYkBS9wcLv5A6QmVa_K_bz2smSEFmG3RWKn");
 			}
 			out.print(message);
 		} catch (Exception e) {
