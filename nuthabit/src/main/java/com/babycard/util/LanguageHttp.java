@@ -7,29 +7,26 @@ import com.babycard.dao.Kehu;
 import com.babycard.dao.KehuDAO;
 
 public class LanguageHttp {
+	
+	
 	public long getLanguageId(HttpServletRequest request) {
 		long languageId = 1;
-		// if (request.getSession().getAttribute("languageId") != null) {
-		// languageId =
-		// Long.parseLong(request.getSession().getAttribute("languageId").toString());
-		// } else {
-		// Cookie[] cookies = request.getCookies();
-		// if (null == cookies) {
-		// System.out.println("没有cookie languageId==============");
-		// } else {
-		// for (Cookie cookie : cookies) {
-		// if (cookie.getName().equals("languageId")) {
-		// languageId = Long.parseLong(cookie.getValue());
-		// break;
-		// }
-		// }
-		// }
-		// }
+		long languageId_2 = 0;
+		
 		Kehu k = new KehuUtil().getKehu(request);
 
 		if (request.getParameter("languageId") != null) {
 			languageId = Long.parseLong(request.getParameter("languageId"));
-
+			languageId_2 = k.getLanguageId_2();
+			
+			if(languageId==languageId_2){
+				if(languageId==0)
+					languageId_2=1;
+				if(languageId==1)
+					languageId_2=0;
+				new KehuDAO().updateLanguageId_2(k.getId(), languageId_2);
+				k.setLanguageId_2(languageId_2);
+			}
 			new KehuDAO().updateLanguageId(k.getId(), languageId);
 			k.setLanguageId(languageId);
 		} else {
