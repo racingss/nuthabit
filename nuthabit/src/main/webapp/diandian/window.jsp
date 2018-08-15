@@ -193,7 +193,7 @@ KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 		<%}%>
 		
 		<%
-		if(request.getParameter("recomm")!=null){
+		if(request.getParameter("recomm")!=null &&false){
 		%>
 		<ol class="regV" style="">
 			<div>
