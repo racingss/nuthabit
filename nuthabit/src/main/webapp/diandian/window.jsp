@@ -4,6 +4,8 @@
 <%
 long languageId = new LanguageHttp().getLanguageId(request);
 long languageId_2 = new LanguageHttp().getLanguageId_2(request);
+Kehu k = new KehuUtil().getKehu(request, response);
+KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 %>
 <script type="text/javascript">
 		$(function(){
@@ -51,11 +53,22 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 			
 			
 			$(".cardsub").click(function(){
-				src=$(this).attr("src");
 				cardId=$(this).attr("cardId");
-				$(".regVimg").attr("src",src);
-				$(".regVhref").attr("href","/card/cardlist.html?cardId="+cardId);
-				$(".cardwindow").show();
+				<%
+				if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+					%>
+					src=$(this).attr("src");
+					$(".regVimg").attr("src",src);
+					$(".regVhref").attr("href","/card/cardlist.html?cardId="+cardId);
+					$(".cardwindow").show();
+					<%
+				}else{
+					%>
+					location.href="/card/cardlist.html?cardId="+cardId;
+					<%
+				}
+				%>
+				
 			})
 
 		})
@@ -63,7 +76,7 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 		
 		<!--          注册成功提示            -->
 		<%
-		Kehu k = new KehuUtil().getKehu(request, response);
+		
 		if(k.b==null && request.getSession().getAttribute("nexttime")==null){
 		//if(true){
 		%>
@@ -124,7 +137,7 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 					<div class="i1"></div>
 					<div class="i2">
 					<%
-					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
+					
 					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
 						%><%=Menu.getMenu("you_are_not_member", languageId) %><%
 					}else{

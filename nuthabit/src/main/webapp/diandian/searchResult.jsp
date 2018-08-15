@@ -24,6 +24,7 @@ newFlag=1;
 
 long languageId = new LanguageHttp().getLanguageId(request);
 Kehu k = new KehuUtil().getKehu(request, response);
+KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 %>
 <!DOCTYPE html>
 <html>
@@ -99,11 +100,21 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			})
 			
 			$(".cardsub").click(function(){
-				src=$(this).attr("src");
 				cardId=$(this).attr("cardId");
-				$(".regVimg").attr("src",src);
-				$(".regVhref").attr("href","/card/cardlist.html?cardId="+cardId);
-				$(".regV").show();
+				<%
+				if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+					%>
+					src=$(this).attr("src");
+					$(".regVimg").attr("src",src);
+					$(".regVhref").attr("href","/card/cardlist.html?cardId="+cardId);
+					$(".cardwindow").show();
+					<%
+				}else{
+					%>
+					location.href="/card/cardlist.html?cardId="+cardId;
+					<%
+				}
+				%>
 			})
 			
 			$(".regV .i7,.regV .i8").click(function(){
@@ -220,7 +231,6 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					<div class="i1"></div>
 					<div class="i2">
 					<%
-					KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 					if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
 						%><%=Menu.getMenu("you_are_not_member", languageId) %><%
 					}else{
