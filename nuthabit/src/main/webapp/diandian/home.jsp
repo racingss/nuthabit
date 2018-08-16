@@ -111,7 +111,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			</ul>
 		</nav>
 		<div>
-			<div style="position:relative;  
+			<!--div style="position:relative;  
                     left:0px;  
                     top:0px;  
                     margin:0;  
@@ -122,22 +122,24 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					<img src="frame/mv2.gif" style="width: 16%;position: absolute;top: 38%;left: 30%;">
 					<img src="frame/nv3.gif" style="width: 16%;position: absolute;top: 5%;left: 80%;">
 				</a>
-            </div>
-			<!--div class="banner">
+            </div-->
+			<div class="banner">
 			    <div class="swiper-container">
 			        <div class="swiper-wrapper">
 			            <div class="swiper-slide">
-			            	<a href="/card/cardlist.html?cardId=2189">
-								<img src="frame/animal.gif">
+			            	<a href="/card/cardlist.html?cardId=2256">
+								<img src="haibao/hb1.png">
 							</a>
 			            </div>
 			            <div class="swiper-slide">
-			            	<img src="frame/home-17.jpg">
+			            	<a href="/card/cardlist.html?cardId=2264">
+								<img src="haibao/hb2.png">
+							</a>
 			            </div>
 			        </div>
 			        <div class="swiper-pagination"></div>
 			    </div>
-			</div-->
+			</div>
 			
 			<div class="category">
 				<div>

@@ -1,0 +1,572 @@
+<%@page import="java.net.URLDecoder"%>
+<%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+Card c = (Card)request.getAttribute("card");
+Collection cardColl = (Collection)request.getAttribute("cardColl");
+
+//切换语言
+long languageId = new LanguageHttp().getLanguageId(request);
+long languageId_2 = new LanguageHttp().getLanguageId_2(request);
+
+Kehu k = new KehuUtil().getKehu(request, response);
+
+String autoUrl="/diandian/";
+String tempUrl="/card/cardlist.html?page=t&cardId=";
+Iterator recentIt = new CardDAO().getCardListByAge(k.b.getAge(), 1).iterator();
+int temp=0;
+while(recentIt.hasNext() && temp++<8){
+	Card tempC = (Card)recentIt.next();
+	if(request.getParameter("auto")==null){
+		if(c.getCardId()==tempC.getCardId())
+			continue;
+		autoUrl = tempUrl+tempC.getCardId()+"&auto=t";
+		break;
+	}else{
+		if(c.getCardId()==tempC.getCardId()){
+			if(recentIt.hasNext()){
+				tempC = (Card)recentIt.next();
+				autoUrl = tempUrl+tempC.getCardId()+"&auto=t";
+				break;
+			}else{
+				autoUrl=tempUrl+"2221&auto=t";;
+			}
+		} 
+	}
+}
+%>    
+<!DOCTYPE html>
+<html lang="zh" class="fsvs"><head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<title><%=Menu.getTitle(languageId) %></title>
+	<link rel="stylesheet" href="css/card.css">
+	<link rel="stylesheet" href="css/regV.css">
+	<link rel="stylesheet" href="assets/css/default.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<style type="text/css">
+    .footbatbut{
+    	/* padding: 0px 5px;
+    	font-size: 20px;
+    	font-style: italic; */
+    	background-color: #f49731;
+	    border-radius: 0.5rem;
+	    margin: 0.3em;
+	    padding: 0.5em;
+	    box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
+	    display: inline-block;
+	    color: white;
+	    text-decoration: none;
+	    font-size: 1em;
+    }
+
+    .carddetail{
+		font-size: 1.8rem;
+	    position: absolute;
+	    box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);
+	    padding: 0.5rem;
+	    border-radius: 1rem;
+	    width: 100%;
+	    text-align: center;
+    }
+    
+    .wenzidiv{
+		color: #524f4f;
+		width:100%;
+		float:left;
+		padding:3%;
+	}
+	a{
+		text-decoration: none;
+	}
+	.timediv{
+		width: 0%;
+    	height: 0.1rem;
+    	position: absolute;
+    	bottom: 0;
+    	background: red;
+	}
+    
+
+	.ftmu{
+		display:block;
+		width:24%;
+		float:left;
+		text-align:center;
+	}
+	.ftmu_s1{
+		display:block;
+		width:100%;
+		text-align:center;
+	}
+	.ftmu_s2{
+		text-align: center;
+		  color: #FFF;
+		  background: #f49731;
+		  padding: 0.1rem 0.3rem;
+		  border-radius: 0.2rem;
+		  font-size: 1rem;
+		  box-shadow: 0px 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
+	}
+	.pingjiaspan{
+		padding-bottom: .2rem;
+		display: inline-block;
+	}
+	
+	.scoreImg{
+		display:inline-block;width:24px;height:24px;
+	}
+
+	.slide{
+		position: absolute;
+	}
+	.playimg{
+		width: 15%;
+    	box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);
+    	border-radius: 2rem;
+	}
+	.playbar{
+	    bottom: 0.2rem;
+	    margin: 10px;
+	    width: 100%;
+	    position: absolute;
+	}
+	</style>  
+	<script src="assets/js/jquery-1.11.0.min.js"></script>
+	
+	<script type="text/javascript">
+	var index=1;
+	var max_index=<%=cardColl.size()%>;
+	var times=850000;
+	
+	function load()
+	{
+		/*
+		$(".timediv").css({'width':'0%'});
+		$(".timediv").animate({width:'100%',opacity:'0.4'},times);
+
+		setTimeout(function(){
+			if(document.getElementById("sound_1")!=null)
+				audioAutoPlay1("sound_1");},1000);
+		setTimeout(function(){
+			if(document.getElementById("effect_1")!=null)
+				audioAutoPlay1("effect_1");},4000);
+		
+		t=setTimeout("move()",times);
+		*/
+	}
+	
+	function audioAutoPlay1(id){
+	    var audio = document.getElementById(id);
+	    audio.load();
+	    audio.play();
+	    document.addEventListener("WeixinJSBridgeReady", function () {
+	            audio.play();
+	    }, false);
+	}
+	
+	
+	dwidth=1;
+	
+	function move(){
+		if(dwidth==1){
+			dwidth=0;
+			$(".timediv").animate({width:'0%'},times);
+		}else{
+			dwidth=1;
+			$(".timediv").animate({width:'100%'},times);
+		}
+		
+
+		$("#slide_"+index).animate({right:'200%',opacity:'0'},1000);
+		//$("#slide_"+index).animate({left:'100%',opacity:'0.4'},100);
+		index=index+1;
+		$("#slide_"+index).animate({left:'0'},1500);
+		setTimeout(function(){
+			if(document.getElementById("sound_"+index)!=null)
+				audioAutoPlay1("sound_"+index);},1500);
+		setTimeout(function(){
+			if(document.getElementById("effect_"+index)!=null)
+				audioAutoPlay1("effect_"+index);},4500);
+		if(index<=max_index){
+			setTimeout("move()",times);
+		}else{
+			$(".regV").show();
+			end();
+		}
+	}
+	
+	var daojishi=7;
+	var stopFlag=0;
+	
+	function end(){
+		if(stopFlag==0){
+			if(daojishi>0){
+				$("#daojishi").text(daojishi);
+				daojishi-=1;
+				setTimeout("end()",1000);
+			}else{
+				//alert("时间到了");
+				location.href="<%=autoUrl%>";
+				return;
+			}	
+		}
+		
+	}
+	
+	
+	
+	$(function(){
+		
+		
+		
+		
+		//播放语音
+		$('.playsound').on("click", function () {
+			soundId = "sound_"+$(this).attr("index");
+			//this.play();
+			document.getElementById(soundId).play();
+		});
+		
+		
+		$("#subi7").click(function(){
+			   $(".regV").hide();
+			   stopFlag=1;
+		})
+			
+		
+		
+		//播放音效
+		$('.effectimg,.effecthidden').on("click", function () {
+			i = $(this).attr("index");
+			$('.effecthidden').css({'box-shadow':'0rem'});
+			setTimeout(function(){
+				if(document.getElementById("effect_"+i)!=null)
+					audioAutoPlay1("effect_"+i);},100);
+			setTimeout(function(){ $('.effecthidden').css({'box-shadow':'0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1)'}); }, 2000);
+		});
+		
+		//0表示已收藏
+		var favFlag=<%=request.getAttribute("isFav").toString()%>;
+		
+		
+		$('.favImg').on("click", function () {
+			if(favFlag==0){
+				$.ajax({
+					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favdelete=t',
+					dateType:'json',
+				    success: function(data){
+				    	alert('<%=Menu.getMenu("cancle_fav_succ", languageId) %>');
+				    }
+			    });
+				$("#shoucang_txt").text('<%=Menu.getMenu("menu_fav_cancle", languageId) %>');
+				//$("#shoucangImg").css({'background':'url(img/f4.png)'});
+				favFlag=1;
+			}else{
+				$.ajax({
+					url: 'cardlist.html?cardId=<%=c.getCardId()%>&favcard=t',
+					dateType:'json',
+				    success: function(data){
+				    	alert('<%=Menu.getMenu("fav_succ", languageId) %>');
+				    }
+			   });
+			   $("#shoucang_txt").text('<%=Menu.getMenu("menu_fav", languageId) %>');
+			   //$("#shoucangImg").css({'background':'url(img/f4.png)'});
+			   favFlag=0;
+			}
+	    });
+		
+		
+		$('.scoreImg').on("click", function () {
+			score = $(this).attr("score");
+			$.ajax({
+				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
+			    }
+		    });
+	    });
+		
+		$('.scoreHref').on("click", function () {
+			score = $(this).attr("score");
+			$.ajax({
+				url: 'cardlist.html?cardId=<%=c.getCardId()%>&score='+score,
+				dateType:'json',
+			    success: function(data){
+			    	alert('<%=Menu.getMenu("ganxie_pingfeng", languageId) %>');
+			    }
+		    });
+	    });
+		
+		$('#submitcomm').on("click", function () {
+			$.post("/card/cardlist.html",
+					  {
+						comm:document.getElementById('comm').value,
+						cardId:'<%=c.getCardId()%>'
+					  },
+					  function(data,status){
+						  alert('<%=Menu.getMenu("tijiao_chenggong", languageId) %>');
+						   
+			 });
+	    });
+		
+	})
+</script>
+
+</head>
+<body onload="load()">
+    <div id="fsvs-body">
+    		
+    
+    	
+    	<%
+    	if(true){
+    		int soundI=1;
+        	Iterator itPic = cardColl.iterator();
+        	int index=0;
+        	while(itPic.hasNext()){
+        		index++;
+        		CardPic cp = (CardPic)itPic.next();
+        		Collection picColl = CardPic.getPicCollByMainPicId(cp.getPicId());
+        		%>
+        		
+        		<!--             图片           -->
+        		<div class="slide" id="slide_<%=index %>" index=<%=index %> style="<%if(index>1)out.print("left:100%");%>">
+        		    <div style="position: relative;"> 
+        			<a href="/diandian/" >
+        				<img src="img/f2s.png" style="position: absolute;top: 1rem;left: 1rem;border-radius: 2rem;width: 45px;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);"/>
+        			</a>
+        			<!--         音效           -->
+        			<%
+   					if(cp.getSound()!=null && cp.getSound().length()>2){
+   						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
+   					%>
+   						<a style="background: url(frame/sound.gif);background-size: 45px 45px;display:inline-block;width:45px;height:45px;position: absolute;top: 1rem;right: 1rem;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);border-radius: 0.5rem;" class="effecthidden" index="<%=index%>"></a>
+   						<audio preload="auto" controls id="effect_<%=index %>" style="display:none">
+							<source src="/<%=cp.getSound() %>">
+						</audio>
+					<%
+   						}
+   					} %>       		
+        		
+	 				<!--         主图           -->        		
+        			<img alt="" src="<%=cp.getImgurl() %>" index="<%=index %>" picId="<%=cp.getPicId() %>" next="2" pre="0" style="width:100%;"  class="pic_<%=cp.getPicId()%> effectimg">
+        			<%
+		
+		    		if(request.getSession().getAttribute("wordFlag")==null ||request.getSession().getAttribute("wordFlag").toString().equals("0") ){
+		    			int l_i=0;
+		    				CardMeaning cm = CardMeaning.getStaticCard(cp.getPicId(), languageId);
+		    				%>
+		    				
+						            
+						            <!--                   文字左侧                     -->
+						            <%
+						            double defaultSize=1.8;
+						            if(true){
+							            %>
+							    			<%
+							    			Collection picSoundColl = CardSound.getSoundCollByPicId(cp.getPicId());
+					    					Iterator picSoundIt = picSoundColl.iterator();
+					    					soundI++;
+					    					boolean soundFlag=true;
+					    					%>
+							    			<a href="#" index="<%=index %>" style="color:#524f4f;" class="playsound carddetail">
+							    				<%=cm.getMeaning() %>
+							    			</a>
+							    			<%
+					    					while(picSoundIt.hasNext()){
+					    						CardSound cs = (CardSound)picSoundIt.next();
+					    						if(cs.getLanguageId()!=languageId)
+					    							continue;
+					    						soundFlag=false;
+					    						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
+					    						%>
+						    						<audio class="playsound" preload="auto" controls soundId="<%=index %>" id="sound_<%=index %>" style="display:none">
+														<source src="<%=cs.getSound() %>">
+													</audio>	
+												<%
+					    						}
+					    					}
+					    					%>
+					    
+					    			<%} %>
+					    			
+		    				<%		    			
+		    		}
+		    		%>
+		    		</div>
+		    		
+		    		<div class="playbar">
+		    			<a href="#" ><img src="play/back.png" class="playimg"/></a>
+		    			<a href="#" ><img src="play/rewind.png" class="playimg"/></a>
+		    			<a href="#" ><img src="play/play.png" class="playimg"/></a>
+		    			<a href="#" ><img src="play/stop.png" class="playimg"/></a>
+		    			<a href="#" ><img src="play/forward.png" class="playimg"/></a>
+		    			<a href="#" ><img src="play/next.png" class="playimg"/></a>
+		    		</div>
+		    		
+		    		
+		    		
+		    		<div class="timediv">
+			    	</div>
+        			
+        			
+        		</div>
+        		
+        		
+        		<%
+        	}
+        }	
+    	%>
+    	
+    	<!--                 尾页                      -->
+    	<div class="slide" id="slide_<%=cardColl.size()+1 %>" index="<%=cardColl.size()+1%>" style="left:100%;background: #eb7347;" >
+    					
+    					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
+    						<%=Menu.getMenu("qingpingfen", languageId) %>
+    					</p>
+    					<p style="text-align: left;font-size: 1.2rem;padding-left: 4rem;margin-top: -0.5rem;">
+    						<a  class="scoreImg" score="3" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="3" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="3" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<span class="pingjiaspan" ><a href="#" class="scoreHref" score="3"><%=Menu.getMenu("henxihuan", languageId) %></a></span><br/>
+    						<a  class="scoreImg" score="2" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="2" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="2" href="#" style="display: inline-block;background: url(frame/star1.png);"></a>
+    						<span class="pingjiaspan" ><a href="#" class="scoreHref" score="2"><%=Menu.getMenu("youdaigaijin", languageId) %></a></span><br/>
+    						<a  class="scoreImg" score="1" href="#" style="display: inline-block;background: url(frame/star.png);"></a>
+    						<a  class="scoreImg" score="1" href="#" style="display: inline-block;background: url(frame/star1.png);"></a>
+    						<a  class="scoreImg" score="1" href="#" style="display: inline-block;background: url(frame/star1.png);"></a>
+    						<span class="pingjiaspan" ><a href="#" class="scoreHref" score="1"><%=Menu.getMenu("buxihuan", languageId) %></a></span><br/>
+    					</p>
+    					<p style="text-align: center;font-size: 1.5rem;margin-top:2rem;">
+    						<%=Menu.getMenu("fabiaoxiangfa", languageId) %><br>
+    						<form style="text-align: center;">
+    							<textarea id="comm" rows="" cols="" style="width: 80%;color: #000;font-size: 1rem;margin-top:-0.5rem"></textarea>
+    							<br/>
+    							<a class="footbatbut" id="submitcomm" href="#" style="padding: 0.2rem 2rem;border-radius: 0.2rem;font-size: 1rem;margin-top:1.5rem;">
+							    	<%=Menu.getMenu("tijiao", languageId) %>
+						    	</a>
+    						</form>
+    					</p>
+    					<!--p style="text-align: center;font-size: 22px;margin-top:15px">
+    						&nbsp;&nbsp;<%=Menu.getMenu("u_just_read", languageId) %>：
+    						<br/>
+    						<img alt="" src="<%=c.getImg()%>" style="width:25%;margin: 5px;border-radius: 10px;" class="lastimg">
+    					</p-->
+    					<!--p style="text-align: center;font-size: 22px;margin-top:15px">
+    						<%=Menu.getMenu("test_rightnow", languageId) %>
+    						<br/>
+    						<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/file.png);display:inline-block;width:64px;height:64px"></a>
+    					</p-->
+    					
+    					
+    					<div style="bottom: 0;margin: 10px;width: 100%;margin-top: 2rem;">
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&page=t" style="background: url(img/f1.png);background-size: 64px 64px;display:inline-block;width:64px;height:64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<a  href="cardlist.html?static=t&cardId=<%=c.getCardId() %>&page=t">
+    										重读
+    									</a>
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="/diandian/?recomm=t" style="background: url(img/f2.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<a  href="/diandian/?recomm=t">
+    										<%=Menu.getMenu("home", languageId) %>
+    									</a>	
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								<span class="ftmu_s1">
+    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>" style="background: url(img/f3.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
+    								</span>
+    								<span class="ftmu_s2">
+    									<a  href="test_iop.html?cardId=<%=c.getCardId() %>">
+    										<%=Menu.getMenu("test", languageId) %>
+    									</a>
+    								</span>
+    							</div>
+    							<div class="ftmu">
+    								
+    									<%
+						    			if(Long.parseLong(request.getAttribute("isFav").toString())==0){
+						    			%>
+    										<span class="ftmu_s1">
+		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/f4.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
+		    								</span>
+		    								<span class="ftmu_s2" id="shoucang_txt">
+		    									<a  href="#" class="favImg">
+		    										<%=Menu.getMenu("menu_fav", languageId) %>
+		    									</a>
+		    								</span>
+    									<%
+    									}else{
+						    			%>
+						    				<span class="ftmu_s1">
+		    									<a  href="#" class="favImg" id="shoucangImg" style="background: url(img/f4.png);display:inline-block;width:64px;height:64px;background-size: 64px 64px"></a>
+		    								</span>
+		    								<span class="ftmu_s2" id="shoucang_txt">
+		    									<a  href="#" class="favImg">
+		    										<%=Menu.getMenu("menu_fav_cancle", languageId) %>
+		    									</a>
+		    								</span>
+						    			<%
+						    		}
+						    		%>	
+    								
+    							</div>
+    					
+						    		
+						    		
+						    		
+					    </div>
+    			
+    			</div>
+    	    			
+    </div>
+    
+    
+    
+    
+    <ol class="regV" style="display:none">
+			<div>
+				<div class="hd" style="height: 2.5rem;">
+					<div class="i1" style="width:3rem;height:3rem;"></div>
+					<div class="i2">自动播放</div>
+				</div>
+				<div class="bd" style="height: 7.5rem">
+					<div class="i6">
+						<label>
+							<div class="setupdiv" style="text-align: center;padding: 0.5rem;font-size:1.1rem;">
+								。。。<span id="daojishi" style="font-size: 1.5rem;padding-bottom: .2rem;color: red;">5</span>秒。。。
+								<br/>
+								后开始自动播放
+							</div>
+						</label>
+					</div>
+					<a class="i7" id="subi7" style="width: 60%;height: 1.5rem;font-size: 1rem;padding-top: 0.2rem;color: black;">停止</a>
+				</div>
+			</div>
+	</ol>
+
+    
+
+
+
+
+
+
+
+		
+
+    
+</body>
+</html>

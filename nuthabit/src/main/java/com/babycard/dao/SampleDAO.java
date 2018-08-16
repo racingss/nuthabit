@@ -63,7 +63,7 @@ public class SampleDAO {
 
 	public Connection getConnection() throws DaoException {
 		return getDriverManageConnection();
-		// return getDateSourceConnection("java:comp/env/jdbc/suyu");
+		//return getDateSourceConnection("java:comp/env/jdbc/suyu");
 	}
 
 	public void close(Connection conn, PreparedStatement ps, ResultSet rs) {
