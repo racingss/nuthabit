@@ -16,6 +16,15 @@ public class Card {
 	private long kId = 0;
 	private String detail = null;
 	private long status = 0;
+	private long showType = 0;
+
+	public long getShowType() {
+		return showType;
+	}
+
+	public void setShowType(long showType) {
+		this.showType = showType;
+	}
 
 	public long getStatus() {
 		return status;
@@ -74,7 +83,7 @@ public class Card {
 		Iterator it = cardMeaningColl.iterator();
 		while (it.hasNext()) {
 			CardMeaning cm = (CardMeaning) it.next();
-			if (cm.getLanguageId() == languageId && cm.getCardId() == cardId) {
+			if (cm.getLanguageId() == languageId && cm.getCardId() == cardId && cm.getPicId() == 0) {
 				return cm.getMeaning();
 			}
 		}
@@ -198,6 +207,7 @@ public class Card {
 			this.setkId(rs.getLong("kId"));
 			this.setDetail(rs.getString("detail"));
 			this.setStatus(rs.getLong("status"));
+			this.setShowType(rs.getLong("showType"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

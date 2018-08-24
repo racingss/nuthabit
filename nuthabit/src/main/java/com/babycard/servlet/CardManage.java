@@ -88,6 +88,14 @@ public class CardManage extends HttpServlet {
 				response.sendRedirect("cardlist.html?static=t&cardId=" + cardId);
 				return;
 			}
+			
+			
+			//更改显示showType
+			if (request.getParameter("showType") != null) {
+				new CardDAO().updateCardShowType(cardId,Long.parseLong(request.getParameter("showType")));
+				// 重新初始化
+				
+			}
 
 			// 更新主图
 			if (request.getParameter("main") != null) {

@@ -1,6 +1,5 @@
 package com.babycard.dao;
 
-
 import java.sql.Connection;
 import java.io.*;
 import java.net.*;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
-
 
 public class CardPicDAO extends SampleDAO {
 
@@ -305,6 +303,47 @@ public class CardPicDAO extends SampleDAO {
 		return coll;
 	}
 
+	public Collection getCardPicCollectionByCardmeaning(String meaning) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+		Collection coll = new ArrayList();
+
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement(
+					"select * from baby_card_pic where picId in( select picId from baby_card_meaning where meaning like '%"
+							+ meaning + "%' and languageId<2)");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Iterator it = coll.iterator();
+				CardPic temp = new CardPic(rs);
+				boolean flag = false;
+				while (it.hasNext()) {
+					CardPic cp = (CardPic) it.next();
+					if (cp.getImgurl().equals(temp.getImgurl())) {
+						flag = true;
+						break;
+					}
+				}
+
+				if (!flag)
+					coll.add(temp);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
 	public void deleteCardPic(long picId, long cardId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -466,6 +505,244 @@ public class CardPicDAO extends SampleDAO {
 		}
 	}
 
+	public void updatePicPosition(long picId, long leftP, long topP, long widthP, long marginTop, long marginTop2) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(
+					"update  baby_card_pic set leftP=?,topP=?,widthP=?,marginTop=?,marginTop2=?  where picId=?");
+			ps.setLong(1, leftP);
+			ps.setLong(2, topP);
+			ps.setLong(3, widthP);
+			ps.setLong(4, marginTop);
+			ps.setLong(5, marginTop2);
+			ps.setLong(6, picId);
+			ps.executeUpdate();
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionTop(long picId, long topP) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set topP=topP+?  where picId=?");
+			ps.setLong(1, topP);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionMarginTop(long picId, long marginTop) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set marginTop=marginTop+?  where picId=?");
+			ps.setLong(1, marginTop);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionMarginTopByCardId(long cardId, long marginTop) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set marginTop=marginTop+?  where cardId=?");
+			ps.setLong(1, marginTop);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionMarginTop2(long picId, long marginTop2) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set marginTop2=marginTop2+?  where picId=?");
+			ps.setLong(1, marginTop2);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionMarginTop2ByCardId(long cardId, long marginTop2) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set marginTop2=marginTop2+?  where cardId=?");
+			ps.setLong(1, marginTop2);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionLeft(long picId, long leftP) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set leftP=leftP+?  where picId=?");
+			ps.setLong(1, leftP);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionWidth(long picId, long widthP) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set widthP=widthP+?  where picId=?");
+			ps.setLong(1, widthP);
+			ps.setLong(2, picId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
+	public void updatePicPositionWidthByCardId(long cardId, long widthP) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic p = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card_pic set widthP=widthP+?  where cardId=?");
+			ps.setLong(1, widthP);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+			System.out.println(ps.toString());
+			ps.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
 	public Collection pic() {
 		Connection conn;
 		PreparedStatement ps;
@@ -490,6 +767,8 @@ public class CardPicDAO extends SampleDAO {
 	}
 
 	public static void main(String arg[]) {
+
+		System.out.println(new CardPicDAO().getCardPicCollectionByCardmeaning("cat"));
 
 	}
 

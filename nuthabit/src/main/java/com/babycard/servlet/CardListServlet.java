@@ -190,7 +190,9 @@ public class CardListServlet extends HttpServlet {
 					request.getRequestDispatcher("cardplay1.jsp").forward(request, response);
 				} else if (request.getParameter("test") != null) {
 					request.getRequestDispatcher(request.getParameter("test")).forward(request, response);
-				} else {
+				} else if(c.getShowType()==1){
+					request.getRequestDispatcher("/diandian/cognitiveboard.jsp").forward(request, response);
+				}else {
 					request.getRequestDispatcher("cardplay.jsp").forward(request, response);
 				}
 			} else {

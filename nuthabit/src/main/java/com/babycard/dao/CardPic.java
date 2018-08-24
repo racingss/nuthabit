@@ -13,10 +13,55 @@ public class CardPic {
 	private long cardId = 0;
 	private long favCount = 0;
 	private long mainPicId = 0;
-	private long picIndex=0;
-	
-	
-	
+	private long picIndex = 0;
+	private long topP = 0;
+	private long leftP = 0;
+	private long widthP = 0;
+	private long marginTop = 0;
+	private long marginTop2 = 0;
+
+	public long getMarginTop2() {
+		return marginTop2;
+	}
+
+	public void setMarginTop2(long marginTop2) {
+		this.marginTop2 = marginTop2;
+	}
+
+	public long getMarginTop() {
+		return marginTop;
+	}
+
+	public void setMarginTop(long marginTop) {
+		this.marginTop = marginTop;
+	}
+
+	public long getWidthP() {
+		if (widthP == 0)
+			return 18;
+		return widthP;
+	}
+
+	public void setWidthP(long widthP) {
+		this.widthP = widthP;
+	}
+
+	public long getTopP() {
+		return topP;
+	}
+
+	public void setTopP(long topP) {
+		this.topP = topP;
+	}
+
+	public long getLeftP() {
+		return leftP;
+	}
+
+	public void setLeftP(long leftP) {
+		this.leftP = leftP;
+	}
+
 	public long getPicIndex() {
 		return picIndex;
 	}
@@ -137,6 +182,11 @@ public class CardPic {
 			this.setMainPicId(rs.getLong("mainPicId"));
 			this.setSound(rs.getString("sound"));
 			this.setPicIndex(rs.getLong("picIndex"));
+			this.setLeftP(rs.getLong("leftP"));
+			this.setTopP(rs.getLong("topP"));
+			this.setWidthP(rs.getLong("widthP"));
+			this.setMarginTop(rs.getLong("marginTop"));
+			this.setMarginTop2(rs.getLong("marginTop2"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

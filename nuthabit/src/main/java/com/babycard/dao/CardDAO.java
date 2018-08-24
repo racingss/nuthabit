@@ -73,6 +73,30 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
+	
+	public void updateCardShowType(long cardId, long showType) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update  baby_card set showType=? where cardId=? ");
+			ps.setLong(1, showType);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
 
 	public void updateCardDetail(long cardId, String detail) {
 		Connection conn;

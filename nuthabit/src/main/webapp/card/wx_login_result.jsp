@@ -28,6 +28,10 @@ if(session.getAttribute("cardId")!=null){
 	url = "/card/cardlist.html?cardId="+session.getAttribute("cardId").toString();
 	session.removeAttribute("cardId");
 }
+if(session.getAttribute("shuyishu")!=null){
+	url = "/diandian/shuyishu.html";
+	session.removeAttribute("shuyishu");
+}
  %>
 <script type="text/javascript">
 window.location.href='<%=url%>';

@@ -1,9 +1,10 @@
+<%@page import="com.babycard.wx.*"%>
 <%@page import="java.net.URLDecoder"%>
 <%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 int nums = Integer.parseInt(request.getParameter("num"));
-String imgUrl = request.getParameter("imgUrl");
+Shuyishu s = (Shuyishu)request.getAttribute("s");
 %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,7 +20,7 @@ String imgUrl = request.getParameter("imgUrl");
     	left: 0;
     }
 	#shuyishu{
-		background: url(shuyishuimg/sunbackground.jpg);
+		background: url(<%=s.getBakUrl()%>);
 	    height: 100%;
 	    background-size: cover;
 	}
@@ -127,7 +128,7 @@ String imgUrl = request.getParameter("imgUrl");
 		<div id="shuyishu">
 			
 			<div class="carddetail">
-				<a href="#" class="click">小朋友，小手点一点</a>
+				<a href="#" class="click">小朋友，小手点点吧</a>
 			</div>
 			
 			<%
@@ -139,7 +140,7 @@ String imgUrl = request.getParameter("imgUrl");
 			while(it.hasNext()){
 				double[] temp = (double[]) it.next();
 				%>
-				<img src="<%=imgUrl %>" class="item item<%=index %>"  showFlag ="0" style="top: <%=temp[1]%>%;left: <%=temp[0]%>%;">
+				<img src="<%=s.getImgUrl()%>" class="item item<%=index %>"  showFlag ="0" style="top: <%=temp[1]%>%;left: <%=temp[0]%>%;">
 				<div class="footnum footnum<%=j %>" style="left:<%=(j-1)*10%>%;display:none">
 					<%=j %>
 				</div>
@@ -256,7 +257,7 @@ String imgUrl = request.getParameter("imgUrl");
 						//$(".item").css({"display":"none"});
 						//$(".msg").css({"display":"block"});		
 						//$(".footnum").css({"display":"none"});
-						location.href="shuyishu_begin.jsp?end=t";
+						location.href="shuyishu.html?end=t";
 					},2000*<%=jIndex+2%>+1000);
 					$(".numberdetail").css({"display":"none"});
 					itemId++;
@@ -270,6 +271,11 @@ String imgUrl = request.getParameter("imgUrl");
 		
 		
 	})
-</script>	
+</script>
+
+
+
+
+
 </body>
 </html>

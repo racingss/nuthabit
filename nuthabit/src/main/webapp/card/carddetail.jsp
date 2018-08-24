@@ -190,6 +190,24 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	    box-shadow: 0.15rem 0.15rem 0.2rem 0px rgba(255, 225, 0, 0.2);
 	    display: block;
 	}
+	.positionImg{
+	width: 3rem;
+	    height: 3rem;
+	    border-radius: 50%;
+	    position: fixed;
+	    right: 2rem;
+	    background-size: 1.5rem 1.5rem;
+	    background-position: center;
+	    background-repeat: no-repeat;
+	    box-shadow: 0.15rem 0.15rem 0.2rem 0px rgba(255, 225, 0, 0.2);
+	    display: block;
+		bottom: 7.5rem;
+	    text-align: center;
+	    background: red;
+	    font-size: 2rem;
+	    color: white;
+	}
+	
 	a{
 		text-decoration: none;
 	}
@@ -387,6 +405,17 @@ Kehu k = new KehuUtil().getKehu(request, response);
     		</p>
     		
     		
+    		<h4>显示方式</h4>
+    		<p class="tiship">
+    			<select class="cardselect showselect">
+    				<option value="<%=c.getShowType()%>"><%=c.getShowType() %></option>
+    				<option value="0">正常0</option>
+    				<option value="1">书1</option>
+    				
+    			</select>		
+    		</p>
+    		
+    		
     		
     		
     		
@@ -562,6 +591,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     	<div>
     		<a class="add" href="test_sound.jsp?cardId=<%=c.getCardId() %>"></a>
 			<a class="trashImg" href="#"></a>
+			<a class="positionImg" href="/diandian/cardposition.html?cardId=<%=c.getCardId()%>">P</a>
     	</div>
     	
     			
@@ -772,6 +802,23 @@ Kehu k = new KehuUtil().getKehu(request, response);
 				    }
 			});
 		});
+		
+		//显示方式
+		
+		$('.showselect').on("change", function () {
+			showType = this.value;
+			$.ajax({
+					type: 'POST',
+					url: 'cardmanage.html',
+					data: {cardId:<%=c.getCardId() %>,showType:showType},
+					dateType:'json',
+				    success: function(data){
+				    	alert('<%=Menu.getMenu("update_succ", languageId) %>');
+				    }
+			});
+		});
+		
+		
 		
 		//修改标签
 		$('.tagselect').on("change", function () {

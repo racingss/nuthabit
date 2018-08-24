@@ -7,6 +7,8 @@ long languageId = new LanguageHttp().getLanguageId(request);
 
 Iterator resultIt = ((Collection)request.getAttribute("result")).iterator();
 String title="";
+
+try{
 if (request.getParameter("tagId") != null && request.getParameter("tagId").length()>0) {
 	CardTag t = CardTag.getCartTagByTagId(Long.parseLong(request.getParameter("tagId")));
 	title= Menu.getMenu("tag_" + t.getTagId(), languageId);
@@ -18,6 +20,9 @@ if (request.getParameter("tagId") != null && request.getParameter("tagId").lengt
 	title="最新上架" ;
 }else{
 	title = "level "+request.getParameter("level");
+}
+}catch(Exception e){
+	e.printStackTrace();
 }
 
 long level=0;
@@ -110,7 +115,11 @@ newFlag=1;
 								<div class="pichead">
 									<img alt="" src="<%=cp.getImgurl() %>" class="picimg  cardsub" cardId="<%=c.getCardId()%>">
 								</div>
-								<div class="picword"><%=CardMeaning.getStaticCard(cp.getPicId(), languageId).getMeaning() %></div>
+								<div class="picword"><%
+								CardMeaning tempCm =CardMeaning.getStaticCard(cp.getPicId(), languageId);
+								if(tempCm!=null)
+									out.print(tempCm.getMeaning());
+								%></div>
 								<div class="picselect"></div>
 							</div>
 							<%

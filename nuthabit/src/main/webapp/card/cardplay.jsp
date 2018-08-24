@@ -3,18 +3,19 @@
 <%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+long languageId = new LanguageHttp().getLanguageId(request);
+long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 Card c = (Card)request.getAttribute("card");
 Collection cardColl = (Collection)request.getAttribute("cardColl");
 CardPic p = (CardPic)cardColl.iterator().next();
 Collection meaningColl = c.cardMeaningColl;
 Collection soundColl = c.cardSoundColl;
-String title= c.getMeaning()+"_幼儿认知卡片_亲子教育好帮手_卡片点点为您精心准备";
+
+String title= c.getMeaning(languageId,c.getCardId())+"_幼儿认知卡片_亲子教育好帮手_卡片点点为您精心准备";
 String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
 String cardImg = "http://www.suyufuwu.com"+c.getImg();
 
 //切换语言
-long languageId = new LanguageHttp().getLanguageId(request);
-long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 if(languageId_2==-1 && languageId==0)
 	languageId_2=1;
 if(languageId_2==-1 && languageId==1)
@@ -50,7 +51,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, user-scalable=no">
-	<title><%=c.getMeaning()%>_卡片点点Cardpopo_幼儿语言启蒙教育平台</title>
+	<title><%=title%></title>
 	<link rel="stylesheet" href="css/list_style.css">
 	<link rel="stylesheet" href="css/dialog.css">
 	<link rel="stylesheet" href="css/card.css">

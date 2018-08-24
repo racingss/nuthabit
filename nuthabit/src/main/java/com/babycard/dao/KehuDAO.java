@@ -381,7 +381,8 @@ public class KehuDAO extends SampleDAO {
 				ps = conn.prepareStatement("update kehu set jifen =jifen+? where id=? ");
 			} else {
 				balance -= jifen;
-				if (balance < 0) {
+				//临时先取消
+				if (false && balance < 0) {
 					System.err.println("积分不够:" + kId + ":" + balance + ":" + plus + ":" + balance + ":" + ":" + jifen);
 					return false;
 				}
