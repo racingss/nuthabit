@@ -116,6 +116,9 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		top:0%;
 		width:100px;
 	}
+	.headnum{
+		position: absolute;
+	}
 
 </style>
 </head>
@@ -138,6 +141,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			</a>
 		
 			<div class="mainboard"  style="display:none">
+					<span class="headnum">1/2</span>
 					<img src="/myplan/upload/historypic/1534326494671.png" class="itemimg" >
 					<span class="spanline1">be surprised</span>
 					<span class="spanline2">惊讶</span>
@@ -152,7 +156,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			while(picit.hasNext()){
 				CardPic fpic = (CardPic)picit.next();
 				%>
-				<div class="item" id="item<%=fpic.getPicId() %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;">
+				<div class="item" id="item<%=fpic.index %>" index="<%=fpic.index %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;">
 					<img src="<%=fpic.getImgurl() %>" class="itemimg"  >
 					<span class="spanline1"  style="margin-top:<%=fpic.getMarginTop()%>rem;"><%=CardMeaning.getStaticCard(fpic.getPicId(), languageId).getMeaning() %></span>
 					<span class="spanline2"  style="margin-top:<%=fpic.getMarginTop2()%>rem;" ><%=CardMeaning.getStaticCard(fpic.getPicId(), languageId_2).getMeaning() %></span>
@@ -164,7 +168,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
   					if(fpic.getSound()!=null && fpic.getSound().length()>2){
   						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
   					%>
-  						<audio preload="auto" controls id="effect_<%=fpic.getPicId() %>" style="display:none">
+  						<audio preload="auto" controls id="effect_<%=fpic.index %>" style="display:none">
 						<source src="/<%=fpic.getSound() %>">
 					</audio>
 				<%  } 
@@ -186,7 +190,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							sound="card/"+sound;
 						}
 					%> 
-						<audio controls id="sound_<%=fpic.getPicId()%>_<%=cs.getLanguageId()%>" style="display:none">
+						<audio controls id="sound_<%=fpic.index%>_<%=cs.getLanguageId()%>" style="display:none">
 							<source src="/<%=sound %>">
 						</audio>	
 					<%
@@ -215,24 +219,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 	
 	$(function(){
 		var currPicId=0;
-		
-		$(".item").click(function(){
-			//alert("已选中");
-			currPicId=$(this).attr("picId");
-			$(".item").addClass("opacityShadow");
-			$(".mainboard").children(".itemimg").attr("src",$("#item"+currPicId).children("img").attr("src"));
-			console.log($("#item"+currPicId).children("spanline1").text());
-			$(".mainboard").children(".spanline1").text($("#item"+currPicId).children(".spanline1").text());
-			$(".mainboard").children(".spanline2").text($("#item"+currPicId).children(".spanline2").text());
-			$(".mainboard").show();
-			document.getElementById("sound_"+currPicId+"_<%=languageId%>").play();
-			
-			if(document.getElementById("effect_"+currPicId)!=null){
-				$(".effecthidden").show();
-			}else{
-				$(".effecthidden").hide();
-			}
-		})
+		var index=0;
 		
 		$(".cancelimg").click(function(){
 			$(".item").removeClass("opacityShadow");
@@ -241,7 +228,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		
 		$(".effecthidden").click(function(){
 			$(this).removeClass("boxShadow");
-			document.getElementById("effect_"+currPicId).play();
+			document.getElementById("effect_"+index).play();
 			setTimeout(function(){ 
 				$(".effecthidden").addClass("boxShadow");
 			}, 2000);	
@@ -250,30 +237,37 @@ Kehu k = new KehuUtil().getKehu(request, response);
 		
 		
 		$(".spanline1").click(function(){
-			document.getElementById("sound_"+currPicId+"_<%=languageId%>").play();
+			document.getElementById("sound_"+index+"_<%=languageId%>").play();
 		})
 		
 		$(".spanline2").click(function(){
-			document.getElementById("sound_"+currPicId+"_<%=languageId_2%>").play();
+			document.getElementById("sound_"+index+"_<%=languageId_2%>").play();
 		})
 		
 		$(".item").click(function(){
 			//alert("已选中");
 			currPicId=$(this).attr("picId");
+			index=$(this).attr("index");
 			$(".item").addClass("opacityShadow");
-			$(".mainboard").children(".itemimg").attr("src",$("#item"+currPicId).children("img").attr("src"));
-			console.log($("#item"+currPicId).children("spanline1").text());
-			$(".mainboard").children(".spanline1").text($("#item"+currPicId).children(".spanline1").text());
-			$(".mainboard").children(".spanline2").text($("#item"+currPicId).children(".spanline2").text());
-			$(".mainboard").show();
-			document.getElementById("sound_"+currPicId+"_<%=languageId%>").play();
 			
-			if(document.getElementById("effect_"+currPicId)!=null){
+			t=changeItem();
+		})
+		
+		function changeItem(){
+			$(".headnum").text(index+"/<%=nums%>");
+			$(".mainboard").children(".itemimg").attr("src",$("#item"+index).children("img").attr("src"));
+			console.log($("#item"+index).children("spanline1").text());
+			$(".mainboard").children(".spanline1").text($("#item"+index).children(".spanline1").text());
+			$(".mainboard").children(".spanline2").text($("#item"+index).children(".spanline2").text());
+			$(".mainboard").show();
+			document.getElementById("sound_"+index+"_<%=languageId%>").play();
+			
+			if(document.getElementById("effect_"+index)!=null){
 				$(".effecthidden").show();
 			}else{
 				$(".effecthidden").hide();
 			}
-		})
+		}
 		
 		var windowHeight = $(window).height(),
 		$body = $("body");
@@ -285,26 +279,54 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			startY = e.originalEvent.changedTouches[0].pageY;
 		});
 		
+		var moveFlag=0;
 		$("body").on("touchmove", function(e) {
 			//e.preventDefault();
 			moveEndX = e.originalEvent.changedTouches[0].pageX,
 			moveEndY = e.originalEvent.changedTouches[0].pageY,
 			X = moveEndX - startX,
 			Y = moveEndY - startY;
-			if ( Math.abs(X) > Math.abs(Y) && X > 25 ) {
-				//alert("left 2 right："+X);
-			}
-			else if ( Math.abs(X) > Math.abs(Y) && X < -25 ) {
-				//alert("right 2 left："+X);
-			}
-			else if ( Math.abs(Y) > Math.abs(X) && Y > 0) {
-				//alert("top 2 bottom");
-			}
-			else if ( Math.abs(Y) > Math.abs(X) && Y < 0 ) {
-				//alert("bottom 2 top");
-			}
-			else{
-				//alert("just touch");
+			
+			if(moveFlag==0){
+				moveFlag=1;
+				setTimeout(function(){ 
+					moveFlag=0;
+				}, 300);	
+				
+				if ( Math.abs(X) > Math.abs(Y) && X > 25 ) {
+					//alert("left 2 right："+X);
+					if(index>1){
+						index=index-1;
+						t=changeItem();	
+						return;
+					}else{
+						alert("没有了");
+					}
+				}
+				else if ( Math.abs(X) > Math.abs(Y) && X < -25 ) {
+					//alert("right 2 left："+X);
+					if(index<<%=nums%>){
+						index=parseInt(index)+1;
+						t=changeItem();
+						return;
+					}else{
+						alert("到头了");
+					}
+					return;
+					
+					
+					
+				}
+				else if ( Math.abs(Y) > Math.abs(X) && Y > 0) {
+					//alert("top 2 bottom");
+				}
+				else if ( Math.abs(Y) > Math.abs(X) && Y < 0 ) {
+					//alert("bottom 2 top");
+				}
+				else{
+					//alert("just touch");
+				}
+				
 			}
 			
 		});

@@ -107,6 +107,8 @@ public class ImageUtil {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		ImageUtil util = new ImageUtil();
+		util.downloadPicture("http://res-tts.iciba.com/a/0/5/a05b295dab690e4567518beac9ba8c95.mp3", "/Users/wangjunwu/Documents/bigfish.mp3");
 		
 //		try {
 //			String sourceFilePath = "/Users/wangjunwu/Desktop/test.jpeg";

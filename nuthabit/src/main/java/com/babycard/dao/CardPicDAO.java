@@ -210,8 +210,11 @@ public class CardPicDAO extends SampleDAO {
 			ps = conn.prepareStatement("select * from baby_card_pic  where cardId=? order by cardId ");
 			ps.setLong(1, cardId);
 			rs = ps.executeQuery();
+			long index=1;
 			while (rs.next()) {
-				coll.add(new CardPic(rs));
+				p = new CardPic(rs);
+				p.index = index++;
+				coll.add(p);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -768,7 +771,12 @@ public class CardPicDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 
-		System.out.println(new CardPicDAO().getCardPicCollectionByCardmeaning("cat"));
+		Collection coll = new CardPicDAO().getCardPicByCardId(2270);
+		Iterator it = coll.iterator();
+		while(it.hasNext()){
+			CardPic cp = (CardPic)it.next();
+			System.out.println(cp.index);
+		}
 
 	}
 

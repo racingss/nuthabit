@@ -19,6 +19,7 @@ public class CardPic {
 	private long widthP = 0;
 	private long marginTop = 0;
 	private long marginTop2 = 0;
+	public long index=0;
 
 	public long getMarginTop2() {
 		return marginTop2;
