@@ -13,10 +13,19 @@ public class Card {
 	private long cardIndex = 0;
 	private long age = 0;
 	private String defaultPic = null;
+	private String secondPic = null;
 	private long kId = 0;
 	private String detail = null;
 	private long status = 0;
 	private long showType = 0;
+	
+	public String getSecondPic() {
+		return secondPic;
+	}
+
+	public void setSecondPic(String secondPic) {
+		this.secondPic = secondPic;
+	}
 
 	public long getShowType() {
 		return showType;
@@ -199,6 +208,7 @@ public class Card {
 			this.setDetail(rs.getString("detail"));
 			this.setStatus(rs.getLong("status"));
 			this.setShowType(rs.getLong("showType"));
+			this.setSecondPic(rs.getString("secondPic"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

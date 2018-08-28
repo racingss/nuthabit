@@ -37,6 +37,7 @@ import com.babycard.dao.CardPicDAO;
 import com.babycard.dao.CardSound;
 import com.babycard.dao.Kehu;
 import com.babycard.dao.SoundDAO;
+import com.babycard.util.ImageUtil;
 import com.babycard.util.KehuUtil;
 
 @WebServlet("/card/uploadbabycard.html")
@@ -110,7 +111,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 		long mainPicId = 0;
 		long languageId = 0;
 		long meaningId = 0;
-		long distLanguage=0;
+		long distLanguage = 0;
 		String slide = null;
 		String sound = null;
 		String soundQue = null;
@@ -163,12 +164,10 @@ public class UploadBabyCardServlet extends HttpServlet {
 				if ("languageId".equals(fileItem.getFieldName())) {
 					languageId = Long.parseLong(fileItem.getString("UTF-8"));
 				}
-				
+
 				if ("distLanguage".equals(fileItem.getFieldName())) {
 					distLanguage = Long.parseLong(fileItem.getString("UTF-8"));
 				}
-				
-				
 
 				continue;// 非file域不处理
 			}
@@ -251,6 +250,12 @@ public class UploadBabyCardServlet extends HttpServlet {
 			if (cover != null) {
 				// 上传封面
 				new CardDAO().updateCardDefaultPic(cardId, weburl + pic);
+				if (pic.indexOf("gif") != -1) {
+					String jpg = pic.substring(0, pic.indexOf(".")) + ".jpg";
+					//ImageUtil.convert(path + pic, "jpg", path + jpg);
+					//new CardDAO().updateCardSecondPic(cardId, weburl + jpg);
+				}
+
 				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
 				return;
 			}
@@ -296,7 +301,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 				cs.setCardId(cardId);
 				cs.setKehuId(k.getId());
 				cs.setLanguageId(distLanguage);
-				cs.setSound("/"+weburl + pic);
+				cs.setSound("/" + weburl + pic);
 				cs.setPicId(picId);
 				new SoundDAO().addCardSound(cs, false);
 				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
@@ -330,6 +335,11 @@ public class UploadBabyCardServlet extends HttpServlet {
 		g.drawImage(originalImage, 0, 0, width, height, null);
 		g.dispose();
 		return newImage;
+	}
+
+	public static void main(String arg[]) {
+		String pic = "aa11a1.gif";
+		System.out.println(pic.substring(0, pic.indexOf(".")) + ".jpg");
 	}
 
 }

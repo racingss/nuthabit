@@ -247,6 +247,31 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
+	
+	public void updateCardSecondPic(long cardId, String secondPic) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement("update baby_card set secondPic =? where cardId=?");
+			ps.setString(1, secondPic);
+			ps.setLong(2, cardId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
 
 	public Card deleteCard(long cardId, long kId) {
 		Connection conn;
@@ -1533,8 +1558,8 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		System.out.println(dao.getNextByCardId(9999));
-		System.out.println(dao.getPreByCardId(9999));
+		dao.updateCardSecondPic(2188, "aaa111.jpg");
+		
 
 	}
 

@@ -104,6 +104,16 @@ public class ImageUtil {
         }
     }
 
+    public static void convert(String source, String formatName, String result) {
+    	try {
+			File f = new File(source);
+			f.canRead();
+			BufferedImage src = ImageIO.read(f);
+			ImageIO.write(src, formatName, new File(result));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
