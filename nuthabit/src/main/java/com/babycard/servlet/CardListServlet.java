@@ -69,14 +69,14 @@ public class CardListServlet extends HttpServlet {
 			}
 
 			// tutorial
-			if (!new TutorialDAO().isTutorial(k.getId(), Tutorial.CARDPLAY)) {
-				Tutorial t = new Tutorial();
-				t.setkId(k.getId());
-				t.setTutorialType(Tutorial.CARDPLAY);
-				new TutorialDAO().add(t);
-				request.getRequestDispatcher("tutorial.jsp").forward(request, response);
-				return;
-			}
+//			if (!new TutorialDAO().isTutorial(k.getId(), Tutorial.CARDPLAY)) {
+//				Tutorial t = new Tutorial();
+//				t.setkId(k.getId());
+//				t.setTutorialType(Tutorial.CARDPLAY);
+//				new TutorialDAO().add(t);
+//				request.getRequestDispatcher("tutorial.jsp").forward(request, response);
+//				return;
+//			}
 
 			long picId = 0;
 			if (request.getParameter("picId") != null) {
@@ -121,7 +121,7 @@ public class CardListServlet extends HttpServlet {
 				return;
 			}
 
-			request.setAttribute("isFav", new FavDAO().isFav(k.getId(), cardId));
+			
 
 			// 语言
 			long languageId = new LanguageHttp().getLanguageId(request);
@@ -146,8 +146,16 @@ public class CardListServlet extends HttpServlet {
 				dao.addCardMeaning(cm);
 			}
 
-			c = dao.getCardByCardId(cardId);
+			if (request.getParameter("next") != null) {
+				c = dao.getNextByCardId(cardId);
+			} else if (request.getParameter("pre") != null) {
+				c = dao.getPreByCardId(cardId);
+			} else {
+				c = dao.getCardByCardId(cardId);
+			}
 
+			request.setAttribute("isFav", new FavDAO().isFav(k.getId(), c.getCardId()));
+			
 			// 扣除积分
 			if (c.getkId() != k.getId() && request.getParameter("replay") == null) {
 				KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
@@ -160,7 +168,7 @@ public class CardListServlet extends HttpServlet {
 			}
 
 			// 获取卡片图片
-			Collection cardColl = dao.getCardPicByCardId(c.getCardId());
+			Collection cardColl = new CardPicDAO().getCardPicByCardId(c.getCardId());
 
 			// 记录用户学习状态,可能会被废除
 			Study s = new Study();
@@ -190,10 +198,11 @@ public class CardListServlet extends HttpServlet {
 					request.getRequestDispatcher("cardplay1.jsp").forward(request, response);
 				} else if (request.getParameter("test") != null) {
 					request.getRequestDispatcher(request.getParameter("test")).forward(request, response);
-				} else if(c.getShowType()==1){
+				} else if (c.getShowType() == 1) {
 					request.getRequestDispatcher("/diandian/cognitiveboard.jsp").forward(request, response);
-				}else {
-					request.getRequestDispatcher("cardplay.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("/diandian/cognitiveboard.jsp").forward(request, response);
+					//request.getRequestDispatcher("cardplay.jsp").forward(request, response);
 				}
 			} else {
 				response.sendRedirect("carddetail.html?cardId=" + c.getCardId());

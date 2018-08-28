@@ -207,7 +207,7 @@ public class CardPicDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 
-			ps = conn.prepareStatement("select * from baby_card_pic  where cardId=? order by cardId ");
+			ps = conn.prepareStatement("select * from baby_card_pic  where cardId=? order by picIndex ");
 			ps.setLong(1, cardId);
 			rs = ps.executeQuery();
 			long index=1;

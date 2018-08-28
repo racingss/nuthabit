@@ -74,22 +74,14 @@ public class Card {
 		this.cardIndex = cardIndex;
 	}
 
-	public Collection cardMeaningColl = null;
 	public Collection cardSoundColl = null;
+	
+	public Collection cardMeaningColl = null;
 
 	public String getMeaning(long languageId, long cardId) {
-		if (cardMeaningColl == null)
-			cardMeaningColl = new CardMeaningDAO().getAllCardMeaning();
-		Iterator it = cardMeaningColl.iterator();
-		while (it.hasNext()) {
-			CardMeaning cm = (CardMeaning) it.next();
-			if (cm.getLanguageId() == languageId && cm.getCardId() == cardId && cm.getPicId() == 0) {
-				return cm.getMeaning();
-			}
-		}
+		
 		CardMeaning cm = new CardMeaningDAO().getCardMeaning(cardId, 0, languageId);
 		if (cm != null) {
-			cardMeaningColl.add(cm);
 			return cm.getMeaning();
 		}
 
@@ -98,7 +90,6 @@ public class Card {
 			new CardMeaningDAO().buildMeaningByCardId(cardId, languageId);
 			cm = new CardMeaningDAO().getCardMeaning(cardId, 0, languageId);
 			if (cm != null) {
-				cardMeaningColl.add(cm);
 				return cm.getMeaning();
 			}
 		}
@@ -218,7 +209,7 @@ public class Card {
 	public String toString() {
 		return "Card [cardId=" + cardId + ", meaning=" + meaning + ", picCount=" + picCount + ", favCount=" + favCount
 				+ ", cardIndex=" + cardIndex + ", age=" + age + ", defaultPic=" + defaultPic + ", kId=" + kId
-				+ ", cardMeaningColl=" + cardMeaningColl + ", cardSoundColl=" + cardSoundColl + "]";
+				+ ", cardSoundColl=" + cardSoundColl + "]";
 	}
 
 }

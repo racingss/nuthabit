@@ -797,6 +797,68 @@ public class CardDAO extends SampleDAO {
 		}
 		return c;
 	}
+	
+	public Card getNextByCardId(long cardId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where cardId<? and status=0 order by cardId desc");
+			ps.setLong(1, cardId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				c = new Card(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		if(c==null){
+			System.out.println("到头了");
+			return getPreByCardId(9999);
+		}
+		
+		return c;
+	}
+	
+	public Card getPreByCardId(long cardId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card c = null;
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where cardId>? and status=0 order by cardId");
+			ps.setLong(1, cardId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				c = new Card(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		if(c==null){
+			System.out.println("到头了");
+			return getPreByCardId(0);
+		}
+		
+		return c;
+	}
 
 	public Card getCardByCardIndex(long cardIndex, String flag, long tagId) {
 		Connection conn;
@@ -1471,23 +1533,8 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		dao.updateCardPicIndex(70, 100);
-
-		Collection coll = dao.getAllCardList();
-		Iterator it = coll.iterator();
-		while (it.hasNext()) {
-			Card c = (Card) it.next();
-			System.out.println(c.toString());
-			Collection pColl = dao.getCardPicByCardId(c.getCardId());
-			Iterator pIt = pColl.iterator();
-			int index=1;
-			while (pIt.hasNext()) {
-				CardPic p = (CardPic) pIt.next();
-				System.out.println(p.toString());
-				index=index+100;
-				dao.updateCardPicIndex(p.getPicId(), index);
-			}
-		}
+		System.out.println(dao.getNextByCardId(9999));
+		System.out.println(dao.getPreByCardId(9999));
 
 	}
 
