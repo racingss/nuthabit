@@ -323,6 +323,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
     			</span>
     			<br/>
     			<a href="test_sound.jsp?cardId=<%=c.getCardId() %>&cover=t" class="piccontrolbutton"><%=Menu.getMenu("upload_but", languageId) %></a>
+    			<a href="test_sound.jsp?cardId=<%=c.getCardId() %>&second=t" class="piccontrolbutton">上传静态封面</a>
     		</p>
     		
     	</div>

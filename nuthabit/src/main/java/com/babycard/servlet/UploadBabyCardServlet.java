@@ -117,6 +117,7 @@ public class UploadBabyCardServlet extends HttpServlet {
 		String soundQue = null;
 		String cover = null;
 		String effect = null;
+		String second = null;
 
 		while (fileItr.hasNext() && i <= 8) {
 
@@ -148,6 +149,11 @@ public class UploadBabyCardServlet extends HttpServlet {
 				if ("cover".equals(fileItem.getFieldName())) {
 					cover = fileItem.getString("UTF-8");
 				}
+				
+				if ("second".equals(fileItem.getFieldName())) {
+					second = fileItem.getString("UTF-8");
+				}
+				
 
 				if ("slide".equals(fileItem.getFieldName())) {
 					slide = fileItem.getString("UTF-8");
@@ -250,15 +256,19 @@ public class UploadBabyCardServlet extends HttpServlet {
 			if (cover != null) {
 				// 上传封面
 				new CardDAO().updateCardDefaultPic(cardId, weburl + pic);
-				if (pic.indexOf("gif") != -1) {
-					String jpg = pic.substring(0, pic.indexOf(".")) + ".jpg";
-					//ImageUtil.convert(path + pic, "jpg", path + jpg);
-					//new CardDAO().updateCardSecondPic(cardId, weburl + jpg);
-				}
-
 				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
 				return;
 			}
+			
+			
+			if (second != null) {
+				// 上传封面静态jpg
+				new CardDAO().updateCardSecondPic(cardId, weburl + pic);
+				response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
+				return;
+			}
+			
+			
 
 			if (filetype == 1 && cardId != 0) {
 				if (mainPicId != 0) {

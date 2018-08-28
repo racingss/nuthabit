@@ -74,6 +74,12 @@ long languageId = new LanguageHttp().getLanguageId(request);
    	<%} %>
    	
    	<%
+   	if(request.getParameter("second")!=null){
+   	%>
+   		<input type="hidden" name="second" value="t" />
+   	<%} %>
+   	
+   	<%
    	if(request.getParameter("mainPicId")!=null){
    	%>
    		<input type="hidden" name="mainPicId" value="<%=request.getParameter("mainPicId") %>" />

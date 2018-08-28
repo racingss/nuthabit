@@ -20,8 +20,13 @@ if(request.getParameter("autoplay")!=null)
 
 String title= c.getMeaning(languageId,c.getCardId())+"_幼儿认知卡片_亲子教育好帮手_卡片点点为您精心准备";
 String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
-String cardImg = "http://www.suyufuwu.com"+c.getImg();
+String cardImg = "http://www.suyufuwu.com";
+if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
+	cardImg+="/"+c.getSecondPic();
+else
+	cardImg+=c.getImg();
 
+System.out.println(cardImg);
 %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -180,6 +185,9 @@ String cardImg = "http://www.suyufuwu.com"+c.getImg();
 	<div class="page">
 		<div class="headbar">
 			<a href="/diandian/">
+				<img alt="" src="/diandian/frame/h0.png" class="hearbarimg">
+			</a>
+			<a href="javascript:history.back();">
 				<img alt="" src="/diandian/frame/h1.png" class="hearbarimg">
 			</a>
 			<a href="/card/cardlist.html?cardId=<%=c.getCardId() %>&pre=t" >
@@ -351,12 +359,17 @@ String cardImg = "http://www.suyufuwu.com"+c.getImg();
 			$(".timediv").css({'width':'0%'});
 			$(".timediv").animate({width:'100%',opacity:'0.4'},times);
 		}else{
-			document.getElementById("sound_"+index+"_<%=languageId%>").play();
+			setTimeout(function(){
+				document.getElementById("sound_"+index+"_<%=languageId%>").play();
+			},500);
+			
 		}
 	}
 	
 	function playCurrent(){
-		document.getElementById("sound_"+index+"_<%=languageId%>").play();
+		setTimeout(function(){
+			document.getElementById("sound_"+index+"_<%=languageId%>").play();
+		},500);
 		if(document.getElementById("effect_"+index)!=null){
 			$(".effecthidden").show();
 			if(autoplay==1){
