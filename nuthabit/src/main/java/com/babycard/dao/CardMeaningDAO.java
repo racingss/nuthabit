@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import com.babycard.util.ICBAUtil;
 import com.baidu.translate.demo.Main;
 import com.baidu.translate.demo.TransApi;
 import com.nuthabit.dao.SampleDAO;
@@ -223,6 +224,34 @@ public class CardMeaningDAO extends SampleDAO {
 		}
 	}
 
+	public void updateCardMeaning(long meaningId, String enPh, String amPh, String enPhMp3, String amPhMp3) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		CardMeaning cm = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(
+					"update baby_card_meaning set enPh=?,amPh=?,enPhMp3=?,amPhMp3=? where meaningId=?");
+			ps.setString(1, enPh);
+			ps.setString(2, amPh);
+			ps.setString(3, enPhMp3);
+			ps.setString(4, amPhMp3);
+			ps.setLong(5, meaningId);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("enPh:"+enPh+",amPh:"+amPh);
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+
 	public void addCardMeaning(String meaning, long languageId, long cardId, long picId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -303,48 +332,57 @@ public class CardMeaningDAO extends SampleDAO {
 		addCardMeaning(json1.get("dst").toString(), l.getLanguageId(), m.getCardId(), m.getPicId());
 	}
 
+	public Collection getAllEnglishCardMeaning() {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(
+					"select * from baby_card_meaning where languageId=1 and picId>0 and cardId in (select cardId from baby_card where status=0)");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new CardMeaning(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
 	public static void main(String arg[]) {
 		CardMeaningDAO dao = new CardMeaningDAO();
-		// Collection meaningColl = dao.getDefaultCardMeaning();
-		// Collection meaningColl = dao.getCardMeaning(2142);
-		// Iterator meaningIt = meaningColl.iterator();
-
-		Collection coll = new LanguageDAO().getAllLanguageColl();
-
-		TransApi api = new TransApi(Main.APP_ID, Main.SECURITY_KEY);
-
-		// while (meaningIt.hasNext()) {
-		// CardMeaning m = (CardMeaning) meaningIt.next();
-		CardMeaning m = dao.getCardMeaning(2150, 770, 0);
-		System.out.println(m.toString());
-
+		Collection coll = dao.getAllEnglishCardMeaning();
+		System.out.println(coll.size());
 		Iterator it = coll.iterator();
 		while (it.hasNext()) {
-			Language l = (Language) it.next();
-			if (dao.getCardMeaning(m.getCardId(), m.getPicId(), l.getLanguageId()) != null)
+			CardMeaning cm = (CardMeaning) it.next();
+			if(cm.getEnPh()!=null)
 				continue;
-
-			String r = api.getTransResult(m.getMeaning(), "wyw", l.getSname());
-			JSONObject json = JSONObject.fromObject(r.toString());
-			String str1 = json.get("trans_result").toString();
-			// 去掉[]
-			str1 = str1.replace("[", "");
-			str1 = str1.replace("]", "");
-			JSONObject json1 = JSONObject.fromObject(str1);
-
-			System.out.println("目标语言：" + json1.get("dst"));
-			dao.addCardMeaning(json1.get("dst").toString(), l.getLanguageId(), m.getCardId(), m.getPicId());
-
+			
+			
+			cm.setMeaning(cm.getMeaning().toLowerCase());
+			System.out.println(cm.getMeaning());
+			ICBAUtil.getUrl(cm);
+			
+			dao.updateCardMeaning(cm.getMeaningId(), cm.getEnPh(), cm.getAmPh(), cm.getEnPhMp3(), cm.getAmPhMp3());
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 
-		// }
+		//
 	}
 
 }

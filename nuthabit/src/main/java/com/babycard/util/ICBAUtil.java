@@ -7,16 +7,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.babycard.dao.CardMeaning;
+
 public class ICBAUtil {
 
-	public static void getUrl(String word) {
+	public static void getUrl(CardMeaning cm) {
 		StringBuffer sb = new StringBuffer("http://dict-co.iciba.com/api/dictionary.php?w=");
-		sb.append(word);
+		sb.append(cm.getMeaning());
 		sb.append("&key=D930B9D4E2657C394828BCBF7E421AA1");
 
 		URL tempUrl = null;
 		BufferedReader reader = null;
-
+		StringBuffer content = new StringBuffer();
 		try {
 			tempUrl = new URL(sb.toString());
 			HttpURLConnection connection = (HttpURLConnection) tempUrl.openConnection();
@@ -25,7 +27,7 @@ public class ICBAUtil {
 			String temp = null;
 
 			InputStream is = connection.getInputStream();
-			StringBuffer content = new StringBuffer();
+			
 			int a = 0;
 			int d = 0;
 			int i = 0;
@@ -36,7 +38,7 @@ public class ICBAUtil {
 				content.append(new String(b, "UTF-8"));
 			}
 
-			System.out.println(content.toString());
+			
 
 			//Wordlist w = new Wordlist();
 			// w.setEnPh(enPh);
@@ -47,22 +49,23 @@ public class ICBAUtil {
 			a = content.indexOf("ps>", d) + 3;
 			d = content.indexOf("</ps", a);
 			//w.setEnPh(content.substring(a, d));
-			System.out.println(content.substring(a, d));
+			cm.setEnPh(content.substring(a, d));
+			
 
 			a = content.indexOf("pron>", d) + 5;
 			d = content.indexOf("</pron", a);
 			//w.setEnPhMp3(content.substring(a, d));
-			System.out.println(content.substring(a, d));
+			cm.setEnPhMp3(content.substring(a, d));
 
 			a = content.indexOf("ps>", d) + 3;
 			d = content.indexOf("</ps", a);
 			//w.setAmPh(content.substring(a, d));
-			System.out.println(content.substring(a, d));
+			cm.setAmPh(content.substring(a, d));
 
 			a = content.indexOf("pron>", d) + 5;
 			d = content.indexOf("</pron", a);
 			//w.setAmPhMp3(content.substring(a, d));
-			System.out.println(content.substring(a, d));
+			cm.setAmPhMp3(content.substring(a, d));
 
 			if (content.indexOf("pos>", d) != -1) {
 				a = content.indexOf("pos>", d) + 4;
@@ -107,7 +110,8 @@ public class ICBAUtil {
 			
 
 		} catch (Exception me) {
-			System.err.println(me);
+			System.out.println(content.toString());
+			me.printStackTrace();
 		} finally {
 			try {
 				if (reader != null)
@@ -121,7 +125,7 @@ public class ICBAUtil {
 	}
 	
 	public static void main(String arg[]){
-		ICBAUtil.getUrl("big fish");
+//		ICBAUtil.getUrl("big fish");
 	}
 
 }

@@ -129,7 +129,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 						<%} %>	
 					</p>
 				</a>
-				<a href="#" class="xianshi">
+				<!--a href="#" class="xianshi">
 					<span>显示</span>
 					<p class="xianship">
 						<%if(request.getSession().getAttribute("secondFlag")==null ||request.getSession().getAttribute("secondFlag").toString().equals("0")){%>								
@@ -138,7 +138,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 							单一语言
 						<%} %>	
 					</p>
-				</a>
+				</a-->
 			</div>
 			
 			<div class="list" style="z-index:  1;position:  relative;margin-top: 1rem;">

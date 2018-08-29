@@ -15,6 +15,43 @@ public class CardMeaning {
 	private String soundQue = null;
 	private long picId = 0;
 
+	private String enPh = null;
+	private String amPh = null;
+	private String enPhMp3 = null;
+	private String amPhMp3 = null;
+
+	public String getEnPh() {
+		return enPh;
+	}
+
+	public void setEnPh(String enPh) {
+		this.enPh = enPh;
+	}
+
+	public String getAmPh() {
+		return amPh;
+	}
+
+	public void setAmPh(String amPh) {
+		this.amPh = amPh;
+	}
+
+	public String getEnPhMp3() {
+		return enPhMp3;
+	}
+
+	public void setEnPhMp3(String enPhMp3) {
+		this.enPhMp3 = enPhMp3;
+	}
+
+	public String getAmPhMp3() {
+		return amPhMp3;
+	}
+
+	public void setAmPhMp3(String amPhMp3) {
+		this.amPhMp3 = amPhMp3;
+	}
+
 	public long getPicId() {
 		return picId;
 	}
@@ -75,6 +112,13 @@ public class CardMeaning {
 		return meaning;
 	}
 
+	public String getMeaningWithAmph() {
+		if (languageId == 1 && amPh != null) {
+			return new StringBuffer(meaning).append("[").append(amPh).append("]").toString();
+		}
+		return meaning;
+	}
+
 	public void setMeaning(String meaning) {
 		this.meaning = meaning;
 	}
@@ -100,6 +144,10 @@ public class CardMeaning {
 			// this.setSound(rs.getString("sound"));
 			this.setSoundQue(rs.getString("soundQue"));
 			this.setPicId(rs.getLong("picId"));
+			this.setEnPh(rs.getString("enPh"));
+			this.setAmPh(rs.getString("amPh"));
+			this.setEnPhMp3(rs.getString("enPhMp3"));
+			this.setAmPhMp3(rs.getString("amPhMp3"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,7 +186,8 @@ public class CardMeaning {
 	@Override
 	public String toString() {
 		return "CardMeaning [meaningId=" + meaningId + ", languageId=" + languageId + ", meaning=" + meaning
-				+ ", cardId=" + cardId + ", sound=" + sound + ", soundQue=" + soundQue + ", picId=" + picId + "]";
+				+ ", cardId=" + cardId + ", sound=" + sound + ", soundQue=" + soundQue + ", picId=" + picId + ", enPh="
+				+ enPh + ", amPh=" + amPh + ", enPhMp3=" + enPhMp3 + ", amPhMp3=" + amPhMp3 + "]";
 	}
 
 }

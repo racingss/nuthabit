@@ -308,6 +308,12 @@ System.out.println(cardImg);
 						if(sound.indexOf("sound")!=-1){
 							sound="/card/"+sound;
 						}
+						if(cs.getLanguageId()==1){
+							CardMeaning temp =CardMeaning.getStaticCard(fpic.getPicId(), languageId);
+							if(temp.getAmPhMp3()!=null){
+								sound=temp.getAmPhMp3();
+							}
+						}
 					%> 
 						<audio controls id="sound_<%=fpic.index%>_<%=cs.getLanguageId()%>" style="display:none">
 							<source src="<%=sound %>">
@@ -416,14 +422,15 @@ System.out.println(cardImg);
 			return;
 		}else{
 			if(autoplay==0){
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&next=t";	
+				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&pre=t";	
 			}else{
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&next=t&autoplay=t";
+				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&pre=t&autoplay";
 			}
-			
 		}
 		return;	
 	}
+	
+	
 	
 	function pre(){
 		if(index>1){
@@ -432,9 +439,9 @@ System.out.println(cardImg);
 			return;
 		}else{
 			if(autoplay==0){
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&pre=t";	
+				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&next=t";	
 			}else{
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&pre=t&autoplay";
+				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&next=t&autoplay=t";
 			}
 		}
 	}

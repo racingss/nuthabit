@@ -823,7 +823,7 @@ public class CardDAO extends SampleDAO {
 		return c;
 	}
 	
-	public Card getNextByCardId(long cardId) {
+	public Card getNextByCardId(long cardId,long age) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -834,8 +834,9 @@ public class CardDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card where cardId<? and status=0 order by cardId desc");
+			ps = conn.prepareStatement("select * from baby_card where cardId<? and age=? and status=0 order by cardId desc");
 			ps.setLong(1, cardId);
+			ps.setLong(2, age);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				c = new Card(rs);
@@ -848,13 +849,13 @@ public class CardDAO extends SampleDAO {
 		}
 		if(c==null){
 			System.out.println("到头了");
-			return getPreByCardId(9999);
+			return getNextByCardId(9999,age);
 		}
 		
 		return c;
 	}
 	
-	public Card getPreByCardId(long cardId) {
+	public Card getPreByCardId(long cardId,long age) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -865,8 +866,9 @@ public class CardDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card where cardId>? and status=0 order by cardId");
+			ps = conn.prepareStatement("select * from baby_card where cardId>? and age=? and status=0 order by cardId");
 			ps.setLong(1, cardId);
+			ps.setLong(2, age);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				c = new Card(rs);
@@ -878,12 +880,14 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 		if(c==null){
-			System.out.println("到头了");
-			return getPreByCardId(0);
+			System.out.println("到头了...");
+			return getPreByCardId(0,age);
 		}
 		
 		return c;
 	}
+	
+	
 
 	public Card getCardByCardIndex(long cardIndex, String flag, long tagId) {
 		Connection conn;
@@ -1558,7 +1562,12 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		dao.updateCardSecondPic(2188, "aaa111.jpg");
+		Card c = dao.getPreByCardId(2249, 3);
+		
+		for(int i=0;i<=50;i++){
+			c = dao.getPreByCardId(c.getCardId(), c.getAge());
+			System.out.println(c.getCardId());
+		}
 		
 
 	}
