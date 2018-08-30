@@ -50,6 +50,11 @@ public class TestIOPServlet extends HttpServlet {
 			return;
 		}
 
+		if (true) {
+			request.getRequestDispatcher("/diandian/cognitivetest.jsp").forward(request, response);
+			return;
+		}
+
 		// 语言
 		long languageId = new LanguageHttp().getLanguageId(request);
 
@@ -71,12 +76,10 @@ public class TestIOPServlet extends HttpServlet {
 			if (request.getParameter("picId") != null) {
 				if (cp.getPicId() == Long.parseLong(request.getParameter("picId"))) {
 					cp.result = request.getParameter("result");
-					
-					
-					
+
 					StudyDAO daoStudy = new StudyDAO();
 					Study sResult = daoStudy.getStudyByCustomerIdPicId(k.getId(),
-							Long.parseLong(request.getParameter("picId")),languageId);
+							Long.parseLong(request.getParameter("picId")), languageId);
 					sResult.setReviewDate(null);
 					if (request.getParameter("result").equals("2")) {
 						sResult.setReviewLevel(sResult.getReviewLevel() + 1);
@@ -90,8 +93,7 @@ public class TestIOPServlet extends HttpServlet {
 					return;
 				}
 			}
-			
-			
+
 		}
 
 		request.getRequestDispatcher("test_cardpic.jsp").forward(request, response);

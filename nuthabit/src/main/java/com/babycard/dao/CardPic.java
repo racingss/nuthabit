@@ -19,7 +19,7 @@ public class CardPic {
 	private long widthP = 0;
 	private long marginTop = 0;
 	private long marginTop2 = 0;
-	public long index=0;
+	public long index = 0;
 
 	public long getMarginTop2() {
 		return marginTop2;
@@ -196,9 +196,10 @@ public class CardPic {
 
 	@Override
 	public String toString() {
-		return "CardPic [picId=" + picId + ", cardpic=" + cardpic + ", displayurl=" + displayurl + ", weburl=" + weburl
-				+ ", cardId=" + cardId + ", favCount=" + favCount + ", mainPicId=" + mainPicId + ", result=" + result
-				+ "]";
+		return  "index:" + index +"  CardPic [picId=" + picId + ", cardpic=" + cardpic + ", displayurl=" + displayurl + ", weburl=" + weburl
+				+ ", cardId=" + cardId + ", favCount=" + favCount + ", mainPicId=" + mainPicId + ", picIndex="
+				+ picIndex + ", topP=" + topP + ", leftP=" + leftP + ", widthP=" + widthP + ", marginTop=" + marginTop
+				+ ", marginTop2=" + marginTop2 + ", sound=" + sound + ", result=" + result + "]";
 	}
 
 }

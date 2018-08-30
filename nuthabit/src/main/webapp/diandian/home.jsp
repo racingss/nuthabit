@@ -126,6 +126,11 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			<div class="banner">
 			    <div class="swiper-container">
 			        <div class="swiper-wrapper">
+			        	<div class="swiper-slide">
+			            	<a href="/card/cardlist.html?cardId=2274">
+								<img src="haibao/hb3.jpeg">
+							</a>
+			            </div>
 			            <div class="swiper-slide">
 			            	<a href="/card/cardlist.html?cardId=2256">
 								<img src="haibao/hb1.png">
@@ -175,10 +180,30 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				</div>
 			</div>
 			
+			<h4 class="h42"><a href="piclist.html?new=t" style="color: #24b2c7;"><%=Menu.getMenu("menu_new", languageId) %></a></h4>
+			<div class="recently">
+				<div>
+					<!--              最新上架               -->
+					<%
+					if(true){
+						Iterator recentIt = ((Collection)request.getAttribute("newColl")).iterator();
+						while(recentIt.hasNext()){
+							Card c = (Card)recentIt.next();
+							%>
+							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
+								<img src="<%=c.getImg()%>">
+								<i class="i<%=c.getAge()%><%=c.getAge()+1%>">level <%=c.getAge()%></i>
+							</a>	
+							<%
+						}
+					}
+					%>
+									
+				</div>
+			</div>
 			
 			
-			
-			<h4 class="h42"><a href="piclist.html?pop=t" style="color: #4baf6f;"><%=Menu.getMenu("search_pop", languageId) %></a></h4>
+			<h4 class="h41"><a href="piclist.html?pop=t" style="color: #4baf6f;"><%=Menu.getMenu("search_pop", languageId) %></a></h4>
 			<div class="recently">
 				<div>
 					<!--              最受欢迎               -->
@@ -204,29 +229,28 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			
 			
 			
-			
-			
-			<h4 class="h41"><a href="piclist.html?new=t" style="color: #24b2c7;"><%=Menu.getMenu("menu_new", languageId) %></a></h4>
-			<div class="recently">
+			<h4 class="h41"><%=Menu.getMenu("menu_my", languageId) %></h4>
+			<div class="my">
 				<div>
-					<!--              最新上架               -->
+					<!--              我的卡片               -->
 					<%
 					if(true){
-						Iterator recentIt = ((Collection)request.getAttribute("newColl")).iterator();
-						while(recentIt.hasNext()){
-							Card c = (Card)recentIt.next();
+						Iterator myIt = ((Collection)request.getAttribute("myColl")).iterator();
+						while(myIt.hasNext()){
+							Card c = (Card)myIt.next();
 							%>
-							<a href="#" class="cardsub" src="<%=c.getImg()%>" cardId="<%=c.getCardId()%>">
+							<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
 								<img src="<%=c.getImg()%>">
-								<i class="i<%=c.getAge()%><%=c.getAge()+1%>">level <%=c.getAge()%></i>
-							</a>	
+							</a>
 							<%
 						}
 					}
 					%>
-									
+					<a class="add" href="/card/create_own_card.html"></a>
 				</div>
 			</div>
+			
+			
 			
 			
 			<%
@@ -259,27 +283,8 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			<%} %>
 			
 			
-			<h4 class="h41"><%=Menu.getMenu("menu_my", languageId) %></h4>
-			<div class="my">
-				<div>
-					<!--              我的卡片               -->
-					<%
-					if(true){
-						Iterator myIt = ((Collection)request.getAttribute("myColl")).iterator();
-						while(myIt.hasNext()){
-							Card c = (Card)myIt.next();
-							%>
-							<a href="/card/cardlist.html?cardId=<%=c.getCardId()%>">
-								<img src="<%=c.getImg()%>">
-							</a>
-							<%
-						}
-					}
-					%>
-					<a class="add" href="/card/create_own_card.html"></a>
-				</div>
-			</div>
-			<h4 class="h42"><%=Menu.getMenu("menu_fav", languageId) %></h4>
+			
+			<h4 class="h41"><%=Menu.getMenu("menu_fav", languageId) %></h4>
 			<div class="recently">
 				<div>
 					<!--              搜藏               -->

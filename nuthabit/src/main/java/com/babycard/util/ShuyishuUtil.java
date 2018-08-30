@@ -6,10 +6,45 @@ import com.babycard.dao.*;
 
 public class ShuyishuUtil {
 
-	private static final int maxIndx = 1000;
+	private static final int maxIndx = 2000;
 
 	private Collection coordinateCOll = new ArrayList();
 	private int innerIndex = 0;
+
+	Collection randomColl = new ArrayList();
+	Collection randNumColl = new ArrayList();
+
+	public Collection getRandColl(Collection coll, int index, long compareNum) {
+		if (randomColl.size() < 1) {
+			//System.out.print("放了第一个，");
+			randomColl.add(coll.toArray()[index - 1]);
+		}
+
+		if (randomColl.size() < compareNum) {
+			int randNum = (int) (Math.random() * coll.size());
+			
+			if (randNum != index-1) {
+				Iterator randIt = randNumColl.iterator();
+				while (randIt.hasNext()) {
+					if (randNum == (int) randIt.next()) {
+						//System.out.println("重复了");
+						return getRandColl(coll, index, compareNum);
+					}
+				}
+				randNumColl.add(randNum);
+				//System.out.print("又放了一个，");
+				randomColl.add(coll.toArray()[randNum]);
+			}
+		}
+
+		if (randomColl.size() == compareNum) {
+			//System.out.println("搞定");
+			return randomColl;
+		}
+
+		System.out.print("重复调用，");
+		return getRandColl(coll, index, compareNum);
+	}
 
 	public Collection getCoordinate(int nums, double maxLeft, double maxTop, double range) {
 
@@ -106,7 +141,7 @@ public class ShuyishuUtil {
 		cp.setTopP((long) top);
 		cp.setLeftP((long) left);
 		cp.setWidthP(18);
-		new CardPicDAO().updatePicPosition(cp.getPicId(), (long) left, (long) top, 18,-2,0);
+		new CardPicDAO().updatePicPosition(cp.getPicId(), (long) left, (long) top, 18, -2, 0);
 		coordinateCOll.add(new double[] { left, top });
 		picIndex++;
 
@@ -118,7 +153,18 @@ public class ShuyishuUtil {
 	}
 
 	public static void main(String arg[]) {
-		new ShuyishuUtil().getCoordinate(new CardPicDAO().getCardPicByCardId(2264), 70, 70, 10);
+		// new ShuyishuUtil().getCoordinate(new
+		// CardPicDAO().getCardPicByCardId(2264), 70, 70, 10);
+		for (int i = 0; i < 100; i++) {
+			ShuyishuUtil util = new ShuyishuUtil();
+			Collection cardPicColl = new CardPicDAO().getCardPicByCardId(2256);
+			Collection tempColl = util.getRandColl(cardPicColl,4, 3);
+			Iterator tempIt = tempColl.iterator();
+			while (tempIt.hasNext()) {
+				CardPic cp = (CardPic) tempIt.next();
+				System.out.println(cp.toString());
+			}
+		}
 	}
 
 }

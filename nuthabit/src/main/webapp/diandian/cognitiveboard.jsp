@@ -164,7 +164,7 @@ System.out.println(cardImg);
 	}
 	.headbar{
 		position: absolute;
-    	top: 0;
+    	top: <%if(autoplay.equals("0"))out.print("0");else out.print("-10%");%>;
     	padding:1rem;
     	z-index:99999;
 	}
@@ -178,11 +178,23 @@ System.out.println(cardImg);
     	bottom: 0;
     	background: red;
 	}
-
+	.xialadiv{
+		position: absolute;
+    	top: -10%;
+    	text-align:center;
+    	z-index: 99999;
+    	width: 100%;
+    	display:block;
+	}
 </style>
 </head>
 <body onload="load()">
 	<div class="page">
+		<div class="xialadiv">
+			<a href="#" class="xiala">
+				<img alt="" src="/diandian/frame/shou.png" style="width:12rem;">
+			</a>
+		</div>
 		<div class="headbar">
 			<a href="/diandian/">
 				<img alt="" src="/diandian/frame/h0.png" class="hearbarimg">
@@ -225,6 +237,8 @@ System.out.println(cardImg);
 				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
 			</a>
 			<%} %>
+			
+			
 			
 			
 			
@@ -335,6 +349,8 @@ System.out.println(cardImg);
 		
 		</div>
 		
+	
+		
 		<div class="timediv">
     	</div>
 	
@@ -353,6 +369,17 @@ System.out.println(cardImg);
 	function load()
 	{
 		t=doCurrent();
+		
+		if(autoplay==1){
+			$(".xialadiv").css({top:'0%'});
+		}else{
+			setTimeout(function(){
+				$(".xialadiv").animate({top:'0%'},2000);
+				$(".headbar").animate({top:'-10%'},2000);
+			},3000);	
+		}
+		
+		
 	}
 	
 	function doCurrent(){
@@ -471,6 +498,16 @@ System.out.println(cardImg);
 			
 		})
 		
+		$(".xialadiv").click(function(){
+			$(".xialadiv").animate({top:'-10%'},1000);
+			$(".headbar").animate({top:'0%'},1000);
+			
+			setTimeout(function(){
+				$(".xialadiv").animate({top:'0%'},2000);
+				$(".headbar").animate({top:'-10%'},2000);
+			},times);
+		})			
+			
 		
 		$(".spanline1").click(function(){
 			document.getElementById("sound_"+index+"_<%=languageId%>").play();
