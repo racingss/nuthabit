@@ -6,7 +6,7 @@
 long languageId = new LanguageHttp().getLanguageId(request);
 long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 
-Card c = Card.getStaticCard(Long.parseLong(request.getParameter("cardId")));
+Card c = (Card)request.getAttribute("card");
 Collection cardColl = (Collection)request.getAttribute("cardColl");
 
 int nums = cardColl.size();
@@ -27,12 +27,20 @@ int nums = cardColl.size();
     	position: absolute;
     	top: 0;
     	left: 0;
+    	background: url(<%
+    	if(c.getSecondPic()!=null && c.getSecondPic().length()>10){
+    		out.print("/"+c.getSecondPic());
+    	}else{
+    		out.print("/diandian/frame/home-18.jpg");
+    	}
+    	%>);
+    	background-size: cover;
     }
 	.board{
 		//background: url(shuyishuimg/sunbackground.jpg);
-		background: #e8e7d9;
+		//background: #e8e7d9;
 	    height: 100%;
-	    background-size: cover;
+	    //background-size: cover;
 	}
 	a{
 		text-decoration:none;
@@ -72,18 +80,6 @@ int nums = cardColl.size();
     	bottom: 1rem;
     	width: 5rem;
     }
-	.shang{
-    	left: 10%;
-	}
-	.xia{
-    	left: 0;
-	}
-	.you{
-    	left: 20%;
-	}
-	.zuo{
-		left: 30%;
-	}
 	.quanbianda{
 		top:0;
 		right: 0;
@@ -133,7 +129,7 @@ int nums = cardColl.size();
 </head>
 <body>
 	<div class="page">
-		<div class="board">
+		<div class="board" id="board">
 		
 
 			
@@ -145,7 +141,7 @@ int nums = cardColl.size();
 				CardPic fpic = (CardPic)picit.next();
 				%>
 				<div class="item<%if(request.getParameter("picId")!=null && Long.parseLong(request.getParameter("picId"))==fpic.getPicId())out.print(" boxShadow");%>" id="item<%=fpic.getPicId() %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;">
-					<img src="<%=fpic.getImgurl() %>" class="itemimg"  >
+					<img src="<%=fpic.getImgurl() %>" class="itemimg draggable"  alt="<%=fpic.getPicId() %>"/>
 					<span class="spanline1" style="margin-top:<%=fpic.getMarginTop()%>rem;"><%=CardMeaning.getStaticCard(fpic.getPicId(), languageId).getMeaning() %></span>
 					<span class="spanline2" style="margin-top:<%=fpic.getMarginTop2()%>rem;"><%=CardMeaning.getStaticCard(fpic.getPicId(), languageId_2).getMeaning() %></span>
 				</div>
@@ -160,10 +156,6 @@ int nums = cardColl.size();
 			%>
 				
 				
-			<img src="frame/xia.png" class="arrow xia"/>
-			<img src="frame/shang.png" class="arrow shang"/>
-			<img src="frame/you.png" class="arrow you"/>
-			<img src="frame/zuo.png" class="arrow zuo"/>
 			<img src="frame/bianda.png" class="arrow bianda"/>
 			<img src="frame/bianxiao.png" class="arrow bianxiao"/>
 			<img src="frame/bianda.png" class="arrow quanbianda"/>
@@ -183,6 +175,7 @@ int nums = cardColl.size();
 
 	
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/draggin.js"></script>
 <script type="text/javascript">
 	
 	$(function(){
@@ -193,29 +186,11 @@ int nums = cardColl.size();
 			currPicId=$(this).attr("picId");
 			$(".boxShadow").removeClass("boxShadow")
 			$(this).addClass("boxShadow");
+			
 		})
-		
-		
-		$(".board").click(function(){
 
-		})
 		
 		
-		$(".shang").click(function(){
-			location.href="cardposition.html?cardId=<%=c.getCardId()%>&picId="+currPicId+"&topP=-3";
-		})
-		
-		$(".xia").click(function(){
-			location.href="cardposition.html?cardId=<%=c.getCardId()%>&picId="+currPicId+"&topP=3";
-		})
-		
-		$(".zuo").click(function(){
-			location.href="cardposition.html?cardId=<%=c.getCardId()%>&picId="+currPicId+"&leftP=-3";
-		})
-		
-		$(".you").click(function(){
-			location.href="cardposition.html?cardId=<%=c.getCardId()%>&picId="+currPicId+"&leftP=3";
-		})
 				
 		$(".bianda").click(function(){
 			location.href="cardposition.html?cardId=<%=c.getCardId()%>&picId="+currPicId+"&widthP=1";
@@ -238,7 +213,7 @@ int nums = cardColl.size();
 		})
 		
 		$(".see").click(function(){
-			location.href="cognitiveboard.jsp?cardId=<%=c.getCardId()%>";
+			location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>";
 		})
 		
 		$(".return").click(function(){

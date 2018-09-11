@@ -7,6 +7,7 @@
 long languageId = new LanguageHttp().getLanguageId(request);
 long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 
+Book b = (Book)request.getAttribute("book");
 Card c = (Card)request.getAttribute("card");
 Collection cardColl = (Collection)request.getAttribute("cardColl");
 
@@ -18,7 +19,7 @@ String autoplay="0";
 if(request.getParameter("autoplay")!=null)
 	autoplay="1";
 
-String title= c.getMeaning(languageId,c.getCardId())+"_幼儿认知卡片_亲子教育好帮手_卡片点点为您精心准备";
+String title= b.getBookName()+"_幼儿认知书_亲子教育好帮手_卡片点点为您精心准备";
 String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
 String cardImg = "http://www.suyufuwu.com";
 if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
@@ -26,7 +27,6 @@ if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
 else
 	cardImg+=c.getImg();
 
-System.out.println(cardImg);
 %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -100,11 +100,11 @@ System.out.println(cardImg);
 	.mainboard{
 		background: white;
     	position: absolute;
-    	width: 80%;
+    	width: 70%;
     	top: 9%;
     	z-index: 9999999999;
     	border-radius: 1rem;
-   		margin-left: 10%;
+   		margin-left: 15%;
 	}
 	.mainboard span{
 		display: inline-block;
@@ -193,12 +193,20 @@ System.out.println(cardImg);
     	width: 100%;
     	display:block;
 	}
+	.movegif{
+		position: absolute;
+    	bottom: 10%;
+    	left: 10%;
+    	<%if(c.getCardIndex()>2)
+    		out.print("display:none");%>
+	}
 </style>
 
 </head>
 <body onload="load()">
-	<div class="page" style="background-size: cover;">
-		<div class="xialadiv">
+	<div class="page">
+	    <img src="/diandian/frame/move.gif" class="movegif">
+	    <div class="xialadiv">
 			<a href="#" class="xiala">
 				<img alt="" src="/diandian/frame/shou.png" style="width:12rem;">
 			</a>
@@ -210,73 +218,41 @@ System.out.println(cardImg);
 			<a href="javascript:history.back();">
 				<img alt="" src="/diandian/frame/h1.png" class="hearbarimg">
 			</a>
-			<a href="/card/cardlist.html?cardId=<%=c.getCardId() %>&pre=t" >
+			<%
+			if(c.getPreCardId()!=0){
+			%>
+			<a href="#" class="prebut">
 				<img alt="" src="/diandian/frame/h6.png" class="hearbarimg">
 			</a>
-			<a href="#" class="autoplay">
-				<img alt="" src="/diandian/frame/h2<%
-				if(request.getParameter("autoplay")!=null)
-					out.print("_1");
-				%>.png" class="hearbarimg autoimg">
-			</a>
-			<a href="/card/cardlist.html?cardId=<%=c.getCardId() %>&next=t" >
+			<%}
+			if(c.getNextCardId()!=0){
+			%>
+			<a href="#" class="nextbut">
 				<img alt="" src="/diandian/frame/h7.png" class="hearbarimg">
 			</a>
-			<a href="test_iop.html?cardId=<%=c.getCardId() %>" >
-				<img alt="" src="/diandian/frame/h3.png" class="hearbarimg">
-			</a>
-			<a href="#">
-				<img alt="" src="<%
-						if(Long.parseLong(request.getAttribute("isFav").toString())==0){
-							%>/diandian/frame/h4_1.png<%
-						}else{
-							%>/diandian/frame/h4.png<%
-						}
-				%>" class="hearbarimg favImg">
-			</a>
+			<%} %>
+			
 			<%
     		if(k.getId()==c.getkId() ||k.getGuanlibiaoji()==1){
     		%>
-			<a href="carddetail.html?cardId=<%=c.getCardId() %>" >
+			<a href="/card/carddetail.html?cardId=<%=c.getCardId() %>" >
 				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
 			</a>
-			<%}else{ %>
-			<a href="/diandian/setup.html?cardId=<%=c.getCardId() %>" >
-				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
-			</a>
-			<%} %>
+			<%}%>
 			
-			
-			
-			
-			
+						
 		</div>		
 	
 		<div class="board">
-			<span class="headnum headspan">1/<%=nums %></span>
-			
-			<%
-    		if(false && (k.getId()==c.getkId() ||k.getGuanlibiaoji()==1)){
-    		%>
-    		<a href="/card/carddetail.html?cardId=<%=c.getCardId()%>">	
-				<img src="/diandian/frame/footer-1_active.png" class="arrow return">
-			</a>
-			<%} %>
-			
+			<span class="headnum headspan"><%=c.getCardIndex()%>/<%=b.getCardNums() %>页</span>
+		
 		    <%
 		    CardPic first = (CardPic)cardColl.iterator().next();
 		    %>
 			<div class="mainboard boxShadow"  style="<%if(c.getShowType()==1)out.print("display:none");%>">
 					<img src="<%=first.getImgurl()%>" class="itemimg magrginbottom" >
-					<span class="spanline1"><%
-					CardMeaning cmf1 =CardMeaning.getStaticCard(first.getPicId(), languageId);
-					if(cmf1!=null)
-						out.print(cmf1.getMeaning());
-					%></span>
-					<span class="spanline2"><%CardMeaning cmf2 =CardMeaning.getStaticCard(first.getPicId(), languageId_2);
-					if(cmf2!=null)
-						out.print(cmf2.getMeaning());
-					%></span>
+					<span class="spanline1"><%=CardMeaning.getStaticCard(first.getPicId(), languageId).getMeaning() %></span>
+					<span class="spanline2"><%=CardMeaning.getStaticCard(first.getPicId(), languageId_2).getMeaning() %></span>
 					<img class="cancelimg" src="/diandian/frame/cancel.png" style="<%if(c.getShowType()==0)out.print("display:none");%>">
 					<%
 					if(first.getSound()!=null && first.getSound().length()>2){
@@ -284,12 +260,6 @@ System.out.println(cardImg);
 					<a href="#" class="effecthidden boxShadow">
 					<%} %>
 					</a>
-					<div class="picarrow leftpicarrow" >
-						<img alt="" src="/diandian/frame/left.png">
-					</div>
-					<div class="picarrow rightpicarrow" >
-						<img alt="" src="/diandian/frame/right.png">
-					</div>
 			</div>
 			
 			<%
@@ -308,7 +278,8 @@ System.out.println(cardImg);
 					%></span>
 					<span class="spanline2"  style="margin-top:<%=fpic.getMarginTop2()%>rem;" ><%
 					CardMeaning cm2=CardMeaning.getStaticCard(fpic.getPicId(), languageId_2);
-					if(cm2!=null)out.print(cm2.getMeaning());
+					if(cm2!=null)
+						out.print(cm2.getMeaning());
 					%></span>
 				</div>
 				
@@ -323,7 +294,6 @@ System.out.println(cardImg);
 					</audio>
 				<%  } 
 				}%>   
-				
 				
 				<!--         语音           -->
 				<%
@@ -377,6 +347,7 @@ System.out.println(cardImg);
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
 	var index=<%=first.index%>;
+	var cardIndex=<%=c.getCardIndex()%>;
 	var autoplay=<%=autoplay%>;
 	var times=8500;
 	var dwidth=1;
@@ -384,6 +355,13 @@ System.out.println(cardImg);
 	
 	function load()
 	{
+		if(cardIndex<=2){
+			setTimeout(function(){
+				$(".movegif").hide(2000);
+			},2000);	
+		}else{
+			$(".movegif").hide();
+		}
 		t=doCurrent();
 		
 		if(autoplay==1){
@@ -409,7 +387,7 @@ System.out.println(cardImg);
 			$(".timediv").animate({width:'100%',opacity:'0.4'},times);
 		}else{
 			setTimeout(function(){
-				document.getElementById("sound_"+index+"_<%=languageId%>").play();
+				//document.getElementById("sound_"+index+"_<%=languageId%>").play();
 			},500);
 			
 		}
@@ -465,13 +443,27 @@ System.out.println(cardImg);
 			return;
 		}else{
 			if(autoplay==0){
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&next=t";	
-			}else{
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&next=t&autoplay=t";
+				loactionNext();	
 			}
 			
 		}
 		return;	
+	}
+	
+	function locationNext(){
+		<%
+		if(c.getNextCardId()!=0){
+		%>
+		location.href="/diandian/book.html?bookId=<%=b.getBookId()%>&cardId=<%=c.getNextCardId()%>&next=t";
+		<%}%>
+	}
+	
+	function locationPre(){
+		<%
+		if(c.getPreCardId()!=0){
+		%>
+		location.href="/diandian/book.html?bookId=<%=b.getBookId()%>&cardId=<%=c.getPreCardId()%>&pre=t";
+		<%}%>
 	}
 	
 	
@@ -483,15 +475,13 @@ System.out.println(cardImg);
 			return;
 		}else{
 			if(autoplay==0){
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&pre=t";	
-			}else{
-				location.href="/card/cardlist.html?cardId=<%=c.getCardId()%>&pre=t&autoplay";
+				loactionPre();	
 			}
 		}
 	}
 	
 	function changeItem(){
-		$(".headnum").text(index+"/<%=nums%>");
+		//$(".headnum").text(index+"/<%=nums%>");
 		$(".mainboard").children(".itemimg").attr("src",$("#item"+index).children("img").attr("src"));
 		console.log($("#item"+index).children("spanline1").text());
 		$(".mainboard").children(".spanline1").text($("#item"+index).children(".spanline1").text());
@@ -539,6 +529,14 @@ System.out.println(cardImg);
 			$(".item").addClass("opacityShadow");
 			
 			t=changeItem();
+		})
+		
+		$(".nextbut").click(function(){
+			t=locationNext();
+		})
+		
+		$(".prebut").click(function(){
+			t=locationPre();
 		})
 		
 		$(".autoplay").click(function(){
@@ -592,10 +590,10 @@ System.out.println(cardImg);
 				}, 300);	
 				
 				if ( Math.abs(X) > Math.abs(Y) && X > 25 ) {
-					t=pre();
+					t=locationPre();
 				}
 				else if ( Math.abs(X) > Math.abs(Y) && X < -25 ) {
-					t=next();
+					t=locationNext();
 				}
 				else if ( Math.abs(Y) > Math.abs(X) && Y > 0) {
 					//alert("top 2 bottom");
@@ -651,7 +649,7 @@ System.out.println(cardImg);
 <%
 
 
-String url = "http://www.suyufuwu.com/card/cardlist.html?"+ (request.getQueryString()); 
+String url = "http://www.suyufuwu.com/diandian/book.html?"+ (request.getQueryString()); 
 Map<String, String> ret = new AccessToken().webSign(url,request, response);
 String appId = KehuUtil.appId;
 String timestamp = ret.get("timestamp");
@@ -667,7 +665,7 @@ if(request.getSession().getAttribute("subscribe")!=null && request.getSession().
 			$(".itemimg").attr("src","/diandian/frame/erweima_gzz.jpg");
 			$(".spanline1").text("请先关注我们的公众号");
 			$(".spanline2").text("谢谢");	
-		},15000);
+		},10000);
 	});
 	</script>
 	<%	

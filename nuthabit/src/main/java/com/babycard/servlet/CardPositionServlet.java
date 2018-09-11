@@ -36,19 +36,33 @@ public class CardPositionServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");
-			long cardId = Long.parseLong(request.getParameter("cardId"));
-
+			
+			
 			CardPicDAO dao = new CardPicDAO();
 			CardPic cp = null;
 
+			
+			long cardId = 0;
+			if (request.getParameter("cardId") != null)
+				cardId = Long.parseLong(request.getParameter("cardId"));
+
+			long picId = 0;
+			if (request.getParameter("picId") != null){
+				picId = Long.parseLong(request.getParameter("picId"));
+				if(cardId==0){
+					cp = dao.getCardPicBypicId(picId);
+					cardId= cp.getCardId();
+				}
+			}
+
+			
+			
 			if (request.getParameter("topP") != null) {
-				long picId = Long.parseLong(request.getParameter("picId"));
 				long topP = Long.parseLong(request.getParameter("topP"));
 				dao.updatePicPositionTop(picId, topP);
 			}
 
 			if (request.getParameter("leftP") != null) {
-				long picId = Long.parseLong(request.getParameter("picId"));
 				long leftP = Long.parseLong(request.getParameter("leftP"));
 				dao.updatePicPositionLeft(picId, leftP);
 			}
@@ -56,7 +70,6 @@ public class CardPositionServlet extends HttpServlet {
 			if (request.getParameter("widthP") != null) {
 				long widthP = Long.parseLong(request.getParameter("widthP"));
 				if (request.getParameter("picId") != null) {
-					long picId = Long.parseLong(request.getParameter("picId"));
 					dao.updatePicPositionWidth(picId, widthP);
 				} else {
 					dao.updatePicPositionWidthByCardId(cardId, widthP);
@@ -66,7 +79,6 @@ public class CardPositionServlet extends HttpServlet {
 			if (request.getParameter("marginTop") != null) {
 				long marginTop = Long.parseLong(request.getParameter("marginTop"));
 				if (request.getParameter("picId") != null) {
-					long picId = Long.parseLong(request.getParameter("picId"));
 					dao.updatePicPositionMarginTop(picId, marginTop);
 				} else {
 					dao.updatePicPositionMarginTopByCardId(cardId, marginTop);
@@ -76,7 +88,6 @@ public class CardPositionServlet extends HttpServlet {
 			if (request.getParameter("marginTop2") != null) {
 				long marginTop2 = Long.parseLong(request.getParameter("marginTop2"));
 				if (request.getParameter("picId") != null) {
-					long picId = Long.parseLong(request.getParameter("picId"));
 					dao.updatePicPositionMarginTop2(picId, marginTop2);
 				} else {
 					dao.updatePicPositionMarginTop2ByCardId(cardId, marginTop2);
@@ -89,6 +100,7 @@ public class CardPositionServlet extends HttpServlet {
 				new ShuyishuUtil().getCoordinate(cardColl, 70, 70, 10);
 
 			request.setAttribute("cardColl", cardColl);
+			request.setAttribute("card", new CardDAO().getCardByCardId(cardId));
 
 			request.getRequestDispatcher("cognitiveboardEdit.jsp").forward(request, response);
 

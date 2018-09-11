@@ -36,6 +36,7 @@ import org.dom4j.*;
 import org.dom4j.io.*;
 
 import com.babycard.dao.*;
+import com.babycard.util.HttpPostUtil;
 import com.babycard.util.KehuUtil;
 import com.babycard.wx.AccessToken;
 import com.gson.WeChat;
@@ -47,6 +48,12 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 @WebServlet("/wx")
 public class WxTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private static long haibao_time = 0;
+	private static String media_id = null;
+
+	private static long kefu_time = 0;
+	private static String kefu_id = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -100,27 +107,40 @@ public class WxTestServlet extends HttpServlet {
 			String toUserName = map.get("ToUserName");
 			// 消息类型
 			String msgType = map.get("MsgType");
+			String event = map.get("Event");
 			System.out.println("get message from wx:" + msgType);
 			String message = null;
 
 			if (MsgTypeParam.MESSAGE_EVENT.equals(msgType)) {
-				String text = "欢迎您使用卡片点点（Cardpopo）\n我们是家长的学前教育好帮手，专门为您提供了一套儿童认知的教育平台软件。您可以点击下方菜单《<a href=\"http://www.suyufuwu.com/diandian\">卡片点点</a>》进入使用。在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
-				message = initText(toUserName, fromUserName, text);
 
-				// 调用初始化文本消息方法
-				String key = map.get("EventKey");
-				if (key != null) {
-					System.out.println(key);
-					long kId = 0;
-					if (key.indexOf("qrscene_") != -1) {
-						kId = Long.parseLong(key.substring(8));
-						Kehu inviteKehu = new KehuDAO().getKehuById(kId);
-						String text1 = "您是" + inviteKehu.getNickname() + "邀请过来的";
-						new AccessToken().sendMsg(fromUserName, text1);
-						// 登记用户
-						new KehuUtil().registerWhenGuanzhu(fromUserName, kId);
+				if (MsgTypeParam.MESSAGE_SUBSCRIBE.equals(event)) {
 
+					String text = "欢迎您使用卡片点点（Cardpopo）\n我们是家长的学前教育好帮手，专门为您提供了一套儿童认知的教育平台软件。您可以点击下方菜单《<a href=\"http://www.suyufuwu.com/diandian\">卡片点点</a>》进入使用。在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
+					message = initText(toUserName, fromUserName, text);
+
+					// 调用初始化文本消息方法
+					String key = map.get("EventKey");
+					if (key != null) {
+						System.out.println(key);
+						long kId = 0;
+						if (key.indexOf("qrscene_") != -1) {
+							kId = Long.parseLong(key.substring(8));
+							Kehu inviteKehu = new KehuDAO().getKehuById(kId);
+							String text1 = "您是" + inviteKehu.getNickname() + "邀请过来的";
+							new AccessToken().sendMsg(fromUserName, text1);
+							// 登记用户
+							new KehuUtil().registerWhenGuanzhu(fromUserName, kId);
+						}
 					}
+
+					if (media_id == null || System.currentTimeMillis() - haibao_time > 60 * 1000 * 60 * 24 * 2) {
+						// 上传海报
+						uploadHaibao(request);
+					}
+
+					new AccessToken().sendImg(fromUserName, media_id);
+				} else {
+					System.out.println(event);
 				}
 
 			} else if (MsgTypeParam.MESSAGE_TEXT.equals(msgType)) {
@@ -130,14 +150,53 @@ public class WxTestServlet extends HttpServlet {
 				// 调用初始化文本消息方法
 				message = initText(toUserName, fromUserName, text);
 
-				new AccessToken().sendImg(fromUserName,
-						"Sjv-ctXDTdxc936tIb_Xw8WtTmhA8QYkBS9wcLv5A6QmVa_K_bz2smSEFmG3RWKn");
+				if (kefu_id == null || System.currentTimeMillis() - kefu_time > 60 * 1000 * 60 * 24 * 2) {
+					// 上传海报
+					uploadKefu(request);
+				}
+
+				new AccessToken().sendImg(fromUserName, kefu_id);
+
 			}
 			out.print(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			out.close();
+		}
+	}
+
+	private void uploadHaibao(HttpServletRequest request) {
+		try {
+			HttpPostUtil util = new HttpPostUtil("https://api.weixin.qq.com/cgi-bin/media/upload");
+			util.addParameter("access_token", AccessToken.getToken());
+			util.addParameter("type", "image");
+			util.addParameter("media", new File(
+					request.getSession().getServletContext().getRealPath("/") + "diandian/haibao/pengyouquan.jpeg"));
+			String temp = util.send();
+			System.out.println(temp);
+			media_id = temp.substring(temp.indexOf("media_id") + 11, temp.indexOf("created_at") - 3);
+			haibao_time = System.currentTimeMillis();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void uploadKefu(HttpServletRequest request) {
+		try {
+			HttpPostUtil util = new HttpPostUtil("https://api.weixin.qq.com/cgi-bin/media/upload");
+			util.addParameter("access_token", AccessToken.getToken());
+			util.addParameter("type", "image");
+			util.addParameter("media", new File(
+					request.getSession().getServletContext().getRealPath("/") + "diandian/haibao/erweima_adon.jpg"));
+			String temp = util.send();
+			System.out.println(temp);
+			kefu_id = temp.substring(temp.indexOf("media_id") + 11, temp.indexOf("created_at") - 3);
+			kefu_time = System.currentTimeMillis();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

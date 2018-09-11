@@ -73,7 +73,7 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
-	
+
 	public void updateCardShowType(long cardId, long showType) {
 		Connection conn;
 		PreparedStatement ps;
@@ -247,7 +247,7 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
-	
+
 	public void updateCardSecondPic(long cardId, String secondPic) {
 		Connection conn;
 		PreparedStatement ps;
@@ -822,8 +822,8 @@ public class CardDAO extends SampleDAO {
 		}
 		return c;
 	}
-	
-	public Card getNextByCardId(long cardId,long age) {
+
+	public Card getNextByCardId(long cardId, long age) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -834,7 +834,8 @@ public class CardDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("select * from baby_card where cardId<? and age=? and status=0 order by cardId desc");
+			ps = conn.prepareStatement(
+					"select * from baby_card where cardId<? and age=? and status=0 order by cardId desc");
 			ps.setLong(1, cardId);
 			ps.setLong(2, age);
 			rs = ps.executeQuery();
@@ -847,15 +848,18 @@ public class CardDAO extends SampleDAO {
 		} finally {
 			close(conn, ps, rs);
 		}
-		if(c==null){
+		if (c == null && !flag) {
+			flag = true;
 			System.out.println("到头了");
-			return getNextByCardId(9999,age);
+			return getNextByCardId(9999, age);
 		}
-		
+
 		return c;
 	}
-	
-	public Card getPreByCardId(long cardId,long age) {
+
+	boolean flag = false;
+
+	public Card getPreByCardId(long cardId, long age) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -879,15 +883,14 @@ public class CardDAO extends SampleDAO {
 		} finally {
 			close(conn, ps, rs);
 		}
-		if(c==null){
+		if (c == null && !flag) {
+			flag = true;
 			System.out.println("到头了...");
-			return getPreByCardId(0,age);
+			return getPreByCardId(0, age);
 		}
-		
+
 		return c;
 	}
-	
-	
 
 	public Card getCardByCardIndex(long cardIndex, String flag, long tagId) {
 		Connection conn;
@@ -1072,7 +1075,7 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			StringBuffer sb = new StringBuffer(
-					"select * from baby_card where status=0 and age=? order by favCount desc,cardId limit ");
+					"select * from baby_card where status=0 and age=? order by cardId desc limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -1131,8 +1134,7 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 			// StringBuffer sb = new StringBuffer("select * from baby_card where
 			// kId=0 order by cardId desc limit ");
-			StringBuffer sb = new StringBuffer(
-					"select * from baby_card where status=0 and picCount>=5 order by cardId desc limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 order by cardId desc limit ");
 			sb.append((page - 1) * NUMS);
 			sb.append(",");
 			sb.append(NUMS);
@@ -1200,6 +1202,99 @@ public class CardDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 		return coll;
+	}
+
+	public Collection getBookCardList(Collection coll, long firstCardId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card t = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where cardId=?");
+			ps.setLong(1, firstCardId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				t = new Card(rs);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		if (t != null) {
+			coll.add(t);
+		} else {
+			return coll;
+		}
+
+		if (t.getNextCardId() != 0) {
+			return getBookCardList(coll, t.getNextCardId());
+		} else {
+			return coll;
+		}
+	}
+
+	public void upBookCard(long cardId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Card card1 = null;
+		Card card2 = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where cardId=?");
+			ps.setLong(1, cardId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				card1 = new Card(rs);
+			}
+
+			if (card1.getPreCardId() == 0) {
+				return;
+			}
+
+			rs.close();
+			ps.close();
+
+			ps = conn.prepareStatement("select * from baby_card where cardId=?");
+			ps.setLong(1, card1.getPreCardId());
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				card2 = new Card(rs);
+			}
+
+			rs.close();
+			ps.close();
+
+			ps = conn.prepareStatement("update baby_card set cardIndex=? where cardId=?");
+			ps.setLong(1, card2.getCardIndex());
+			ps.setLong(2, card1.getCardId());
+			ps.executeUpdate();
+
+			ps.close();
+
+			ps = conn.prepareStatement("update baby_card set cardIndex=? where cardId=?");
+			ps.setLong(1, card1.getCardIndex());
+			ps.setLong(2, card2.getCardId());
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
 	}
 
 	public Collection getAllCardListOrderByFavCount() {
@@ -1562,13 +1657,7 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		Card c = dao.getPreByCardId(2249, 3);
-		
-		for(int i=0;i<=50;i++){
-			c = dao.getPreByCardId(c.getCardId(), c.getAge());
-			System.out.println(c.getCardId());
-		}
-		
+		dao.upBookCard(2284);
 
 	}
 

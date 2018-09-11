@@ -54,6 +54,30 @@ public class BookDAO extends SampleDAO {
 		}
 		return null;
 	}
+	
+	public Book getBookByFirstCardId(long firstCardId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_book where firstCardId=?");
+			ps.setLong(1, firstCardId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return new Book(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return null;
+	}
 
 	public Collection getBookCollByKId(long kId) {
 		Connection conn;
@@ -82,7 +106,7 @@ public class BookDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		BookDAO dao = new BookDAO();
-		System.out.println(dao.getBookCollByKId(1089).size());
+		System.out.println(dao.getBookByFirstCardId(2281));
 	}
 
 }

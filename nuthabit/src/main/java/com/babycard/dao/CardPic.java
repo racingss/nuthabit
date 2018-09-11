@@ -20,6 +20,15 @@ public class CardPic {
 	private long marginTop = 0;
 	private long marginTop2 = 0;
 	public long index = 0;
+	private long linkPicId = 0;
+
+	public long getLinkPicId() {
+		return linkPicId;
+	}
+
+	public void setLinkPicId(long linkPicId) {
+		this.linkPicId = linkPicId;
+	}
 
 	public long getMarginTop2() {
 		return marginTop2;
@@ -174,20 +183,31 @@ public class CardPic {
 
 	public CardPic(java.sql.ResultSet rs) {
 		try {
-			this.setCardpic(rs.getString("cardpic"));
 			this.setPicId(rs.getLong("picId"));
 			this.setCardId(rs.getLong("cardId"));
 			this.setFavCount(rs.getLong("favCount"));
-			this.setDisplayurl(rs.getString("displayurl"));
-			this.setWeburl(rs.getString("weburl"));
 			this.setMainPicId(rs.getLong("mainPicId"));
-			this.setSound(rs.getString("sound"));
 			this.setPicIndex(rs.getLong("picIndex"));
 			this.setLeftP(rs.getLong("leftP"));
 			this.setTopP(rs.getLong("topP"));
 			this.setWidthP(rs.getLong("widthP"));
 			this.setMarginTop(rs.getLong("marginTop"));
 			this.setMarginTop2(rs.getLong("marginTop2"));
+
+			this.setLinkPicId(rs.getLong("linkPicId"));
+			if (linkPicId == 0) {
+				this.setCardpic(rs.getString("cardpic"));
+				this.setDisplayurl(rs.getString("displayurl"));
+				this.setWeburl(rs.getString("weburl"));
+				this.setSound(rs.getString("sound"));
+			} else {
+				CardPic link = CardPicDAO.getStaticCardPic(linkPicId);
+				this.setCardpic(link.getCardpic());
+				this.setDisplayurl(link.getDisplayurl());
+				this.setWeburl(link.getWeburl());
+				this.setSound(link.getSound());
+			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,10 +216,18 @@ public class CardPic {
 
 	@Override
 	public String toString() {
-		return  "index:" + index +"  CardPic [picId=" + picId + ", cardpic=" + cardpic + ", displayurl=" + displayurl + ", weburl=" + weburl
+		return "CardPic [picId=" + picId + ", cardpic=" + cardpic + ", displayurl=" + displayurl + ", weburl=" + weburl
 				+ ", cardId=" + cardId + ", favCount=" + favCount + ", mainPicId=" + mainPicId + ", picIndex="
 				+ picIndex + ", topP=" + topP + ", leftP=" + leftP + ", widthP=" + widthP + ", marginTop=" + marginTop
-				+ ", marginTop2=" + marginTop2 + ", sound=" + sound + ", result=" + result + "]";
+				+ ", marginTop2=" + marginTop2 + ", index=" + index + ", linkPicId=" + linkPicId + ", sound=" + sound
+				+ ", result=" + result + "]";
 	}
+
+
+	public static void main(String arg[]){
+		System.out.println(new CardPicDAO().getCardPicBypicId(1717).toString());
+		System.out.println(new CardPicDAO().getCardPicBypicId(1718).toString());
+	}
+	
 
 }

@@ -12,6 +12,23 @@ import java.util.Random;
 
 public class CardPicDAO extends SampleDAO {
 
+	private static Collection cardPicColl = new ArrayList();
+
+	public static CardPic getStaticCardPic(long picId) {
+		if (cardPicColl.size() == 0) {
+			cardPicColl = new CardPicDAO().getCardPicCollection();
+		}
+
+		Iterator it = cardPicColl.iterator();
+		while (it.hasNext()) {
+			CardPic cp = (CardPic) it.next();
+			if (cp.getPicId() == picId)
+				return cp;
+		}
+
+		return null;
+	}
+
 	public CardPic addCardPic(long cardId, String cardPic) {
 		Connection conn;
 		PreparedStatement ps;
@@ -34,6 +51,30 @@ public class CardPicDAO extends SampleDAO {
 			if (rs.next()) {
 				cp = new CardPic(rs);
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return cp;
+	}
+	
+	public CardPic copyCardPic(long picId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		CardPic cp = getCardPicBypicId(picId);
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("insert into baby_card_pic(cardPic,sound)values(?,?) ");
+			ps.setString(1, cp.getCardpic());
+			ps.setString(2, cp.getSound());
+			ps.executeUpdate();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -210,7 +251,7 @@ public class CardPicDAO extends SampleDAO {
 			ps = conn.prepareStatement("select * from baby_card_pic  where cardId=? order by picIndex ");
 			ps.setLong(1, cardId);
 			rs = ps.executeQuery();
-			long index=1;
+			long index = 1;
 			while (rs.next()) {
 				p = new CardPic(rs);
 				p.index = index++;
@@ -292,7 +333,7 @@ public class CardPicDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 
-			ps = conn.prepareStatement("select * from baby_card_pic ");
+			ps = conn.prepareStatement("select * from baby_card_pic where linkPicId=0");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				coll.add(new CardPic(rs));
@@ -549,7 +590,7 @@ public class CardPicDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("update  baby_card_pic set topP=topP+?  where picId=?");
+			ps = conn.prepareStatement("update  baby_card_pic set topP=?  where picId=?");
 			ps.setLong(1, topP);
 			ps.setLong(2, picId);
 			ps.executeUpdate();
@@ -575,7 +616,7 @@ public class CardPicDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("update  baby_card_pic set marginTop=marginTop+?  where picId=?");
+			ps = conn.prepareStatement("update  baby_card_pic set marginTop=?  where picId=?");
 			ps.setLong(1, marginTop);
 			ps.setLong(2, picId);
 			ps.executeUpdate();
@@ -679,7 +720,7 @@ public class CardPicDAO extends SampleDAO {
 
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("update  baby_card_pic set leftP=leftP+?  where picId=?");
+			ps = conn.prepareStatement("update  baby_card_pic set leftP=?  where picId=?");
 			ps.setLong(1, leftP);
 			ps.setLong(2, picId);
 			ps.executeUpdate();
@@ -771,12 +812,13 @@ public class CardPicDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 
-		Collection coll = new CardPicDAO().getCardPicByCardId(2270);
-		Iterator it = coll.iterator();
-		while(it.hasNext()){
-			CardPic cp = (CardPic)it.next();
-			System.out.println(cp.index);
-		}
+		// Collection coll = new CardPicDAO().getCardPicByCardId(2270);
+		// Iterator it = coll.iterator();
+		// while (it.hasNext()) {
+		// CardPic cp = (CardPic) it.next();
+		// System.out.println(cp.index);
+		// }
+		System.out.println(CardPicDAO.getStaticCardPic(71).toString());
 
 	}
 

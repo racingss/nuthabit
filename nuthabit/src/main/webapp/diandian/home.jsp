@@ -1,14 +1,18 @@
+<%@page import="com.babycard.wx.*"%>
 <%@page import="java.net.URLDecoder"%>
 <%@ page language="java" import="com.babycard.dao.*,com.babycard.util.*,java.util.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 long languageId = new LanguageHttp().getLanguageId(request);
+String title="卡片点点_幼儿语言启蒙教育平台_亲子教育好帮手";
+String cardImg="http://www.suyufuwu.com/images/logo.jpg";
+String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title><%=Menu.getTitle(languageId) %></title>
+	<title><%=title%></title>
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script type="text/javascript" src="js/jquery.min.js"></script>
@@ -127,6 +131,11 @@ long languageId = new LanguageHttp().getLanguageId(request);
 			    <div class="swiper-container">
 			        <div class="swiper-wrapper">
 			        	<div class="swiper-slide">
+			            	<a href="/diandian/book.html?bookId=1">
+								<img src="haibao/hb4.jpeg">
+							</a>
+			            </div>
+			        	<div class="swiper-slide">
 			            	<a href="/card/cardlist.html?cardId=2274">
 								<img src="haibao/hb3.jpeg">
 							</a>
@@ -176,6 +185,9 @@ long languageId = new LanguageHttp().getLanguageId(request);
 					</a>
 					<a href="piclist.html?level=3">
 						<span>level 3</span>
+					</a>
+					<a href="piclist.html?level=4">
+						<span>level 4</span>
 					</a>			
 				</div>
 			</div>
@@ -373,6 +385,95 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		<!--a class="review" href="/card/review.html"></a-->
 		<a class="review" href="setup.html"></a>
 	</div>
+	
+<%
+
+
+String url = "http://www.suyufuwu.com/diandian/"; 
+Map<String, String> ret = new AccessToken().webSign(url,request, response);
+String appId = KehuUtil.appId;
+String timestamp = ret.get("timestamp");
+String nonceStr = ret.get("nonceStr");
+String signature = ret.get("signature");
+
+if(request.getSession().getAttribute("subscribe")!=null && request.getSession().getAttribute("subscribe").toString().equals("0")){
+	request.getSession().removeAttribute("subscribe");
+	%>
+	<script type="text/javascript">
+	$(function(){
+		setTimeout(function(){
+			location.href="/diandian/weiguanzhu.jsp";	
+			return;
+		},5000);
+	});
+	</script>
+	<%	
+}
+
+
+%>
+<script typet="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+$(function(){
+			wx.config({
+                debug: false,////生产环境需要关闭debug模式
+                appId: '<%=appId %>',
+                timestamp: <%=timestamp %>,
+                nonceStr: '<%=nonceStr%>',
+                signature: '<%=signature%>',
+                jsApiList: [//需要调用的JS接口列表
+                    'checkJsApi',//判断当前客户端版本是否支持指定JS接口
+                    'onMenuShareTimeline',//分享给好友
+                    'onMenuShareAppMessage'//分享到朋友圈
+                ]
+            });   
+});
+
+wx.ready(function () {
+    var link = window.location.href;
+    var protocol = window.location.protocol;
+    var host = window.location.host;
+    //分享朋友圈
+    wx.onMenuShareTimeline({
+        title: '<%=title%>',
+        link: link,
+        imgUrl: '<%=cardImg%>',// 自定义图标
+        trigger: function (res) {
+            // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回.
+            //alert('click shared');
+        },
+        success: function (res) {
+            //alert('shared success');
+            //some thing you should do
+        },
+        cancel: function (res) {
+            //alert('shared cancle');
+        },
+        fail: function (res) {
+            alert(JSON.stringify(res));
+        }
+    });
+    //分享给好友
+    wx.onMenuShareAppMessage({
+        title: '<%=title%>', // 分享标题
+        desc: '<%=detail%>', // 分享描述
+        link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: '<%=cardImg%>', // 自定义图标
+        type: 'link', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () {
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () {
+            // 用户取消分享后执行的回调函数
+        }
+    });
+    wx.error(function (res) {
+        alert(res.errMsg);
+    });
+});
+</script>	
+	
 <jsp:include page="tracking.jsp" flush="true"/>	
 </body>
 </html>

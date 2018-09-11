@@ -787,60 +787,26 @@ public class KehuDAO extends SampleDAO {
 	}
 
 	public static void main(String[] arg) {
-		System.out.println(new KehuDAO().getKehuById(2670).toString());
-
-		if (true)
-			return;
-
-		// System.out.println(new KehuDAO().getMember(2));
-		// System.out.println(new KehuDAO().getMember(3));
-		// System.out.println(new KehuDAO().getMember(8));
-
-		if (true)
-			return;
-
-		KehuCardMember m = new KehuCardMember();
-
-		// m.setKehuId(kehuId);(8);
-		m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
-		new KehuDAO().addMember(m);
-
-		if (true)
-			return;
-
-		new KehuDAO().updateJifen(159, 100, true, "注册");
-		new KehuDAO().updateJifen(159, 10, true, "登录");
-		new KehuDAO().updateJifen(159, 30, false, "看书");
-		new KehuDAO().updateJifen(159, 91, false, "年付");
-
-		if (true)
-			return;
-		System.out.println("开始");
-		Iterator it = new KehuDAO().getAll().iterator();// .getAllByShouji("13601621719").iterator();
-		// .getAll().iterator();//
-		int i = 0;
-		while (it.hasNext()) {
-			Kehu k = (Kehu) it.next();
-			// System.out.println(k.toString());
-			//
-			// HongbaoDAO dao = new HongbaoDAO();
-			// Hongbao h = dao.getMaxCanUse(k.getKehuId(), 1000);
-			// if(h!=null){
-			// System.out.println(h.toString());
-			// }else{
-			// ++i;
-			System.out.println("发红包了:" + i);
-			// Fahongbao.kuaisufabao(k.getKehuId(), k.getShouji(), 20, 100, 14);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		KehuDAO dao = new KehuDAO();
+		Collection coll = dao.getAll();
+		Iterator it = coll.iterator();
+		while(it.hasNext()){
+			Kehu k = (Kehu)it.next();
+			System.out.println(k.toString());
+			KehuCardMember m =  dao.getMember(k.getKehuId());
+			if(m==null){
+				System.out.println("非付费用户");
+				m= new KehuCardMember();
+				m.setKehuId(k.getKehuId());
+				m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
+				dao.addMember(m);
+			}else{
+				System.out.println("付费用户");
 			}
-			// }
+			
 		}
-
-		System.out.println("结束,发了:" + i + "红包");
+		
+		
 	}
 
 }

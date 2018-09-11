@@ -74,4 +74,14 @@
     <servlet-name>CardPositionServlet</servlet-name>
     <url-pattern>/CardPositionServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CardBookServlet</display-name>
+    <servlet-name>CardBookServlet</servlet-name>
+    <servlet-class>com.babycard.servlet.CardBookServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CardBookServlet</servlet-name>
+    <url-pattern>/CardBookServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

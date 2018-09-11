@@ -344,7 +344,7 @@ public class CardMeaningDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_card_meaning where languageId=1 and picId>0 and cardId in (select cardId from baby_card where status=0)");
+					"select * from baby_card_meaning where languageId=1 and picId>0 and cardId in (select cardId from baby_card where status=0) order by meaningId desc");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				coll.add(new CardMeaning(rs));

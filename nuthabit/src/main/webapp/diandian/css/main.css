@@ -282,7 +282,7 @@ footer a.active span {
 .home .age a {
   width: 3.5rem;
   height: 1.4rem;
-  background: red;
+  background: #ff7200;
   display: inline-block;
   margin-right: .4rem;
   position: relative;

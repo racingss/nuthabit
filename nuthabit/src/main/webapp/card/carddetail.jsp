@@ -299,6 +299,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
 			<a href="test_iop.html?cardId=<%=c.getCardId() %>" class="menutab"><%=Menu.getMenu("test", languageId) %></a>
 			<%} %>
 			<a href="/diandian/" class="menutab"><%=Menu.getMenu("back_to_home", languageId) %></a>
+			<%
+    		if(k.getGuanlibiaoji()>0){
+    		%>
+			<a href="/card/cardbook.html?cardId=<%=c.getCardId() %>" class="menutab">卡片书管理</a>
+    		<%} %>
 		</div>
 	</div>
 
@@ -323,7 +328,22 @@ Kehu k = new KehuUtil().getKehu(request, response);
     			</span>
     			<br/>
     			<a href="test_sound.jsp?cardId=<%=c.getCardId() %>&cover=t" class="piccontrolbutton"><%=Menu.getMenu("upload_but", languageId) %></a>
-    			<a href="test_sound.jsp?cardId=<%=c.getCardId() %>&second=t" class="piccontrolbutton">上传静态封面</a>
+    		</p>
+    		
+    		<p class="tiship">
+    			
+    			<%
+    			if(c.getSecondPic()!=null){
+    			%>
+    			<span style="width:100%;display:block;text-align:center;">        		
+       				<img alt="" src="/<%=c.getSecondPic()%>" style="width:40%;box-shadow: 0px 0.08rem 0.3rem rgba(0, 0, 0, 0.1);margin:0.5em;">
+       			</span>
+       			<%} %>
+       			<span style="font-size: 0.8em;">
+    				背景图
+    			</span>
+    			<br/>
+    			<a href="test_sound.jsp?cardId=<%=c.getCardId() %>&second=t" class="piccontrolbutton"><%=Menu.getMenu("upload_but", languageId) %></a>
     		</p>
     		
     	</div>
@@ -415,6 +435,8 @@ Kehu k = new KehuUtil().getKehu(request, response);
     				
     			</select>		
     		</p>
+    		
+    		
     		
     		
     		

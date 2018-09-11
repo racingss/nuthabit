@@ -45,7 +45,7 @@ long languageId = new LanguageHttp().getLanguageId(request);
 		
 		
 		<span class="input input--kyo input--filled">
-			<input class="input__field input__field--kyo" type="text" id="input-19" name="meaning">
+			<input class="input__field input__field--kyo" type="text" id="input-19" name="meaning" value="">
 			<label class="input__label input__label--kyo" for="input-19">
 				<span class="input__label-content input__label-content--kyo"><%=Menu.getMenu("please_card_word", languageId) %></span>
 			</label>

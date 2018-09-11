@@ -8,6 +8,24 @@ public class Book {
 	private long kId = 0;
 	private long cardNums = 0;
 	private long status = 0;
+	private long firstCardId = 0;
+	private String defaultPic = null;
+
+	public String getDefaultPic() {
+		return defaultPic;
+	}
+
+	public void setDefaultPic(String defaultPic) {
+		this.defaultPic = defaultPic;
+	}
+
+	public long getFirstCardId() {
+		return firstCardId;
+	}
+
+	public void setFirstCardId(long firstCardId) {
+		this.firstCardId = firstCardId;
+	}
 
 	public long getBookId() {
 		return bookId;
@@ -66,6 +84,8 @@ public class Book {
 			this.setCardNums(rs.getLong("cardNums"));
 			this.setkId(rs.getLong("kId"));
 			this.setStatus(rs.getLong("status"));
+			this.setFirstCardId(rs.getLong("firstCardId"));
+			this.setDefaultPic(rs.getString("defaultPic"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

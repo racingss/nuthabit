@@ -18,7 +18,25 @@ public class Card {
 	private String detail = null;
 	private long status = 0;
 	private long showType = 0;
-	
+	private long nextCardId = 0;
+	private long preCardId = 0;
+
+	public long getNextCardId() {
+		return nextCardId;
+	}
+
+	public void setNextCardId(long nextCardId) {
+		this.nextCardId = nextCardId;
+	}
+
+	public long getPreCardId() {
+		return preCardId;
+	}
+
+	public void setPreCardId(long preCardId) {
+		this.preCardId = preCardId;
+	}
+
 	public String getSecondPic() {
 		return secondPic;
 	}
@@ -84,11 +102,11 @@ public class Card {
 	}
 
 	public Collection cardSoundColl = null;
-	
+
 	public Collection cardMeaningColl = null;
 
 	public String getMeaning(long languageId, long cardId) {
-		
+
 		CardMeaning cm = new CardMeaningDAO().getCardMeaning(cardId, 0, languageId);
 		if (cm != null) {
 			return cm.getMeaning();
@@ -209,6 +227,8 @@ public class Card {
 			this.setStatus(rs.getLong("status"));
 			this.setShowType(rs.getLong("showType"));
 			this.setSecondPic(rs.getString("secondPic"));
+			this.setNextCardId(rs.getLong("nextCardId"));
+			this.setPreCardId(rs.getLong("preCardId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

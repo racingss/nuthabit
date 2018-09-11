@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<title>卡片点点Cardpopo</title>
+<title>登录成功</title>
 <meta name="keywords"  content="KEYWORDS..." />
 <meta name="description" content="DESCRIPTION..." />
 <meta name="author" content="DeathGhost" />
@@ -27,8 +27,10 @@ String url = "/diandian/";
 if(session.getAttribute("cardId")!=null){
 	url = "/card/cardlist.html?cardId="+session.getAttribute("cardId").toString();
 	session.removeAttribute("cardId");
-}
-if(session.getAttribute("shuyishu")!=null){
+}else if(session.getAttribute("bookId")!=null){
+	url = "/diandian/book.html?bookId="+session.getAttribute("bookId").toString();
+	session.removeAttribute("bookId");
+}else if(session.getAttribute("shuyishu")!=null){
 	url = "/diandian/shuyishu.html";
 	session.removeAttribute("shuyishu");
 }
