@@ -758,6 +758,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					dateType:'json',
 				    success: function(data){
 				    	alert('<%=Menu.getMenu("update_succ", languageId) %>');
+				    	location.reload();
 				    }
 			});
 			

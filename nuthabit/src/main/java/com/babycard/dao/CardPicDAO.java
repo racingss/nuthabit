@@ -60,7 +60,7 @@ public class CardPicDAO extends SampleDAO {
 		return cp;
 	}
 	
-	public CardPic copyCardPic(long picId) {
+	public CardPic copyCardPic(long picId,long cardId) {
 		Connection conn;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -70,9 +70,10 @@ public class CardPicDAO extends SampleDAO {
 		CardPic cp = getCardPicBypicId(picId);
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("insert into baby_card_pic(cardPic,sound)values(?,?) ");
+			ps = conn.prepareStatement("insert into baby_card_pic(cardPic,sound,cardId)values(?,?,?) ");
 			ps.setString(1, cp.getCardpic());
 			ps.setString(2, cp.getSound());
+			ps.setLong(3, cardId);
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -364,6 +365,7 @@ public class CardPicDAO extends SampleDAO {
 					"select * from baby_card_pic where picId in( select picId from baby_card_meaning where meaning like '%"
 							+ meaning + "%' and languageId<2)");
 			rs = ps.executeQuery();
+			System.out.println(ps.toString());
 			while (rs.next()) {
 				Iterator it = coll.iterator();
 				CardPic temp = new CardPic(rs);

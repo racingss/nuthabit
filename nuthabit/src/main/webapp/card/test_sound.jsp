@@ -5,7 +5,7 @@
 long languageId = new LanguageHttp().getLanguageId(request);
 %>
 <!doctype html>
-<html lang="zh" class="no-js">
+<html class="no-js">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
@@ -34,11 +34,17 @@ long languageId = new LanguageHttp().getLanguageId(request);
     	<%}else if(request.getParameter("sound")!=null) {%>
 			<%=Menu.getMenu("upload_2", languageId) %>
 		<%}else{ %>
-    		<%=Menu.getMenu("upload_3", languageId) %>
+			<a href="#" id="shangchuanBut">
+    			<%=Menu.getMenu("upload_3", languageId) %>
+    		</a>
+    		/
+    		<a href="#" id="sousuoBut">
+    			搜索图片
+    		</a>
     	<%} %>
     </h2>
 	
-	
+	<div id="shangchuan">
 	<form action="uploadbabycard.html" method="post" enctype="multipart/form-data"  data-ajax="false">
 	
 	<input type="hidden" name="cardId" value="<%=request.getParameter("cardId") %>" />    	
@@ -100,18 +106,65 @@ long languageId = new LanguageHttp().getLanguageId(request);
 				</div>
 
 			</div>
+			<p style="text-align:center;">
+				<button type="submit" class="bigbutom" style="font-size: 25px;padding: 10px;"><%=Menu.getMenu("upload_but", languageId) %></button>
+		
+			</p>
 			
 	</div><!-- /container -->
 	
-	<p style="text-align:center;">
-		<button type="submit" class="bigbutom" style="font-size: 25px;padding: 10px;"><%=Menu.getMenu("upload_but", languageId) %></button>
-
-	</p>
+	
 	</form>
+	</div>
+	<div id="sousuo" style="display:none">
+	
+	<form action="/diandian/picsearch.html" method="post">
+		<input type="hidden" name="cardId" value="<%=request.getParameter("cardId") %>" />
+		<div class="container">
+				<div class="content">
+					<div class="box">
+					<input type="text" name="qString"  style="border: 1px solid white;
+    background: #f5fefc;
+    color: #4e5f6b;
+    text-align: center;
+    padding: 0.4rem;
+    border-radius: 1rem;
+    width: 80%;
+    height: 4rem;
+    font-size: 2rem;"/>
+					</div>
+				</div>
+				
+				<p style="text-align:center;">
+					<button type="submit" class="bigbutom" style="font-size: 25px;padding: 10px;">搜索图片</button>
+				</p>
+				
+		</div>
+		
+	</form>
+	</div>
+	
+	
+	
+	
 </section>	
 	
-	
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script src="js/custom-file-input.js"></script>
+	<script type="text/javascript">
+	
+	$(function(){
+		$("#sousuoBut").on("click", function () {
+			$("#sousuo").show();
+			$("#shangchuan").hide();
+		})
+		
+		$("#shangchuanBut").on("click", function () {
+			$("#shangchuan").show();
+			$("#sousuo").hide();
+		})
+	})
+	</script>
 
 	<!-- // If you'd like to use jQuery, check out js/jquery.custom-file-input.js
 	<script src="js/jquery-2.1.1.min.js"></script>

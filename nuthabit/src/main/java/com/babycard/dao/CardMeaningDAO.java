@@ -344,7 +344,7 @@ public class CardMeaningDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(
-					"select * from baby_card_meaning where languageId=1 and picId>0 and cardId in (select cardId from baby_card where status=0) order by meaningId desc");
+					"select * from baby_card_meaning where languageId=1 and picId>0 order by meaningId desc");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				coll.add(new CardMeaning(rs));
@@ -370,7 +370,7 @@ public class CardMeaningDAO extends SampleDAO {
 			
 			
 			cm.setMeaning(cm.getMeaning().toLowerCase());
-			System.out.println(cm.getMeaning());
+			System.out.println("*********:"+cm.getMeaning());
 			ICBAUtil.getUrl(cm);
 			
 			dao.updateCardMeaning(cm.getMeaningId(), cm.getEnPh(), cm.getAmPh(), cm.getEnPhMp3(), cm.getAmPhMp3());

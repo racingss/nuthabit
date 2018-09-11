@@ -50,9 +50,10 @@ public class PicSearchServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		languageId = new LanguageHttp().getLanguageId(request);
 		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		
+		languageId = new LanguageHttp().getLanguageId(request);
+		
 
 		Kehu k = new KehuUtil().getKehu(request, response);
 		if (k == null) {
@@ -64,6 +65,9 @@ public class PicSearchServlet extends HttpServlet {
 			return;
 		}
 
+		
+		System.out.println(request.getParameter("qString"));
+		
 		try {
 
 			Collection searchResult = new CardPicDAO()

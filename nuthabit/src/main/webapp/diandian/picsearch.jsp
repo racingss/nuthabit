@@ -64,6 +64,7 @@ String title=request.getParameter("qString");
 				CardPic cp = (CardPic)resultIt.next();
 				%>
 				<div class="everycard">
+					<a href="/card/carddetail.html?cardId=<%=request.getParameter("cardId")%>&copyId=<%=cp.getPicId()%>">
 					<div class="cardhead">
 						<img alt="" src="<%=cp.getImgurl() %>" class="cardimg cardsub">
 						<br/>
@@ -72,6 +73,7 @@ String title=request.getParameter("qString");
 						out.print(tempCm.getMeaning());
 						%>
 					</div>
+					</a>
 					
 				</div>
 				<%

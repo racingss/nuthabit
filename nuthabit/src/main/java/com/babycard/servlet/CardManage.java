@@ -145,6 +145,8 @@ public class CardManage extends HttpServlet {
 					System.out.println("重新抓取语音了");
 					new BaiduTools(picId, distLanguage, cardId, cm.getMeaning(),
 							request.getSession().getServletContext().getRealPath("/")).buildMeaning();
+					
+					ICBA(picId, distLanguage);
 
 				}
 
@@ -158,6 +160,12 @@ public class CardManage extends HttpServlet {
 
 				new CardMeaningDAO().addCardMeaning(request.getParameter("meaning"), distLanguage,
 						Long.parseLong(request.getParameter("cardId")), picId);
+				
+				//如果提交的是中文，并且英文为空，自动翻译
+				if(distLanguage==0){
+					CardMeaning cm = CardMeaning.getStaticCard(picId, 1);
+				}
+				
 
 				// 如果是中英文重设需要抓取语音
 				if (distLanguage == 0 || distLanguage == 1) {
@@ -165,6 +173,8 @@ public class CardManage extends HttpServlet {
 					new BaiduTools(picId, distLanguage, Long.parseLong(request.getParameter("cardId")),
 							request.getParameter("meaning"), request.getSession().getServletContext().getRealPath("/"))
 									.buildMeaning();
+					
+					ICBA(picId, distLanguage);
 				}
 
 				// 重新初始化
@@ -180,6 +190,15 @@ public class CardManage extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	private void ICBA(long picId, long distLanguage) {
+		if(distLanguage==1){
+			CardMeaning cm = new CardMeaningDAO().getCardMeaningByPicId(picId, 1);
+			cm.setMeaning(cm.getMeaning().toLowerCase());
+			ICBAUtil.getUrl(cm);
+			new CardMeaningDAO().updateCardMeaning(cm.getMeaningId(), cm.getEnPh(), cm.getAmPh(), cm.getEnPhMp3(), cm.getAmPhMp3());
 		}
 	}
 

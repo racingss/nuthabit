@@ -45,7 +45,7 @@ public class CardDetailServlet extends HttpServlet {
 		if (request.getParameter("cardId") != null) {
 			cardId = Long.parseLong(request.getParameter("cardId"));
 		}
-		
+
 		if (request.getParameter("status") != null) {
 			if (k.getGuanlibiaoji() == 1) {
 				new CardDAO().updateCardStatus(cardId, Long.parseLong(request.getParameter("status")));
@@ -54,16 +54,20 @@ public class CardDetailServlet extends HttpServlet {
 			}
 		}
 
-
 		Card c = dao.getCardByCardId(cardId);
 		if (c.getkId() != k.getId() && k.getGuanlibiaoji() == 0) {
 			System.out.println("不是本人，不能操作");
 			return;
 		}
 
-		
 		if (request.getParameter("cleansound") != null) {
 			new CardPicDAO().updateSound(Long.parseLong(request.getParameter("picId")), "");
+		}
+
+		if (request.getParameter("copyId") != null) {
+			new CardPicDAO().copyCardPic(Long.parseLong(request.getParameter("copyId")), cardId);
+			response.sendRedirect("/card/carddetail.html?cardId=" + cardId);
+			return;
 		}
 
 		// 获取卡片图片

@@ -50,10 +50,9 @@ public class PicListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		languageId = new LanguageHttp().getLanguageId(request);
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
 
+		request.setCharacterEncoding("UTF-8");
+		languageId = new LanguageHttp().getLanguageId(request);
 		Kehu k = new KehuUtil().getKehu(request, response);
 		if (k == null) {
 			response.sendRedirect("/card/wx_login.jsp");

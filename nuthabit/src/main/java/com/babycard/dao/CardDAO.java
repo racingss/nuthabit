@@ -1339,6 +1339,9 @@ public class CardDAO extends SampleDAO {
 			sb.append(NUMS);
 			ps = conn.prepareStatement(sb.toString());
 			rs = ps.executeQuery();
+
+			System.out.println(ps.toString());
+
 			while (rs.next()) {
 				coll.add(new Card(rs));
 			}
