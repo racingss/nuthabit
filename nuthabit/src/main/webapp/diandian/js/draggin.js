@@ -165,8 +165,16 @@ document.body.onload = function(){
       console.log(leftP+":"+topP);
       console.log(evt.target.alt);
       moving = false;
-      if(evt.target.alt!=null && evt.target.alt>0 && leftP+topP>0)
-      location.href="/diandian/cardposition.html?picId="+evt.target.alt+"&topP="+parseInt(topP)+"&leftP="+parseInt(leftP);
+      if(evt.target.alt!=null && evt.target.alt>0 && leftP+topP>0){
+    	console.log('pic');
+    	location.href="/diandian/cardposition.html?picId="+evt.target.alt+"&topP="+parseInt(topP)+"&leftP="+parseInt(leftP);
+      }else if(evt.target.id!=null && evt.target.id>1 && topP>0){
+    	  console.log('word');
+    	  location.href="/diandian/cardposition.html?wordId="+evt.target.id+"&topW="+parseInt(topP)+"&leftW="+parseInt(leftP);
+      }else{
+    	  console.log(evt.target);
+      }
+      //
     };
 
     function outerHeight(el) {

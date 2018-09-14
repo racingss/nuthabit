@@ -28,6 +28,7 @@ import com.babycard.dao.Kehu;
 import com.babycard.dao.KehuDAO;
 import com.babycard.util.KehuUtil;
 import com.gson.bean.UserInfo;
+import com.gson.oauth.Menu;
 import com.gson.oauth.Message;
 import com.gson.oauth.Qrcod;
 import com.gson.util.ConfKit;
@@ -329,8 +330,22 @@ public class AccessToken {
 		return Long.toString(System.currentTimeMillis() / 1000L);
 	}
 
+	private static void menu() {
+		try {
+			Menu m = new Menu();
+			String accessToken = AccessToken.getToken();
+			String params = "{\"button\":[ {\"type\":\"view\",\"name\":\"卡片点点\",\"url\":\"http://www.suyufuwu.com/diandian/\" }],\"button\":[{\"type\":\"view\",\"name\":\"第一本色彩书\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=1\" }],\"button\":[{\"type\":\"view\",\"name\":\"MyFirstABC\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=3\" }]}";
+			System.out.println(m.createMenu(accessToken, params));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String args[]) {
-		System.out.println(new AccessToken().erweimaUrl(2749));
+		// System.out.println(new AccessToken().erweimaUrl(2749));
+		new AccessToken().menu();
+
 	}
 
 }

@@ -10,6 +10,8 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 Book b = (Book)request.getAttribute("book");
 Card c = (Card)request.getAttribute("card");
 Collection cardColl = (Collection)request.getAttribute("cardColl");
+Collection wordColl = (Collection)request.getAttribute("wordColl");
+
 
 int nums = cardColl.size();
 
@@ -26,6 +28,8 @@ if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
 	cardImg+="/"+c.getSecondPic();
 else
 	cardImg+=c.getImg();
+
+CardPic first=null;
 
 %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -64,6 +68,9 @@ else
 	}
 	.item{
 		width: 18rem;
+		position: absolute;
+	}
+	.word{
 		position: absolute;
 	}
 	.itemimg{
@@ -171,7 +178,17 @@ else
 	}
 	.headbar{
 		position: absolute;
-    	top: <%if(autoplay.equals("0"))out.print("0");else out.print("-10%");%>;
+    	<%
+		if(c.getCardIndex()<=2){
+		%>
+		top: 0%;
+		<%
+		}else{
+		%>
+		top: -10%;
+		<%	
+		}
+		%>
     	padding:1rem;
     	z-index:99999;
 	}
@@ -187,7 +204,17 @@ else
 	}
 	.xialadiv{
 		position: absolute;
-    	top: -10%;
+		<%
+		if(c.getCardIndex()<=2){
+		%>
+		top: -10%;
+		<%
+		}else{
+		%>
+		top: 0%;
+		<%	
+		}
+		%>
     	text-align:center;
     	z-index: 99999;
     	width: 100%;
@@ -215,10 +242,14 @@ else
 			<a href="/diandian/">
 				<img alt="" src="/diandian/frame/h0.png" class="hearbarimg">
 			</a>
-			<a href="javascript:history.back();">
+			<%
+			if(c.getCardId()>1){
+			%>
+			<a href="/diandian/book.html?bookId=<%=b.getBookId()%>">
 				<img alt="" src="/diandian/frame/h1.png" class="hearbarimg">
 			</a>
 			<%
+			}
 			if(c.getPreCardId()!=0){
 			%>
 			<a href="#" class="prebut">
@@ -243,16 +274,28 @@ else
 						
 		</div>		
 	
+	
+	    
 		<div class="board">
+		<%
+	    if(cardColl.size()>0){
+	    %>
 			<span class="headnum headspan"><%=c.getCardIndex()%>/<%=b.getCardNums() %>页</span>
 		
 		    <%
-		    CardPic first = (CardPic)cardColl.iterator().next();
+		    first = (CardPic)cardColl.iterator().next();
 		    %>
 			<div class="mainboard boxShadow"  style="<%if(c.getShowType()==1)out.print("display:none");%>">
 					<img src="<%=first.getImgurl()%>" class="itemimg magrginbottom" >
-					<span class="spanline1"><%=CardMeaning.getStaticCard(first.getPicId(), languageId).getMeaning() %></span>
-					<span class="spanline2"><%=CardMeaning.getStaticCard(first.getPicId(), languageId_2).getMeaning() %></span>
+					<span class="spanline1"><%
+					CardMeaning cmf1 =CardMeaning.getStaticCard(first.getPicId(), languageId);
+					if(cmf1!=null)
+						out.print(cmf1.getMeaning());
+					%></span>
+					<span class="spanline2"><%CardMeaning cmf2 =CardMeaning.getStaticCard(first.getPicId(), languageId_2);
+					if(cmf2!=null)
+						out.print(cmf2.getMeaning());
+					%></span>
 					<img class="cancelimg" src="/diandian/frame/cancel.png" style="<%if(c.getShowType()==0)out.print("display:none");%>">
 					<%
 					if(first.getSound()!=null && first.getSound().length()>2){
@@ -269,7 +312,7 @@ else
 			while(picit.hasNext()){
 				CardPic fpic = (CardPic)picit.next();
 				%>
-				<div class="item" id="item<%=fpic.index %>" index="<%=fpic.index %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;<%if(c.getShowType()==0)out.print("display:none");%>">
+				<div class="item" id="item<%=fpic.index %>" clickable=<%=fpic.getClickable() %> index="<%=fpic.index %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;<%if(c.getShowType()==0)out.print("display:none");%>">
 					<img src="<%=fpic.getImgurl() %>" class="itemimg"  >
 					<span class="spanline1"  style="margin-top:<%=fpic.getMarginTop()%>rem;"><%
 					CardMeaning cm1 = CardMeaning.getStaticCard(fpic.getPicId(), languageId);
@@ -310,7 +353,7 @@ else
 						}
 						if(cs.getLanguageId()==1){
 							CardMeaning temp =CardMeaning.getStaticCard(fpic.getPicId(), languageId);
-							if(temp.getAmPhMp3()!=null){
+							if(temp!=null && temp.getAmPhMp3()!=null){
 								sound=temp.getAmPhMp3();
 							}
 						}
@@ -327,13 +370,31 @@ else
 				
 			}
 			
+			Iterator wordit = wordColl.iterator();
+			while(wordit.hasNext()){
+				CardWord cw = (CardWord)wordit.next();
+				%>
+				<div class="word" wordId="<%=cw.getWordId() %>" style="top: <%=cw.getTopP()%>%;left: <%=cw.getLeftP()%>%;width: <%=cw.getWidthP()%>rem;">
+					<p class="itemimg draggable" id="<%=cw.getWordId() %>" style="font-size:<%=cw.getSizeP()%>rem"><%=cw.getMeaning() %></p>
+				</div>
+				<%
+				if(cw.getSoundFlag()!=-1 && cw.getSound()!=null){
+					%>
+					<audio preload="auto" controls id="word_<%=cw.getWordId() %>" style="display:none">
+						<source src="<%=cw.getSound()%>">
+					</audio>
+					<%
+				}
+				
+			}
 			
 			%>
 				
 				
 			
-		
+		<%} %>
 		</div>
+		
 		
 	
 		
@@ -346,7 +407,14 @@ else
 	
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
+	<%
+	if(cardColl.size()>0){
+	%>
 	var index=<%=first.index%>;
+	<%}else{%>
+	var index=1;
+	<%}%>
+	
 	var cardIndex=<%=c.getCardIndex()%>;
 	var autoplay=<%=autoplay%>;
 	var times=8500;
@@ -367,10 +435,12 @@ else
 		if(autoplay==1){
 			$(".xialadiv").css({top:'0%'});
 		}else{
-			setTimeout(function(){
-				$(".xialadiv").animate({top:'0%'},2000);
-				$(".headbar").animate({top:'-10%'},2000);
-			},3000);	
+			if(cardIndex<=2){
+				setTimeout(function(){
+					$(".xialadiv").animate({top:'0%'},2000);
+					$(".headbar").animate({top:'-10%'},2000);
+				},3000);
+			}
 		}
 		
 		
@@ -408,6 +478,8 @@ else
 			$(".effecthidden").hide();
 		}
 	}
+	
+	
 	
 	function audioAutoPlay1(id){
 	    var audio = document.getElementById(id);
@@ -527,8 +599,13 @@ else
 		$(".item").click(function(){
 			index=$(this).attr("index");
 			$(".item").addClass("opacityShadow");
-			
-			t=changeItem();
+			if($(this).attr("clickable")==0)
+				t=changeItem();
+		})
+		
+		$(".word").click(function(){
+			wordId=$(this).attr("wordId");
+			audioAutoPlay1("word_"+wordId);
 		})
 		
 		$(".nextbut").click(function(){

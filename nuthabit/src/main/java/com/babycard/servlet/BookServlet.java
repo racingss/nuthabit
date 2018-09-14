@@ -66,6 +66,7 @@ public class BookServlet extends HttpServlet {
 			c = dao.getCardByCardId(cardId);
 			request.setAttribute("card", c);
 			request.setAttribute("cardColl", new CardPicDAO().getCardPicByCardId(cardId));
+			request.setAttribute("wordColl", new CardWordDAO().getCardWordByCardId(cardId));
 			//临时
 			request.setAttribute("isFav", 0);
 

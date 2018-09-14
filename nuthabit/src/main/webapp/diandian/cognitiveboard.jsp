@@ -9,6 +9,7 @@ long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 
 Card c = (Card)request.getAttribute("card");
 Collection cardColl = (Collection)request.getAttribute("cardColl");
+Collection wordColl = (Collection)request.getAttribute("wordColl");
 
 int nums = cardColl.size();
 
@@ -64,6 +65,9 @@ System.out.println(cardImg);
 	}
 	.item{
 		width: 18rem;
+		position: absolute;
+	}
+	.word{
 		position: absolute;
 	}
 	.itemimg{
@@ -155,6 +159,14 @@ System.out.println(cardImg);
 	.headnum{
 		position: absolute;
 		bottom:0;
+	}
+	
+	.level_foot{
+		position: absolute;
+		bottom:0;
+		right:0;
+		font-size: 2.5rem;
+    	padding: 1rem;
 	}
 	.picarrow{
 		position: absolute;
@@ -254,6 +266,7 @@ System.out.println(cardImg);
 	
 		<div class="board">
 			<span class="headnum headspan">1/<%=nums %></span>
+			<span class="level_foot">level <%=c.getAge() %></span>
 			
 			<%
     		if(false && (k.getId()==c.getkId() ||k.getGuanlibiaoji()==1)){
@@ -340,7 +353,7 @@ System.out.println(cardImg);
 						}
 						if(cs.getLanguageId()==1){
 							CardMeaning temp =CardMeaning.getStaticCard(fpic.getPicId(), languageId);
-							if(temp.getAmPhMp3()!=null){
+							if(temp!=null &&temp.getAmPhMp3()!=null){
 								sound=temp.getAmPhMp3();
 							}
 						}
@@ -358,7 +371,20 @@ System.out.println(cardImg);
 			}
 			
 			
+			Iterator wordit = wordColl.iterator();
+			while(wordit.hasNext()){
+				CardWord cw = (CardWord)wordit.next();
+				%>
+				<div class="word" wordId="<%=cw.getWordId() %>" style="top: <%=cw.getTopP()%>%;left: <%=cw.getLeftP()%>%;width: <%=cw.getWidthP()%>rem;">
+					<p class="itemimg draggable" id="<%=cw.getWordId() %>" style="font-size:<%=cw.getSizeP()%>rem"><%=cw.getMeaning() %></p>
+				</div>
+				<%
+			}
+			
 			%>
+			
+			
+			
 				
 				
 			

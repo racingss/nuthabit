@@ -60,6 +60,32 @@ public class CardPicDAO extends SampleDAO {
 		return cp;
 	}
 	
+	public void addCardPic(CardPic cp) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("insert into baby_card_pic(cardId,cardPic,topP,leftP,widthP)values(?,?,?,?,?) ");
+			ps.setLong(1, cp.getCardId());
+			ps.setString(2, cp.getCardpic());
+			ps.setLong(3, cp.getTopP());
+			ps.setLong(4, cp.getLeftP());
+			ps.setLong(5, cp.getWidthP());
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+	}
+	
 	public CardPic copyCardPic(long picId,long cardId) {
 		Connection conn;
 		PreparedStatement ps;

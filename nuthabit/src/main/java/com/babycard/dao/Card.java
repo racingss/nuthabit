@@ -20,6 +20,15 @@ public class Card {
 	private long showType = 0;
 	private long nextCardId = 0;
 	private long preCardId = 0;
+	private long bookId = 0;
+
+	public long getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(long bookId) {
+		this.bookId = bookId;
+	}
 
 	public long getNextCardId() {
 		return nextCardId;
@@ -229,6 +238,7 @@ public class Card {
 			this.setSecondPic(rs.getString("secondPic"));
 			this.setNextCardId(rs.getLong("nextCardId"));
 			this.setPreCardId(rs.getLong("preCardId"));
+			this.setBookId(rs.getLong("bookId"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -238,8 +248,9 @@ public class Card {
 	@Override
 	public String toString() {
 		return "Card [cardId=" + cardId + ", meaning=" + meaning + ", picCount=" + picCount + ", favCount=" + favCount
-				+ ", cardIndex=" + cardIndex + ", age=" + age + ", defaultPic=" + defaultPic + ", kId=" + kId
-				+ ", cardSoundColl=" + cardSoundColl + "]";
+				+ ", cardIndex=" + cardIndex + ", age=" + age + ", defaultPic=" + defaultPic + ", secondPic="
+				+ secondPic + ", kId=" + kId + ", detail=" + detail + ", status=" + status + ", showType=" + showType
+				+ ", nextCardId=" + nextCardId + ", preCardId=" + preCardId + "]";
 	}
 
 }

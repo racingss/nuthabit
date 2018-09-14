@@ -35,28 +35,31 @@ public class CardPositionServlet extends HttpServlet {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
-			response.setCharacterEncoding("UTF-8");
-			
-			
+
 			CardPicDAO dao = new CardPicDAO();
 			CardPic cp = null;
 
-			
 			long cardId = 0;
 			if (request.getParameter("cardId") != null)
 				cardId = Long.parseLong(request.getParameter("cardId"));
 
 			long picId = 0;
-			if (request.getParameter("picId") != null){
+			if (request.getParameter("picId") != null) {
 				picId = Long.parseLong(request.getParameter("picId"));
-				if(cardId==0){
+				if (cardId == 0) {
 					cp = dao.getCardPicBypicId(picId);
-					cardId= cp.getCardId();
+					cardId = cp.getCardId();
 				}
 			}
 
-			
-			
+			long wordId = 0;
+			if (request.getParameter("wordId") != null) {
+				wordId = Long.parseLong(request.getParameter("wordId"));
+				if (cardId == 0) {
+					cardId = new CardWordDAO().getCardWordByWordId(wordId).getCardId();
+				}
+			}
+
 			if (request.getParameter("topP") != null) {
 				long topP = Long.parseLong(request.getParameter("topP"));
 				dao.updatePicPositionTop(picId, topP);
@@ -94,12 +97,40 @@ public class CardPositionServlet extends HttpServlet {
 				}
 			}
 
+			if (request.getParameter("meaning") != null && request.getParameter("meaning").trim().length() > 0) {
+				new CardWordDAO().addCardWord(cardId, request.getParameter("meaning"));
+				response.sendRedirect("/diandian/cardposition.html?cardId=" + cardId);
+				return;
+			}
+
+			if (request.getParameter("deleteWordId") != null) {
+				new CardWordDAO().deleteCardWord(Long.parseLong(request.getParameter("deleteWordId")));
+			}
+
+			if (request.getParameter("wordId") != null) {
+				CardWord cw = new CardWordDAO().getCardWordByWordId(Long.parseLong(request.getParameter("wordId")));
+				if (request.getParameter("leftW") != null)
+					cw.setLeftP(Long.parseLong(request.getParameter("leftW")));
+				if (cw.getLeftP() > 100) {
+					new CardWordDAO().deleteCardWord(cw.getWordId());
+				} else {
+					if (request.getParameter("topW") != null)
+						cw.setTopP(Long.parseLong(request.getParameter("topW")));
+					if (request.getParameter("widthW") != null)
+						cw.setWidthP(Long.parseLong(request.getParameter("widthW")));
+					if (request.getParameter("sizeW") != null)
+						cw.setSizeP(Double.parseDouble(request.getParameter("sizeW")));
+					new CardWordDAO().updateCardWord(cw);
+				}
+			}
+
 			Collection cardColl = new CardPicDAO().getCardPicByCardId(cardId);
 
 			if (request.getParameter("init") != null)
 				new ShuyishuUtil().getCoordinate(cardColl, 70, 70, 10);
 
 			request.setAttribute("cardColl", cardColl);
+			request.setAttribute("wordColl", new CardWordDAO().getCardWordByCardId(cardId));
 			request.setAttribute("card", new CardDAO().getCardByCardId(cardId));
 
 			request.getRequestDispatcher("cognitiveboardEdit.jsp").forward(request, response);

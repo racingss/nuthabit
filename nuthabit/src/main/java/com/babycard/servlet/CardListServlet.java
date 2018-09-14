@@ -192,6 +192,8 @@ public class CardListServlet extends HttpServlet {
 			h.setCardId(c.getCardId());
 			h.setKId(k.getId());
 			new HistoryDAO().addHistory(h);
+			
+			request.setAttribute("wordColl", new CardWordDAO().getCardWordByCardId(cardId));
 
 			if (cardColl.size() > 0) {
 				c.cardMeaningColl = new CardMeaningDAO().getCardMeaning(c.getCardId());

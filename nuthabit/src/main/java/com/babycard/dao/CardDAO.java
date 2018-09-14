@@ -50,6 +50,44 @@ public class CardDAO extends SampleDAO {
 		return c;
 	}
 
+	public Card addCard(Card c) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+
+		try {
+			conn = getConnection();
+
+			ps = conn.prepareStatement("insert into baby_card(meaning,secondPic,nextCardId,preCardId,bookId)values(?,?,?,?,?) ");
+			ps.setString(1, c.getMeaning());
+			ps.setString(2, c.getSecondPic());
+			ps.setLong(3, c.getNextCardId());
+			ps.setLong(4, c.getPreCardId());
+			ps.setLong(5, c.getBookId());
+			ps.executeUpdate();
+			ps.close();
+
+			ps = conn.prepareStatement("select * from baby_card where meaning=? order by cardId desc");
+			ps.setString(1, c.getMeaning());
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				return new Card(rs);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return null;
+	}
+
 	public void updateCardCount(long cardId, long count) {
 		Connection conn;
 		PreparedStatement ps;

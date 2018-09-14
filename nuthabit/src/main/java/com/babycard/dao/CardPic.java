@@ -21,6 +21,15 @@ public class CardPic {
 	private long marginTop2 = 0;
 	public long index = 0;
 	private long linkPicId = 0;
+	private long clickable = 0;
+
+	public long getClickable() {
+		return clickable;
+	}
+
+	public void setClickable(long clickable) {
+		this.clickable = clickable;
+	}
 
 	public long getLinkPicId() {
 		return linkPicId;
@@ -193,6 +202,7 @@ public class CardPic {
 			this.setWidthP(rs.getLong("widthP"));
 			this.setMarginTop(rs.getLong("marginTop"));
 			this.setMarginTop2(rs.getLong("marginTop2"));
+			this.setClickable(rs.getLong("clickable"));
 
 			this.setLinkPicId(rs.getLong("linkPicId"));
 			if (linkPicId == 0) {
@@ -223,11 +233,9 @@ public class CardPic {
 				+ ", result=" + result + "]";
 	}
 
-
-	public static void main(String arg[]){
+	public static void main(String arg[]) {
 		System.out.println(new CardPicDAO().getCardPicBypicId(1717).toString());
 		System.out.println(new CardPicDAO().getCardPicBypicId(1718).toString());
 	}
-	
 
 }
