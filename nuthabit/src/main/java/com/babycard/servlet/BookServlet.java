@@ -55,20 +55,21 @@ public class BookServlet extends HttpServlet {
 
 			Card c = null;
 			CardDAO dao = new CardDAO();
-			long cardId = 0;
-			if (request.getParameter("cardId") != null) {
-				cardId = Long.parseLong(request.getParameter("cardId"));
+			request.setAttribute("bookColl", dao.getCardListByBookId(b.getBookId()));
 
-			} else {
-				cardId = b.getFirstCardId();
-			}
-
-			c = dao.getCardByCardId(cardId);
-			request.setAttribute("card", c);
-			request.setAttribute("cardColl", new CardPicDAO().getCardPicByCardId(cardId));
-			request.setAttribute("wordColl", new CardWordDAO().getCardWordByCardId(cardId));
-			//临时
-			request.setAttribute("isFav", 0);
+			/*
+			 * long cardId = 0; if (request.getParameter("cardId") != null) {
+			 * cardId = Long.parseLong(request.getParameter("cardId"));
+			 * 
+			 * } else { cardId = b.getFirstCardId(); }
+			 * 
+			 * c = dao.getCardByCardId(cardId); request.setAttribute("card", c);
+			 * request.setAttribute("cardColl", new
+			 * CardPicDAO().getCardPicByCardId(cardId));
+			 * request.setAttribute("wordColl", new
+			 * CardWordDAO().getCardWordByCardId(cardId)); //临时
+			 * request.setAttribute("isFav", 0);
+			 */
 
 			request.getRequestDispatcher("/diandian/book.jsp").forward(request, response);
 

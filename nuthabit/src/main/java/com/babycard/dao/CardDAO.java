@@ -61,7 +61,8 @@ public class CardDAO extends SampleDAO {
 		try {
 			conn = getConnection();
 
-			ps = conn.prepareStatement("insert into baby_card(meaning,secondPic,nextCardId,preCardId,bookId)values(?,?,?,?,?) ");
+			ps = conn.prepareStatement(
+					"insert into baby_card(meaning,secondPic,nextCardId,preCardId,bookId)values(?,?,?,?,?) ");
 			ps.setString(1, c.getMeaning());
 			ps.setString(2, c.getSecondPic());
 			ps.setLong(3, c.getNextCardId());
@@ -1242,6 +1243,31 @@ public class CardDAO extends SampleDAO {
 		return coll;
 	}
 
+	public Collection getCardListByBookId(long bookId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_card where bookId=? order by cardIndex");
+			ps.setLong(1, bookId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
+
 	public Collection getBookCardList(Collection coll, long firstCardId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -1698,7 +1724,12 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		dao.upBookCard(2284);
+		Collection coll = dao.getCardListByBookId(3);
+		Iterator it =coll.iterator();
+		while(it.hasNext()){
+			Card c =(Card)it.next();
+			System.out.println(c.toString());
+		}
 
 	}
 

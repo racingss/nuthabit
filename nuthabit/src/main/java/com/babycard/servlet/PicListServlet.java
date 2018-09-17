@@ -160,6 +160,7 @@ public class PicListServlet extends HttpServlet {
 			sb.append("</div></div>");
 			sb.append("</a>");
 		}
+		response.setCharacterEncoding("UTF-8");
 		response.getWriter().append(sb.toString());
 	}
 

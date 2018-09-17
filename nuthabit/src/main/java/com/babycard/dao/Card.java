@@ -250,7 +250,9 @@ public class Card {
 		return "Card [cardId=" + cardId + ", meaning=" + meaning + ", picCount=" + picCount + ", favCount=" + favCount
 				+ ", cardIndex=" + cardIndex + ", age=" + age + ", defaultPic=" + defaultPic + ", secondPic="
 				+ secondPic + ", kId=" + kId + ", detail=" + detail + ", status=" + status + ", showType=" + showType
-				+ ", nextCardId=" + nextCardId + ", preCardId=" + preCardId + "]";
+				+ ", nextCardId=" + nextCardId + ", preCardId=" + preCardId + ", bookId=" + bookId + "]";
 	}
+
+
 
 }

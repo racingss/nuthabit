@@ -8,6 +8,11 @@ long languageId = new LanguageHttp().getLanguageId(request);
 long languageId_2 = new LanguageHttp().getLanguageId_2(request);
 
 Book b = (Book)request.getAttribute("book");
+/*
+Card c = (Card)request.getAttribute("card");
+Collection cardColl = (Collection)request.getAttribute("cardColl");
+Collection wordColl = (Collection)request.getAttribute("wordColl");
+*/
 Collection bookColl = (Collection)request.getAttribute("bookColl");
 
 
@@ -21,7 +26,7 @@ if(request.getParameter("autoplay")!=null)
 
 String title= b.getBookName()+"_幼儿认知书_亲子教育好帮手_卡片点点为您精心准备";
 String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
-String cardImg = "http://www.suyufuwu.com/"+b.getDefaultPic();
+String cardImg = "http://www.suyufuwu.com";
 /*
 if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
 	cardImg+="/"+c.getSecondPic();
@@ -29,7 +34,7 @@ else
 	cardImg+=c.getImg();
 */
 CardPic first=null;
-
+String firstBg="/diandian/frame/home-18.jpg";
 %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -47,7 +52,7 @@ CardPic first=null;
     	position: absolute;
     	top: 0;
     	left: 0;
-    	//background: url("/diandian/frame/home-18.jpg");
+    	background: url("<%=firstBg%>");
     	background-size: cover;
     }
 	.board{
@@ -202,22 +207,7 @@ CardPic first=null;
 <script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 <body onload="load()">
-
-<%
-Iterator bookIt = bookColl.iterator();
-while(bookIt.hasNext()){
-	Card c = (Card)bookIt.next();
-	Collection cardColl = new CardPicDAO().getCardPicByCardId(c.getCardId());
-	Collection wordColl = new CardWordDAO().getCardWordByCardId(c.getCardId());
-
-%> 
-	<div class="page" id="page_<%=c.getCardIndex() %>" style="<%if(c.getCardIndex()>1)out.print("display:none;");%>background: url(<%
-    	if(c.getSecondPic()!=null && c.getSecondPic().length()>10){
-    		out.print("/"+c.getSecondPic());
-    	}else{
-    		out.print("/diandian/frame/home-18.jpg");
-    	}
-    	%>);background-size: cover;">
+	<div class="page">
 	    <img src="/diandian/frame/move.gif" class="movegif">
 	    <div class="xialadiv">
 			<a href="#" class="xiala">
@@ -228,41 +218,50 @@ while(bookIt.hasNext()){
 			<a href="/diandian/">
 				<img alt="" src="/diandian/frame/h0.png" class="hearbarimg">
 			</a>
-			<%
-			if(c.getCardId()>1){
-			%>
-			<a href="/diandian/book.html?bookId=<%=b.getBookId()%>">
+			<a href="javascript:history.back();">
 				<img alt="" src="/diandian/frame/h1.png" class="hearbarimg">
 			</a>
-			<%
-			}
-			if(c.getPreCardId()!=0){
-			%>
 			<a href="#" class="prebut">
 				<img alt="" src="/diandian/frame/h6.png" class="hearbarimg">
 			</a>
-			<%}
-			if(c.getNextCardId()!=0){
-			%>
 			<a href="#" class="nextbut">
 				<img alt="" src="/diandian/frame/h7.png" class="hearbarimg">
 			</a>
-			<%} %>
-			
-			<%
-    		if(k.getId()==c.getkId() ||k.getGuanlibiaoji()==1){
-    		%>
-			<a href="/card/carddetail.html?cardId=<%=c.getCardId() %>" >
+			<a href="/diandian/setup.html?bookId=<%=b.getBookId() %>" >
 				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
 			</a>
-			<%}%>
-			
-						
 		</div>		
 	
+<%
+Iterator bookIt = bookColl.iterator();
+while(bookIt.hasNext()){
+	Card c = (Card)bookIt.next();
+	Collection cardColl = new CardPicDAO().getCardPicByCardId(c.getCardId());
+	Collection wordColl = new CardWordDAO().getCardWordByCardId(c.getCardId());
 	
-	    
-		<div class="board">
+	if(c.getCardIndex()==1){
+		%>
+		<script type="text/javascript">
+			$(".page").css({"background":"url('/<%=c.getSecondPic()%>')"});
+			function load(){
+				console.log("load");
+				
+				setTimeout(function(){
+					$(".movegif").hide(2000);
+				},2000);
+				
+				setTimeout(function(){
+					$(".xialadiv").animate({top:'0%'},2000);
+					$(".headbar").animate({top:'-10%'},2000);
+				},3000);
+			}
+		</script>
+		<%
+	}
+
+%>    
+		<div class="board" id="board_<%=c.getCardIndex() %>" index="<%=c.getCardId() %>" style="<%if(c.getCardIndex()>0)out.print("display:none"); %>" bg="<%=c.getSecondPic()%>">
+		
 		<%
 	    if(cardColl.size()>0){
 	    %>
@@ -298,7 +297,7 @@ while(bookIt.hasNext()){
 			while(picit.hasNext()){
 				CardPic fpic = (CardPic)picit.next();
 				%>
-				<div class="item" id="item<%=fpic.getPicId() %>" clickable=<%=fpic.getClickable() %> picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;<%if(c.getShowType()==0)out.print("display:none");%>">
+				<div class="item" id="item<%=fpic.index %>" clickable=<%=fpic.getClickable() %> index="<%=fpic.index %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;<%if(c.getShowType()==0)out.print("display:none");%>">
 					<img src="<%=fpic.getImgurl() %>" class="itemimg"  >
 					<span class="spanline1"  style="margin-top:<%=fpic.getMarginTop()%>rem;"><%
 					CardMeaning cm1 = CardMeaning.getStaticCard(fpic.getPicId(), languageId);
@@ -318,7 +317,7 @@ while(bookIt.hasNext()){
   					if(fpic.getSound()!=null && fpic.getSound().length()>2){
   						if(request.getSession().getAttribute("soundFlag")==null ||request.getSession().getAttribute("soundFlag").toString().equals("0")){
   					%>
-  						<audio preload="auto" controls id="effect_<%=fpic.getPicId() %>" style="display:none">
+  						<audio preload="auto" controls id="effect_<%=fpic.index %>" style="display:none">
 						<source src="/<%=fpic.getSound() %>">
 					</audio>
 				<%  } 
@@ -344,7 +343,7 @@ while(bookIt.hasNext()){
 							}
 						}
 					%> 
-						<audio controls id="sound_<%=fpic.getPicId()%>_<%=cs.getLanguageId()%>" style="display:none">
+						<audio controls id="sound_<%=fpic.index%>_<%=cs.getLanguageId()%>" style="display:none">
 							<source src="<%=sound %>">
 						</audio>	
 					<%
@@ -380,7 +379,7 @@ while(bookIt.hasNext()){
 			
 		<%} %>
 		</div>
-		
+<%} %>		
 		
 	
 		
@@ -388,62 +387,84 @@ while(bookIt.hasNext()){
     	</div>
 	
 	</div>
-<%} %>	
-	
-	
-
-	
-
 <script type="text/javascript">
-	var index=1;
-	var cardIndex=1;
-	var autoplay=<%=autoplay%>;
-	var times=8500;
-	var dwidth=1;
-	var stopFlag=0;
-	var picId=0;
+var index=1;
+var cardIndex=1;
+var autoplay=1;
+var times=8500;
+var dwidth=1;
+var stopFlag=0;
+var nums=<%=b.getCardNums()%>;
+$(function(){
+	$(".xialadiv").click(function(){
+		$(".xialadiv").animate({top:'-10%'},1000);
+		$(".headbar").animate({top:'0%'},1000);
+		
+		setTimeout(function(){
+			$(".xialadiv").animate({top:'0%'},2000);
+			$(".headbar").animate({top:'-10%'},2000);
+		},times);
+	})
 	
-	function load()
-	{
-		if(cardIndex<=2){
-			setTimeout(function(){
-				$(".movegif").hide(2000);
-			},2000);	
-		}else{
-			$(".movegif").hide();
+	function locationNext(){
+		console.log('next');
+		if(index<nums){
+			$("#board_"+index).hide();
+			index=parseInt(index)+1;
+			$("#board_"+index).show();
+			console.log($("#board_"+index).attr("bg"));
+			console(1);
+			//$(".page").css({"background":"url(/"+$("#board_"+index).attr("bg")+")"});
 		}
-		t=doCurrent();
-		
-		if(autoplay==1){
-			$(".xialadiv").css({top:'0%'});
-		}else{
-			if(cardIndex<=2){
-				setTimeout(function(){
-					$(".xialadiv").animate({top:'0%'},2000);
-					$(".headbar").animate({top:'-10%'},2000);
-				},3000);
-			}
-		}
-		
+	}
+	
+	
+	
+	
+	
+	function locationPre(){
 		
 	}
 	
+	$(".nextbut").click(function(){
+		t=locationNext();
+	})
+	
+	$(".prebut").click(function(){
+		t=locationPre();
+	})
+})
+
+</script>
+<script type="text/javascript">
+
 	function doCurrent(){
-		setTimeout(function(){
-			//document.getElementById("sound_"+picId+"_<%=languageId%>").play();
-		},500);
+		if(autoplay==1){
+			t=playCurrent();
+			$(".autoimg").attr("src","/diandian/frame/h2_1.png")
+			setTimeout(function(){
+				auto=next();
+			},times);
+			$(".timediv").css({'width':'0%'});
+			$(".timediv").animate({width:'100%',opacity:'0.4'},times);
+		}else{
+			setTimeout(function(){
+				//document.getElementById("sound_"+index+"_<%=languageId%>").play();
+			},500);
+			
+		}
 	}
 	
 	function playCurrent(){
 		setTimeout(function(){
-			document.getElementById("sound_"+picId+"_<%=languageId%>").play();
+			document.getElementById("sound_"+index+"_<%=languageId%>").play();
 		},500);
-		if(document.getElementById("effect_"+picId)!=null){
+		if(document.getElementById("effect_"+index)!=null){
 			$(".effecthidden").show();
 			if(autoplay==1){
 				setTimeout(function(){
-					if(document.getElementById("effect_"+picId)!=null)
-						audioAutoPlay1("effect_"+picId);},4500);	
+					if(document.getElementById("effect_"+index)!=null)
+						audioAutoPlay1("effect_"+index);},4500);	
 			}
 		}else{
 			$(".effecthidden").hide();
@@ -493,24 +514,7 @@ while(bookIt.hasNext()){
 		return;	
 	}
 	
-	function locationNext(){
-		if(index<<%=nums%>){
-			index=parseInt(index)+1;
-			$(".page").hide();
-			$("#page_"+index).show();
-			return;
-		}
-		
-	}
 	
-	function locationPre(){
-		if(index>1){
-			index=parseInt(index)-1;
-			$(".page").hide();
-			$("#page_"+index).show();
-			return;
-		}
-	}
 	
 	
 	
@@ -521,17 +525,17 @@ while(bookIt.hasNext()){
 			return;
 		}else{
 			if(autoplay==0){
-				locationPre();	
+				loactionPre();	
 			}
 		}
 	}
 	
 	function changeItem(){
-		
-		$(".mainboard").children(".itemimg").attr("src",$("#item"+picId).children("img").attr("src"));
-		console.log($("#item"+picId).children("spanline1").text());
-		$(".mainboard").children(".spanline1").text($("#item"+picId).children(".spanline1").text());
-		$(".mainboard").children(".spanline2").text($("#item"+picId).children(".spanline2").text());
+		//$(".headnum").text(index+"/<%=nums%>");
+		$(".mainboard").children(".itemimg").attr("src",$("#item"+index).children("img").attr("src"));
+		console.log($("#item"+index).children("spanline1").text());
+		$(".mainboard").children(".spanline1").text($("#item"+index).children(".spanline1").text());
+		$(".mainboard").children(".spanline2").text($("#item"+index).children(".spanline2").text());
 		$(".mainboard").show();
 		t=playCurrent();
 	}
@@ -551,28 +555,20 @@ while(bookIt.hasNext()){
 			
 		})
 		
-		$(".xialadiv").click(function(){
-			$(".xialadiv").animate({top:'-10%'},1000);
-			$(".headbar").animate({top:'0%'},1000);
-			
-			setTimeout(function(){
-				$(".xialadiv").animate({top:'0%'},2000);
-				$(".headbar").animate({top:'-10%'},2000);
-			},times);
-		})			
+				
 			
 		
 		$(".spanline1").click(function(){
-			document.getElementById("sound_"+picId+"_<%=languageId%>").play();
+			document.getElementById("sound_"+index+"_<%=languageId%>").play();
 		})
 		
 		$(".spanline2").click(function(){
-			document.getElementById("sound_"+picId+"_<%=languageId_2%>").play();
+			document.getElementById("sound_"+index+"_<%=languageId_2%>").play();
 		})
 		
 		$(".item").click(function(){
-			picId=$(this).attr("picId");
-			//$(".item").addClass("opacityShadow");
+			index=$(this).attr("index");
+			$(".item").addClass("opacityShadow");
 			if($(this).attr("clickable")==0)
 				t=changeItem();
 		})
@@ -582,13 +578,7 @@ while(bookIt.hasNext()){
 			audioAutoPlay1("word_"+wordId);
 		})
 		
-		$(".nextbut").click(function(){
-			t=locationNext();
-		})
 		
-		$(".prebut").click(function(){
-			t=locationPre();
-		})
 		
 		$(".autoplay").click(function(){
 			if(autoplay==0){
@@ -660,6 +650,14 @@ while(bookIt.hasNext()){
 			
 		});
 		
+		
+		
+		//0表示已收藏
+		var favFlag=<%=request.getAttribute("isFav").toString()%>;
+		
+		
+		
+
 	})
 </script>	
 
