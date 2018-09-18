@@ -33,6 +33,9 @@ if(session.getAttribute("cardId")!=null){
 }else if(session.getAttribute("shuyishu")!=null){
 	url = "/diandian/shuyishu.html";
 	session.removeAttribute("shuyishu");
+}else if(session.getAttribute("subscribe")!=null){
+	url = "/diandian/subscribe.html";
+	session.removeAttribute("subscribe");
 }
  %>
 <script type="text/javascript">

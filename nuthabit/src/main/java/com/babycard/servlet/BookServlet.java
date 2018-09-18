@@ -57,6 +57,16 @@ public class BookServlet extends HttpServlet {
 			CardDAO dao = new CardDAO();
 			request.setAttribute("bookColl", dao.getCardListByBookId(b.getBookId()));
 
+			// 扣除积分
+
+			KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
+			if (m == null || m.getCloseDate().getTime() < System.currentTimeMillis()) {
+				if (!new KehuDAO().updateJifen(k.getId(), 1, false, "图书：" + b.getBookId())) {
+					response.sendRedirect("/diandian/subscribe.html");
+					return;
+				}
+			}
+
 			/*
 			 * long cardId = 0; if (request.getParameter("cardId") != null) {
 			 * cardId = Long.parseLong(request.getParameter("cardId"));

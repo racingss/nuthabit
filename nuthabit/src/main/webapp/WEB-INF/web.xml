@@ -84,4 +84,14 @@
     <servlet-name>CardBookServlet</servlet-name>
     <url-pattern>/CardBookServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowSubscribeServlet</display-name>
+    <servlet-name>ShowSubscribeServlet</servlet-name>
+    <servlet-class>com.babycard.servlet.ShowSubscribeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowSubscribeServlet</servlet-name>
+    <url-pattern>/ShowSubscribeServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

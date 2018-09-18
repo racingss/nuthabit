@@ -231,7 +231,8 @@ public class KehuUtil {
 		return k;
 	}
 
-	public void registerWhenGuanzhu(String openId, long fromId) {
+	public boolean registerWhenGuanzhu(String openId, long fromId) {
+		boolean result = false;
 		try {
 
 			Kehu k = new Kehu();
@@ -242,12 +243,13 @@ public class KehuUtil {
 
 			if (u == null) {
 				System.out.println("奇怪，关注公众号时候can not get userinfo from wx ");
-				return;
+				return false;
 			}
 
 			k = dao.getKehu("openId", u.getOpenid());
 
 			if (k == null) {
+
 				// 注册
 				System.out.println("关注公众号时候注册  register user info from wx");
 
@@ -293,6 +295,30 @@ public class KehuUtil {
 				k = dao.addKehu(k);
 				dao.updateJifen(k.getId(), JIFEN_REG, true, "注册");
 				k.setJifen(JIFEN_REG);
+				
+				
+				//如果有人推荐
+				if(fromId!=0){
+					System.out.println("有人推荐："+fromId);
+					int curr = dao.getFromlist(fromId).size();
+					//如果推荐数正好是5个
+					System.out.println("推荐数："+curr);
+					if(curr==5){
+						//终身免费使用
+						KehuCardMember km = new KehuCardMember();
+						Kehu kmh = dao.getKehuById(fromId);
+						km.setKehuId(kmh.getKehuId());
+						km.setMemberLevel(km.MEMBER_LEVEL_LIFELONG);
+						dao.addMember(km);
+					}
+				}else{
+					System.out.println("自己注册的");
+				}
+				
+
+				result = true;
+			} else {
+				result = false;
 			}
 
 			// 更新用户名
@@ -302,6 +328,8 @@ public class KehuUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		return result;
 	}
 
 	private void verfyNickname(Kehu k, UserInfo u, KehuDAO dao) {

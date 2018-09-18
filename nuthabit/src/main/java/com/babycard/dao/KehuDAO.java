@@ -382,7 +382,7 @@ public class KehuDAO extends SampleDAO {
 			} else {
 				balance -= jifen;
 				//临时先取消
-				if (false && balance < 0) {
+				if (balance < 0) {
 					System.err.println("积分不够:" + kId + ":" + balance + ":" + plus + ":" + balance + ":" + ":" + jifen);
 					return false;
 				}
@@ -665,6 +665,33 @@ public class KehuDAO extends SampleDAO {
 
 		return c;
 	}
+	
+	public Collection getFromlist(long fromId) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		Kehu k;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection c = new ArrayList();
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from kehu where fromId=? order by id desc");
+			ps.setLong(1, fromId);
+
+			rs = ps.executeQuery();
+			while (rs.next())
+				c.add(new Kehu(rs));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return c;
+	}
 
 	public Collection getAll() {
 		Connection conn;
@@ -788,23 +815,24 @@ public class KehuDAO extends SampleDAO {
 
 	public static void main(String[] arg) {
 		KehuDAO dao = new KehuDAO();
-		Collection coll = dao.getAll();
-		Iterator it = coll.iterator();
-		while(it.hasNext()){
-			Kehu k = (Kehu)it.next();
-			System.out.println(k.toString());
-			KehuCardMember m =  dao.getMember(k.getKehuId());
-			if(m==null){
-				System.out.println("非付费用户");
-				m= new KehuCardMember();
-				m.setKehuId(k.getKehuId());
-				m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
-				dao.addMember(m);
-			}else{
-				System.out.println("付费用户");
-			}
-			
-		}
+		System.out.println(dao.getFromlist(2680).size());
+//		Collection coll = dao.getAll();
+//		Iterator it = coll.iterator();
+//		while(it.hasNext()){
+//			Kehu k = (Kehu)it.next();
+//			System.out.println(k.toString());
+//			KehuCardMember m =  dao.getMember(k.getKehuId());
+//			if(m==null){
+//				System.out.println("非付费用户");
+//				m= new KehuCardMember();
+//				m.setKehuId(k.getKehuId());
+//				m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
+//				dao.addMember(m);
+//			}else{
+//				System.out.println("付费用户");
+//			}
+//			
+//		}
 		
 		
 	}

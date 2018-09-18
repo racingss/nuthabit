@@ -65,7 +65,8 @@ public class PosterServlet extends HttpServlet {
 			StringBuffer headSBS = new StringBuffer(path).append(headUrl).append(k.getId()).append(".jpg");
 			StringBuffer saveSBS = new StringBuffer(path).append(saveUrl).append(k.getId()).append(".jpg");
 			StringBuffer webSBS = new StringBuffer(saveUrl).append(k.getId()).append(".jpg");
-			String poster = path + "diandian/poster/poster.jpg";
+			//String poster = path + "diandian/poster/poster.jpg";
+			String poster = path + "diandian/haibao/pengyouquan.jpeg";
 			// 生成二维码
 			String erweima = new AccessToken().erweimaUrl((int) k.getId());
 
@@ -73,13 +74,16 @@ public class PosterServlet extends HttpServlet {
 			img.downloadPicture(erweima, erweimaSBS.toString());
 
 			// 下载头像
-			img.downloadPicture(k.getHeadimgurl(), headSBS.toString());
+			//img.downloadPicture(k.getHeadimgurl(), headSBS.toString());
 			// 头像圆形处理
-			img.round(headSBS.toString());
+			//img.round(headSBS.toString());
 
 			// 合成海报
-			img.watermark(new File(poster), new File(erweimaSBS.toString()), 545, 265, 1.0f, 103, 103,
+//			img.watermark(new File(poster), new File(erweimaSBS.toString()), 545, 265, 1.0f, 103, 103,
+//					saveSBS.toString());
+			img.watermark(new File(poster), new File(erweimaSBS.toString()), 9, 880, 1.0f, 224, 224,
 					saveSBS.toString());
+			System.out.println("生成海报:"+webSBS.toString());
 			request.setAttribute("poster", webSBS.toString());
 			request.getRequestDispatcher("poster.jsp").forward(request, response);
 

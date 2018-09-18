@@ -37,6 +37,7 @@ import org.dom4j.io.*;
 
 import com.babycard.dao.*;
 import com.babycard.util.HttpPostUtil;
+import com.babycard.util.ImageUtil;
 import com.babycard.util.KehuUtil;
 import com.babycard.wx.AccessToken;
 import com.gson.WeChat;
@@ -116,29 +117,34 @@ public class WxTestServlet extends HttpServlet {
 				if (MsgTypeParam.MESSAGE_SUBSCRIBE.equals(event)) {
 
 					String text = "欢迎您使用卡片点点（Cardpopo）\n我们是家长的学前教育好帮手，专门为您提供了一套儿童认知的教育平台软件。您可以点击下方菜单《<a href=\"http://www.suyufuwu.com/diandian\">卡片点点</a>》进入使用。在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
+					String text1 = "";
 					message = initText(toUserName, fromUserName, text);
+					long kId = 0;
 
 					// 调用初始化文本消息方法
 					String key = map.get("EventKey");
 					if (key != null) {
 						System.out.println(key);
-						long kId = 0;
+
 						if (key.indexOf("qrscene_") != -1) {
 							kId = Long.parseLong(key.substring(8));
 							Kehu inviteKehu = new KehuDAO().getKehuById(kId);
-							String text1 = "您是" + inviteKehu.getNickname() + "邀请过来的";
-							new AccessToken().sendMsg(fromUserName, text1);
-							// 登记用户
-							new KehuUtil().registerWhenGuanzhu(fromUserName, kId);
+							text1 = "您是" + inviteKehu.getNickname() + "邀请过来的,";
 						}
+					}
+
+					if (!new KehuUtil().registerWhenGuanzhu(fromUserName, kId)) {
+						text1 += "您之前已经注册了，感谢您再次回来，";
 					}
 
 					if (media_id == null || System.currentTimeMillis() - haibao_time > 60 * 1000 * 60 * 24 * 2) {
 						// 上传海报
-						uploadHaibao(request);
+						uploadHaibao(request, fromUserName);
 					}
 
 					new AccessToken().sendImg(fromUserName, media_id);
+					text1 += "我们为您生成了专属海报，您可以点击《<a href=\"http://www.suyufuwu.com/diandian/subscribe.html\">这里</a>》查看《<a href=\"http://www.suyufuwu.com/diandian/subscribe.html\">299元终身会员</a>》的免费获取方法";
+					new AccessToken().sendMsg(fromUserName, text1);
 				} else {
 					System.out.println(event);
 				}
@@ -166,13 +172,42 @@ public class WxTestServlet extends HttpServlet {
 		}
 	}
 
-	private void uploadHaibao(HttpServletRequest request) {
+	private void uploadHaibao(HttpServletRequest request, String openId) {
 		try {
+			Kehu k = new KehuDAO().getKehu("openId", openId);
 			HttpPostUtil util = new HttpPostUtil("https://api.weixin.qq.com/cgi-bin/media/upload");
 			util.addParameter("access_token", AccessToken.getToken());
 			util.addParameter("type", "image");
-			util.addParameter("media", new File(
-					request.getSession().getServletContext().getRealPath("/") + "diandian/haibao/pengyouquan.jpeg"));
+
+			// util.addParameter("media", new File(
+			// request.getSession().getServletContext().getRealPath("/") +
+			// "diandian/haibao/pengyouquan.jpeg"));
+
+			ImageUtil img = new ImageUtil();
+			String erweimaUrl = "diandian/poster/erweima/";
+			String headUrl = "diandian/poster/head/";
+			String saveUrl = "diandian/poster/save/";
+			String path = request.getSession().getServletContext().getRealPath("/");
+
+			System.out.println("客户：" + k);
+			StringBuffer erweimaSBS = new StringBuffer(path).append(erweimaUrl).append(k.getId()).append(".jpg");
+			StringBuffer headSBS = new StringBuffer(path).append(headUrl).append(k.getId()).append(".jpg");
+			StringBuffer saveSBS = new StringBuffer(path).append(saveUrl).append(k.getId()).append(".jpg");
+			StringBuffer webSBS = new StringBuffer(saveUrl).append(k.getId()).append(".jpg");
+			// String poster = path + "diandian/poster/poster.jpg";
+			String poster = path + "diandian/haibao/pengyouquan.jpeg";
+			// 生成二维码
+			String erweima = new AccessToken().erweimaUrl((int) k.getId());
+
+			// 下载二维码
+			img.downloadPicture(erweima, erweimaSBS.toString());
+
+			img.watermark(new File(poster), new File(erweimaSBS.toString()), 9, 880, 1.0f, 224, 224,
+					saveSBS.toString());
+
+			util.addParameter("media",
+					new File(request.getSession().getServletContext().getRealPath("/") + webSBS.toString()));
+
 			String temp = util.send();
 			System.out.println(temp);
 			media_id = temp.substring(temp.indexOf("media_id") + 11, temp.indexOf("created_at") - 3);

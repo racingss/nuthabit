@@ -166,6 +166,16 @@ KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 			</div>
 		</ol>
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<ol class="regV setupnextwindow" style="display:none">
 			<div>
 				<div class="bd" style="padding: 1rem 0;height: 3rem;background: none;">

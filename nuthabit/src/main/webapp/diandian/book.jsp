@@ -544,7 +544,7 @@ while(bookIt.hasNext()){
 		
 		$(".effecthidden").click(function(){
 			$(this).removeClass("boxShadow");
-			document.getElementById("effect_"+index).play();
+			document.getElementById("effect_"+picId).play();
 			setTimeout(function(){ 
 				$(".effecthidden").addClass("boxShadow");
 			}, 2000);	
