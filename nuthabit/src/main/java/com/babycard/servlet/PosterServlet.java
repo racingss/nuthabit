@@ -52,6 +52,7 @@ public class PosterServlet extends HttpServlet {
 		try {
 			Kehu k = new KehuUtil().getKehu(request, response);
 			if (k == null) {
+				request.getSession().setAttribute("poster", "t");
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}

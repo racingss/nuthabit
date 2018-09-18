@@ -334,7 +334,7 @@ public class AccessToken {
 		try {
 			Menu m = new Menu();
 			String accessToken = AccessToken.getToken();
-			String params = "{\"button\":[ {\"type\":\"view\",\"name\":\"卡片点点\",\"url\":\"http://www.suyufuwu.com/diandian/\" }],\"button\":[{\"type\":\"view\",\"name\":\"第一本色彩书\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=1\" }],\"button\":[{\"type\":\"view\",\"name\":\"MyFirstABC\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=3\" }]}";
+			String params = "{\"button\":[ {\"type\":\"view\",\"name\":\"卡片点点\",\"url\":\"http://www.suyufuwu.com/diandian/\" }],\"button\":[{\"type\":\"view\",\"name\":\"动物大百科\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=2\" }],\"button\":[{\"type\":\"view\",\"name\":\"MyFirstABC\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=3\" }]}";
 			System.out.println(m.createMenu(accessToken, params));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
