@@ -345,7 +345,3 @@ KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 		<%}%>
 		
 		
-		
-		
-		
-		

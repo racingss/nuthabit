@@ -114,6 +114,7 @@ public class WxTestServlet extends HttpServlet {
 
 			if (MsgTypeParam.MESSAGE_EVENT.equals(msgType)) {
 
+				//订阅event
 				if (MsgTypeParam.MESSAGE_SUBSCRIBE.equals(event)) {
 
 					String text = "欢迎您使用卡片点点（Cardpopo）\n我们是家长的学前教育好帮手，专门为您提供了一套儿童认知的教育平台软件。您可以点击下方菜单《<a href=\"http://www.suyufuwu.com/diandian\">卡片点点</a>》进入使用。在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
@@ -145,9 +146,55 @@ public class WxTestServlet extends HttpServlet {
 					new AccessToken().sendImg(fromUserName, media_id);
 					text1 += "我们为您生成了专属海报，您可以点击《<a href=\"http://www.suyufuwu.com/diandian/subscribe.html\">这里</a>》查看《<a href=\"http://www.suyufuwu.com/diandian/subscribe.html\">299元终身会员</a>》的免费获取方法";
 					new AccessToken().sendMsg(fromUserName, text1);
-				} else {
+				} else if ("SCAN".equals(event)) {
+					// SCAN的event
+					String key = map.get("EventKey");
+					long kId = 0;
+					if (key != null) {
+						System.out.println(key);
+
+						if (key.indexOf("qrscene_") != -1) {
+							kId = Long.parseLong(key.substring(8));
+							Kehu inviteKehu = new KehuDAO().getKehuById(kId);
+							String text1 = "您在扫描" + inviteKehu.getNickname() + "的海报";
+							new AccessToken().sendMsg(fromUserName, text1);
+						}
+					}
+					
+					String content = map.get("Content");
+					System.out.println(content);
+					String text = "在您的使用过程中，如碰到任何问题或有任何想法，都可以随时联系我们的创始人兼全职客服Adon，微信号wangadon（添加时请注明cardpopo）。";
+					// 调用初始化文本消息方法
+					message = initText(toUserName, fromUserName, text);
+
+					if (kefu_id == null || System.currentTimeMillis() - kefu_time > 60 * 1000 * 60 * 24 * 2) {
+						// 上传海报
+						uploadKefu(request);
+					}
+
+					new AccessToken().sendImg(fromUserName, kefu_id);
+
+				}else if ("CLICK".equals(event)) {
+					// click的event
+					String content = map.get("Content");
+					System.out.println(content);
+					String text = "如果您需要进群，可以先添加我们的客服";
+					// 调用初始化文本消息方法
+					message = initText(toUserName, fromUserName, text);
+
+					if (kefu_id == null || System.currentTimeMillis() - kefu_time > 60 * 1000 * 60 * 24 * 2) {
+						// 上传海报
+						uploadKefu(request);
+					}
+
+					new AccessToken().sendImg(fromUserName, kefu_id);
+
+				}else {
+					//其他的EVENT
 					System.out.println(event);
 				}
+				
+				
 
 			} else if (MsgTypeParam.MESSAGE_TEXT.equals(msgType)) {
 				String content = map.get("Content");
