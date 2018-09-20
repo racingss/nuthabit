@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import com.babycard.dao.Kehu;
 import com.babycard.dao.KehuDAO;
 import com.babycard.util.KehuUtil;
+import com.gson.bean.TemplateData;
 import com.gson.bean.UserInfo;
 import com.gson.oauth.Menu;
 import com.gson.oauth.Message;
@@ -342,10 +343,38 @@ public class AccessToken {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void template(){
+		try {
+			Message m =  new Message();
+			TemplateData t= new TemplateData("oH97e0mCWkwYzWur4YAMvXxFR85M","Ky7DBkrWo7uikn8tTiI7QoQwIZXrGL2bs7FeFBR8tN0","http://www.suyufuwu.com/diandian/poster.html");
+			t.setTopcolor("#08c");
+			t.push("first", "Adon扫描了您的邀请卡");
+			t.push("keyword1", "299元终身免费用户");
+			t.push("keyword2", "1/5");
+			t.push("remark", "在邀请4个就可以终身免费使用了，再接再厉吧，如果要刷新您的海报，可以点击这里重新生成");
+			String accessToken = AccessToken.getToken();
+			com.alibaba.fastjson.JSONObject j = m.templateSend(accessToken, t);
+			System.out.println(j.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String args[]) {
 		// System.out.println(new AccessToken().erweimaUrl(2749));
-		new AccessToken().menu();
+//		new AccessToken().menu();
+		new AccessToken().template();;
 
 	}
 
