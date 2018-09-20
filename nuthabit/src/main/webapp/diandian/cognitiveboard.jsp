@@ -130,9 +130,9 @@ System.out.println(cardImg);
 	}
 	
 	.cancelimg{
-		bottom: -10%;
+		top: 3%;
 	    position: absolute;
-	    left: 46%;
+	    left: 3%;
 	    width: 10%;
 	}
 	.effecthidden{
@@ -253,8 +253,8 @@ System.out.println(cardImg);
 				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
 			</a>
 			<%}else{ %>
-			<a href="/diandian/setup.html?cardId=<%=c.getCardId() %>" >
-				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
+			<a href="/card/cardlist.html?cardId=<%=c.getCardId() %>&languageId=<%if(languageId==0)out.print(1);else out.print(0); %>" >
+				<img alt="" src="/diandian/frame/l<%=languageId %>.png" class="hearbarimg">
 			</a>
 			<%} %>
 			

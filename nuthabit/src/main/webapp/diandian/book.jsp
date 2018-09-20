@@ -126,9 +126,9 @@ CardPic first=null;
 	}
 	
 	.cancelimg{
-		bottom: -10%;
+		top: 3%;
 	    position: absolute;
-	    left: 46%;
+	    left: 3%;
 	    width: 10%;
 	}
 	.effecthidden{
