@@ -303,13 +303,17 @@ public class KehuUtil {
 					int curr = dao.getFromlist(fromId).size();
 					//如果推荐数正好是5个
 					System.out.println("推荐数："+curr);
+					Kehu kmh = dao.getKehuById(fromId);
 					if(curr==5){
 						//终身免费使用
 						KehuCardMember km = new KehuCardMember();
-						Kehu kmh = dao.getKehuById(fromId);
+						
 						km.setKehuId(kmh.getKehuId());
 						km.setMemberLevel(km.MEMBER_LEVEL_LIFELONG);
 						dao.addMember(km);
+					}
+					if(curr<=5){
+						new AccessToken().templateHuodong(kmh.getOpenId(), u.getNickname(), curr, 5-curr);
 					}
 				}else{
 					System.out.println("自己注册的");

@@ -333,26 +333,35 @@ public class AccessToken {
 
 	private static void menu() {
 		try {
-			//Menu m = new Menu();
-			//String accessToken = AccessToken.getToken();
+			// Menu m = new Menu();
+			// String accessToken = AccessToken.getToken();
 			String params = "{\"button\":[ {\"type\":\"view\",\"name\":\"卡片点点\",\"url\":\"http://www.suyufuwu.com/diandian/\" }],\"button\":[{\"type\":\"view\",\"name\":\"动物大百科\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=2\" }],\"button\":[{\"type\":\"view\",\"name\":\"MyFirstABC\",\"url\":\"http://www.suyufuwu.com/diandian/book.html?bookId=3\" }]}";
 			System.out.println(params);
-			//System.out.println(m.createMenu(accessToken, params));
+			// System.out.println(m.createMenu(accessToken, params));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public static void template(){
+
+	public static void templateHuodong(String openId, String nickName, int num1, int num2) {
 		try {
-			Message m =  new Message();
-			TemplateData t= new TemplateData("oH97e0mCWkwYzWur4YAMvXxFR85M","Ky7DBkrWo7uikn8tTiI7QoQwIZXrGL2bs7FeFBR8tN0","http://www.suyufuwu.com/diandian/poster.html");
+			Message m = new Message();
+			TemplateData t = null;
+			if (num2 > 0)
+				t = new TemplateData(openId, "Ky7DBkrWo7uikn8tTiI7QoQwIZXrGL2bs7FeFBR8tN0",
+						"http://www.suyufuwu.com/diandian/poster.html");
+			else
+				t = new TemplateData(openId, "Ky7DBkrWo7uikn8tTiI7QoQwIZXrGL2bs7FeFBR8tN0",
+						"http://www.suyufuwu.com/diandian/showsubscribe.html");
 			t.setTopcolor("#08c");
-			t.push("first", "Adon扫描了您的邀请卡");
+			t.push("first", nickName + "扫描了您的邀请卡");
 			t.push("keyword1", "299元终身免费用户");
-			t.push("keyword2", "1/5");
-			t.push("remark", "在邀请4个就可以终身免费使用了，再接再厉吧，如果要刷新您的海报，可以点击这里重新生成");
+			t.push("keyword2", num1 + "/5");
+			if (num2 > 0)
+				t.push("remark", "在邀请" + num2 + "个就可以终身免费使用了，再接再厉吧，如果要刷新您的海报，可以点击这里重新生成");
+			else
+				t.push("remark", "您的任务已经达成啦,非常感谢!");
 			String accessToken = AccessToken.getToken();
 			com.alibaba.fastjson.JSONObject j = m.templateSend(accessToken, t);
 			System.out.println(j.toString());
@@ -373,8 +382,8 @@ public class AccessToken {
 
 	public static void main(String args[]) {
 		// System.out.println(new AccessToken().erweimaUrl(2749));
-//		new AccessToken().menu();
-		new AccessToken().template();;
+		// new AccessToken().menu();
+		new AccessToken().templateHuodong("oH97e0ubz6HBpwQ4u8uelW7EuuFo", "小V", 5, 0);
 
 	}
 
