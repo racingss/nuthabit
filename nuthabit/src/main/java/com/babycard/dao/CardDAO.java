@@ -62,12 +62,14 @@ public class CardDAO extends SampleDAO {
 			conn = getConnection();
 
 			ps = conn.prepareStatement(
-					"insert into baby_card(meaning,secondPic,nextCardId,preCardId,bookId)values(?,?,?,?,?) ");
+					"insert into baby_card(meaning,secondPic,nextCardId,preCardId,bookId,cardIndex,defaultPic)values(?,?,?,?,?,?,?) ");
 			ps.setString(1, c.getMeaning());
 			ps.setString(2, c.getSecondPic());
 			ps.setLong(3, c.getNextCardId());
 			ps.setLong(4, c.getPreCardId());
 			ps.setLong(5, c.getBookId());
+			ps.setLong(6, c.getCardIndex());
+			ps.setString(7, c.getDefaultPic());
 			ps.executeUpdate();
 			ps.close();
 

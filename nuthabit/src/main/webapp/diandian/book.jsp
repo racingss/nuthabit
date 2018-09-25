@@ -121,8 +121,8 @@ CardPic first=null;
 	    text-align: center;
 	    font-weight: bold;
 	    color: #584307;
-	    font-size: 4rem;
-	    padding-bottom: 4rem;
+	    font-size: 3rem;
+	    padding-bottom: 1rem;
 	}
 	
 	.cancelimg{
@@ -217,7 +217,12 @@ while(bookIt.hasNext()){
     	}else{
     		out.print("/diandian/frame/home-18.jpg");
     	}
-    	%>);background-size: cover;">
+    	%>);background-size: cover;"<%
+    	
+    	if(c.getDefaultPic()!=null)
+    		out.print(" defaultPic=\""+c.getDefaultPic()+"\"");
+    	%>>
+    	
 	    <img src="/diandian/frame/move.gif" class="movegif">
 	    <div class="xialadiv">
 			<a href="#" class="xiala">
@@ -263,10 +268,11 @@ while(bookIt.hasNext()){
 	
 	    
 		<div class="board">
+			<span class="headnum headspan"><%=c.getCardIndex()%>/<%=b.getCardNums() %>页</span>
 		<%
 	    if(cardColl.size()>0){
 	    %>
-			<span class="headnum headspan"><%=c.getCardIndex()%>/<%=b.getCardNums() %>页</span>
+			
 		
 		    <%
 		    first = (CardPic)cardColl.iterator().next();
@@ -494,6 +500,7 @@ while(bookIt.hasNext()){
 	}
 	
 	function locationNext(){
+		console.log('next');
 		if(index<<%=nums%>){
 			index=parseInt(index)+1;
 			$(".page").hide();
@@ -614,13 +621,22 @@ while(bookIt.hasNext()){
 			startY = e.originalEvent.changedTouches[0].pageY;
 		});
 		
-		
 		$(".leftpicarrow").click(function(){
 			t=pre();
 		})
 		
 		$(".rightpicarrow").click(function(){
 			t=next();
+		})
+		
+		$(".page").click(function(){
+			console.log("page");
+			defaultPic = $(this).attr("defaultPic");
+			console.log(defaultPic);
+			if(defaultPic!=null && defaultPic==1){
+				console.log('get-1');
+				t=locationNext();
+			}
 		})
 		
 		

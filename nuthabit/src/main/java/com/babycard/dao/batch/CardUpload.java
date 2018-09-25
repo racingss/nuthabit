@@ -8,9 +8,7 @@ public class CardUpload {
 	public static char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
 			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	private static void firstabc() {
 		CardDAO cardDao = new CardDAO();
 		CardPicDAO picDAO = new CardPicDAO();
 		CardWordDAO wordDAO = new CardWordDAO();
@@ -51,6 +49,31 @@ public class CardUpload {
 
 			// 添加文字
 
+		}
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Book b = new Book();
+		long preCardId = 0;
+		long nextCardId = 0;
+		for (int i = 0; i <= 16; i++) {
+			Card c = new Card();
+			c.setMeaning("欢乐农场（" + i + "）");
+			c.setCardIndex(i+1);
+			c.setDefaultPic("diandian/bookimg/nongchang/" + i + ".jpg");
+			c.setBookId(7);
+			c.setSecondPic("diandian/bookimg/nongchang/" + i + ".jpg");
+			c.setPreCardId(preCardId);
+			c.setNextCardId(nextCardId);
+			c = new CardDAO().addCard(c);
+			System.out.println(c.toString());
+			preCardId = c.getCardId();
+			if (i < 9) {
+				nextCardId = c.getCardId() + 2;
+			} else {
+				nextCardId = 0;
+			}
 		}
 
 	}
