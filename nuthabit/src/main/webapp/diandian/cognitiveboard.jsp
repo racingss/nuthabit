@@ -89,9 +89,11 @@ System.out.println(cardImg);
 	}
 	.spanline1{
 		margin-top:-4.2rem;
+		display:none;
 	}
 	.spanline2{
 		margin-top:-0.5rem;
+		display:none;
 	}
 	
 	.opacityShadow{
@@ -109,6 +111,7 @@ System.out.println(cardImg);
     	z-index: 9999999999;
     	border-radius: 1rem;
    		margin-left: 10%;
+   		height: 80%;
 	}
 	.mainboard span{
 		display: inline-block;
@@ -279,7 +282,7 @@ System.out.println(cardImg);
 		    <%
 		    CardPic first = (CardPic)cardColl.iterator().next();
 		    %>
-			<div class="mainboard boxShadow"  style="<%if(c.getShowType()==1)out.print("display:none");%>">
+			<div class="mainboard boxShadow" >
 					<img src="<%=first.getImgurl()%>" class="itemimg magrginbottom" >
 					<span class="spanline1"><%
 					CardMeaning cmf1 =CardMeaning.getStaticCard(first.getPicId(), languageId);
@@ -290,7 +293,7 @@ System.out.println(cardImg);
 					if(cmf2!=null)
 						out.print(cmf2.getMeaning());
 					%></span>
-					<img class="cancelimg" src="/diandian/frame/cancel.png" style="<%if(c.getShowType()==0)out.print("display:none");%>">
+					<img class="cancelimg" src="/diandian/frame/cancel.png" style="display:none">
 					<%
 					if(first.getSound()!=null && first.getSound().length()>2){
 					%>
@@ -312,7 +315,7 @@ System.out.println(cardImg);
 			while(picit.hasNext()){
 				CardPic fpic = (CardPic)picit.next();
 				%>
-				<div class="item" id="item<%=fpic.index %>" index="<%=fpic.index %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;<%if(c.getShowType()==0)out.print("display:none");%>">
+				<div class="item" id="item<%=fpic.index %>" index="<%=fpic.index %>" picId="<%=fpic.getPicId() %>" style="top: <%=fpic.getTopP()%>%;left: <%=fpic.getLeftP()%>%;width: <%=fpic.getWidthP()%>rem;display:none">
 					<img src="<%=fpic.getImgurl() %>" class="itemimg"  >
 					<span class="spanline1"  style="margin-top:<%=fpic.getMarginTop()%>rem;"><%
 					CardMeaning cm1 = CardMeaning.getStaticCard(fpic.getPicId(), languageId);
@@ -418,7 +421,10 @@ System.out.println(cardImg);
 			setTimeout(function(){
 				$(".xialadiv").animate({top:'0%'},2000);
 				$(".headbar").animate({top:'-10%'},2000);
-			},3000);	
+			},3000);
+			$(".spanline1").hide();
+			$(".spanline2").hide();
+			
 		}
 		
 		
@@ -433,21 +439,17 @@ System.out.println(cardImg);
 			},times);
 			$(".timediv").css({'width':'0%'});
 			$(".timediv").animate({width:'100%',opacity:'0.4'},times);
-		}else{
-			setTimeout(function(){
-				document.getElementById("sound_"+index+"_<%=languageId%>").play();
-			},500);
-			
 		}
 	}
 	
 	function playCurrent(){
-		setTimeout(function(){
-			document.getElementById("sound_"+index+"_<%=languageId%>").play();
-		},500);
+		
 		if(document.getElementById("effect_"+index)!=null){
 			$(".effecthidden").show();
 			if(autoplay==1){
+				setTimeout(function(){
+					document.getElementById("sound_"+index+"_<%=languageId%>").play();
+				},500);
 				setTimeout(function(){
 					if(document.getElementById("effect_"+index)!=null)
 						audioAutoPlay1("effect_"+index);},4500);	
@@ -519,6 +521,8 @@ System.out.println(cardImg);
 	function changeItem(){
 		$(".headnum").text(index+"/<%=nums%>");
 		$(".mainboard").children(".itemimg").attr("src",$("#item"+index).children("img").attr("src"));
+		$(".spanline1").hide();
+		$(".spanline2").hide();
 		console.log($("#item"+index).children("spanline1").text());
 		$(".mainboard").children(".spanline1").text($("#item"+index).children(".spanline1").text());
 		$(".mainboard").children(".spanline2").text($("#item"+index).children(".spanline2").text());
@@ -550,7 +554,13 @@ System.out.println(cardImg);
 				$(".headbar").animate({top:'-10%'},2000);
 			},times);
 		})			
+		
+		$(".itemimg").click(function(){
 			
+			$(".spanline1").show();
+			$(".spanline2").show();
+		})
+		
 		
 		$(".spanline1").click(function(){
 			document.getElementById("sound_"+index+"_<%=languageId%>").play();
