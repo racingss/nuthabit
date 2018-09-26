@@ -104,6 +104,11 @@ Kehu k = new KehuUtil().getKehu(request, response);
 					<img src="frame/parents-8.png">
 					<span><%=Menu.getMenu("userpr", languageId) %></span>
 				</a>
+				<a href="address.html">
+					<img src="frame/parents-6.png">
+					<span>收件地址</span>
+					<p></p>
+				</a>
 			</div>
 		</div>
 		
