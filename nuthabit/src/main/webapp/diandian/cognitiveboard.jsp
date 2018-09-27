@@ -19,15 +19,13 @@ String autoplay="0";
 if(request.getParameter("autoplay")!=null)
 	autoplay="1";
 
-String title= c.getMeaning(languageId,c.getCardId())+"_幼儿认知卡片_亲子教育好帮手_卡片点点为您精心准备";
-String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
+String title= c.getMeaning(languageId,c.getCardId())+"_儿童认知卡片_亲子教育好帮手_卡片点点为您精心准备";
+String detail="卡片点点—儿童语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
 String cardImg = "http://www.suyufuwu.com";
 if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
 	cardImg+="/"+c.getSecondPic();
 else
 	cardImg+=c.getImg();
-
-System.out.println(cardImg);
 %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -700,10 +698,12 @@ if(request.getSession().getAttribute("subscribe")!=null && request.getSession().
 	<script type="text/javascript">
 	$(function(){
 		setTimeout(function(){
-			$(".itemimg").attr("src","/diandian/frame/erweima_gzz.jpg");
-			$(".spanline1").text("请先关注我们的公众号");
-			$(".spanline2").text("谢谢");	
-		},15000);
+			//$(".itemimg").attr("src","/diandian/frame/erweima_gzz.jpg");
+			//$(".spanline1").text("请先关注我们的公众号");
+			//$(".spanline2").text("谢谢");
+			location.href="http://www.suyufuwu.com/diandian/weiguanzhu.jsp";
+			return;
+		},10000);
 	});
 	</script>
 	<%	

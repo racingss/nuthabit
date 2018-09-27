@@ -57,23 +57,19 @@ public class CardUpload {
 		Book b = new Book();
 		long preCardId = 0;
 		long nextCardId = 0;
-		for (int i = 0; i <= 16; i++) {
+		for (int i = 1; i <= 17; i++) {
 			Card c = new Card();
-			c.setMeaning("欢乐农场（" + i + "）");
-			c.setCardIndex(i+1);
-			c.setDefaultPic("diandian/bookimg/nongchang/" + i + ".jpg");
-			c.setBookId(7);
-			c.setSecondPic("diandian/bookimg/nongchang/" + i + ".jpg");
+			c.setMeaning("猜猜我是谁（" + i + "）");
+			c.setCardIndex(i);
+			//c.setDefaultPic("diandian/bookimg/whoami/" + i + ".png");
+			c.setBookId(8);
+			c.setSecondPic("diandian/bookimg/whoami/" + i + ".png");
 			c.setPreCardId(preCardId);
 			c.setNextCardId(nextCardId);
 			c = new CardDAO().addCard(c);
 			System.out.println(c.toString());
 			preCardId = c.getCardId();
-			if (i < 9) {
-				nextCardId = c.getCardId() + 2;
-			} else {
-				nextCardId = 0;
-			}
+			nextCardId = c.getCardId() + 2;
 		}
 
 	}

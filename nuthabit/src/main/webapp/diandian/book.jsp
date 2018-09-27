@@ -19,8 +19,8 @@ String autoplay="0";
 if(request.getParameter("autoplay")!=null)
 	autoplay="1";
 
-String title= b.getBookName()+"_幼儿认知书_亲子教育好帮手_卡片点点为您精心准备";
-String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
+String title= b.getBookName()+"_儿童认知书_亲子教育好帮手_卡片点点为您精心准备";
+String detail="卡片点点—儿童语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
 String cardImg = "http://www.suyufuwu.com/"+b.getDefaultPic();
 /*
 if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
@@ -202,7 +202,14 @@ CardPic first=null;
 <script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 <body onload="load()">
-
+			<a href="#" style="position: fixed;bottom: 5%;right: 2%;z-index: 99;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);
+    border-radius: 50%;">
+				<img alt="" src="/diandian/frame/lu.png" class="hearbarimg startRecord" id="startRecord">
+			</a>
+			<a href="#" style="position: fixed;bottom: 5%;right: 15%;z-index: 99;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);
+    border-radius: 50%;">
+				<img alt="" src="/diandian/frame/chuan.png" class="hearbarimg playVoice" id="playVoice" style="display:none">
+			</a>
 <%
 Iterator bookIt = bookColl.iterator();
 while(bookIt.hasNext()){
@@ -230,7 +237,7 @@ while(bookIt.hasNext()){
 			</a>
 		</div>
 		<div class="headbar">
-			<a href="/diandian/">
+			<a href="/diandian/booklist.html">
 				<img alt="" src="/diandian/frame/h0.png" class="hearbarimg">
 			</a>
 			<%
@@ -261,6 +268,8 @@ while(bookIt.hasNext()){
 				<img alt="" src="/diandian/frame/h5.png" class="hearbarimg">
 			</a>
 			<%}%>
+			
+			
 			
 						
 		</div>		
@@ -699,9 +708,11 @@ if(request.getSession().getAttribute("subscribe")!=null && request.getSession().
 	<script type="text/javascript">
 	$(function(){
 		setTimeout(function(){
-			$(".itemimg").attr("src","/diandian/frame/erweima_gzz.jpg");
-			$(".spanline1").text("请先关注我们的公众号");
-			$(".spanline2").text("谢谢");	
+			//$(".itemimg").attr("src","/diandian/frame/erweima_gzz.jpg");
+			//$(".spanline1").text("请先关注我们的公众号");
+			//$(".spanline2").text("谢谢");
+			location.href="http://www.suyufuwu.com/diandian/weiguanzhu.jsp";
+			return;
 		},10000);
 	});
 	</script>
@@ -722,6 +733,9 @@ $(function(){
                 jsApiList: [//需要调用的JS接口列表
                     'checkJsApi',//判断当前客户端版本是否支持指定JS接口
                     'onMenuShareTimeline',//分享给好友
+                    'startRecord',
+                    'stopRecord',
+                    'playVoice',
                     'onMenuShareAppMessage'//分享到朋友圈
                 ]
             });   
@@ -769,6 +783,65 @@ wx.ready(function () {
     wx.error(function (res) {
         alert(res.errMsg);
     });
+    
+    
+    var voice = {
+  	    localId: '',
+  	    serverId: ''
+  	}
+    var recordFlag=0;
+    
+    document.querySelector('.startRecord').onclick = function () {
+    	if(recordFlag==0){
+    		recordFlag=1;
+    		document.getElementById('startRecord').src='/diandian/frame/h2_1 2.png';
+    		document.getElementById('playVoice').style.display='none';
+    		
+    		wx.startRecord({
+    	          cancel: function () {
+    	            
+    	          }
+    	    });
+    	}else{
+    		recordFlag=0;
+    		 wx.stopRecord({
+    	          success: function (res) {
+    	            voice.localId = res.localId;
+    	            document.getElementById('startRecord').src='/diandian/frame/lu.png';
+    	            document.getElementById('playVoice').style.display='block';
+    	            $('.playVoice').show();
+    	            alert('录制成功，即将自动播放，您可以点旁边击上传按钮上传到服务器上');
+    	            wx.playVoice({
+    	      	      localId: voice.localId
+    	      	    });
+    	     },
+    	          fail: function (res) {
+    	            alert(JSON.stringify(res));
+    	          }
+    	     });
+    	}
+        
+      };
+
+      wx.onVoiceRecordEnd({
+        complete: function (res) {
+          voice.localId = res.localId;
+          alert('自动结束');
+          wx.playVoice({
+    	      localId: voice.localId
+    	  });
+        }
+      });
+      
+      document.querySelector('.playVoice').onclick = function () {
+    	    if (voice.localId == '') {
+    	      alert('请先录音');
+    	      return;
+    	    }
+    	    wx.playVoice({
+    	      localId: voice.localId
+    	    });
+       };
 });
 </script>
 </body>

@@ -16,6 +16,10 @@ String url = request.getRequestURI();
         <span><%=Menu.getMenu("discover", languageId) %></span>
     </a>
      -->
+    <a  <%if(url.indexOf("booklist")!=-1){ %>class="active"<%} %> href="booklist.html">
+        <i></i>
+        <span>精品</span>
+    </a>
     <a <%if(url.indexOf("subscribe")!=-1){ %>class="active"<%} %>  href="subscribe.html">
         <i></i>
         <span><%=Menu.getMenu("order", languageId) %></span>

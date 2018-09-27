@@ -95,6 +95,11 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("myRecentColl", dao.getCardListRecent(k.getId()));
 			// 搜索
 			request.setAttribute("searchHistory", new SearchDAO().getSearchBykId(k.getId()));
+			
+			BookDAO bookdao = new BookDAO();
+
+			request.setAttribute("bookColl", bookdao.getBookList());
+
 
 			request.getRequestDispatcher("/diandian/home.jsp").forward(request, response);
 		} catch (Exception e) {

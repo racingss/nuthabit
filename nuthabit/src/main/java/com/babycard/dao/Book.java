@@ -10,6 +10,15 @@ public class Book {
 	private long status = 0;
 	private long firstCardId = 0;
 	private String defaultPic = null;
+	private String cover = null;
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 
 	public String getDefaultPic() {
 		return defaultPic;
@@ -86,6 +95,7 @@ public class Book {
 			this.setStatus(rs.getLong("status"));
 			this.setFirstCardId(rs.getLong("firstCardId"));
 			this.setDefaultPic(rs.getString("defaultPic"));
+			this.setCover(rs.getString("cover"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

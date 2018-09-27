@@ -4,9 +4,10 @@
     pageEncoding="UTF-8"%>
 <%
 long languageId = new LanguageHttp().getLanguageId(request);
-String title="卡片点点_幼儿语言启蒙教育平台_亲子教育好帮手";
+String title="卡片点点_儿童语言启蒙教育平台_亲子教育好帮手";
 String cardImg="http://www.suyufuwu.com/images/logo.jpg";
-String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
+String detail="卡片点点—儿童语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
+Collection bookColl = (Collection)request.getAttribute("bookColl");
 %>
 <!DOCTYPE html>
 <html>
@@ -130,26 +131,23 @@ String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双�
 			<div class="banner">
 			    <div class="swiper-container">
 			        <div class="swiper-wrapper">
-			        	<div class="swiper-slide">
-			            	<a href="/diandian/book.html?bookId=1">
-								<img src="haibao/hb4.jpeg">
-							</a>
-			            </div>
-			        	<div class="swiper-slide">
-			            	<a href="/card/cardlist.html?cardId=2274">
-								<img src="haibao/hb3.jpeg">
-							</a>
-			            </div>
-			            <div class="swiper-slide">
-			            	<a href="/card/cardlist.html?cardId=2256">
-								<img src="haibao/hb1.png">
-							</a>
-			            </div>
-			            <div class="swiper-slide">
-			            	<a href="/card/cardlist.html?cardId=2264">
-								<img src="haibao/hb2.png">
-							</a>
-			            </div>
+			        	<%
+						Iterator it =bookColl.iterator();
+			        	int limiti=4;
+						while(it.hasNext() && limiti-->0){
+							Book b = (Book)it.next();
+							if(b.getCover()==null)
+								continue;
+							%>
+							<div class="swiper-slide">
+				            	<a href="/diandian/booklist.html">
+									<img src="/<%=b.getCover()%>">
+								</a>
+				            </div>
+				        	<%
+						}
+						%>
+			        	
 			        </div>
 			        <div class="swiper-pagination"></div>
 			    </div>

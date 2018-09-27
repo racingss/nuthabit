@@ -17,7 +17,7 @@ Kehu k = new KehuUtil().getKehu(request, response);
 TestHttp testHttp = new TestHttp();
 
 String title= c.getMeaning(languageId,c.getCardId())+"_快来测一测_看看你能认出多少_卡片点点为您精心准备";
-String detail="卡片点点—幼儿语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
+String detail="卡片点点—儿童语言启蒙教育平台，支持中英双语音，法德日韩俄等全球主流26种以上的语言";
 String cardImg = "http://www.suyufuwu.com";
 if(c.getImg().indexOf("gif")!=-1 && c.getSecondPic()!=null)
 	cardImg+="/"+c.getSecondPic();

@@ -4,8 +4,8 @@
 <html lang="zh"><head>    
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>卡片点点Cardpopo——幼儿启蒙教育陪伴平台</title>
-<meta name="description"  content="卡片点点Cardpopo——幼儿启蒙教育陪伴平台，帮助拓展孩子的可能性，引导孩子发展成为具有国际性视野和思维的全球化人才。 我们提供1-4岁+的幼儿认知卡片软件，参考格塞尔婴幼儿发展量表，分为5大类3个级别，支持中音双语音，20种以上文字。" />
+<title>卡片点点Cardpopo——儿童启蒙教育陪伴平台</title>
+<meta name="description"  content="卡片点点Cardpopo——儿童启蒙教育陪伴平台，帮助拓展孩子的可能性，引导孩子发展成为具有国际性视野和思维的全球化人才。 我们提供1-4岁+的幼儿认知卡片软件，参考格塞尔婴幼儿发展量表，分为5大类3个级别，支持中音双语音，20种以上文字。" />
 
 <script src="/card/js/jquery.js"></script>
 <style>

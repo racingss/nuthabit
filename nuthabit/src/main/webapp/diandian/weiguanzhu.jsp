@@ -29,7 +29,7 @@
 	<div class="page subscribe">
 		<div>
 			<div class="tip"> 
-				<p>您还未关注我们的公众号</p>
+				<p>请先关注公众号 卡片点点</p>
 			</div>
 			<div class="vip">
 				<div class="left">
@@ -42,18 +42,16 @@
 					</li>
 					<li>
 						<i></i>
-						<p>专业测试和复习功能</p>
+						<p>超多积分兑换礼品</p>
 					</li>
 					<li>
 						<i></i>
-						<p>自制卡片书上传赚钱</p>
+						<p>育儿资源交换互助群</p>
 					</li>
 				</ul>
 			</div>
 			<div class="list" style="text-align: center;">
-				<img alt="" src="/diandian/frame/kapiandiandian.jpeg"  style="width:70%">
-				<br/>
-				<img alt="" src="/diandian/frame/erweima_gzz.jpg" style="width:40%">
+				<img alt="" src="/diandian/frame/erweima_gzz.jpg" style="width:60%">
 			</div>
 			
 		</div>
