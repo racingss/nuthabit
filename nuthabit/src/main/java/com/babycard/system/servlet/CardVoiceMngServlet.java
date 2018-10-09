@@ -1,6 +1,6 @@
-package com.babycard.servlet;
+package com.babycard.system.servlet;
 
-import java.io.IOException;
+import java.io.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,15 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.babycard.dao.*;
 import com.babycard.util.*;
+import com.babycard.wx.AccessToken;
+import com.gson.WeChat;
+import com.gson.bean.Attachment;
 
-@WebServlet("/diandian/booklist.html")
-public class BookListServlet extends HttpServlet {
+@WebServlet("/diandian/mng/voicemng.html")
+public class CardVoiceMngServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public BookListServlet() {
+	public CardVoiceMngServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -36,23 +39,16 @@ public class BookListServlet extends HttpServlet {
 
 			Kehu k = new KehuUtil().getKehu(request, response);
 			if (k == null) {
-				request.getSession().setAttribute("booklist", "t");
 				response.sendRedirect("/card/wx_login.jsp");
 				return;
 			}
 
-			BookDAO bookdao = new BookDAO();
 
-			request.setAttribute("bookColl", bookdao.getBookList());
+			VoiceDAO dao = new VoiceDAO();
+			request.setAttribute("voiceColl", dao.getAll());
+			request.getRequestDispatcher("/diandian/voicemng.jsp").forward(request, response);
 			
-			KehuDAO kDAO = new KehuDAO();
-			String desc="精品书展示活动";
-			if(!kDAO.hasUpdateJifen(k.getId(), desc)){
-				kDAO.updateJifen(k.getId(), 5, true, desc);
-				request.setAttribute("jiangli", "5");
-			}
-
-			request.getRequestDispatcher("/diandian/booklist.jsp").forward(request, response);
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

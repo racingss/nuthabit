@@ -36,6 +36,9 @@ if(session.getAttribute("cardId")!=null){
 }else if(session.getAttribute("subscribe")!=null){
 	url = "/diandian/subscribe.html";
 	session.removeAttribute("subscribe");
+}else if(session.getAttribute("booklist")!=null){
+	url = "/diandian/booklist.html";
+	session.removeAttribute("booklist");
 }else if(session.getAttribute("poster")!=null){
 	url = "/diandian/poster.html";
 	session.removeAttribute("poster");

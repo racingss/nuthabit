@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -379,11 +380,59 @@ public class AccessToken {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void templateRenwu(String openId) {
+		try {
+			Message m = new Message();
+			TemplateData t = new TemplateData(openId, "vgqEbhKnUehAbxEsDXkfT7VgF1pw9GY4pU32b5PnpCA",
+						"http://www.suyufuwu.com/diandian/booklist.html");
+			t.setTopcolor("#08c");
+			t.push("first", "您有新的学习任务啦");
+			t.push("keyword1", "动物派对/比一比/猜猜我是谁");
+			t.push("keyword2", "小动物猜猜看");
+			t.push("keyword3", "2018年10月8号");
+			t.push("keyword4", "3天内");
+			t.push("keyword5", "5个积分");
+			t.push("remark", "千万别忘记咯，卡片点点为您精心准备");	
+			String accessToken = AccessToken.getToken();
+			com.alibaba.fastjson.JSONObject j = m.templateSend(accessToken, t);
+			System.out.println(j.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String args[]) {
 		// System.out.println(new AccessToken().erweimaUrl(2749));
 		// new AccessToken().menu();
-		new AccessToken().templateHuodong("oH97e0ubz6HBpwQ4u8uelW7EuuFo", "小V", 5, 0);
+		
+		Collection coll = new KehuDAO().getAll();
+		Iterator it = coll.iterator();
+		int i=0;
+		while(it.hasNext()){
+			Kehu k = (Kehu)it.next();
+			System.out.println(i+++":"+k.getOpenId());
+			try {
+				Thread.sleep(2000);
+//				new AccessToken().templateRenwu(k.getOpenId());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+//		
 
 	}
 

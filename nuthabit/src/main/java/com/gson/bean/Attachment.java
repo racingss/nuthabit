@@ -71,4 +71,13 @@ public class Attachment {
 	public String getSuffix() {
 		return suffix;
 	}
+
+	@Override
+	public String toString() {
+		return "Attachment [fileName=" + fileName + ", fullName=" + fullName + ", suffix=" + suffix + ", contentLength="
+				+ contentLength + ", contentType=" + contentType + ", fileStream=" + fileStream + ", error=" + error
+				+ "]";
+	}
+	
+	
 }

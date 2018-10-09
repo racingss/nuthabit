@@ -208,7 +208,11 @@ CardPic first=null;
 			</a>
 			<a href="#" style="position: fixed;bottom: 5%;right: 15%;z-index: 99;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);
     border-radius: 50%;">
-				<img alt="" src="/diandian/frame/chuan.png" class="hearbarimg playVoice" id="playVoice" style="display:none">
+				<img alt="" src="/diandian/frame/h2.png" class="hearbarimg playVoice" id="playVoice" style="display:none">
+			</a>
+			<a href="#" style="position: fixed;bottom: 5%;right: 28%;z-index: 99;box-shadow: 0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.1);
+    border-radius: 50%;">
+				<img alt="" src="/diandian/frame/chuan.png" class="hearbarimg uploadVoice" id="uploadVoice" style="display:none">
 			</a>
 <%
 Iterator bookIt = bookColl.iterator();
@@ -515,6 +519,8 @@ while(bookIt.hasNext()){
 			$(".page").hide();
 			$("#page_"+index).show();
 			return;
+		}else{
+			alert('最后一页啦');
 		}
 		
 	}
@@ -525,6 +531,8 @@ while(bookIt.hasNext()){
 			$(".page").hide();
 			$("#page_"+index).show();
 			return;
+		}else{
+			alert('请从右向左滑动到第二页');
 		}
 	}
 	
@@ -736,6 +744,7 @@ $(function(){
                     'startRecord',
                     'stopRecord',
                     'playVoice',
+                    'uploadVoice',
                     'onMenuShareAppMessage'//分享到朋友圈
                 ]
             });   
@@ -796,6 +805,7 @@ wx.ready(function () {
     		recordFlag=1;
     		document.getElementById('startRecord').src='/diandian/frame/h2_1 2.png';
     		document.getElementById('playVoice').style.display='none';
+    		document.getElementById('uploadVoice').style.display='none';
     		
     		wx.startRecord({
     	          cancel: function () {
@@ -808,9 +818,12 @@ wx.ready(function () {
     	          success: function (res) {
     	            voice.localId = res.localId;
     	            document.getElementById('startRecord').src='/diandian/frame/lu.png';
+    	            document.getElementById('playVoice').src='/diandian/frame/h2_1 2.png';
     	            document.getElementById('playVoice').style.display='block';
+    	            document.getElementById('uploadVoice').style.display='block';
     	            $('.playVoice').show();
     	            alert('录制成功，即将自动播放，您可以点旁边击上传按钮上传到服务器上');
+    	            
     	            wx.playVoice({
     	      	      localId: voice.localId
     	      	    });
@@ -833,15 +846,49 @@ wx.ready(function () {
         }
       });
       
+      wx.onVoicePlayEnd({
+   	  success: function (res) {
+   	  //var localId = res.localId; // 返回音频的本地ID
+   		document.getElementById('playVoice').src='/diandian/frame/h2.png';
+   	  }
+   	  });
+      
       document.querySelector('.playVoice').onclick = function () {
     	    if (voice.localId == '') {
     	      alert('请先录音');
     	      return;
     	    }
+    	    document.getElementById('playVoice').src='/diandian/frame/h2_1 2.png';
     	    wx.playVoice({
     	      localId: voice.localId
     	    });
        };
+       
+       
+       document.querySelector('.uploadVoice').onclick = function () {
+   	    if (voice.localId == '') {
+   	      alert('请先录音');
+   	      return;
+   	    }
+   	 	document.getElementById('uploadVoice').style.display='none';
+	   	 wx.uploadVoice({
+	   		localId: voice.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+	   		isShowProgressTips: 1, // 默认为1，显示进度提示
+	   		success: function (res) {
+	   			var serverId = res.serverId; // 返回音频的服务器端ID
+	   			$.post("/diandian/voice.html",
+						  {
+	   						cardId:1,
+							picId:1,
+							mediaId:serverId
+						  },
+						  function(data,status){
+							  alert('上传成功');
+							   
+				 });
+	   		}
+	   	});
+      };
 });
 </script>
 </body>

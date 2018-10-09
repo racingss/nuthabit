@@ -131,6 +131,25 @@ KehuCardMember m = new KehuDAO().getMember(k.getKehuId());
 		
 		<%} %>
 		
+		
+		<%
+		
+		if(request.getAttribute("jiangli")!=null){
+		%>
+		<ol class="regV">
+			<div>
+				<div class="hd" style="height: 2.5rem;">
+					<div class="i1"></div>
+					<div class="i2">恭喜您获得了<%=request.getAttribute("jiangli").toString() %>个积分</div>
+				</div>
+				<div class="bd" style="height: 2.5rem;padding-top: 0.5rem;">
+					<a class="i7" id="subi7">关闭</a>
+				</div>
+			</div>
+		</ol>
+		
+		<%} %>
+		
 		<ol class="regV cardwindow" style="display:none">
 			<div>
 				<div class="hd">

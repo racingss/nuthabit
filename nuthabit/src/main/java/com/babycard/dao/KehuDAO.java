@@ -121,7 +121,7 @@ public class KehuDAO extends SampleDAO {
 		}
 		return;
 	}
-	
+
 	public void updateLanguageId_2(long kId, long languageId_2) {
 		Connection conn;
 		PreparedStatement ps;
@@ -143,10 +143,6 @@ public class KehuDAO extends SampleDAO {
 		}
 		return;
 	}
-	
-	
-	
-	
 
 	public void updateNickname(Kehu k) throws Exception {
 		Connection conn;
@@ -381,7 +377,7 @@ public class KehuDAO extends SampleDAO {
 				ps = conn.prepareStatement("update kehu set jifen =jifen+? where id=? ");
 			} else {
 				balance -= jifen;
-				//临时先取消
+				// 临时先取消
 				if (balance < 0) {
 					System.err.println("积分不够:" + kId + ":" + balance + ":" + plus + ":" + balance + ":" + ":" + jifen);
 					return false;
@@ -402,6 +398,35 @@ public class KehuDAO extends SampleDAO {
 			ps.setLong(5, balance);
 			ps.executeUpdate();
 			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+
+		return false;
+	}
+
+	public boolean hasUpdateJifen(long kId, String desc) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			
+			ps = conn.prepareStatement(
+					"select * from kehu_jifen_history where kId=? and description=?");
+			ps.setLong(1, kId);
+			ps.setString(2, desc);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				return true;
+			}
+			return false;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -665,7 +690,7 @@ public class KehuDAO extends SampleDAO {
 
 		return c;
 	}
-	
+
 	public Collection getFromlist(long fromId) {
 		Connection conn;
 		PreparedStatement ps;
@@ -816,25 +841,24 @@ public class KehuDAO extends SampleDAO {
 	public static void main(String[] arg) {
 		KehuDAO dao = new KehuDAO();
 		System.out.println(dao.getFromlist(2680).size());
-//		Collection coll = dao.getAll();
-//		Iterator it = coll.iterator();
-//		while(it.hasNext()){
-//			Kehu k = (Kehu)it.next();
-//			System.out.println(k.toString());
-//			KehuCardMember m =  dao.getMember(k.getKehuId());
-//			if(m==null){
-//				System.out.println("非付费用户");
-//				m= new KehuCardMember();
-//				m.setKehuId(k.getKehuId());
-//				m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
-//				dao.addMember(m);
-//			}else{
-//				System.out.println("付费用户");
-//			}
-//			
-//		}
-		
-		
+		// Collection coll = dao.getAll();
+		// Iterator it = coll.iterator();
+		// while(it.hasNext()){
+		// Kehu k = (Kehu)it.next();
+		// System.out.println(k.toString());
+		// KehuCardMember m = dao.getMember(k.getKehuId());
+		// if(m==null){
+		// System.out.println("非付费用户");
+		// m= new KehuCardMember();
+		// m.setKehuId(k.getKehuId());
+		// m.setMemberLevel(m.MEMBER_LEVEL_LIFELONG);
+		// dao.addMember(m);
+		// }else{
+		// System.out.println("付费用户");
+		// }
+		//
+		// }
+
 	}
 
 }
