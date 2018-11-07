@@ -54,20 +54,27 @@ public class CardUpload {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		newBookCard("动物派对",17,"dongwupaidui",10);
+		newBookCard("猫陷阱",13,"maoxianjin");
 
 	}
 
-	private static void newBookCard(String bookName,int bookPage,String bookUrl,long bookId) {
+	private static void newBookCard(String bookName,int cardNums,String bookUrl) {
 		Book b = new Book();
+		b.setBookName(bookName);
+		b.setCardNums(cardNums);
+		b.setDefaultPic("diandian/bookimg/"+bookUrl+"/1.jpg");
+		b.setCover("diandian/bookimg/"+bookUrl+".jpg");
+		new BookDAO().addBook(b);
+		b = new BookDAO().getBookByBookName(bookName);
+		
 		long preCardId = 0;
 		long nextCardId = 0;
-		for (int i = 1; i <= bookPage; i++) {
+		for (int i = 1; i <= cardNums; i++) {
 			Card c = new Card();
 			c.setMeaning(bookName+"（" + i + "）");
 			c.setCardIndex(i);
 			//c.setDefaultPic("diandian/bookimg/whoami/" + i + ".png");
-			c.setBookId(bookId);
+			c.setBookId(b.getBookId());
 			c.setSecondPic("diandian/bookimg/"+bookUrl+"/" + i + ".jpg");
 			c.setPreCardId(preCardId);
 			c.setNextCardId(nextCardId);

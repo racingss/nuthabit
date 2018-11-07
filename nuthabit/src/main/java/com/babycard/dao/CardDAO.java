@@ -1192,6 +1192,34 @@ public class CardDAO extends SampleDAO {
 		}
 		return coll;
 	}
+	
+	
+	public Collection getAllCardListOrderByRand() {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		Collection coll = new ArrayList();
+		try {
+			conn = getConnection();
+			// StringBuffer sb = new StringBuffer("select * from baby_card where
+			// kId=0 order by cardId desc limit ");
+			StringBuffer sb = new StringBuffer("select * from baby_card where status=0 order by RAND() limit 0,10");
+			ps = conn.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				coll.add(new Card(rs));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return coll;
+	}
 
 	public Collection getAllCardListOrderByAZ(long page) {
 		Connection conn;
@@ -1726,7 +1754,7 @@ public class CardDAO extends SampleDAO {
 
 	public static void main(String arg[]) {
 		CardDAO dao = new CardDAO();
-		Collection coll = dao.getCardListByBookId(3);
+		Collection coll = dao.getAllCardListOrderByRand();
 		Iterator it =coll.iterator();
 		while(it.hasNext()){
 			Card c =(Card)it.next();

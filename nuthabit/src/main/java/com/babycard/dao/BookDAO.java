@@ -18,9 +18,12 @@ public class BookDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
-			ps = conn.prepareStatement("insert into baby_book(bookName,kId)values(?,?) ");
+			ps = conn.prepareStatement("insert into baby_book(bookName,kId,cardNums,defaultPic,cover)values(?,?,?,?,?) ");
 			ps.setString(1, b.getBookName());
 			ps.setLong(2, b.getkId());
+			ps.setLong(3, b.getCardNums());
+			ps.setString(4, b.getDefaultPic());
+			ps.setString(5, b.getCover());
 			ps.executeUpdate();
 			ps.close();
 		} catch (Exception e) {
@@ -30,6 +33,8 @@ public class BookDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 	}
+	
+	
 
 	public Book getBookById(long bookId) {
 		Connection conn;
@@ -42,6 +47,30 @@ public class BookDAO extends SampleDAO {
 			conn = getConnection();
 			ps = conn.prepareStatement("select * from baby_book where bookId=?");
 			ps.setLong(1, bookId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return new Book(rs);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
+		return null;
+	}
+	
+	public Book getBookByBookName(String bookName) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("select * from baby_book where bookName=? order by bookId desc");
+			ps.setString(1, bookName);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				return new Book(rs);

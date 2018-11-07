@@ -56,6 +56,14 @@ public class KehuUtil {
 			}
 		}
 
+		// 客户头像下载
+		if (k != null && k.getHeadimgurl() != null && k.getHeadimgurl().indexOf("thirdwx.qlogo.cn") != -1) {
+			String headUrl = "/diandian/headimg/" + System.currentTimeMillis() + ".jpg";
+			String distUrl = request.getSession().getServletContext().getRealPath("/") + headUrl;
+			Thread t = new Thread(new ImageThread(k.getHeadimgurl(), distUrl, k.getId(), headUrl));
+			t.start();
+		}
+
 		return k;
 	}
 
@@ -224,6 +232,14 @@ public class KehuUtil {
 			cookie.setPath("/");
 			response.addCookie(cookie);
 
+			// 客户头像下载
+			if (k.getHeadimgurl().indexOf("thirdwx.qlogo.cn") != -1) {
+				String headUrl = "/diandian/headimg/" + System.currentTimeMillis() + ".jpg";
+				String distUrl = request.getSession().getServletContext().getRealPath("/") + headUrl;
+				Thread t = new Thread(new ImageThread(k.getHeadimgurl(), distUrl, k.getId(), headUrl));
+				t.start();
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -295,30 +311,32 @@ public class KehuUtil {
 				k = dao.addKehu(k);
 				dao.updateJifen(k.getId(), JIFEN_REG, true, "注册");
 				k.setJifen(JIFEN_REG);
-				
-				
-				//如果有人推荐
-				if(fromId!=0){
-					System.out.println("有人推荐："+fromId);
+
+				// 如果有人推荐
+				if (fromId != 0) {
+					System.out.println("有人推荐：" + fromId);
 					int curr = dao.getFromlist(fromId).size();
-					//如果推荐数正好是5个
-					System.out.println("推荐数："+curr);
+					// 如果推荐数正好是5个
+					System.out.println("推荐数：" + curr);
 					Kehu kmh = dao.getKehuById(fromId);
-					if(curr==5){
-						//终身免费使用
+					if (curr == 5) {
+						// 终身免费使用
 						KehuCardMember km = new KehuCardMember();
-						
+
 						km.setKehuId(kmh.getKehuId());
 						km.setMemberLevel(km.MEMBER_LEVEL_LIFELONG);
 						dao.addMember(km);
 					}
-					if(curr<=5){
-						new AccessToken().templateHuodong(kmh.getOpenId(), u.getNickname(), curr, 5-curr);
+					if (curr <= 5) {
+						// 推荐5个用户免费得到299元会员资格，等待删除
+						new AccessToken().templateHuodong(kmh.getOpenId(), u.getNickname(), curr, 5 - curr);
 					}
-				}else{
+
+					// 提分获取提醒
+					new AccessToken().templateTuijian(kmh.getOpenId(), u.getNickname());
+				} else {
 					System.out.println("自己注册的");
 				}
-				
 
 				result = true;
 			} else {

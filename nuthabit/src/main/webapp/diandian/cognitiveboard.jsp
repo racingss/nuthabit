@@ -87,11 +87,11 @@ else
 	}
 	.spanline1{
 		margin-top:-4.2rem;
-		display:none;
+		//display:none;
 	}
 	.spanline2{
 		margin-top:-0.5rem;
-		display:none;
+		//display:none;
 	}
 	
 	.opacityShadow{
@@ -106,7 +106,7 @@ else
     	position: absolute;
     	width: 80%;
     	top: 9%;
-    	z-index: 9999999999;
+    	z-index: 8;
     	border-radius: 1rem;
    		margin-left: 10%;
    		height: 80%;
@@ -145,6 +145,17 @@ else
 	    position: absolute;
 	    top: 1rem;
 	    right: 1rem;
+	    border-radius: 0.5rem;
+	}
+	.morepix{
+		background: url(/card/images/add.jpg);
+	    background-size: 10rem 10rem;
+	    display: inline-block;
+	    width: 10rem;
+	    height: 10rem;
+	    position: absolute;
+	    bottom: 1rem;
+	    left: 1rem;
 	    border-radius: 0.5rem;
 	}
 	.arrow{
@@ -205,6 +216,20 @@ else
     	z-index: 99999;
     	width: 100%;
     	display:block;
+	}
+	.regV{
+	    position: absolute;
+	    height: 100%;
+	    width: 100%;
+	    top: 0;
+	    left: 0;
+	    background: rgba(0,0,0,.6);
+	    z-index: 9;
+	}
+	#imglist{
+		width: 80%;
+    	text-align: center;
+    	margin-left: 10%;
 	}
 </style>
 
@@ -291,13 +316,14 @@ else
 					if(cmf2!=null)
 						out.print(cmf2.getMeaning());
 					%></span>
-					<img class="cancelimg" src="/diandian/frame/cancel.png" style="display:none">
+					<img class="cancelimg canclebord" src="/diandian/frame/cancel.png" style="display:none">
 					<%
 					if(first.getSound()!=null && first.getSound().length()>2){
 					%>
 					<a href="#" class="effecthidden boxShadow">
 					<%} %>
-					</a>
+					<a href="#" class="morepix morepixabay"></a>
+					
 					<div class="picarrow leftpicarrow" >
 						<img alt="" src="/diandian/frame/left.png">
 					</div>
@@ -399,6 +425,12 @@ else
 	
 	</div>
 	
+	
+	<ol class="regV" style="display:none">
+		<img class="cancelimg" src="/diandian/frame/cancel.png" style="">
+		<div id="imglist">
+		</div>
+	</ol>
 
 	
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -420,8 +452,8 @@ else
 				$(".xialadiv").animate({top:'0%'},2000);
 				$(".headbar").animate({top:'-10%'},2000);
 			},3000);
-			$(".spanline1").hide();
-			$(".spanline2").hide();
+			//$(".spanline1").hide();
+			//$(".spanline2").hide();
 			
 		}
 		
@@ -519,8 +551,8 @@ else
 	function changeItem(){
 		$(".headnum").text(index+"/<%=nums%>");
 		$(".mainboard").children(".itemimg").attr("src",$("#item"+index).children("img").attr("src"));
-		$(".spanline1").hide();
-		$(".spanline2").hide();
+		//$(".spanline1").hide();
+		//$(".spanline2").hide();
 		console.log($("#item"+index).children("spanline1").text());
 		$(".mainboard").children(".spanline1").text($("#item"+index).children(".spanline1").text());
 		$(".mainboard").children(".spanline2").text($("#item"+index).children(".spanline2").text());
@@ -531,6 +563,10 @@ else
 	$(function(){
 		$(".cancelimg").click(function(){
 			$(".item").removeClass("opacityShadow");
+			$(".regV").hide();
+		})
+		
+		$(".canclebord").click(function(){
 			$(".mainboard").hide();
 		})
 		
@@ -674,6 +710,43 @@ else
 			}
 	    });
 		
+		function addElementDiv(src,bigsrc) {
+			var parent = document.getElementById("imglist");
+			var child=document.getElementsByTagName("pimage");
+			if(child!=null)
+				parent.removeChild(child);
+			
+			
+			var div = document.createElement("div");
+			div.setAttribute("class", "sdPlan cardsmallimg");
+			div.setAttribute("name", "pimage");
+			
+			var dianzan  = document.createElement("div");
+			dianzan.setAttribute("class", "addimg");
+			var img = document.createElement("img");
+			img.src = bigsrc;	
+			img.setAttribute("class", "smallpic");
+			img.onclick= function(){
+		    	//$(".card").attr("src",src);
+			};
+			div.appendChild(img);
+			div.appendChild(dianzan);
+			parent.appendChild(div);
+		}
+		
+		//more by pixabay
+	    $(".morepixabay").click(function(){
+	    	$(".regV").show();
+		    var API_KEY = '8642964-6d029d012d52e8af2d6ae089b';
+		    var URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent($(".mainboard").children(".spanline1").text());
+		    $.getJSON(URL, function(data){
+		    if (parseInt(data.totalHits) > 0)
+		        $.each(data.hits, function(i, hit){ console.log(hit.webformatURL);addElementDiv(hit.previewURL,hit.webformatURL); });
+		    else
+		        console.log('No hits');
+		    });
+	    });
+		
 
 	})
 </script>	
@@ -772,5 +845,8 @@ wx.ready(function () {
     });
 });
 </script>
+
+
+
 </body>
 </html>

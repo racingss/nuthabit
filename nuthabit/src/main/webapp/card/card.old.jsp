@@ -114,6 +114,19 @@ String displayMeaning=null;
 		    	window.location.href="/card/cardlist.html?static=t&cardId=<%=c.getCardId()%>&languageId="+$(this).attr("languageId");
 		    })
 		    
+		    
+		    //more by pixabay
+		    $("#webImg").click(function(){
+			    var API_KEY = '8642964-6d029d012d52e8af2d6ae089b';
+			    var URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent('<%=displayMeaning%>');
+			    $.getJSON(URL, function(data){
+			    if (parseInt(data.totalHits) > 0)
+			        $.each(data.hits, function(i, hit){ console.log(hit.webformatURL);addElementDiv(hit.previewURL,hit.webformatURL); });
+			    else
+			        console.log('No hits');
+			    });
+		    });
+		    
 	    })
 	 </script>
 	 <style type="text/css">
@@ -343,16 +356,7 @@ String displayMeaning=null;
     
     <script type="text/javascript">
     $(function(){
-	    $("#webImg").click(function(){
-		    var API_KEY = '8642964-6d029d012d52e8af2d6ae089b';
-		    var URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent('<%=displayMeaning%>');
-		    $.getJSON(URL, function(data){
-		    if (parseInt(data.totalHits) > 0)
-		        $.each(data.hits, function(i, hit){ console.log(hit.webformatURL);addElementDiv(hit.previewURL,hit.webformatURL); });
-		    else
-		        console.log('No hits');
-		    });
-	    });
+	    
 	    
 	    
 	    function addElementDiv(src,bigsrc) {

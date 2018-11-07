@@ -9,8 +9,10 @@ import java.security.KeyManagementException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -380,12 +382,42 @@ public class AccessToken {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void templateTuijian(String openId, String nickName) {
+		try {
+			Message m = new Message();
+			TemplateData t = new TemplateData(openId, "14Mg_EHvSXVQPohuab_FIZYZmD_Y5jaELTcla1JUD70",
+					"http://www.suyufuwu.com/diandian/parents.html");
+			t.setTopcolor("#08c");
+			t.push("first", "您好，有用户通过您的推荐进入平台！");
+			t.push("keyword1", nickName);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date date = new Date();
+			t.push("keyword2", sdf.format(date));
+			t.push("remark", "您获得了5个积分，可以用于兑换礼品");
+			String accessToken = AccessToken.getToken();
+			com.alibaba.fastjson.JSONObject j = m.templateSend(accessToken, t);
+			System.out.println(j.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public static void templateRenwu(String openId) {
 		try {
 			Message m = new Message();
 			TemplateData t = new TemplateData(openId, "vgqEbhKnUehAbxEsDXkfT7VgF1pw9GY4pU32b5PnpCA",
-						"http://www.suyufuwu.com/diandian/booklist.html");
+					"http://www.suyufuwu.com/diandian/booklist.html");
 			t.setTopcolor("#08c");
 			t.push("first", "您有新的学习任务啦");
 			t.push("keyword1", "动物派对/比一比/猜猜我是谁");
@@ -393,7 +425,7 @@ public class AccessToken {
 			t.push("keyword3", "2018年10月8号");
 			t.push("keyword4", "3天内");
 			t.push("keyword5", "5个积分");
-			t.push("remark", "千万别忘记咯，卡片点点为您精心准备");	
+			t.push("remark", "千万别忘记咯，卡片点点为您精心准备");
 			String accessToken = AccessToken.getToken();
 			com.alibaba.fastjson.JSONObject j = m.templateSend(accessToken, t);
 			System.out.println(j.toString());
@@ -415,24 +447,30 @@ public class AccessToken {
 	public static void main(String args[]) {
 		// System.out.println(new AccessToken().erweimaUrl(2749));
 		// new AccessToken().menu();
-		
+
+		//new AccessToken().templateTuijian("oH97e0mCWkwYzWur4YAMvXxFR85M", "小叮当");
+		if (true) {
+			return;
+		}
+
 		Collection coll = new KehuDAO().getAll();
 		Iterator it = coll.iterator();
-		int i=0;
-		while(it.hasNext()){
-			Kehu k = (Kehu)it.next();
-			System.out.println(i+++":"+k.getOpenId());
+		int i = 0;
+		while (it.hasNext()) {
+			Kehu k = (Kehu) it.next();
+			System.out.println(i++ + ":" + k.getOpenId());
 			try {
-				Thread.sleep(2000);
-//				new AccessToken().templateRenwu(k.getOpenId());
+				if(i<=78)
+					continue;
+				//Thread.sleep(5000);
+				new AccessToken().templateRenwu(k.getOpenId());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		
-//		
+
+		//
 
 	}
 

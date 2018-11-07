@@ -37,6 +37,9 @@ nav {
   color: #000;
   background: #8bd01f;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 nav span {
   line-height: 1.1rem;
@@ -47,6 +50,10 @@ nav span {
   left: .4rem;
   display: inline-block;
   margin: auto;
+}
+nav p {
+  color: #fff;
+  display: inline-block;
 }
 nav >a {
   width: .8rem;
@@ -70,6 +77,17 @@ nav >a.i2 {
 nav >a img {
   width: 100%;
   height: 100%;
+}
+nav a.back {
+  position: absolute;
+  left: .4rem;
+  background-image: url(../frame/nav-1.png);
+  background-size: .6rem .6rem;
+  background-position: center left;
+  height: 1.2rem;
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 1.2rem;
 }
 
 /* 标签栏 */
@@ -1868,3 +1886,484 @@ footer a.active span {
 }
 
 
+/* 积分兑换 */
+.integral {
+  background: #f0f6e6;
+}
+.integral .top {
+  background: #8bd01f;
+  overflow: auto;
+}
+.integral .search {
+  width: 100%;
+  height: 1.2rem;
+  font-size: .48rem;
+  text-align: center;
+  position: relative;
+  color: #000;
+  background: #8bd01f;
+  z-index: 2;
+  display: flex;
+  padding: 0 .4rem;
+  align-items: center;
+}
+.integral .search >a {
+  width: .8rem;
+  height: .8rem;
+  background: url(../frame/integral-2.png);
+  background-size: cover;
+}
+.integral .search >div {
+  flex: 1;
+  height: .8rem;
+  background: #fff;
+  border-radius: .4rem;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.integral .search >div i{
+  width: .6rem;
+  height: .6rem;
+  display: inline-block;
+  background-image: url(../frame/home-21.png);
+  margin: auto;
+  margin-left: .2rem;
+  margin-right: .2rem;
+  background-size: cover;
+}
+.integral .search >div input{
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: .35rem;
+  padding-right: 1rem;
+  flex: 1;
+  height: .7rem;
+}
+.integral .tabHd {
+  width: 100%;
+  padding-top: .4rem;
+  background: #8bd01f;
+  white-space:nowrap;
+  overflow-x: scroll;
+  position: relative;
+  z-index: 999;
+  height: 2.5rem;
+}
+.integral .tabHd >a {
+  height: 2.1rem;
+  width: 1.6rem;
+  border-radius:.8rem .8rem 0 0;
+  background: #c7e89c;
+  display: inline-block; 
+  margin-right: .1rem;
+  text-align: center;
+}
+.integral .tabHd >a:first-child {
+  margin-left: .25rem;
+}
+.integral .tabHd >a:last-child {
+  margin-right: .25rem;
+}
+.integral .tabHd >a >div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: .2rem;
+}
+.integral .tabHd >a i {
+  display: inline-block;
+  width: .8rem;
+  height: .8rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.integral .tabHd >a span {
+  color: #72a84f;
+  font-size: .38rem;
+  padding-bottom: .05rem;
+}
+.integral .tabHd >a p {
+  display: inline-block;
+  font-style: normal;
+  color: #72a84f;
+  font-size: .34rem;
+}
+.integral .tabHd >a:nth-child(1) i{
+  background-image: url(../frame/integral-tab-1.png);
+}
+.integral .tabHd >a:nth-child(1).active i{
+  background-image: url(../frame/integral-tab-1_active.png);
+}
+.integral .tabHd >a:nth-child(2) i{
+  background-image: url(../frame/integral-tab-2.png);
+}
+.integral .tabHd >a:nth-child(2).active i{
+  background-image: url(../frame/integral-tab-2_active.png);
+}
+.integral .tabHd >a:nth-child(3) i{
+  background-image: url(../frame/integral-tab-3.png);
+}
+.integral .tabHd >a:nth-child(3).active i{
+  background-image: url(../frame/integral-tab-3_active.png);
+}
+.integral .tabHd >a:nth-child(4) i{
+  background-image: url(../frame/integral-tab-4.png);
+}
+.integral .tabHd >a:nth-child(4).active i{
+  background-image: url(../frame/integral-tab-4_active.png);
+}
+.integral .tabHd >a:nth-child(5) i{
+  background-image: url(../frame/integral-tab-5.png);
+}
+.integral .tabHd >a:nth-child(5).active i{
+  background-image: url(../frame/integral-tab-5_active.png);
+}
+.integral .tabHd >a:nth-child(6) i{
+  background-image: url(../frame/integral-tab-6.png);
+}
+.integral .tabHd >a:nth-child(6).active i{
+  background-image: url(../frame/integral-tab-6_active.png);
+}
+.integral .tabHd >a.active {
+  background: #f0f6e6;
+}
+.integral .tabHd >a.active p{
+  color: #888888
+}
+.integral .tabHd >a.active span {
+  color: #000;
+}
+.integral .tabBd {
+  position: relative;
+  z-index: 9;
+}
+.integral .wrapper{
+  width: calc(100% - .4rem);
+  margin: auto;
+  margin-top: .4rem;
+  position: relative;
+}
+.integral .grid {
+  position: relative;
+  width: 100%;
+  column-count: 2;
+  column-gap: 0;
+}
+.integral .item {
+  break-inside: avoid;
+  box-sizing: border-box;
+  z-index: 1;
+  width: calc(100% - .4rem);
+  margin: auto;
+  background: #fff;
+  margin-bottom: .4rem;
+  border-radius: .15rem;
+  overflow: hidden;
+}
+.integral .pic{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.integral .info{
+
+}
+.integral .info >p {
+  font-size: .38rem;
+  padding: 0 .2rem;
+  padding-bottom: .2rem;
+  padding-top: .2rem;
+}
+.integral .info >span {
+  padding: 0 .2rem;
+  padding-bottom: .2rem;
+  border-bottom: 0.03rem dashed #e5e5e5;
+  display: flex;
+  align-items: center;
+}
+.integral .info >span.yuan {
+  font-size: .48rem;
+  color: #ff4343;
+}
+.integral .info >span.yuan i {
+  font-style: normal;
+  font-size: .34rem;
+  color: #ff4343;
+}
+.integral .info >span.jifen {
+  font-size: .48rem;
+  color: #ff9c00;
+}
+.integral .info >span.jifen i {
+  display: inline-block;
+  width: .4rem;
+  height: .4rem;
+  background-image: url(../frame/integral-3.png);
+  background-size: cover;
+}
+.integral .info >span.mianyi {
+  font-size: .38rem;
+  color: #ff4343;
+}
+.integral .info >div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1.1rem;
+  padding: 0 .2rem;
+}
+.integral .info >div .left {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.integral .info >div .left >div {
+  width: .65rem;
+  height: .65rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #eee;
+}
+.integral .info >div .left >div img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.integral .info >div .left span {
+  font-size: .34rem;
+  margin-left: .1rem;
+}
+.integral .info >div .right {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.integral .info >div .right i {
+  display: inline-block;
+  width: .6rem;
+  height: .6rem;
+  background-image: url(../frame/integral-1.png);
+  background-size: cover;
+}
+.integral .info >div .right span {
+
+}
+.addGoods {
+  background: #f0f6e6;
+}
+.addGoods nav {
+
+}
+.addGoods nav a.preview {
+  width: 1rem;
+  color: #fff;
+  position: absolute;
+  right: .4rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  font-size: .4rem;
+}
+.addGoods .box1 {
+  background: #fff;
+  margin-bottom: .3rem;
+}
+.addGoods .box1 >label {
+  height: 1.4rem;
+  display: flex;
+  font-size: .42rem;
+  width: calc(100% - .8rem);
+  margin: auto;
+  border-top: .03rem solid #e5e5e5;
+}
+.addGoods .box1 >label span{
+  width: 2rem;
+  display: flex;
+  align-items: center;
+}
+.addGoods .box1 >label input{
+  flex:1;
+  display: flex;
+  align-items: center;
+  font-size: .42rem;
+  border: none;
+  outline: none;
+}
+.addGoods .box1 .add {
+  overflow: auto;
+  position: relative;
+}
+.addGoods .box1 .add input {
+  background: rgba(255,255,255,0);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.addGoods .box1 .add img {
+  width: 100%;
+  height: auto;
+}
+
+.addGoods .box2 {
+  height: 1.4rem;
+  padding: 0 .4rem;
+  background: #fff;
+  display: flex;
+  font-size: .42rem;
+  margin-bottom: .3rem;
+  align-items: center;
+}
+.addGoods .box2 span {
+  width: 2rem;
+  display: flex;
+  align-items: center;
+}
+.addGoods .box2 input {
+  display: flex;
+  align-items: center;
+  font-size: .42rem;
+  border: none;
+  outline: none;
+  width: calc(100% - 4.8rem);
+  height: 100%;
+}
+.addGoods .box2 .select {
+  width: 2.8rem;
+  height: 1rem;
+  font-size: .42rem;
+  border-left: .03rem solid #e5e5e5;
+  padding-left: .2rem;
+  position: relative;
+}
+.addGoods .box2 .select:before {
+  content: '';
+  display: inline-block;
+  width: .6rem;
+  height: 1rem;
+  background-image: url(../frame/add-goods-3.png);
+  background-size: cover;
+  position: absolute;
+  right: 0;
+}
+.addGoods .box2 .select select {
+  height: 100%;
+  width: 100%;
+  font-size: .42rem;
+  border: none;
+  outline: none;
+  background: none;
+}
+.addGoods .box3 {
+  background: #fff;
+  padding: 0 .4rem;
+  margin-bottom: .3rem;
+}
+.addGoods .box3 .title {
+  height: 1.4rem;
+  font-size: .42rem;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+}
+.addGoods .box3 .add {
+  padding-bottom: .4rem;
+  overflow: auto;
+}
+.addGoods .box3 .add .item {
+  width: 2.8rem;
+  height: 2.8rem;
+  background: #eee;
+  float: left;
+  margin-right: calc(50% - 3 * 1.4rem);
+  margin-top: calc(50% - 3 * 1.4rem);
+  overflow: hidden;
+  position: relative;
+}
+.addGoods .box3 .add .item:nth-child(1),.addGoods .box3 .add .item:nth-child(2),.addGoods .box3 .add .item:nth-child(3) {
+  margin-top: 0;
+}
+.addGoods .box3 .add .item:nth-child(3n) {
+  margin-right: 0;
+}
+.addGoods .box3 .add .item img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+}
+.addGoods .box3 .add .item.addImg {
+  position: relative;
+  background-image: url(../frame/add-goods-2.png);
+  background-color: #fff;
+  background-size: cover;
+}
+.addGoods .box3 .add .item.addImg input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+
+.addGoods .box4 {
+  background: #fff;
+  padding: 0 .4rem;
+  margin-bottom: .6rem;
+}
+.addGoods .box4 .title {
+  height: 1.4rem;
+  font-size: .42rem;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  position: relative;
+}
+.addGoods .box4 .title span {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.4rem;
+  right: 0rem;
+  text-align: right;
+  color: #888888;
+  top: 0;
+  line-height: 1.4rem;
+}
+.addGoods .box4 textarea {
+  width: 100%;
+  height: 2.8rem;
+  border: none;
+  outline: none;
+  font-size: .42rem;
+}
+.addGoods .box5 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: .5rem;
+}
+.addGoods .box5 .submit {
+  width: calc(100% - 2rem);
+  margin: auto;
+  height: 1.2rem;
+  border-radius: .6rem;
+  background: #ffd200;
+  font-size: .42rem;
+  color: #000;
+  border: none;
+  margin: auto;
+}

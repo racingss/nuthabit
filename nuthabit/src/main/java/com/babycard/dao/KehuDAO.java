@@ -417,13 +417,12 @@ public class KehuDAO extends SampleDAO {
 		rs = null;
 		try {
 			conn = getConnection();
-			
-			ps = conn.prepareStatement(
-					"select * from kehu_jifen_history where kId=? and description=?");
+
+			ps = conn.prepareStatement("select * from kehu_jifen_history where kId=? and description=?");
 			ps.setLong(1, kId);
 			ps.setString(2, desc);
 			rs = ps.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				return true;
 			}
 			return false;
@@ -836,6 +835,27 @@ public class KehuDAO extends SampleDAO {
 			close(conn, ps, rs);
 		}
 		return getKehu("kehuId", k.getKehuId());
+	}
+
+	public void updateKehuHeadimg(long id, String headimgurl) {
+		Connection conn;
+		PreparedStatement ps;
+		ResultSet rs;
+		conn = null;
+		ps = null;
+		rs = null;
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement("update kehu set headimgurl=? where id=?");
+			ps.setString(1, headimgurl);
+			ps.setLong(2, id);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, ps, rs);
+		}
 	}
 
 	public static void main(String[] arg) {

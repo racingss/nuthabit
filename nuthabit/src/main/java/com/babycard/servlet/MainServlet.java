@@ -85,7 +85,8 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("favColl", dao.getCardListFav(k.getId()));
 			// 最新上架
 			// request.setAttribute("newColl", dao.getCardListByIndex(999));
-			request.setAttribute("newColl", dao.getAllCardListOrderByNew(1));
+			//request.setAttribute("newColl", dao.getAllCardListOrderByNew(1));
+			request.setAttribute("newColl", dao.getAllCardListOrderByRand());
 			// 我创建的
 			request.setAttribute("myColl", dao.getCardListByKid(k.getId()));
 			// 越近阅读
